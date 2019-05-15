@@ -34,7 +34,7 @@
 	<p>Net Pay: <b>Php<s:property value="netPay"/></b></p>
 	
 	<hr/>
-	
+	<!-- TEST -->
 	<form action="index.jsp">
 		<input type='submit' value ="<< GO BACK >>">
 	</form>
