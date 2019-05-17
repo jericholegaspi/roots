@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+    
+<struts>
+	<package name="default" extends="struts-default">
+		<action name="compute" 
+			class="payroll.compute.action.ComputePayrollAction">
+			<result name="success">/payrollview.jsp</result>
+			<result name="error">/error.jsp</result>
+			<result name="input">/index.jsp</result>
+		</action>
+	</package>
+</struts>

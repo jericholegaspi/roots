@@ -7,7 +7,7 @@
 <title>Error Page</title>
 </head>
 <body>
-	<h2><font color='red'>Invalid input entered.</font></h2>
+	<h2><font color='red'>Invalid credentials.</font></h2>
 	<p>Please click <a href='index.jsp'>here</a> to try again.</p>
 </body>
 </html>
