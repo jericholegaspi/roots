@@ -22,7 +22,7 @@
 		<s:textfield key="email" label="E-mail Address"/>
 		<s:textfield key="address" label="Address"/>
 		<s:textfield key="dob" label="Date of Birth"/>
-	
+	<!-- PUKE NI PHIL -->
 		<s:submit value="Login"/>
 		<s:reset/>
 	</s:form>
