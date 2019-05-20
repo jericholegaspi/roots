@@ -32,7 +32,7 @@
 
         <!-- Database connection settings -->
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="connection.url">jdbc:mysql://localhost:3306/legaspi-progap3-db</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/roots</property>
         <property name="connection.username">root</property>
         <property name="connection.password"></property>
 
@@ -52,7 +52,7 @@
         <property name="hbm2ddl.auto">update</property>
 
         <!-- Names the annotated entity class -->
-		<mapping class="payroll.compute.model.PayrollBean"/>
+		<mapping class="roots.register.model.RegisterBean"/>
     </session-factory>
 
 </hibernate-configuration>

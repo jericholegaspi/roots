@@ -5,9 +5,9 @@
     
 <struts>
 	<package name="default" extends="struts-default">
-		<action name="compute" 
-			class="payroll.compute.action.ComputePayrollAction">
-			<result name="success">/payrollview.jsp</result>
+		<action name="register" 
+			class="roots.register.action.RegisterAction">
+			<result name="success">/home.jsp</result>
 			<result name="error">/error.jsp</result>
 			<result name="input">/index.jsp</result>
 		</action>
