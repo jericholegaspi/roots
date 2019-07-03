@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+ "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+ 
+<hibernate-mapping>
+ 
+ <class name="roots.register.model.RegisterBean" table="user">
+ 
+ <id name="userId" type="int" column="userId">  
+ <generator class="native"/>
+  </id>
+ 
+ <property name="firstName" column="firstName" type="string" length="255"/>
+ 
+ <property name="middleName" column="middleName" type="string" length="255"/>
+ 
+ <property name="lastName" column="lastName" type="string" length="255"/>
+ 
+ <property name="gender" column="gender" type="string" length="255"/>
+ 
+ <property name="password" column="password" type="string" length="255"/>
+ 
+ <property name="mobileNo" column="mobileNo" type="double" length="255"/>
+ 
+ <property name="email" column="email" type="string" length="255"/>
+ 
+ <property name="dateOfBirth" column="dateOfBirth" type="date"/>
+ 
+ <property name="dateAdded" column="dateAdded" type="date"/>
+ 
+ <property name="dateModified" column="dateModified" type="date"/>
+ 
+ </class>
+ 
+ </hibernate-mapping>

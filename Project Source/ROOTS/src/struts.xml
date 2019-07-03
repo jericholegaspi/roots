@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+    
+<struts>
+	<package name="default" extends="struts-default">
+		
+		<!-- INTERCEPTORS -->
+		<interceptors>
+			<interceptor class="com.jkit.loginapi.interceptor.LoginInterceptor" name="loginInterceptor">
+			</interceptor>
+			<interceptor-stack name="loginStack">
+				<interceptor-ref name="loginInterceptor" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors>
+		
+		<!-- GLOBAL RESULTS -->
+		<global-results>
+			<result name="login">/Login-User.jsp</result>
+		</global-results>
+		
+		<!-- REGISTER ACTION -->
+		<action name="register" class="roots.register.action.RegisterAction">
+			<result name="success">/Login-User.jsp</result>
+			<result name="error">/Error.jsp</result>
+		</action>
+		
+		<!--  LOGIN ACTION -->
+		<action name="login" class="roots.login.action.LoginAction">
+		
+			<interceptor-ref name="timer"/>
+			<interceptor-ref name="logger"/>
+			<interceptor-ref name="completeStack"/>
+			
+			<result name="success">/home.jsp</result>
+			<result name="error">/Login-User.jsp</result>
+		</action>
+		
+	</package>
+</struts>
