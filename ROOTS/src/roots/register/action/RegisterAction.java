@@ -7,10 +7,6 @@ import com.opensymphony.xwork2.ModelDriven;
 
 import roots.register.model.RegisterBean;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-
 @SuppressWarnings("serial")
 public class RegisterAction extends ActionSupport implements ModelDriven<RegisterBean> {
 

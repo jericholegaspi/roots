@@ -1,9 +1,5 @@
 package roots.profile.action;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-
 import com.opensymphony.xwork2.ActionSupport;
 
 import roots.register.model.RegisterBean;
@@ -26,13 +22,6 @@ public class ProfileAction extends ActionSupport{
 		System.out.println("E-mail Address:" + registerObj.getEmail());
 		System.out.println("Date of Birth: " + registerObj.getDateOfBirth());
 		
-		SessionFactory sessionFactory = 
-				new Configuration().configure().buildSessionFactory();
-				
-			Session session = sessionFactory.openSession();
-			session.beginTransaction();
-			session.save(registerObj); 
-			session.getTransaction().commit();
 	
 		return SUCCESS;		
 	}

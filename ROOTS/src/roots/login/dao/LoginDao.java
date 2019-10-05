@@ -80,12 +80,8 @@ public int retrieveUserId(RegisterBean loginBean)
 	 int userId = 0;
 	 password = getSHA(password);
 	 
-	 Connection con = null;
-	 Statement statement = null;
-	 
-	 String emailDB = "";
-	 String passwordDB = "";
-	 
+	 //Connection con = null;
+	 	 
 	  try
 	 {
 	 con = getDBConnection();

@@ -2,13 +2,6 @@ package roots.admin.action;
 
 
 import org.apache.struts2.interceptor.ServletRequestAware;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.Metadata;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import com.opensymphony.xwork2.ActionSupport;
 import org.apache.struts2.dispatcher.SessionMap;
 import org.apache.struts2.ServletActionContext;
