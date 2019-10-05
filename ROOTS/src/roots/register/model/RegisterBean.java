@@ -57,7 +57,6 @@ public class RegisterBean {
 	public void process() {
 		password = getSHA(this.password); //Hash Algorithm Method
 		sendGMail(this.email); //Email Method
-		userTypeId = 2; //set user type as Customer
 		insertUser();
 	}
 
@@ -217,8 +216,7 @@ public class RegisterBean {
 		if (connection != null) { //means a valid connection
 			String sql = "INSERT INTO users (firstName, middleName, lastName, gender, "
 					+ "password, mobileNo, telephone, email, "
-					+ "dateOfBirth, dateAdded, dateModified) "
-					+ "userTypeId "
+					+ "dateOfBirth, dateAdded, dateModified, userTypeId) "
 					+ " VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 			
 			try {
@@ -235,7 +233,7 @@ public class RegisterBean {
 				pstmnt.setDate(9, this.dateOfBirth);
 				pstmnt.setDate(10, java.sql.Date.valueOf(java.time.LocalDate.now()));
 				pstmnt.setDate(11, java.sql.Date.valueOf(java.time.LocalDate.now()));
-				pstmnt.setInt(12, this.userTypeId);
+				pstmnt.setInt(12, 2);
 				
 
 				pstmnt.executeUpdate();

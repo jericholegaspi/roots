@@ -18,7 +18,7 @@
 		</action>
 		
 		<!-- LOGIN ADMIN ACTION -->
-		<action name="register" class="roots.admin.action.AdminLoginAction">
+		<action name="adminlogin" class="roots.admin.action.AdminLoginAction">
 			<result name="success">/Admin-Logged_In.jsp</result>
 			<result name="error">/error.jsp</result>
 		</action>
