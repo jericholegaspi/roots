@@ -17,9 +17,10 @@ import javax.servlet.http.*;
 import roots.login.dao.LoginDao;
 import roots.register.model.RegisterBean;
 
+
+//PAKYU PHIL
 public class LoginAction extends ActionSupport implements SessionAware, ServletRequestAware{
-	 private static final long serialVersionUID = 1L;
-	 //PAKYU PHIL
+	 private static final long serialVersionUID = 1L;	 
 	 private String email,password,msg;
 	 private int userId;
 	 private String returnResult = "";
