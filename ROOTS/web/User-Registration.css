@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css?family=Numans');
+
+html, body
+{
+background-image: url('https://images.unsplash.com/photo-1547414924-b71ebb598495?ixlib=rb-1.2.1&auto=format&fit=crop&w=1951&q=80');
+background-size: cover;
+background-repeat: no-repeat;
+height: 100%;
+font-family: 'Numans', sans-serif;
+}
+
+.container{
+height: 100%;
+align-content: center;
+}
+
+.card{
+padding: 35px;
+padding-left: 30px;
+box-shadow: 0 0 10px #666666;
+margin: 4% auto 0;
+height: 700px;
+width: 550px;
+background-color: hsl(0, 0%, 100%, 0.9)!important;
+padding-bottom: 40px;
+}
+
+.input-group-prepend span{
+width: 50px;
+background-color: #9fdf9f;
+color: black;
+border:0 !important;
+border-color: black;
+}
+
+input:focus{
+outline: 0 0 0 0  !important;
+box-shadow: 0 0 0 0 !important;
+
+}
+
+.read{
+color: #3d5c5c;
+}
+
+.read input
+{
+width: 20px;
+height: 20px;
+margin-left: 15px;
+margin-right: 5px;
+}
+
+.sub {
+	padding-bottom: 10px;
+}
+	  
+  
