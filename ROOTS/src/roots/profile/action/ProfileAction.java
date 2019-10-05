@@ -20,8 +20,7 @@ public class ProfileAction extends ActionSupport{
 		System.out.println("Password: " + registerObj.getPassword());
 		System.out.println("Mobile No.:" + registerObj.getMobileNo());
 		System.out.println("E-mail Address:" + registerObj.getEmail());
-		System.out.println("Date of Birth: " + registerObj.getDateOfBirth());
-		
+		System.out.println("Date of Birth: " + registerObj.getDateOfBirth());	
 	
 		return SUCCESS;		
 	}

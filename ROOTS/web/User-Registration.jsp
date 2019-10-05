@@ -2,7 +2,6 @@
     pageEncoding="ISO-8859-1"%>
     
 <%@ taglib uri="/struts-tags" prefix="s" %>
-<%@ taglib uri="/struts-dojo-tags" prefix="sd" %>
 
 <!DOCTYPE html>
 <html>
