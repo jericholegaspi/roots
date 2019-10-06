@@ -40,7 +40,7 @@ public static Connection getDBConnection() {
 		return con;
 }
 	
-//Authenticate User
+//Authenticate User (Customer)
 public String authenticateUser(RegisterBean loginBean)
 {
 	 String email = loginBean.getEmail();
@@ -48,7 +48,7 @@ public String authenticateUser(RegisterBean loginBean)
 	 password = getSHA(password);
 	 
 	 
-	 //SELECT FROM DB USER FOR USERS
+	 //Select From DB Users
 	 try
 	 {
 	 con = getDBConnection();
@@ -72,7 +72,39 @@ public String authenticateUser(RegisterBean loginBean)
 }
 
 
-//RETRIEVE USER ID
+//Authenticate User (Admin)
+public String authenticateAdmin(RegisterBean loginBean)
+{
+	 String email = loginBean.getEmail();
+	 String password = loginBean.getPassword();
+	 password = getSHA(password);
+	 
+	 
+	 //Select From DB Users
+	 try
+	 {
+	 con = getDBConnection();
+	 statement = con.createStatement();
+	 resultSet = statement.executeQuery("select email,password from users WHERE userTypeId = 2 ");
+	 
+	 while(resultSet.next())
+	 {
+	 emailDB = resultSet.getString("email");
+	 passwordDB = resultSet.getString("password");
+	 
+	 if(email.equals(emailDB) && password.equals(passwordDB))
+	 return "login";
+	 }
+	 }
+	 catch(SQLException e)
+	 {
+	 e.printStackTrace();
+	 }
+	 return "Invalid user credentials";
+}
+
+
+//Retrieve User ID
 public int retrieveUserId(RegisterBean loginBean)
 {
 	 String email = loginBean.getEmail();
@@ -105,8 +137,7 @@ public int retrieveUserId(RegisterBean loginBean)
 
 }
 
-
-//HASH FUNCTION
+//Hash Function
 public static String getSHA(String input) { 
 	  
     try { 

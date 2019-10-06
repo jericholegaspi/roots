@@ -1,6 +1,5 @@
 package roots.admin.action;
 
-
 import org.apache.struts2.interceptor.ServletRequestAware;
 import com.opensymphony.xwork2.ActionSupport;
 import org.apache.struts2.dispatcher.SessionMap;
@@ -49,20 +48,20 @@ public class AdminLoginAction extends ActionSupport implements SessionAware, Ser
 		 LoginDao loginDao = new LoginDao();
 		 
 		 try {
-			 String userValidate = loginDao.authenticateUser(loginBean);
+			 String userValidate = loginDao.authenticateAdmin(loginBean);
 			 userId = loginDao.retrieveUserId(loginBean);
 			 if(userValidate.equals("login"))
 			 {
-			 System.out.println("User's Home");
-			 sessionMap.put("email", email);		 
-			 sessionMap.put("uid", userId);
-			 returnResult = "success"; 
+				 System.out.println("Admin Page");
+				 sessionMap.put("email", email);		 
+				 sessionMap.put("uid", userId);
+				 returnResult = "success"; 
 			 }
 			 else
 			 {
-			 System.out.println("Error message = "+userValidate);
-			 request.setAttribute("errMessage", userValidate);			 
-			 returnResult = "error"; 
+				 System.out.println("Error message = "+userValidate);
+				 request.setAttribute("errMessage", userValidate);			 
+				 returnResult = "error"; 
 			 }
 		 }
 

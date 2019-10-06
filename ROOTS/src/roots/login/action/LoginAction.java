@@ -55,16 +55,16 @@ public class LoginAction extends ActionSupport implements SessionAware, ServletR
 			 userId = loginDao.retrieveUserId(loginBean);
 			 if(userValidate.equals("login"))
 			 {			 
-			 System.out.println("User's Home");
-			 sessionMap.put("email", email);		 
-			 sessionMap.put("uid", userId);
-			 returnResult = "success"; 
+				 System.out.println("User's Home");
+				 sessionMap.put("email", email);		 
+				 sessionMap.put("uid", userId);
+				 returnResult = "success"; 
 			 }
 			 else
 			 {
-			 System.out.println("Error message = "+userValidate);
-			 request.setAttribute("errMessage", userValidate);			 
-			 returnResult = "error"; 
+				 System.out.println("Error message = "+userValidate);
+				 request.setAttribute("errMessage", userValidate);			 
+				 returnResult = "error"; 
 			 }
 		 }
 

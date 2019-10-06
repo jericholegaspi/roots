@@ -27,19 +27,20 @@
 					</center></h4>
 			</div>
 			<div class="card-body">
-				<form>
+			<!-- ADMIN LOGIN FORM ACTION -->
+				<form  name="form" action="adminlogin.action" method="post">
 					<div class="input-group form-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text"><i class="fas fa-user"></i></span>
 						</div>
-						<input type="text" class="form-control" placeholder="Username" required> 
+						<input type="text" name="email" class="form-control" placeholder="Username" required> 
 						
 					</div>
 					<div class="input-group form-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text"><i class="fas fa-key"></i></span>
 						</div>
-						<input type="password" class="form-control" placeholder="Password" required>
+						<input type="password" name="password" class="form-control" placeholder="Password" required>
 					</div>
 					<div class="row align-items-center remember">
 						<input type="checkbox">Remember Me
