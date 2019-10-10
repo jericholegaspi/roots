@@ -64,12 +64,13 @@ public class LoginAction extends ActionSupport implements SessionAware, ServletR
 			 {
 				 System.out.println("Error message = "+userValidate);
 				 request.setAttribute("errMessage", userValidate);			 
-				 returnResult = "error"; 
+				 returnResult = "fail"; 
 			 }
 		 }
 
 		 catch (Exception e2) {
 				 e2.printStackTrace();
+				 returnResult = "error"; 
 		 }
 		 return returnResult;
 		 

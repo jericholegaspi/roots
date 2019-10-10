@@ -61,12 +61,13 @@ public class AdminLoginAction extends ActionSupport implements SessionAware, Ser
 			 {
 				 System.out.println("Error message = "+userValidate);
 				 request.setAttribute("errMessage", userValidate);			 
-				 returnResult = "error"; 
+				 returnResult = "fail"; 
 			 }
 		 }
 
 		 catch (Exception e2) {
 				 e2.printStackTrace();
+				 returnResult = "error"; 
 		 }
 		 return returnResult;
 		 

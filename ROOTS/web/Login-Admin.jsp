@@ -42,6 +42,7 @@
 						</div>
 						<input type="password" name="password" class="form-control" placeholder="Password" required>
 					</div>
+					<span style="color:red"><%=(request.getAttribute("errMessage") == null) ? "" : request.getAttribute("errMessage")%></span>
 					<div class="row align-items-center remember">
 						<input type="checkbox">Remember Me
 					</div>

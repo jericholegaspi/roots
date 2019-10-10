@@ -20,13 +20,15 @@
 		<!-- LOGIN ADMIN ACTION -->
 		<action name="adminlogin" class="roots.admin.action.AdminLoginAction">
 			<result name="success">/Admin-Logged_In.jsp</result>
+			<result name="fail">/Login-Admin.jsp</result>
 			<result name="error">/error.jsp</result>
 		</action>
 		
 		<!--  LOGIN ACTION -->
 		<action name="login" class="roots.login.action.LoginAction">
 			<result name="success">/Home-Logged_In.jsp</result>
-			<result name="error">/Login-User.jsp</result>
+			<result name="fail">/Login-User.jsp</result>
+			<result name="error">/error.jsp</result>
 		</action>
 		
 		<!--  LOGOUT ACTION -->
