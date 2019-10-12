@@ -47,6 +47,7 @@ public class AdminLogoutAction extends ActionSupport implements SessionAware, Se
 	 public String execute()
 	 {
 		 	sessionMap.remove("email");
+		 	sessionMap.remove("userId");
 			sessionMap.invalidate();
 			request.setAttribute("errMessage", "You have logged out successfully");
 

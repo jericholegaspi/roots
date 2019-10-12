@@ -47,6 +47,7 @@ public class LogoutAction extends ActionSupport implements SessionAware, Servlet
 	 public String execute()
 	 {
 		 	sessionMap.remove("email");
+		 	sessionMap.remove("userId");
 			sessionMap.invalidate();
 			request.setAttribute("errMessage", "You have logged out successfully");
 

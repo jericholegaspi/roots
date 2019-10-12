@@ -1,3 +1,7 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+	<%@page import="java.sql.*"%>
+	<%@page import="com.mysql.jdbc.PreparedStatement"%>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -29,7 +33,35 @@
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
     <link href="assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
+    
+<%
+String driverName = "com.mysql.jdbc.Driver";
+String connectionUrl = "jdbc:mysql://localhost:3306/";
+String dbName = "isproj2_roots";
+String userId = "root";
+String password = "";
+
+try {
+Class.forName(driverName);
+} catch (ClassNotFoundException e) {
+e.printStackTrace();
+}
+
+Connection connection = null;
+Statement statement = null;
+ResultSet resultSet = null;
+%>
+    
 </head>
+
+
+<% //In case, if User session is not set, redirect to Login page.
+if((request.getSession(false).getAttribute("email")== null) )
+{
+%>
+<jsp:forward page="Login-Admin.jsp"></jsp:forward>
+<%} %>
+
 <body>
 
 <div class="wrapper">
@@ -41,13 +73,28 @@
     	<div class="sidebar-wrapper">
             <div class="logo">
                 <a class="simple-text">
-                <img src="assets/img/logo-roots.png" height="110px" width="200px">                   
-                A D M I N I S T R A T O R </a>
-            </div>
+                <img src="assets/img/logo-roots.png" height="110px" width="200px">      
+<%
+try {
+connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+statement = connection.createStatement();
+String sql = "SELECT * FROM users where userId = " + session.getAttribute("uid");
 
+resultSet = statement.executeQuery(sql);
+while (resultSet.next()) {
+%>             
+              <%= resultSet.getString("firstName") %> <%= resultSet.getString("lastName") %>  </a> <p id="adminFirstName" hidden="hidden"> <%= resultSet.getString("firstName") %> </p>
+            </div>
+<%
+}
+
+} catch (Exception e) {
+e.printStackTrace();
+}
+%> 
             <ul class="nav">
                 <li class="active">
-                    <a href="admin.html">
+                    <a href="Admin-Logged_In.jsp">
                         <i class="pe-7s-user"></i>
                         <p>Profile</p>
                     </a>
@@ -59,7 +106,7 @@
                     </a>
                 </li> 
                 <li>
-                    <a href="users.html">
+                    <a href="Admin-Users.jsp">
                         <i class="pe-7s-users"></i>
                         <p>Users</p>
                     </a>
@@ -169,8 +216,8 @@
                               </ul>
                         </li>
                         <li>
-                            <a href="#">
-                                <p>Log out</p>
+                            <a href="adminlogout.action">
+                                <p>  Log out</p>
                             </a>
                         </li>
 						<li class="separator hidden-lg hidden-md"></li>
@@ -348,14 +395,18 @@
 	<!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
 	<script src="assets/js/demo.js"></script>
 
+
+
+
     <script type="text/javascript">
         $(document).ready(function(){
+        	var x = document.getElementById('adminFirstName').innerHTML;
 
             demo.initChartist();
-
+			
             $.notify({
                 icon: 'pe-7s-gift',
-                message: "Hi <b>Admin!</b> "
+                message: "Hi Admin<b> "+ x +"! </b> "
 
             },{
                 type: 'info',

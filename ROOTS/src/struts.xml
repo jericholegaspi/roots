@@ -17,10 +17,16 @@
 			<result name="error">/error.jsp</result>
 		</action>
 		
-		<!-- LOGIN ADMIN ACTION -->
+		<!-- ADMIN LOGIN ACTION -->
 		<action name="adminlogin" class="roots.admin.action.AdminLoginAction">
 			<result name="success">/Admin-Logged_In.jsp</result>
 			<result name="fail">/Login-Admin.jsp</result>
+			<result name="error">/error.jsp</result>
+		</action>
+		
+		<!-- ADMIN LOGOUT ACTION -->
+		<action name="adminlogout" class="roots.admin.action.AdminLogoutAction">
+			<result name="success">/Login-Admin.jsp</result>
 			<result name="error">/error.jsp</result>
 		</action>
 		
