@@ -22,7 +22,7 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
 	<!--Customized-->	
-	<link rel="stylesheet" type="text/css" href="User-Registration.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/User-Registration.css">
 
 </head>
 <body>
@@ -152,7 +152,7 @@
 							<hr>
 								<div class="card-footer">
 									<div class="row align-items-center read">
-										<input type="checkbox" name="pp"> I have read the&emsp;<a href="privacypolicy.html" target="_blank">Privacy Policy</a>									
+										<input type="checkbox" name="pp"> I have read the&emsp;<a href="privacypolicy.jsp" target="_blank">Privacy Policy</a>									
 									</div>
 								</div>
 									<p class="sub"><button class="btn btn-warning btn-block" value="Register"> Submit </button></p>
