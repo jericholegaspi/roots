@@ -32,7 +32,7 @@
     <!--     Fonts and icons     -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
-    <link href="assets/css/pe-icon-7-stroke.css" rel="stylesh"RemoteSystemsTempFiles"eet" />
+    <link href="assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
     
 <%
 String driverName = "com.mysql.jdbc.Driver";
@@ -234,83 +234,117 @@ e.printStackTrace();
                         <div class="card">
                             <div class="header">
                                 <h4 class="title">Edit Profile</h4>
+<%
+try {
+connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+statement = connection.createStatement();
+String sql = "SELECT * FROM users where userId = " + session.getAttribute("uid");
+
+resultSet = statement.executeQuery(sql);
+while (resultSet.next()) {
+%>    
                             </div>
                             <div class="content">
-                                <form>
+                                <form action="adminupdate.action" name="myForm" method="post" onsubmit="return validate()">
+                                 <input type="hidden" name="userId" value="<%= session.getAttribute("uid") %>">
+                                
                                     <div class="row">
-                                        <div class="col-md-5">
+                                        <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Company (disabled)</label>
                                                 <input type="text" class="form-control" disabled placeholder="Company" value="Roots Administrator">
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label>Username</label>
-                                                <input type="text" class="form-control" placeholder="Username" value="michael23">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1">Email address</label>
-                                                <input type="email" class="form-control" placeholder="Email">
+                                                <input type="email" name="email" class="form-control" disabled value="<%= resultSet.getString("email") %>">
                                             </div>
                                         </div>
                                     </div>
 
+
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>First Name</label>
-                                                <input type="text" class="form-control" placeholder="Company" value="Mike">
+                                                <input name="firstName" type="text" class="form-control" value="<%= resultSet.getString("firstName") %>">
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                         <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Middle Name</label>
+                                                <input name="middleName" type="text" class="form-control" value="<%= resultSet.getString("middleName") %>">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Last Name</label>
-                                                <input type="text" class="form-control" placeholder="Last Name" value="Andrew">
+                                                <input name="lastName" type="text" class="form-control" value="<%= resultSet.getString("lastName") %>">
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> 
 
                                     <div class="row">
-                                        <div class="col-md-12">
+                                        <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>Address</label>
-                                                <input type="text" class="form-control" placeholder="Home Address" value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09">
+                                                <label>Password</label>
+                                                <input name="password"  type="text" class="form-control" placeholder="Change Password">
                                             </div>
                                         </div>
-                                    </div>
+                                         <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Confirm Password</label>
+                                                <input name="confirmpassword"  type="text" class="form-control" placeholder="Confirm Password">
+                                            </div>
+                                        </div>
+                                    </div> 
 
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label>City</label>
-                                                <input type="text" class="form-control" placeholder="City" value="Mike">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label>Country</label>
-                                                <input type="text" class="form-control" placeholder="Country" value="Andrew">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label>Postal Code</label>
-                                                <input type="number" class="form-control" placeholder="ZIP Code">
-                                            </div>
-                                        </div>
-                                    </div>
+<%
+}
 
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label>About Me</label>
-                                                <textarea rows="5" class="form-control" placeholder="Here can be your description" value="Mike">Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo.</textarea>
-                                            </div>
-                                        </div>
-                                    </div>
+} catch (Exception e) {
+e.printStackTrace();
+}
+%>
+
+<!-- JAVASCRIPT Validation -->
+<script type="text/javascript">
+
+function validate()
+{
+	if (document.myForm.firstName.value == "") 
+	{
+		alert("Please Enter First Name");
+		document.myForm.firstName.focus();
+		return false;
+	}
+
+	if (document.myForm.lastName.value == "") 
+	{
+		alert("Please Enter Last Name");
+		document.myForm.lastName.focus();
+		return false;
+	}
+
+	if (document.myForm.password.value == "")
+	{
+		alert("Please Create your Password");
+		document.myForm.password.focus();
+		return false;
+	}
+	
+	if (document.myForm.password.value != document.myForm.confirmpassword.value)
+	{
+		alert("Passwords do not match.");
+		document.myForm.password.focus();
+		return false;
+	}	
+	
+}
+
+</script>
+
 
                                     <button type="submit" class="btn btn-info btn-fill pull-right">Update Profile</button>
                                     <div class="clearfix"></div>

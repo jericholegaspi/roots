@@ -8,7 +8,7 @@
 </head>
 <body>
 <center>
-	<img src="images/errorpenguin.jpg" >
+	<img src="assets/css/images/errorpenguin.jpg" >
 	<h2><font color='red'>Uh Oh! Something Went Wrong :(</font></h2>
 	<font face="verdana">
 	<p>Looks like your backend developer didn't do their job quite right. Hold on Tight!</p>

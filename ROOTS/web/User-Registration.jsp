@@ -164,7 +164,7 @@
 	</div>
 
 
-<!-- JAVASCRIPT -->
+<!-- JAVASCRIPT Validation -->
 <script type="text/javascript">
 
 function validate()

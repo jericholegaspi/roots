@@ -1,4 +1,4 @@
-package roots.register.model;
+package roots.admin.model;
 
 import java.util.Date;
 
@@ -21,7 +21,7 @@ import javax.sql.*;
 
 
 //Database Table Name
-public class RegisterBean {
+public class AdminBean {
 
 	
 	private int userId;
@@ -31,32 +31,13 @@ public class RegisterBean {
 	private String firstName;
 	private String middleName; //nullable
 	private String lastName;
-	private String gender;
 	private String password;
-	private double mobileNo;
-	private double telephone;
-	private String email;	
 	
-	//dates
-	private java.sql.Date dateOfBirth;	
-	
-	//address
-	private String houseNumber; //nullable
-	private String street; //nullable
-	private String city; //nullable
-	private String province; //nullable
-	private String postalCode;//nullable
-	
-	
-	//Email Activation
-	
-
 	
 	//Design-Facade
 	public void process() {
 		password = getSHA(this.password); //Hash Algorithm Method
-		sendGMail(this.email); //Email Method
-		insertUser();
+		updateAdmin();
 	}
 
 	//Getters & Setters	
@@ -102,13 +83,6 @@ public class RegisterBean {
 		this.lastName = lastName;
 	}
 	
-	public String getGender() {
-		return gender;
-	}
-
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
 
 	public String getPassword() {
 		return password;
@@ -118,77 +92,6 @@ public class RegisterBean {
 		this.password = password;
 	}
 
-	public double getMobileNo() {
-		return mobileNo;
-	}
-
-	public void setMobileNo(double mobileNo) {
-		this.mobileNo = mobileNo;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public Date getDateOfBirth() {
-		return dateOfBirth;
-	}
-
-	public void setDateOfBirth(java.sql.Date dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
-	}
-	
-	public String getHouseNumber() {
-		return houseNumber;
-	}
-
-	public void setHouseNumber(String houseNumber) {
-		this.houseNumber = houseNumber;
-	}
-
-	public String getStreet() {
-		return street;
-	}
-
-	public void setStreet(String street) {
-		this.street = street;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public String getProvince() {
-		return province;
-	}
-
-	public void setProvince(String province) {
-		this.province = province;
-	}
-
-	public double getTelephone() {
-		return telephone;
-	}
-
-	public void setTelephone(double telephone) {
-		this.telephone = telephone;
-	}
-
-	public String getPostalCode() {
-		return postalCode;
-	}
-
-	public void setPostalCode(String postalCode) {
-		this.postalCode = postalCode;
-	}
 	
 	
 	//Get Database Connection
@@ -209,36 +112,29 @@ public class RegisterBean {
 	}
 	
 	
-	public boolean insertUser() {		
+	public boolean updateAdmin() {		
 		Connection connection = getDBConnection();
 		
 		if (connection != null) { //means a valid connection
-			String sql = "INSERT INTO users (firstName, middleName, lastName, gender, "
-					+ "password, mobileNo, telephone, email, "
-					+ "dateOfBirth, dateAdded, dateModified, userTypeId) "
-					+ " VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
-			
+			String sql = "UPDATE users "
+	                + "SET firstName = ?, middleName = ?, lastName = ?, password = ?, dateModified = ? "
+	                + "WHERE userId = ? AND userTypeId = 1";
+		
 			try {
 				PreparedStatement pstmnt = connection.prepareStatement(sql);
 				
 				pstmnt.setString(1, this.firstName);
 				pstmnt.setString(2, this.middleName);
 				pstmnt.setString(3, this.lastName);
-				pstmnt.setString(4, this.gender);
-				pstmnt.setString(5, this.password);
-				pstmnt.setDouble(6, this.mobileNo);
-				pstmnt.setDouble(7, this.telephone);
-				pstmnt.setString(8, this.email);
-				pstmnt.setDate(9, this.dateOfBirth);
-				pstmnt.setDate(10, java.sql.Date.valueOf(java.time.LocalDate.now()));
-				pstmnt.setDate(11, java.sql.Date.valueOf(java.time.LocalDate.now()));
-				pstmnt.setInt(12, 2);
+				pstmnt.setString(4, this.password);
+				pstmnt.setDate(5, java.sql.Date.valueOf(java.time.LocalDate.now()));
+				pstmnt.setInt(6, this.userId);
 				
 				pstmnt.executeUpdate();
 				return true;
 			
 			} catch (SQLException sqle) {
-				System.err.println("Error on insertRecordOrder: " + sqle.getMessage());
+				System.err.println("Error on UpdateRecordAdmin: " + sqle.getMessage());
 			}			
 		} else {
 			System.err.println("Missing on invalid connection.");
@@ -246,36 +142,6 @@ public class RegisterBean {
 		return false;
 	}
 	
-	
-	//Check if email already exists 
-//	public boolean exists(String email) throws SQLException {
-//		
-//		String driverName = "com.mysql.jdbc.Driver";
-//		String connectionUrl = "jdbc:mysql://localhost:3306/";
-//		String dbName = "rootsdb";
-//		String userId = "root";
-//		String password = "";
-//
-//		try {
-//				Class.forName(driverName);
-//			} catch (ClassNotFoundException e) {
-//				e.printStackTrace();
-//			}
-//
-//		Connection connection = null;
-//		connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
-//		Statement statement = null;
-//		statement = connection.createStatement();
-//		ResultSet resultSet = null;
-//	    // ... Declare, etc.
-//		
-//	    statement = connection.prepareStatement("SELECT id FROM user WHERE email = ?");
-//	    statement.setString(1, email);
-//	    resultSet = statement.executeQuery();
-//	    return resultSet.next();
-//		
-//	    // ... Close, etc (in finally!)
-//	}
 
 	//HASH ALGORITHM Method
 	public static String getSHA(String input) { 

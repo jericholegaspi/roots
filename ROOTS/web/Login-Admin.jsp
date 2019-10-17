@@ -22,7 +22,7 @@
 	<div class="d-flex justify-content-center h-100">
 		<div class="card">
 			<div class="card-header"><center>
-<img src="images/admin-icon3.png" alt="Admin Icon"/>
+<img src="assets/css/images/admin-icon3.png" alt="Admin Icon"/>
 				<h4>ADMINISTRATOR
 					</center></h4>
 			</div>
