@@ -412,6 +412,7 @@
                                         <th>Price ID</th>
                                         <th>Product Name</th>
                                         <th>Price</th>
+                                        <th>Price Change Reference No.</th>
                                         <th>Date Modified</th>
                                     </thead>
                                     <tbody>
@@ -420,17 +421,19 @@
 			connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
 			statement = connection.createStatement();
 			String sqlcategory = "SELECT prodPriceTable.prodPriceID, productsTable.prodName,"
-					+ " prodPriceTable.priceChange, prodPriceTable.dateModified"
-					+ " FROM prodPriceTable INNER JOIN productsTable ON"
-					+ " prodPriceTable.prodID = productsTable.prodID";
+					+ " prodPriceTable.prodPriceChange, prodPriceChangeRefTable.prodPriceChangeRefNoID,"
+					+ " prodPriceTable.priceChangeDate FROM prodPriceTable INNER JOIN productsTable ON"
+					+ " prodPriceTable.prodID = productsTable.prodID INNER JOIN prodPriceChangeRefTable ON"
+					+ " prodPriceTable.prodPriceChangeRefNoID = prodPriceChangeRefTable.prodPriceChangeRefNoID";
 			resultSet = statement.executeQuery(sqlcategory);
 		while (resultSet.next()) {
 	%>
                                         <tr>
                                             <td><%=resultSet.getString("prodPriceID")%></td>
                                             <td><%=resultSet.getString("prodName")%></td>
-                                            <td><%=resultSet.getString("priceChange")%></td>
-                                            <td><%=resultSet.getString("dateModified")%></td>
+                                            <td><%=resultSet.getString("prodPriceChange")%></td>
+                                            <td><%=resultSet.getString("prodPriceChangeRefNoID")%></td>
+                                            <td><%=resultSet.getString("priceChangeDate")%></td>
                                             <!-- <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addnewcategory"><span class="glyphicon glyphicon-edit"></span> EDIT</button></td> -->     
                                         </tr>
 	<%
@@ -506,7 +509,7 @@
             <input type='text' id="productNameGetTest" class="form-control" name='prodName' readonly/></br>
             Current Price:</br><input type='number' id="priceGetTest" class="form-control" name='initialPrice' min='1' max='300' readonly/></br>
             Update Price:</br>
-            <input type='number' class="form-control" name='priceChange' min='1' max='9999' required="required"/>
+            <input type='number' class="form-control" name='prodPriceChange' min='1' max='9999' required="required"/>
             <!-- Availability:</br> <input type='text' class="form-control" name='availability' value='Yes' readonly /><br/>
             Image file name:</br><input type='text' class="form-control" name='image' readonly/><br/> -->
             </p>

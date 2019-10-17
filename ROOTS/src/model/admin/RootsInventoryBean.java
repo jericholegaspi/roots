@@ -25,7 +25,8 @@ public class RootsInventoryBean {
 	private String image;
 	private int prodQtyChange;
 	private String qtyChangeDesc;
-	private int priceChange;
+	private int prodPriceChange;
+	private int prodPriceChangeRefNoID;
 	
 	public void process() {
 	}
@@ -37,6 +38,7 @@ public class RootsInventoryBean {
 	
 	public void updatePrice() {
 		updatePriceRecord();
+		insertPriceRefRecord();
 		insertPriceRecord();
 	}
 	
@@ -138,12 +140,20 @@ public class RootsInventoryBean {
 		this.qtyChangeDesc = qtyChangeDesc;
 	}
 
-	public int getPriceChange() {
-		return priceChange;
+	public int getProdPriceChange() {
+		return prodPriceChange;
 	}
 
-	public void setPriceChange(int priceChange) {
-		this.priceChange = priceChange;
+	public void setProdPriceChange(int prodPriceChange) {
+		this.prodPriceChange = prodPriceChange;
+	}
+
+	public int getProdPriceChangeRefNoID() {
+		return prodPriceChangeRefNoID;
+	}
+
+	public void setProdPriceChangeRefNoID(int prodPriceChangeRefNoID) {
+		this.prodPriceChangeRefNoID = prodPriceChangeRefNoID;
 	}
 
 	private Connection getDBConnection() {
@@ -221,7 +231,7 @@ public class RootsInventoryBean {
 		}
 		return false;
 	}
-		
+
 	public boolean outOfStockRecord() {		
 		Connection connection = getDBConnection();
 		
@@ -332,7 +342,7 @@ public class RootsInventoryBean {
 			try {
 				PreparedStatement pstmnt = connection.prepareStatement(sql);
 				
-				pstmnt.setInt(1, this.priceChange);
+				pstmnt.setInt(1, this.prodPriceChange);
 				pstmnt.setInt(2, this.prodID);
 				
 				pstmnt.executeUpdate();
@@ -350,19 +360,44 @@ public class RootsInventoryBean {
 		Connection connection = getDBConnection();
 		
 		if (connection != null) { //means a valid connection
-			String sql = "INSERT INTO prodPriceTable (prodID, priceChange)"
-					+ " VALUES (?,?)";
+			String sql = "INSERT INTO prodPriceTable (prodID, prodPriceChange, prodPriceChangeRefNoID)"
+					+ " VALUES (?,?,?)";
 			
 			try {
 				PreparedStatement pstmnt = connection.prepareStatement(sql);
 				
 				pstmnt.setInt(1, this.prodID);
-				pstmnt.setInt(2, this.priceChange);
+				pstmnt.setInt(2, this.prodPriceChange);
+				pstmnt.setInt(3, this.prodPriceChangeRefNoID);
+				
 				
 				pstmnt.executeUpdate();
 				return true;
 			} catch (SQLException sqle) {
 				System.err.println("Error on insertPriceRecord: " + sqle.getMessage());
+			}
+		} else {
+			System.err.println("Missing on invalid connection.");
+		}
+		return false;
+	}
+	
+	public boolean insertPriceRefRecord() {		
+		Connection connection = getDBConnection();
+		
+		if (connection != null) { //means a valid connection
+			String sql = "INSERT INTO prodPriceChangeRefTable (prodPriceID)"
+					+ " VALUES (?)";
+			
+			try {
+				PreparedStatement pstmnt = connection.prepareStatement(sql);
+				
+				pstmnt.setInt(1, this.prodID);
+				
+				pstmnt.executeUpdate();
+				return true;
+			} catch (SQLException sqle) {
+				System.err.println("Error on insertPriceRefRecord: " + sqle.getMessage());
 			}
 		} else {
 			System.err.println("Missing on invalid connection.");

@@ -24,25 +24,25 @@ public class EditProdPriceAction extends ActionSupport implements ModelDriven<Ro
 	private HttpServletRequest servletRequest;
 	File fp;
 	
-	private RootsInventoryBean qtyObj = new RootsInventoryBean();
+	private RootsInventoryBean prodPriceObj = new RootsInventoryBean();
 	
 	public String execute() {
-		qtyObj.process();
+		prodPriceObj.process();
 		
 		
-		System.out.println("Product ID: " + qtyObj.getProdID());
-		System.out.println("Price Change: " + qtyObj.getPriceChange());
+		System.out.println("Product ID: " + prodPriceObj.getProdID());
+		System.out.println("Price Change: " + prodPriceObj.getProdPriceChange());
 		
-		qtyObj.updatePrice();
+		prodPriceObj.updatePrice();
 		return SUCCESS;
 	}
 
-	public RootsInventoryBean getQtyObj() {
-		return qtyObj;
+	public RootsInventoryBean getProdPriceObj() {
+		return prodPriceObj;
 	}
 
-	public void setQtyObj(RootsInventoryBean qtyObj) {
-		this.qtyObj = qtyObj;
+	public void setQtyObj(RootsInventoryBean prodPriceObj) {
+		this.prodPriceObj = prodPriceObj;
 	}
 	
 	public File getImageFile() {
@@ -79,6 +79,6 @@ public class EditProdPriceAction extends ActionSupport implements ModelDriven<Ro
 
 	@Override
 	public RootsInventoryBean getModel() {
-		return qtyObj;
+		return prodPriceObj;
 	}
 }

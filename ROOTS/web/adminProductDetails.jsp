@@ -101,7 +101,6 @@
                 </li>
                 <li class="active" data-toggle="collapse" data-target="#productsPages">
                    <a href="#">
-                        <i class="pe-7s-cart"></i>
                         <p>Products</p>
                     </a>
                     <ul style="list-style: none;" id="productsPages" class="collapse in">
