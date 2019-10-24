@@ -55,7 +55,7 @@ ResultSet resultSet = null;
 if((request.getSession(false).getAttribute("email")== null) )
 {
 %>
-<jsp:forward page="Login-Admin.jsp"></jsp:forward>
+<jsp:forward page="adminLogin.jsp"></jsp:forward>
 <%} %>
 
 </head>
@@ -94,7 +94,7 @@ e.printStackTrace();
 
             <ul class="nav">
                 <li>
-                    <a href="Admin-Logged_In.jsp">
+                    <a href="adminProfile.jsp">
                         <i class="pe-7s-user"></i>
                         <p>Profile</p>
                     </a>
@@ -106,7 +106,7 @@ e.printStackTrace();
                     </a>
                 </li>
                 <li class="active">
-                    <a href="Admin-Users.jsp">
+                    <a href="adminUsers.jsp">
                         <i class="pe-7s-users"></i>
                         <p>Users</p>
                     </a>

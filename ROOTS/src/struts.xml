@@ -8,23 +8,23 @@
 		
 		<!-- GLOBAL RESULTS -->
 				<global-results>
-					<result name="login">/Login-User.jsp</result>
+					<result name="login">/userLogin.jsp</result>
 				</global-results>
 		
 		<!-- USER ACTIONS -->
 				<action name="register" class="roots.register.action.RegisterAction">
-					<result name="success">/Login-User.jsp</result>
+					<result name="success">/userLogin.jsp</result>
 					<result name="error">/error.jsp</result>
 				</action>
 				
 				<action name="login" class="roots.login.action.LoginAction">
-					<result name="success">/Home-Logged_In.jsp</result>
-					<result name="fail">/Login-User.jsp</result>
+					<result name="success">/userHomePage.jsp</result>
+					<result name="fail">/userLogin.jsp</result>
 					<result name="error">/error.jsp</result>
 				</action>
 				
 				<action name="logout" class="roots.login.action.LogoutAction">
-					<result name="success">/Login-User.jsp</result>
+					<result name="success">/userLogin.jsp</result>
 					<result name="error">/error.jsp</result>
 				</action>
 				
@@ -32,18 +32,18 @@
 		
 		<!-- ADMIN ACTION -->
 				<action name="adminlogin" class="roots.admin.action.AdminLoginAction">
-					<result name="success">/Admin-Logged_In.jsp</result>
-					<result name="fail">/Login-Admin.jsp</result>
+					<result name="success">/adminProfile.jsp</result>
+					<result name="fail">/adminLogin.jsp</result>
 					<result name="error">/error.jsp</result>
 				</action>
 		
 				<action name="adminupdate" class="roots.admin.action.AdminUpdateAction">
-					<result name="success">/Admin-Logged_In.jsp</result>
+					<result name="success">/adminProfile.jsp</result>
 					<result name="error">/error.jsp</result>
 				</action>
 				
 				<action name="adminlogout" class="roots.admin.action.AdminLogoutAction">
-					<result name="success">/Login-Admin.jsp</result>
+					<result name="success">/adminLogin.jsp</result>
 					<result name="error">/error.jsp</result>
 				</action>
 		

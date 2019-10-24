@@ -12,7 +12,7 @@
 	<h2><font color='red'>Uh Oh! Something Went Wrong :(</font></h2>
 	<font face="verdana">
 	<p>Looks like your backend developer didn't do their job quite right. Hold on Tight!</p>
-	<p>Please click <a href='Login-User.jsp'>here</a> to try again.</p>
+	<p>Please click <a href='userLogin.jsp'>here</a> to try again.</p>
 	</font>
 </center>
 </body>

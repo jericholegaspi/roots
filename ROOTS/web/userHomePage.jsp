@@ -35,7 +35,7 @@
 if((request.getSession(false).getAttribute("email")== null) )
 {
 %>
-<jsp:forward page="Login-User.jsp"></jsp:forward>
+<jsp:forward page="userLogin.jsp"></jsp:forward>
 <%} %>
 
 
@@ -51,7 +51,7 @@ if((request.getSession(false).getAttribute("email")== null) )
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
       </button>
-      <a class="navbar-brand" class="active" href="Home-Logged_In.jsp"><img src="images/logo-roots.png" height="110px" width="200px"></a>
+      <a class="navbar-brand" class="active" href="userHomePage.jsp"><img src="assets/css/images/logo-roots.png" height="110px" width="200px"></a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
@@ -67,7 +67,7 @@ if((request.getSession(false).getAttribute("email")== null) )
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="Profile.jsp"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+        <li><a href="userProfile.jsp"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
         <li><a href="logout.action"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
       </ul>
     </div>
@@ -98,19 +98,19 @@ if((request.getSession(false).getAttribute("email")== null) )
   <!-- The slideshow -->
   <div class="carousel-inner" role="listbox">
     <div class="item active">
-      <img src="images/hpage-1.1.png" alt="Los Angeles" width="1100" height="500">
+      <img src="assets/css/images/hpage-1.1.png" alt="Los Angeles" width="1100" height="500">
     </div>
     <div class="item">
-      <img src="images/hpage-2.png" alt="Chicago" width="1100" height="500">
+      <img src="assets/css/images/hpage-2.png" alt="Chicago" width="1100" height="500">
     </div>
     <div class="item">
-      <img src="images/hpage-3.png" alt="New York" width="1100" height="500">
+      <img src="assets/css/images/hpage-3.png" alt="New York" width="1100" height="500">
     </div>
     <div class="item">
-      <img src="images/hpage-4.png" alt="New York" width="1100" height="500">
+      <img src="assets/css/images/hpage-4.png" alt="New York" width="1100" height="500">
     </div>
     <div class="item">
-      <img src="images/hpage-5.png" alt="New York" width="1100" height="500">
+      <img src="assets/css/images/hpage-5.png" alt="New York" width="1100" height="500">
     </div>
   </div>
 

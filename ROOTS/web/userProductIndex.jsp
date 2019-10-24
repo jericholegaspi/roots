@@ -18,7 +18,7 @@
 
  <link rel="stylesheet" type="text/css" href="assets/css/productspage.css">
 
- <link rel="shortcut icon" sizes="16x16 32x32 64x64" href="images/logo5.png"/>
+ <link rel="shortcut icon" sizes="16x16 32x32 64x64" href="assets/css/images/logo5.png"/>
 
 </head>
 <body>
@@ -50,7 +50,7 @@
   <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
   <!-- Brand -->
   <a class="navbar-brand" href="Home_Page_v2.html">
-      <img src="images/logo5.png" height="50px" width="90px">
+      <img src="assets/css/images/logo5.png" height="50px" width="90px">
   </a>
 
   <!-- Toggler/collapsibe Button -->
@@ -65,7 +65,7 @@
         <a class="nav-link" href="catalogue_page.html">Catalogue</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="products_page.html">Products</a>
+        <a class="nav-link" href="userProductsPage.html">Products</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">Services</a>
@@ -126,7 +126,7 @@
   <!-- Nav pills -->
   <ul class="nav nav-pills mx-auto" role="tablist">
     <li class="nav-item">
-      <img class="responsive-img" src="images/pitahc-logo.jpg" alt="Card image" style="width:90px; height:90px;">
+      <img class="responsive-img" src="assets/css/images/pitahc-logo.jpg" alt="Card image" style="width:90px; height:90px;">
     </li>
     <li class="ml-auto">
         <div class="btn-group">
@@ -191,7 +191,7 @@
 	%>
         <div class="col">
           <div class="card item">
-          <img class="card-img-top responsive-img" src="images/amp.jpg" alt="Card image" style="width:100%; height:200px;">
+          <img class="card-img-top responsive-img" src="assets/css/images/amp.jpg" alt="Card image" style="width:100%; height:200px;">
           <div class="card-body">
             <h4 class="card-title"><%=resultSet.getString("prodName")%></h4> 
             <h6 class="card-subtitle mb-2 text-muted"><%=resultSet.getString("category")%></h6>         

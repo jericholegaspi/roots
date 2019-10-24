@@ -17,14 +17,14 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
   <!--Customized--> 
-  <link rel="stylesheet" type="text/css" href="assets/css/profile.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/userProfile.css">
 
 </head>
 <% //In case, if User session is not set, redirect to Login page.
 if((request.getSession(false).getAttribute("email")== null) )
 {
 %>
-<jsp:forward page="Login-User.jsp"></jsp:forward>
+<jsp:forward page="userLogin.jsp"></jsp:forward>
 <%} %>
 
 <%
@@ -62,7 +62,7 @@ ResultSet resultSet = null;
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
       </button>
-      <a class="navbar-brand" class="active" href="Home-Logged_In.jsp"><img src="images/logo-roots.png" height="110px" width="200px"></a>
+      <a class="navbar-brand" class="active" href="userHomePage.jsp"><img src="assets/css/images/logo-roots.png" height="110px" width="200px"></a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
@@ -78,7 +78,7 @@ ResultSet resultSet = null;
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="Profile.jsp"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+        <li><a href="userProfile.jsp"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
         <li><a href="logout.action"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
       </ul>
     </div>
@@ -107,7 +107,7 @@ ResultSet resultSet = null;
         </div><!--/col-3-->
       <div class="col-sm-9">
             <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="#profile"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+                <li class="active"><a data-toggle="tab" href="#profile"><span class="glyphicon glyphicon-user"></span> profile</a></li>
                 <li><a data-toggle="tab" href="#cart"><span class="glyphicon glyphicon-shopping-cart"></span> Cart</a></li>
                 <li><a data-toggle="tab" href="#appointment"><span class="glyphicon glyphicon-calendar"></span> Appointment</a></li>
                 <li><a data-toggle="tab" href="#history"><span class="glyphicon glyphicon-bookmark"></span> Transaction History</a></li>

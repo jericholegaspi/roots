@@ -22,7 +22,7 @@ window.onpopstate = function () {
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
 	<!--Customized-->
-	<link rel="stylesheet" type="text/css" href="assets/css/Login-User.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/userLogin.css">
 </head>
 <body>
 <div class="container">
@@ -31,7 +31,7 @@ window.onpopstate = function () {
 		<div class="card">
 			<div class="card-header"><center>
 			
-<img src="images/user-icon1.png" alt="User Icon" />
+<img src="assets/css/images/user-icon1.png" alt="User Icon" />
 				<h4>SIGN IN</center></h4>
 			</div>
 			<div class="card-body">
@@ -62,7 +62,7 @@ window.onpopstate = function () {
 			</div>
 			<div class="card-footer">
 				<div class="d-flex justify-content-center links">
-					Don't have an account?<a href="User-Registration.jsp">Sign Up</a>
+					Don't have an account?<a href="userRegistration.jsp">Sign Up</a>
 				</div>
 				<div class="d-flex justify-content-center">
 					<a href="#">Forgot your password?</a>

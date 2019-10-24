@@ -11,9 +11,9 @@
 
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
- <link rel="stylesheet" type="text/css" href="productspage.css">
+ <link rel="stylesheet" type="text/css" href="assets/css/productspage.css">
 
- <link rel="shortcut icon" sizes="16x16 32x32 64x64" href="images/logo5.png"/>
+ <link rel="shortcut icon" sizes="16x16 32x32 64x64" href="assets/css/images/logo5.png"/>
 
 </head>
 <body>
@@ -21,7 +21,7 @@
   <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
   <!-- Brand -->
   <a class="navbar-brand" href="Home_Page_v2.html">
-      <img src="images/logo5.png" height="50px" width="90px">
+      <img src="assets/css/images/logo5.png" height="50px" width="90px">
   </a>
 
   <!-- Toggler/collapsibe Button -->
@@ -36,7 +36,7 @@
         <a class="nav-link" href="catalogue_page.html">Catalogue</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="products_page.html">Products</a>
+        <a class="nav-link" href="userProductsPage.html">Products</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">Services</a>
@@ -97,7 +97,7 @@
   <!-- Nav pills -->
   <ul class="nav nav-pills mx-auto" role="tablist">
     <li class="nav-item">
-      <img class="responsive-img" src="images/pitahc-logo.jpg" alt="Card image" style="width:90px; height:90px;">
+      <img class="responsive-img" src="assets/css/images/pitahc-logo.jpg" alt="Card image" style="width:90px; height:90px;">
     </li>
     <li class="ml-auto">
         <div class="btn-group">
@@ -148,7 +148,7 @@
       <div class="row" id="myDIV">
         <div class="col">
           <div class="card item">
-          <img class="card-img-top responsive-img" src="images/amp.jpg" alt="Card image" style="width:100%; height:200px;">
+          <img class="card-img-top responsive-img" src="assets/css/images/amp.jpg" alt="Card image" style="width:100%; height:200px;">
           <div class="card-body">
             <h4 class="card-title">Pinya</h4> 
             <h6 class="card-subtitle mb-2 text-muted">Category</h6>         
@@ -162,7 +162,7 @@
 
         <div class="col">
           <div class="card item">
-          <img class="card-img-top responsive-img" src="images/amp.jpg" alt="Card image" style="width:100%; height:200px;">
+          <img class="card-img-top responsive-img" src="assets/css/images/amp.jpg" alt="Card image" style="width:100%; height:200px;">
           <div class="card-body">
             <h4 class="card-title">Pinya</h4> 
             <h6 class="card-subtitle mb-2 text-muted">Category</h6>         
@@ -176,7 +176,7 @@
 
         <div class="col">
           <div class="card item">
-          <img class="card-img-top responsive-img" src="images/baw.jpg" alt="Card image" style="width:100%; height:200px;">
+          <img class="card-img-top responsive-img" src="assets/css/images/baw.jpg" alt="Card image" style="width:100%; height:200px;">
           <div class="card-body">
             <h4 class="card-title">Banana</h4>
             <h6 class="card-subtitle mb-2 text-muted">Category</h6>         
@@ -194,7 +194,7 @@
       <div class="row" id="myDIV">
         <div class="col">
           <div class="card item">
-          <img class="card-img-top responsive-img" src="images/amp.jpg" alt="Card image" style="width:100%; height:200px;">
+          <img class="card-img-top responsive-img" src="assets/css/images/amp.jpg" alt="Card image" style="width:100%; height:200px;">
           <div class="card-body">
             <h4 class="card-title">Pinya</h4>
             <h6 class="card-subtitle mb-2 text-muted">Category</h6>         
@@ -208,7 +208,7 @@
 
         <div class="col">
           <div class="card item">
-          <img class="card-img-top responsive-img" src="images/baw.jpg" alt="Card image" style="width:100%; height:200px;">
+          <img class="card-img-top responsive-img" src="assets/css/images/baw.jpg" alt="Card image" style="width:100%; height:200px;">
           <div class="card-body">
             <h4 class="card-title">Banana</h4>
             <h6 class="card-subtitle mb-2 text-muted">Category</h6>         
@@ -222,7 +222,7 @@
 
         <div class="col">
           <div class="card item">
-          <img class="card-img-top responsive-img" src="images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
+          <img class="card-img-top responsive-img" src="assets/css/images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
           <div class="card-body">
             <h4 class="card-title">Bayabas</h4>
             <h6 class="card-subtitle mb-2 text-muted">Category</h6>         
@@ -241,7 +241,7 @@
       <div class="row" id="myDIV">
         <div class="col">
           <div class="card item">
-          <img class="card-img-top responsive-img" src="images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
+          <img class="card-img-top responsive-img" src="assets/css/images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
           <div class="card-body">
             <h4 class="card-title">Malunggay</h4>
             <h6 class="card-subtitle mb-2 text-muted">Category</h6>         
@@ -255,7 +255,7 @@
 
         <div class="col">
           <div class="card item">
-          <img class="card-img-top responsive-img" src="images/baw.jpg" alt="Card image" style="width:100%; height:200px;">
+          <img class="card-img-top responsive-img" src="assets/css/images/baw.jpg" alt="Card image" style="width:100%; height:200px;">
           <div class="card-body">
             <h4 class="card-title">Banana</h4>
             <h6 class="card-subtitle mb-2 text-muted">Category</h6>         
@@ -269,7 +269,7 @@
 
         <div class="col">
           <div class="card item">
-          <img class="card-img-top responsive-img" src="images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
+          <img class="card-img-top responsive-img" src="assets/css/images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
           <div class="card-body">
             <h4 class="card-title">Mais</h4>
             <h6 class="card-subtitle mb-2 text-muted">Category</h6>         
@@ -287,7 +287,7 @@
       <div class="row" id="myDIV">
         <div class="col">
           <div class="card item">
-          <img class="card-img-top responsive-img" src="images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
+          <img class="card-img-top responsive-img" src="assets/css/images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
           <div class="card-body">
             <h4 class="card-title">Ampalaya</h4>
             <h6 class="card-subtitle mb-2 text-muted">Category</h6>         
@@ -301,7 +301,7 @@
 
         <div class="col">
           <div class="card item">
-          <img class="card-img-top responsive-img" src="images/baw.jpg" alt="Card image" style="width:100%; height:200px;">
+          <img class="card-img-top responsive-img" src="assets/css/images/baw.jpg" alt="Card image" style="width:100%; height:200px;">
           <div class="card-body">
             <h4 class="card-title">Banana</h4>
             <h6 class="card-subtitle mb-2 text-muted">Category</h6>         
@@ -315,7 +315,7 @@
 
         <div class="col">
           <div class="card item">
-          <img class="card-img-top responsive-img" src="images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
+          <img class="card-img-top responsive-img" src="assets/css/images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
           <div class="card-body">
             <h4 class="card-title">Avocado</h4>
             <h6 class="card-subtitle mb-2 text-muted">Category</h6>         
@@ -333,7 +333,7 @@
       <div class="row" id="myDIV">
         <div class="col">
           <div class="card item">
-          <img class="card-img-top responsive-img" src="images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
+          <img class="card-img-top responsive-img" src="assets/css/images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
           <div class="card-body">
             <h4 class="card-title">Avocado</h4>
             <h6 class="card-subtitle mb-2 text-muted">Category</h6>         
@@ -347,7 +347,7 @@
 
         <div class="col">
           <div class="card item">
-          <img class="card-img-top responsive-img" src="images/baw.jpg" alt="Card image" style="width:100%; height:200px;">
+          <img class="card-img-top responsive-img" src="assets/css/images/baw.jpg" alt="Card image" style="width:100%; height:200px;">
           <div class="card-body">
             <h4 class="card-title">Banana</h4>
             <h6 class="card-subtitle mb-2 text-muted">Category</h6>         
@@ -361,7 +361,7 @@
 
         <div class="col">
           <div class="card item">
-          <img class="card-img-top responsive-img" src="images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
+          <img class="card-img-top responsive-img" src="assets/css/images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
           <div class="card-body">
             <h4 class="card-title">Ampalaya</h4>
             <h6 class="card-subtitle mb-2 text-muted">Category</h6>         
@@ -507,7 +507,7 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-md-5 justify-content-center">
-            <img class="card-img-top responsive-img" src="images/amp.jpg" alt="Card image" style="width:100%; height:200px;">
+            <img class="card-img-top responsive-img" src="assets/css/images/amp.jpg" alt="Card image" style="width:100%; height:200px;">
           </div>
              <div class="col-md-7" style="overflow:auto; height: 350px;">
               <p class="p-title">Description</p>
