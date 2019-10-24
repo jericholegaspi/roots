@@ -62,7 +62,7 @@
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="catalogue_page.html">Catalogue</a>
+        <a class="nav-link" href="userCataloguePage.jsp">Catalogue</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="userProductsPage.html">Products</a>

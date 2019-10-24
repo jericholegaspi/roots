@@ -33,10 +33,10 @@
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="catalogue_page.html">Catalogue</a>
+        <a class="nav-link" href="userCataloguePage.jsp">Catalogue</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="userProductsPage.html">Products</a>
+        <a class="nav-link" href="userProductsPage.jsp">Products</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">Services</a>
@@ -59,7 +59,7 @@
 
       <ul class="navbar-nav navbar-right">
         <li class="nav-item">
-          <a class="nav-link" href="#"><span class="fa fa-shopping-cart"><span class="badge total-count"></span></span></a>
+          <a class="nav-link" href="userCartPage.jsp"><span class="fa fa-shopping-cart"><span class="badge total-count"></span></span></a>
         </li>
       <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
@@ -101,7 +101,8 @@
     </li>
     <li class="ml-auto">
         <div class="btn-group">
-          <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <button type="button" class="btn btn-warning dropdown-toggle-split dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span class="sr-only">Toggle</span>
             Search a Category
           </button>
           <div class="dropdown-menu dropdown-menu-right">
