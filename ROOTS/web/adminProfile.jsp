@@ -434,13 +434,13 @@ function validate()
 
     <script type="text/javascript">
         $(document).ready(function(){
-        	var x = document.getElementById('adminFirstName').innerHTML;
+        	var adminFirstName = document.getElementById('adminFirstName').innerHTML;
 
             demo.initChartist();
 			
             $.notify({
                 icon: 'pe-7s-gift',
-                message: "Hi Admin<b> "+ x +"! </b> "
+                message: "Hi Admin<b> "+ adminFirstName +"! </b> "
 
             },{
                 type: 'info',
