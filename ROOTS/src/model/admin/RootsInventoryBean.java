@@ -13,7 +13,7 @@ public class RootsInventoryBean {
 	// inputs
 	private int prodID;
 	private String prodName;
-	private int categoryID;
+	private int catID;
 	private String category;
 	private int initialPrice;
 	private int prodQty;
@@ -56,11 +56,11 @@ public class RootsInventoryBean {
 	public void setProdName(String prodName) {
 		this.prodName = prodName;
 	}
-	public int getCategoryID() {
-		return categoryID;
+	public int getCatID() {
+		return catID;
 	}
-	public void setCategoryID(int categoryID) {
-		this.categoryID = categoryID;
+	public void setCatID(int catID) {
+		this.catID = catID;
 	}
 	public int getInitialPrice() {
 		return initialPrice;
@@ -182,7 +182,7 @@ public class RootsInventoryBean {
 				PreparedStatement pstmnt = connection.prepareStatement(sql);
 				
 				pstmnt.setString(1, this.prodName);
-				pstmnt.setInt(2, this.categoryID);
+				pstmnt.setInt(2, this.catID);
 				pstmnt.setInt(3, this.initialPrice);
 				pstmnt.setInt(4, this.prodQty);
 				pstmnt.setInt(5, this.unitID);
@@ -214,7 +214,7 @@ public class RootsInventoryBean {
 				PreparedStatement pstmnt = connection.prepareStatement(sql);
 				
 				pstmnt.setString(1, this.prodName);
-				pstmnt.setInt(2, this.categoryID);
+				pstmnt.setInt(2, this.catID);
 				pstmnt.setInt(3, this.prodQty);
 				pstmnt.setInt(4, this.unitID);
 				pstmnt.setString(5, this.description);
@@ -244,7 +244,7 @@ public class RootsInventoryBean {
 				PreparedStatement pstmnt = connection.prepareStatement(sql);
 				
 				pstmnt.setString(1, this.prodName);
-				pstmnt.setInt(2, this.categoryID);
+				pstmnt.setInt(2, this.catID);
 				pstmnt.setInt(3, this.initialPrice);
 				pstmnt.setInt(4, this.prodQty);
 				pstmnt.setInt(5, this.unitID);

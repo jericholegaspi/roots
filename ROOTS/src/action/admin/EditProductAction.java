@@ -31,7 +31,7 @@ public class EditProductAction extends ActionSupport implements ModelDriven<Root
 		
 		
 		System.out.println("Product Name: " + productObj.getProdName());
-		System.out.println("Category: " + productObj.getCategoryID());
+		System.out.println("Category: " + productObj.getCatID());
 		System.out.println("Price: " + productObj.getInitialPrice());
 		System.out.println("Quantity: " + productObj.getProdQty());
 		System.out.println("Unit: " + productObj.getUnitID());

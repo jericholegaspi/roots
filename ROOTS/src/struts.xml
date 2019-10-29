@@ -47,41 +47,41 @@
 					<result name="error">/error.jsp</result>
 				</action>
 		
-		
-		<action name="addNewProduct"
-				class="action.admin.AddProductAction">
+		<!-- Admin and Customer Product Features -->
+				<action name="addNewProduct" class="action.admin.AddProductAction">
 					<result name="success">/adminProductDetails.jsp</result>
 					<result name="error">/error.jsp</result>
-					<result name="input">/adminProductDetails.jsp</result>
-		</action> 
-		
-		<action name="editProduct"
-				class="action.admin.EditProductAction">
+					<!-- <result name="input">/adminProductDetails.jsp</result> -->
+				</action> 
+				
+				<action name="editProduct" class="action.admin.EditProductAction">
 					<result name="success">/adminProductDetails.jsp</result>
 					<result name="error">/error.jsp</result>
-					<result name="input">/adminProductDetails.jsp</result>
-		</action>
-		
-		<action name="addNewCategory"
-				class="action.admin.AddCategoryAction">
+				</action>
+				
+				<action name="addNewCategory" class="action.admin.AddCategoryAction">
 					<result name="success">/adminProductDetails.jsp</result>
 					<result name="error">/error.jsp</result>
-					<result name="input">/adminProductDetails.jsp</result>
-		</action>
-		
-		<action name="addProdQty"
-				class="action.admin.EditProdQuantityAction">
+				</action>
+				
+				<action name="addProdQty" class="action.admin.EditProdQuantityAction">
 					<result name="success">/adminProductInventory.jsp</result>
 					<result name="error">/error.jsp</result>
-					<result name="input">/adminProductInventory.jsp</result>
-		</action>
-		
-		<action name="editPrice"
-				class="action.admin.EditProdPriceAction">
+				</action>
+				
+				<action name="editPrice" class="action.admin.EditProdPriceAction">
 					<result name="success">/adminProductPrices.jsp</result>
 					<result name="error">/error.jsp</result>
-					<result name="input">/adminProductPrices.jsp</result>
-		</action>
-		
+				</action>
+				
+				<action name="addToCart" class="action.customer.AddToCartAction">
+					<result name="error">/error.jsp</result>
+					<result name="success">/userProductIndex.jsp</result>
+				</action>
+				
+				<action name="selectItemID" class="action.customer.SelectItemIDAction">
+					<result name="success">/userProductDetails.jsp</result>
+					<result name="error">/error.jsp</result>
+				</action> 
 	</package>
 </struts>

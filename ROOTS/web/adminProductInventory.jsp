@@ -491,5 +491,7 @@
                  /* document.getElementById("priceGetTest").value = this.cells[].innerHTML; */
        		};
         }
+        
+        
     </script>
 </html>

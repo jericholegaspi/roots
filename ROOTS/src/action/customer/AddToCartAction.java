@@ -17,15 +17,22 @@ public class AddToCartAction extends ActionSupport implements ModelDriven<AddOrd
 		System.out.println("User ID: " + orderObj.getUserID());
 		System.out.println("Product ID: " + orderObj.getProdID());
 		System.out.println("Category: " + orderObj.getCatID());
-		System.out.println("Payment Status:" + orderObj.getPaymentStatusID());
-		System.out.println("Delivery Status: " + orderObj.getDeliveryStatusID());
-		System.out.println("Order Status: " + orderObj.getOrderStatusID());
-		System.out.println("Order Quantity: " + orderObj.getOrderQuantity());
-		System.out.println("Order Price: " + orderObj.getOrderPrice());
+		System.out.println("Payment Status:" + orderObj.getPaymentStatus());
+		System.out.println("Delivery Status: " + orderObj.getDeliveryStatus());
+		System.out.println("Order Status: " + orderObj.getOrderStatus());
+		System.out.println("Cart Status: " + orderObj.getCartStatus());
 		
 		orderObj.insertRecordOrder();
 		
 		return SUCCESS;
+	}
+
+	public AddOrderBean getOrderObj() {
+		return orderObj;
+	}
+
+	public void setOrderObj(AddOrderBean orderObj) {
+		this.orderObj = orderObj;
 	}
 
 	@Override
