@@ -254,102 +254,6 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
-                          
-                    <!-- <div class="col-md-12">
-                        <div class="card">
-                            <div class="header">
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addnewproduct" style="float: right;"><span class="glyphicon glyphicon-plus"></span></button>
-                                <h4 class="title">Inventory </h4></h4>
-
-                                <p class="category">List of Products</p>
-                            </div>
-                            <div class="content table-responsive table-full-width">
-                                <table class="table table-hover table-striped">
-                                    <thead>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Quantity</th>
-                                        <th>Stock In</th>
-                                        <th>Price</th>
-                                        <th>Date Added</th>
-                                        <th>Date Modified</th>
-                                        <th>Availability</th>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Dakota Rice</td>
-                                            <td>$36,738</td>
-                                            <td>4</td>
-                                            <td>Niger</td>
-                                            <td>Niger</td>
-                                            <td> Available </td>
-                                            <td>Backend</td>
-                                            <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editproduct"><span class="glyphicon glyphicon-edit"></span> EDIT</button></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="header">
-                                <h4 class="title">List of Orders</h4></h4>
-
-                                <p class="category">Change Status of Order</p>
-                            </div>
-                            <div class="content table-responsive table-full-width">
-                                <table class="table table-hover table-striped">
-                                    <thead>
-                                        <th>Order ID</th>
-                                        <th>Product ID</th>
-                                        <th>Product Name</th>
-                                        <th>User ID</th>
-                                        <th>User Name</th>
-                                        <th>Total</th>
-                                        <th>Quantity</th>                      
-                                        <th>Mode of Payment</th>
-                                        <th>Payment Status</th>
-                                        <th>Delivery Address</th>
-                                        <th>Order Status</th>
-                                        <th>Delivery Status</th>
-                                        <th>Date Modified</th>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>1</td>
-                                            <td>Dakota Rice</td>
-                                            <td>1</td>
-                                            <td>Abigail Abada</td>
-                                            <td>P350</td>
-                                            <td>2</td>
-                                            <td>Cash</td>
-                                            <td><select class="form-control">
-                                            <option value="" disabled="disabled" selected="selected">...</option>
-                                            <option value="paid">Paid</option>
-                                            <option value="unpaid">Unpaid</option>
-                                            </select></td>
-                                            <td>Address Address Address Address</td>
-                                            <td>Complete</td>
-                                            <td><select class="form-control">
-                                            <option value="" disabled="disabled" selected="selected">...</option>
-                                            <option value="rfp">Ready for Pickup</option>
-                                            <option value="rfd">Ready for Delivery</option>
-                                            <option value="it">In-Transit</option>
-                                            <option value="del">Delivered</option>
-                                            </select></td>
-                                            <td>03/07/2019</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-
-                            </div>
-                        </div>
-                    </div> -->
                     
                     <div class="col-md-12">
                         <div class="card">
@@ -382,12 +286,12 @@
 		try {
 			connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
 			statement = connection.createStatement();
-			String sqlproduct = "SELECT productsTable.prodID, productsTable.prodName,"
-					+ " productsTable.description, productsTable.initialPrice, productsTable.prodQty,"
-					+ " unitsTable.unit, categoryTable.catID, categoryTable.category, productsTable.Availability,"
-					+ " productsTable.prodLastUpdate, productsTable.critLevel FROM productsTable INNER JOIN categoryTable ON"
-					+ " productsTable.categoryID = categoryTable.catID"
-					+ " INNER JOIN unitsTable ON productsTable.unitID = unitsTable.unitID";
+			String sqlproduct = "SELECT products.prodID, products.prodName,"
+					+ " products.description, products.initialPrice, products.prodQty,"
+					+ " units.unit, category.catID, category.category, products.Availability,"
+					+ " products.prodLastUpdate, products.critLevel FROM products"
+					+ " INNER JOIN category ON products.catID = category.catID"
+					+ " INNER JOIN units ON products.unitID = units.unitID";
 			resultSet = statement.executeQuery(sqlproduct);
 		while (resultSet.next()) {
 	%>
@@ -435,7 +339,7 @@
 		try {
 			connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
 			statement = connection.createStatement();
-			String sqlcategory = "SELECT * FROM categoryTable";
+			String sqlcategory = "SELECT * FROM category";
 			resultSet = statement.executeQuery(sqlcategory);
 		while (resultSet.next()) {
 	%>
@@ -487,7 +391,7 @@
 	try {
 		connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
 		statement = connection.createStatement();
-		String sqlcategory = "SELECT * FROM categorytable";
+		String sqlcategory = "SELECT * FROM category";
 		resultSet = statement.executeQuery(sqlcategory);
 	%>
 
@@ -524,7 +428,7 @@
 			try {
 					connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
 					statement = connection.createStatement();
-					String sqlcategory = "SELECT * FROM unitsTable";
+					String sqlcategory = "SELECT * FROM units";
 					resultSet = statement.executeQuery(sqlcategory);
 			%>
             </select><br/>
@@ -571,24 +475,12 @@
           <span aria-hidden="true">×</span>
         </button>
       </div>
-     		<%
-				try {
-				connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
-				statement = connection.createStatement();
-				String sqlcategory = "SELECT prodID FROM productsTable";
-				resultSet = statement.executeQuery(sqlcategory);
-			%>
       <!--Body-->
       <div class="modal-body">
       <form action="editProduct.action" method="post">
             <p align="left">
              Product ID: </br>
-             <input type="text" class="form-control" name="prodID" id="productIdGetTest" readonly/><br/>
-            <%
-				}	catch (Exception e) {
-			e.printStackTrace();
-			}
-			%>
+            <input type="text" class="form-control" name="prodID" id="productIdGetTest" readonly/><br/>
             
             Product Name:</br> 
             <input type='text' id="productNameGetTest" class="form-control" name='prodName' minlength='0' maxlength='100' required="required"/><br/>
@@ -600,9 +492,10 @@
 				try {
 				connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
 				statement = connection.createStatement();
-				String sqlcategory = "SELECT * FROM categorytable";
+				String sqlcategory = "SELECT * FROM category";
 				resultSet = statement.executeQuery(sqlcategory);
-				while(resultSet.next()){%>
+				while(resultSet.next()){
+			%>
             <option value="<%=resultSet.getString("catID") %>"><%=resultSet.getString("catID") %> - <%=resultSet.getString("category") %></option>
             <%
             		}
@@ -611,19 +504,15 @@
 			}
 			%>
             </select><br/>
-            Current Price:</br><input type='number' id="priceGetTest" class="form-control" name='initialPrice' min='0' max='999' readonly/>
-            <input type="submit" value="Update Price"  class="btn btn-primary" /><br/><br/>
-            Current Quantity:</br><input type='number' id="quantityGetTest" class="form-control" name='prodQty' min='1' max='300' readonly/>
-            <input type="submit" value="Update Quantity"  class="btn btn-primary" /><br/><br/>
-            <!-- Unit: </br> <select class="form-control"  name='unitID' required="required">
+            Current Unit: 	<input type="text" id="unitGetTest" class="form-control" readonly/></br> 
+           	<select class="form-control"  name='unitID' required="required">
             <option value="" disabled selected>Select your option...</option>
             <%
 			try {
 					connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
 					statement = connection.createStatement();
-					String sqlcategory = "SELECT * FROM unitsTable";
+					String sqlcategory = "SELECT * FROM units";
 					resultSet = statement.executeQuery(sqlcategory);
-			
             while(resultSet.next()){%>
             <option value="<%=resultSet.getString("unitID") %>"><%=resultSet.getString("unitID") %> - <%=resultSet.getString("unit") %></option>
             <%
@@ -632,7 +521,7 @@
 			e.printStackTrace();
             }
             %>
-            </select><br/> -->
+            </select><br/>
             Description:</br><input type='text' id="descriptionGetTest" class="form-control" name='description' minlength='0' maxlength='500' required="required"/><br/>
             <!-- Availability:</br> <input type='text' class="form-control" name='availability' value='Yes' readonly /><br/>
             Image file name:</br><input type='text' class="form-control" name='image' readonly/><br/> -->
@@ -732,9 +621,9 @@
 				 document.getElementById("productIdGetTest").value = this.cells[0].innerHTML;
                  document.getElementById("productNameGetTest").value = this.cells[1].innerHTML;
               	 document.getElementById("categoryGetTest").value = this.cells[2].innerHTML;
-                 document.getElementById("priceGetTest").value = this.cells[3].innerHTML;
-                 document.getElementById("quantityGetTest").value = this.cells[4].innerHTML;
-                 // COMMMENTED OUT KASE WALA PANG ID PARA SA UNIT OPTIONS /* document.getElementById("unitGetTest").value = this.cells[5].innerHTML; */
+                 /* document.getElementById("priceGetTest").value = this.cells[3].innerHTML;
+                 document.getElementById("quantityGetTest").value = this.cells[4].innerHTML; */
+                 document.getElementById("unitGetTest").value = this.cells[5].innerHTML;
                  document.getElementById("descriptionGetTest").value = this.cells[6].innerHTML;
        		};
         }

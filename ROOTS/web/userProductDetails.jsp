@@ -20,6 +20,7 @@
 	
 	<link rel="shortcut icon" sizes="16x16 32x32 64x64" href="assets/css/images/logo5.png"/>
 </head>
+<title>Product Details</title>
 <body>
 <%@page import="java.sql.DriverManager"%>
 <%@page import="java.sql.ResultSet"%>

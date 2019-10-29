@@ -191,7 +191,7 @@ public class AddOrderBean {
 				pstmnt.executeUpdate();
 				return true;
 			} catch (SQLException sqle) {
-				System.err.println("Error on insertRecordOrder: " + sqle.getMessage());
+				System.err.println("Error on insertOrderRecord: " + sqle.getMessage());
 			}			
 		} else {
 			System.err.println("Missing on invalid connection.");

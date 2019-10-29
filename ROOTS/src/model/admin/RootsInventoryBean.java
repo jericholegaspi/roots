@@ -174,7 +174,7 @@ public class RootsInventoryBean {
 		Connection connection = getDBConnection();
 		
 		if (connection != null) { //means a valid connection
-			String sql = "INSERT INTO productstable (prodName, categoryID, initialPrice,"
+			String sql = "INSERT INTO products (prodName, catID, initialPrice,"
 					+ " prodQty, unitID, description, image, availability, critLevel)"
 					+ " VALUES (?,?,?,?,?,?,?,?,?)";
 			
@@ -206,8 +206,8 @@ public class RootsInventoryBean {
 		Connection connection = getDBConnection();
 		
 		if (connection != null) { //means a valid connection
-			String sql = "UPDATE productsTable SET prodName=?, categoryID=?,"
-					+ " prodQty=?, unitID=?, description=?, image=?"
+			String sql = "UPDATE products SET prodName=?, catID=?,"
+					+ " unitID=?, description=?, image=?"
 					+ " WHERE prodID = ?";
 			
 			try {
@@ -215,11 +215,10 @@ public class RootsInventoryBean {
 				
 				pstmnt.setString(1, this.prodName);
 				pstmnt.setInt(2, this.catID);
-				pstmnt.setInt(3, this.prodQty);
-				pstmnt.setInt(4, this.unitID);
-				pstmnt.setString(5, this.description);
-				pstmnt.setString(6, this.image + ".jpg");
-				pstmnt.setInt(7, this.prodID);
+				pstmnt.setInt(3, this.unitID);
+				pstmnt.setString(4, this.description);
+				pstmnt.setString(5, this.image + ".jpg");
+				pstmnt.setInt(6, this.prodID);
 				
 				pstmnt.executeUpdate();
 				return true;
@@ -236,7 +235,7 @@ public class RootsInventoryBean {
 		Connection connection = getDBConnection();
 		
 		if (connection != null) { //means a valid connection
-			String sql = "UPDATE productsTable SET prodName=?, categoryID=?,"
+			String sql = "UPDATE products SET prodName=?, catID=?,"
 					+ " initialPrice=?, prodQty=?, unitID=?, description=?, image=?"
 					+ " WHERE prodID = ?";
 			
@@ -267,7 +266,7 @@ public class RootsInventoryBean {
 		Connection connection = getDBConnection();
 		
 		if (connection != null) { //means a valid connection
-			String sql = "INSERT INTO categorytable (category) VALUES (?)";
+			String sql = "INSERT INTO category (category) VALUES (?)";
 			
 			try {
 				PreparedStatement pstmnt = connection.prepareStatement(sql);
@@ -289,7 +288,7 @@ public class RootsInventoryBean {
 		Connection connection = getDBConnection();
 		
 		if (connection != null) { //means a valid connection
-			String sql = "UPDATE productsTable SET prodQty=? WHERE prodID = ?";
+			String sql = "UPDATE products SET prodQty=? WHERE prodID = ?";
 			
 			try {
 				PreparedStatement pstmnt = connection.prepareStatement(sql);
@@ -312,7 +311,7 @@ public class RootsInventoryBean {
 		Connection connection = getDBConnection();
 		
 		if (connection != null) { //means a valid connection
-			String sql = "INSERT INTO inventoryTable (prodID, prodQtyChange, qtyChangeDesc)"
+			String sql = "INSERT INTO inventory (prodID, prodQtyChange, qtyChangeDesc)"
 					+ " VALUES (?,?,?)";
 			
 			try {
@@ -337,7 +336,7 @@ public class RootsInventoryBean {
 		Connection connection = getDBConnection();
 		
 		if (connection != null) { //means a valid connection
-			String sql = "UPDATE productsTable SET initialPrice=? WHERE prodID = ?";
+			String sql = "UPDATE products SET initialPrice=? WHERE prodID = ?";
 			
 			try {
 				PreparedStatement pstmnt = connection.prepareStatement(sql);
@@ -360,7 +359,7 @@ public class RootsInventoryBean {
 		Connection connection = getDBConnection();
 		
 		if (connection != null) { //means a valid connection
-			String sql = "INSERT INTO prodPriceTable (prodID, prodPriceChange, prodPriceChangeRefNoID)"
+			String sql = "INSERT INTO prodPrice (prodID, prodPriceChange, prodPriceChangeRefNoID)"
 					+ " VALUES (?,?,?)";
 			
 			try {
@@ -386,7 +385,7 @@ public class RootsInventoryBean {
 		Connection connection = getDBConnection();
 		
 		if (connection != null) { //means a valid connection
-			String sql = "INSERT INTO prodPriceChangeRefTable (prodPriceID)"
+			String sql = "INSERT INTO prodPriceChangeRef (prodPriceID)"
 					+ " VALUES (?)";
 			
 			try {
