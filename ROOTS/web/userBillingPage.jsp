@@ -23,8 +23,8 @@
 String driverName = "com.mysql.jdbc.Driver";
 String connectionUrl = "jdbc:mysql://localhost/";
 String dbName = "isproj2_roots";
-String userId = "root";
-String password = "";
+String userId = "isproj2_roots";
+String password = "^qp&6Afnsd7S^jRf";
 
 try {
 Class.forName(driverName);
@@ -218,7 +218,7 @@ e.printStackTrace();
 		<a class="btn btn-outline-success float-right btn-sm" role="tab" data-toggle="collapse" data-target="#addHomeAddress"><i class="fas fa-plus"></i></a>
 		<!-- Call ediHomeAddress -->
     	<a class="btn btn-outline-warning float-right btn-sm" data-toggle="collapse" data-target="#editHomeAddress"><i class="fas fa-edit"></i></a>
-    	<a href="cart_page.html" class="btn btn-outline-danger float-right btn-sm"><i class="fas fa-trash-alt"></i></a>
+    	<a href="cart_page.html" class="btn btn-outline-danger float-right btn-sm" data-toggle="modal" data-target="#delete-confirmation"><i class="fas fa-trash-alt"></i></a>
      </div>
       <br><br>
       
@@ -323,7 +323,7 @@ e.printStackTrace();
 		<a class="btn btn-outline-success float-right btn-sm" role="tab" data-toggle="collapse" data-target="#addWorkAddress"><i class="fas fa-plus"></i></a>
 		<!-- Call editWorkAddress -->
     	<a class="btn btn-outline-warning float-right btn-sm" data-toggle="collapse" data-target="#editWorkAddress"><i class="fas fa-edit"></i></a>
-    	<a href="cart_page.html" class="btn btn-outline-danger float-right btn-sm"><i class="fas fa-trash-alt"></i></a>
+    	<a href="cart_page.html" class="btn btn-outline-danger float-right btn-sm" data-toggle="modal" data-target="#delete-confirmation"><i class="fas fa-trash-alt"></i></a>
      </div>
       <br><br>
       
@@ -589,6 +589,31 @@ e.printStackTrace();
 
 </footer>
 <!-- Footer -->
+
+<!-- START of Modal -->
+<div class="modal fade" id="delete-confirmation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xs modal-dialog-centered" role="document">
+    <div class="modal-content text-center">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-exclamation-circle fa-2x justify-content-center" style="color:grey;"></i>
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <p class="question text-center">Are you sure you want to delete your address?</p>
+            <br>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+        <a href="userBillingPage.jsp" class="btn btn-primary">Proceed</a>
+      </div>
+    </div>
+  </div>
+</div> 
+
+<!--END of Modal -->
 
 
 <script>

@@ -102,7 +102,7 @@ public class AdminBean {
 			Class.forName("com.mysql.jdbc.Driver");
 			connection = DriverManager.getConnection(
 				"jdbc:mysql://localhost/isproj2_roots", 
-				"root", "");
+				"isproj2_roots", "^qp&6Afnsd7S^jRf");
 		} catch (ClassNotFoundException cfne) {
 			System.err.println(cfne.getMessage());
 		} catch (SQLException sqle) {

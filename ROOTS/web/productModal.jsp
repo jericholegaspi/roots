@@ -18,8 +18,8 @@
 	String driverName = "com.mysql.jdbc.Driver";
 	String connectionUrl = "jdbc:mysql://localhost/";
 	String dbName = "isproj2_roots";
-	String userId = "root";
-	String password = "";
+	String userId = "isproj2_roots";
+	String password = "^qp&6Afnsd7S^jRf";
 	int prodIDChain = Integer.parseInt(request.getParameter("prodID"));
 
 	try {

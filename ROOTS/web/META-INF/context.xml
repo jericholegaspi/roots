@@ -24,11 +24,10 @@
          Class name for the official MySQL Connector/J driver is com.mysql.jdbc.Driver.
          -->
 
-    <!-- url: The JDBC connection url for connecting to your MySQL database.
-         -->
+    <!-- url: The JDBC connection url for connecting to your MySQL database. -->
 
 	 <Resource name="jdbc/isproj2_roots" auth="Container" type="javax.sql.DataSource"
       maxActive="100" maxIdle="30" maxWait="10000"
-      username="root" password="" driverClassName="com.mysql.jdbc.Driver"
+      username="isproj2_roots" password="^qp&amp;6Afnsd7S^jRf" driverClassName="com.mysql.jdbc.Driver"
       url="jdbc:mysql://localhost:3306/isproj2_roots"/>
 </Context>
