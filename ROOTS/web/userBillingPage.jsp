@@ -1,14 +1,13 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+	<%@page import="java.sql.*"%>
+	<%@page import="com.mysql.jdbc.PreparedStatement"%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Cart</title>
+<title>Billing Page</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <!-- For PayPal Sandbox -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -20,13 +19,34 @@
 
   <link rel="shortcut icon" sizes="16x16 32x32 64x64" href="assets/css/images/logo5.png"/>
 
-</head>
-<body>
+<%
+String driverName = "com.mysql.jdbc.Driver";
+String connectionUrl = "jdbc:mysql://localhost:3306/";
+String dbName = "isproj2_roots";
+String userId = "root";
+String password = "";
 
-  <!-- PayPal Script -->
-  <script src="https://www.paypal.com/sdk/js?client-id=AQcMM3RdMEi_MxhI4tErRCEzKhIriOxlG1TIOrsdwAz-xBJ0QJhqsgu4jRSTRNlztO1kWroOqdNFfnww&currency=PHP">
-  </script>
-	
+try {
+Class.forName(driverName);
+} catch (ClassNotFoundException e) {
+e.printStackTrace();
+}
+
+Connection connection = null;
+Statement statement = null;
+ResultSet resultSet = null;
+%>
+
+</head>
+
+<% //In case, if User session is not set, redirect to Login page.
+if((request.getSession(false).getAttribute("email")== null) )
+{
+%>
+<jsp:forward page="userLogin.jsp"></jsp:forward>
+<%} %>
+
+<body>
   <div class="container-fluid">
   <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
   <!-- Brand -->
@@ -91,40 +111,182 @@
 
 <div class="container-fluid bill">
 
+<%
+try {
+connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+statement = connection.createStatement();
+String sql = "SELECT * FROM users where userId = " + session.getAttribute("uid");
+
+resultSet = statement.executeQuery(sql);
+while (resultSet.next()) {
+%>  
+
 <form id="regForm">
   <!-- One "tab" for each step in the form: -->
   
+
   <div class="tab"><h5>Contact Information</h5><br>
     <div class="form-row">
       <div class="col">
         <label for="fname">First Name</label>
-        <input placeholder="Enter your first name" oninput="this.className = ''" name="fname"></p>
+         <input name="firstName" type="text" disabled class="form-control" value="<%= resultSet.getString("firstName") %>"></p>
       </div>
       <div class="col">
         <label for="lname">Last Name</label>
-        <input placeholder="Enter your last name" oninput="this.className = ''" name="lname"></p>
+         <input name="lastName" type="text" disabled class="form-control" value="<%= resultSet.getString("lastName") %>"></p>
       </div>
     </div>
       <label for="email">Email Address</label>
-        <input placeholder="Enter your email address" oninput="this.className = ''" name="email"></p>
-      <label for="phone">Phone Number</label>
-        <input placeholder="Enter your phone number" oninput="this.className = ''" name="phone"></p>
-      <br><br><h5>Billing Address</h5><br>
+         <input name="email" type="text" disabled class="form-control" value="<%= resultSet.getString("email") %>"></p>
     <div class="form-row">
+      <div class="col">
+        <label for="phone">Telephone Number</label>
+         <input name="telephone" type="text" disabled class="form-control" value="<%= resultSet.getString("telephone") %>"></p>
+      </div>
+      <div class="col">
+        <label for="mobile">Mobile Number</label>
+         <input name="mobile" type="text" disabled class="form-control" value="<%= resultSet.getString("mobileNo") %>"></p>
+      </div>
+    </div>
+
+        
+<%
+}
+} catch (Exception e) {
+e.printStackTrace();
+}
+%>
+
+  <br><br><h5>Billing Address</h5><br>
+  
+  	<div class="form-row">
+      <div class="col">
+        <label for="snumber">Street Number</label>
+          <input id="houseNumber" placeholder="Enter your street number" oninput="this.className = ''" name="snumber"></p>
+      </div>
+      <div class="col">
+        <label for="sname">Street Name</label>
+          <input id="street" placeholder="Enter your street name" oninput="this.className = ''" name="sname"></p>
+      </div>
+      <div class="col">
+        <label for="sname">Barangay/Subdivision</label>
+          <input id="barangay" placeholder="Enter your barangay/subdivision" oninput="this.className = ''" name="sname"></p>
+      </div>
+    </div>
+    <div class="form-row">
+    	<div class="col">
+    	<label for="sname">City</label>
+    		<select id="city" class="form-control">
+			  <option>Manila</option>
+			</select>
+    	</div>
+    	<div class="col">
+    	<label for="sname">Province</label>
+    		<select id="province" class="form-control">
+			  <option>Cavite</option>
+			</select>
+    	</div>
+    	<div class="col">
+    		 <label for="sname">Postal Code</label>
+          <input id="postalCode" placeholder="Enter your postal code" oninput="this.className = ''" name="sname"></p>
+    	</div>
+    </div>
+    
+    <div class="btn-group float-right">
+    	<a href="cart_page.html" class="btn btn-outline-secondary float-right btn-sm"><i class="far fa-edit"></i></a>
+    	<a href="cart_page.html" class="btn btn-outline-danger float-right btn-sm"><i class="fas fa-trash-alt"></i></a>
+     </div> 
+     
+     
+      <br><br><br>
+	<button class="btn btn-outline-primary" onclick="homeAddressSwitch()" id="HomeAdddBtn" type="button" data-toggle="collapse" data-target="#homeAddress" aria-expanded="false" aria-controls="collapseExample">
+		<i class="fas fa-plus-circle"></i> Home Address
+	</button>
+
+	<div class="collapse" id="homeAddress">
+      <br>
+     <div class="form-row">
+      <div class="col">
+        <label for="snumber">Street Number</label>
+          <input id="houseNumber" placeholder="Enter your street number" oninput="this.className = ''" name="snumber"></p>
+      </div>
+      <div class="col">
+        <label for="sname">Street Name</label>
+          <input id="street" placeholder="Enter your street name" oninput="this.className = ''" name="sname"></p>
+      </div>
+      <div class="col">
+        <label for="sname">Barangay/Subdivision</label>
+          <input id="barangay" placeholder="Enter your barangay/subdivision" oninput="this.className = ''" name="sname"></p>
+      </div>
+    </div>
+    <div class="form-row">
+    	<div class="col">
+    	<label for="sname">City</label>
+    		<select id="city" class="form-control">
+			  <option>Manila</option>
+			</select>
+    	</div>
+    	<div class="col">
+    	<label for="sname">Province</label>
+    		<select id="province" class="form-control">
+			  <option>Cavite</option>
+			</select>
+    	</div>
+    	<div class="col">
+    		 <label for="sname">Postal Code</label>
+          <input id="postalCode" placeholder="Enter your postal code" oninput="this.className = ''" name="sname"></p>
+    	</div>
+    </div>
+    <a href="cart_page.html" class="btn btn-outline-secondary float-right btn-sm"><i class="fas fa-plus"></i> <i class="far fa-address-card"></i></a>
+    </div>		  
+		  
+	<br><br>
+	<button class="btn btn-primary" onclick="switchAddress()" id="WorkAddBtn" type="button" data-toggle="collapse" data-target="#workAddress" aria-expanded="false" aria-controls="collapseExample">
+		<i class="fas fa-plus-circle"></i> Work Address
+	</button>
+		  
+
+
+    
+    <div class="collapse" id="workAddress">
+      <br>
+     <div class="form-row">
       <div class="col">
         <label for="snumber">Street Number</label>
           <input placeholder="Enter your street number" oninput="this.className = ''" name="snumber"></p>
-            <label for="brgy">Barangay/Subdivision</label>
-          <input placeholder="Enter your barangay/subdivision" oninput="this.className = ''" name="brgy"></p>
       </div>
       <div class="col">
         <label for="sname">Street Name</label>
           <input placeholder="Enter your street name" oninput="this.className = ''" name="sname"></p>
-            <label for="City">City</label>  
-          <input placeholder="Enter your city" oninput="this.className = ''" name="city"><br>
-       </div>
-    </div>  
+      </div>
+      <div class="col">
+        <label for="sname">Barangay/Subdivision</label>
+          <input placeholder="Enter your barangay/subdivision" oninput="this.className = ''" name="sname"></p>
+      </div>
+    </div>
+    <div class="form-row">
+    	<div class="col">
+    	<label for="sname">City</label>
+    		<select class="form-control">
+			  <option>Manila</option>
+			</select>
+    	</div>
+    	<div class="col">
+    	<label for="sname">Province</label>
+    		<select class="form-control">
+			  <option>Cavite</option>
+			</select>
+    	</div>
+    	<div class="col">
+    		 <label for="sname">Postal Code</label>
+          <input placeholder="Enter your postal code" oninput="this.className = ''" name="sname"></p>
+    	</div>
+    </div>
+    <a href="cart_page.html" class="btn btn-outline-secondary float-right btn-sm"><i class="fas fa-plus"></i> <i class="far fa-address-card"></i></a>
+    <br><br>
+    </div>
   </div>
+ 
 
   <div class="tab"><h5>Order Summary</h5><br>
     <div class="col-sm-12">
@@ -148,7 +310,7 @@
               <th class="border-0 text-uppercase small font-weight-bold">Description</th>
               <th class="border-0 text-uppercase small font-weight-bold">Quantity</th>
               <th class="border-0 text-uppercase small font-weight-bold">Unit Cost</th>
-               <th class="border-0 text-uppercase small font-weight-bold">Total</th>
+              <th class="border-0 text-uppercase small font-weight-bold">Total</th>
             </tr>
           </thead>
           <tbody>
@@ -198,140 +360,18 @@
     </div>
 </div>
 
-<div class="tab"><h5>Invoice</h5><br>
-  <div class="col-sm-12">
-  <div class="row">
-    <!-- PayPal Logo -->
-          <table border="0" cellpadding="10" cellspacing="0" align="center">
-            <tr>
-              <td align="right">
-                <button class="btn btn-info btn-sm">Not Paid</button>
-                                <div id="paypal-button-container"></div>
 
-<!--                 <a href="https://www.paypal.com/ph/webapps/mpp/paypal-popup" title="How PayPal Works" onclick="javascript:window.open('https://www.paypal.com/ph/webapps/mpp/paypal-popup','WIPaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=1060, height=700'); return false;">
-                  <img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/checkout-logo-medium.png" alt="Check out with PayPal" />
-                </a> -->
-              </td>
-            </tr>
-          </table>
-          <!-- PayPal Logo -->
-  </div>
-  </div>
-  <br>
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body p-0">
-                    <div class="row p-5">
-                        <div class="col-md-6">
-                            <img src="assets/css/images/logo5.png" height="100px" width="170px">
-                        </div>
-
-                        <div class="col-md-6 text-right">
-                            <p class="font-weight-bold mb-1">Invoice #550</p>
-                            <p class="text-muted">Due to: 4 Dec, 2019</p>
-                        </div>
-                    </div>
-
-                    <hr class="my-5">
-
-                    <div class="row pb-5 p-5">
-                        <div class="col-md-6">
-                            <p class="font-weight-bold mb-4">Customer Information</p>
-                            <p class="mb-1">Abigail Abada</p>
-                            <p class="mb-1">abigailhana.abada@benilde.edu.ph</p>
-                            <p>4778425</p>
-                            <p class="mb-1">104 Northeast Ipil Street Marikina Heights Marikina City</p>
-                            <p class="mb-1">6781 45P</p>
-                        </div>
-
-                        <div class="col-md-6 text-right">
-                            <p class="font-weight-bold mb-4">Payment Details</p>
-                            <p class="mb-1"><span class="text-muted">VAT: </span> 1425782</p>
-                            <p class="mb-1"><span class="text-muted">VAT ID: </span> 10253642</p>
-                            <p class="mb-1"><span class="text-muted">Mode of Payment: </span> PayPal</p>
-                            <p class="mb-1"><span class="text-muted">Name: </span> Abigail Abada</p>
-                        </div>
-                    </div>
-
-                    <div class="row p-5">
-                        <div class="col-md-12">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th class="border-0 text-uppercase small font-weight-bold">ID</th>
-                                        <th class="border-0 text-uppercase small font-weight-bold">Item</th>
-                                        <th class="border-0 text-uppercase small font-weight-bold">Description</th>
-                                        <th class="border-0 text-uppercase small font-weight-bold">Quantity</th>
-                                        <th class="border-0 text-uppercase small font-weight-bold">Unit Cost</th>
-                                        <th class="border-0 text-uppercase small font-weight-bold">Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Software</td>
-                                        <td>LTS Versions</td>
-                                        <td>21</td>
-                                        <td>$321</td>
-                                        <td>$3452</td>
-                                    </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Software</td>
-                                        <td>Support</td>
-                                        <td>234</td>
-                                        <td>$6356</td>
-                                        <td>$23423</td>
-                                    </tr>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Software</td>
-                                        <td>Sofware Collection</td>
-                                        <td>4534</td>
-                                        <td>$354</td>
-                                        <td>$23434</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <div class="d-flex flex-row-reverse bg-dark text-white p-4">
-                        <div class="py-3 px-5 text-right">
-                            <div class="mb-2">Grand Total</div>
-                            <p id="paypaltotal" hidden="hidden">100</p>
-                            <div class="h2 font-weight-light">Php 100</div>
-                        </div>
-
-                        <div class="py-3 px-5 text-right">
-                            <div class="mb-2">Discount</div>
-                            <div class="h2 font-weight-light">10%</div>
-                        </div>
-
-                        <div class="py-3 px-5 text-right">
-                            <div class="mb-2">Sub - Total amount</div>
-                            <div class="h2 font-weight-light">Php 50</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-  </div>
-</div>
 
   <div style="overflow:auto;">
     <div style="float:right;">
-      <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
-      <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+    	<a class="btn btn-outline-warning btn-lg" id="prevBtn" onclick="nextPrev(-1)"> Previous</a>
+    	<a class="btn btn-warning btn-lg" id="nextBtn" onclick="nextPrev(1)"> Next</a>
+    
+      
     </div>
   </div>
   <!-- Circles which indicates the steps of the form: -->
   <div style="text-align:center;margin-top:40px;">
-    <span class="step"></span>
     <span class="step"></span>
     <span class="step"></span>
   </div>
@@ -428,68 +468,8 @@
 </footer>
 <!-- Footer -->
 
-<!-- START of Modal -->
-<div class="modal fade" id="payment-confirmation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xs modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-shopping-cart fa-4x" style="height: 70px; color: green;"></i>
-        </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-             <div class="col-md-10 justify-content-center">
-              <p class="p-title">Are you sure you want to checkout?</p>
-            </div>
-
-        </div>
-        
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-         <a type="button" class="btn btn-primary" href="invoice_page.html">Yes</a></button>
-      </div>
-    </div>
-  </div>
-</div> 
-
-<!--END of Modal -->
 
 <script>
-
-<!--PayPal Script -->
-paypal.Buttons({
-    createOrder: function(data, actions) {
-    	var total = document.getElementById('paypaltotal').innerHTML;
-      return actions.order.create({
-        purchase_units: [{
-          amount: {
-            value: total
-          }
-        }]
-      });
-    },
-    onApprove: function(data, actions) {
-      return actions.order.capture().then(function(details) {
-        alert('Transaction completed by ' + details.payer.name.given_name);
-        // Call your server to save the transaction
-        return fetch('/paypal-transaction-complete', {
-          method: 'post',
-          headers: {
-            'content-type': 'application/json'
-          },
-          body: JSON.stringify({
-            orderID: data.orderID
-          })
-        });
-      });
-    }
-  }).render('#paypal-button-container');
-
-
   <!-- go to top -->
 $(document).ready(function(){
   $('body').scrollspy({target: ".navbar", offset: 50});   
@@ -522,18 +502,17 @@ function showTab(n) {
   //... and fix the Previous/Next buttons:
   if (n == 0) {
     document.getElementById("prevBtn").style.display = "none";
+
   } else {
     document.getElementById("prevBtn").style.display = "inline";
-    document.getElementById("prevBtn").innerHTML = "Previous";
   }
-  if (n == 2 ) {
-    document.getElementById("nextBtn").style.display = "none";
+  if (n == 1) {
+    document.getElementById("nextBtn").innerHTML = "Proceed";
+    document.getElementById("nextBtn").setAttribute("onclick", "location.href='userInvoicePage.jsp'");
+
   } else {
-	document.getElementById("nextBtn").style.display = "inline";
     document.getElementById("nextBtn").innerHTML = "Next";
   }
-  
-  
   //... and run a function that will display the correct step indicator:
   fixStepIndicator(n)
 }
@@ -588,6 +567,12 @@ function fixStepIndicator(n) {
   //... and adds the "active" class on the current step:
   x[n].className += " active";
 }
+
+function homeAddressSwitch() {	
+	
+}
+
+
 </script>
 
 </body>

@@ -1,7 +1,11 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+	<%@page import="java.sql.*"%>
+	<%@page import="com.mysql.jdbc.PreparedStatement"%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Cart</title>
+<title>Products</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -13,9 +17,17 @@
 
  <link rel="stylesheet" type="text/css" href="assets/css/cartpage.css">
 
-  <link rel="shortcut icon" sizes="16x16 32x32 64x64" href="assets/css/images/logo5.png"/>
+ <link rel="shortcut icon" sizes="16x16 32x32 64x64" href="assets/css/images/logo5.png"/>
 
 </head>
+
+<% //In case, if User session is not set, redirect to Login page.
+if((request.getSession(false).getAttribute("email")== null) )
+{
+%>
+<jsp:forward page="userLogin.jsp"></jsp:forward>
+<%} %>
+
 <body>
   <div class="container-fluid">
   <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
@@ -33,10 +45,10 @@
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="userCataloguePage.jsp">Catalogue</a>
+        <a class="nav-link" href="catalogue_page.html">Catalogue</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="userProductsPage.jsp">Products</a>
+        <a class="nav-link" href="products_page.html">Products</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">Services</a>
@@ -59,7 +71,7 @@
 
       <ul class="navbar-nav navbar-right">
         <li class="nav-item">
-          <a class="nav-link" href="userCartPage.jsp"><span class="fa fa-shopping-cart"><span class="badge total-count"></span></span></a>
+          <a class="nav-link" href="cart_page.html"><span class="fa fa-shopping-cart"><span class="badge total-count"></span></span></a>
         </li>
       <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
@@ -67,7 +79,7 @@
       </a>
       <div class="dropdown-menu dropdown-menu-right">
         <a class="dropdown-item" href="#"><span class="fa fa-sign-in"></span>Profile</a>
-        <a class="dropdown-item" href="userInvoicePage.jsp"><span class="fa fa-sign-in"></span>Invoice</a>
+        <a class="dropdown-item" href="invoice_page.html"><span class="fa fa-sign-in"></span>Invoice</a>
         <a class="dropdown-item" href="#"><span class="fa fa-sign-in"></span>Logout</a>
       </div>
         
@@ -79,28 +91,28 @@
 </nav> 
 </div>
 
+<br> <br><br> <br>
 
-
-<div class="container cart-table">
+<div class="container cartTable">
   <table id="cart" class="table table-hover table-condensed">
             <thead>
             <tr>
               <th style="width:50%">Product</th>
-              <th style="width:10%">Price</th>
-              <th style="width:6%">Quantity</th>
-              <th style="width:6%">Unit</th>
-              <th style="width:16%" class="text-center">Subtotal</th>
-              <th style="width:12%"></th>
+              <th style="width:8%">Price</th>
+              <th style="width:8%">Quantity</th>
+              <th style="width:8">Unit</th>
+              <th style="width:13%" class="text-center">Subtotal</th>
+              <th style="width:15%"></th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td data-th="Product">
                 <div class="row">
-                  <div class="col-sm-3 hidden-xs"><img src="assets/css/images/abokado.jpg" alt="..." class="img-responsive" height="100px;" width="100px;" /></div>
+                  <div class="col-sm-3 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
                   <div class="col-sm-8">
-                    <h4 class="nomargin p-name">Product Name</h4>
-                    <p class="p-description">Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet.</p>
+                    <h4 class="nomargin p-title">Product Name 1</h4>
+                    <p class="p-text">Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet.</p>
                   </div>
                 </div>
               </td>
@@ -108,25 +120,9 @@
               <td data-th="Quantity">
                 <input type="number" class="form-control text-center" value="1">
               </td>
-              <td data-th="Unit">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-secondary dropdown-toggle-split dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <span class="sr-only">Toggle</span>...
-                  </button>
-                    <div class="dropdown-menu">
-                      <button class="dropdown-item" type="button">Kg</button>
-                      <button class="dropdown-item" type="button">Bundle</button>
-                      <button class="dropdown-item" type="button">Box</button>
-                      <button class="dropdown-item" type="button">Fruits</button>
-                      <button class="dropdown-item" type="button">Skin Care</button>
-                      <button class="dropdown-item" type="button">Supplement</button>
-                      <button class="dropdown-item" type="button">Vegetables</button>
-                    </div>
-                </div>
-              </td>
+              <td data-th="Unit" class="text-center">Bundle</td>
               <td data-th="Subtotal" class="text-center">1.99</td>
               <td class="actions" data-th="">
-                <button class="btn btn-info btn-sm"><i class="fas fa-edit"></i></button>
                 <button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>                
               </td>
             </tr>
@@ -134,10 +130,10 @@
             <tr>
               <td data-th="Product">
                 <div class="row">
-                  <div class="col-sm-3 hidden-xs"><img src="assets/css/images/abokado.jpg" alt="..." class="img-responsive" height="100px;" width="100px;" /></div>
-                  <div class="col-sm-7">
-                    <h4 class="nomargin p-name">Product Name</h4>
-                    <p class="p-description">Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet.</p>
+                  <div class="col-sm-3 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
+                  <div class="col-sm-8">
+                    <h4 class="nomargin p-title">Product Name 2</h4>
+                    <p class="p-text">Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet.</p>
                   </div>
                 </div>
               </td>
@@ -145,35 +141,61 @@
               <td data-th="Quantity">
                 <input type="number" class="form-control text-center" value="1">
               </td>
-              <td data-th="Unit">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-secondary dropdown-toggle-split dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <span class="sr-only">Toggle</span>...
-                  </button>
-                    <div class="dropdown-menu">
-                      <button class="dropdown-item" type="button">Kg</button>
-                      <button class="dropdown-item" type="button">Bundle</button>
-                      <button class="dropdown-item" type="button">Box</button>
-                      <button class="dropdown-item" type="button">Fruits</button>
-                      <button class="dropdown-item" type="button">Skin Care</button>
-                      <button class="dropdown-item" type="button">Supplement</button>
-                      <button class="dropdown-item" type="button">Vegetables</button>
-                    </div>
-                </div>
-              </td>
+              <td data-th="Unit" class="text-center">Bundle</td>
               <td data-th="Subtotal" class="text-center">1.99</td>
               <td class="actions" data-th="">
-                <button class="btn btn-info btn-sm"><i class="fas fa-edit"></i></button>
+                <button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>                
+              </td>
+            </tr>
+
+            <tr>
+              <td data-th="Product">
+                <div class="row">
+                  <div class="col-sm-3 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
+                  <div class="col-sm-8">
+                    <h4 class="nomargin p-title">Product Name 3</h4>
+                    <p class="p-text">Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet.</p>
+                  </div>
+                </div>
+              </td>
+              <td data-th="Price">$1.99</td>
+              <td data-th="Quantity">
+                <input type="number" class="form-control text-center" value="1">
+              </td>
+              <td data-th="Unit" class="text-center">Bundle</td>
+              <td data-th="Subtotal" class="text-center">1.99</td>
+              <td class="actions" data-th="">
+                <button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>                
+              </td>
+            </tr>
+
+            <tr>
+              <td data-th="Product">
+                <div class="row">
+                  <div class="col-sm-3 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
+                  <div class="col-sm-8">
+                    <h4 class="nomargin p-title">Product Name 4</h4>
+                    <p class="p-text">Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet.</p>
+                  </div>
+                </div>
+              </td>
+              <td data-th="Price">$1.99</td>
+              <td data-th="Quantity">
+                <input type="number" class="form-control text-center" value="1">
+              </td>
+              <td data-th="Unit" class="text-center">Bundle</td>
+              <td data-th="Subtotal" class="text-center">1.99</td>
+              <td class="actions" data-th="">
                 <button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>                
               </td>
             </tr>
           </tbody>
           <tfoot>
             <tr>
-              <td><a href="userProductsPage.jsp" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
-              <td colspan="3" class="hidden-xs"></td>          
-              <td class="hidden-xs text-center"><strong>Total $1.99</strong></td>
-              <td><a href="#" class="btn btn-success btn-block" data-toggle="modal" data-target="#checkout-confirmation">Checkout <i class="fa fa-angle-right"></i></a></td>
+              <td><a href="#" class="btn btn-outline-primary"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
+              <td colspan="3" class="hidden-xs"></td>
+              <td data-th="Subtotal" class="hidden-xs text-center"><strong>Total $1.99</strong></td>
+              <td><a href="userBillingPage.jsp" class="btn btn-warning" data-toggle="modal" data-target="#checkout-confirmation">Checkout <i class="fa fa-angle-right"></i></a></td>
             </tr>
           </tfoot>
         </table>
@@ -183,38 +205,8 @@
 <button onclick="topFunction()" id="myBtn" title="Go to top"><span class="fa fa-angle-double-up"></span></button>
 
 </div>
+
 <br>
-
-<!-- START of Modal -->
-<div class="modal fade" id="checkout-confirmation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xs modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-shopping-cart fa-4x" style="height: 70px; color: green;"></i>
-        </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-             <div class="col-md-10 justify-content-center">
-              <p class="p-title">Are you sure you want to checkout?</p>
-            </div>
-
-        </div>
-        
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-         <a type="button" class="btn btn-primary" href="userInvoicePage.jsp">Yes</a></button>
-      </div>
-    </div>
-  </div>
-</div> 
-
-<!--END of Modal -->
-
 
 <!-- Footer -->
 <footer class="page-footer font-small blue pt-4">
@@ -292,7 +284,7 @@
   <!-- Footer Links -->
 
   <!-- Copyright -->
-  <div class="footer-copyright text-center py-3">© 2019 Copyright:
+  <div class="footer-copyright text-center py-3">Â© 2019 Copyright:
     <a href="https://mdbootstrap.com/education/bootstrap/"> Roots.com</a>
   </div>
   <!-- Copyright -->
@@ -301,7 +293,31 @@
 <!-- Footer -->
 
 
+<!-- START of Modal -->
+<div class="modal fade" id="checkout-confirmation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xs modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-cart-plus fa-2x justify-content-center"></i>
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <p class="question text-center">Are you want to proceed with the check out?</p>
+            <br>
+            <p class="text-center">You have ( ) items in your cart</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <a href="userBillingPage.jsp" class="btn btn-warning">Proceed</a>
+      </div>
+    </div>
+  </div>
+</div> 
 
+<!--END of Modal -->
 
 <script>
   <!-- go to top -->
@@ -324,7 +340,7 @@ function topFunction() {
   document.body.scrollTop = 0; // For Safari
   document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 }
-</script>
 
+</script>
 </body>
 </html>

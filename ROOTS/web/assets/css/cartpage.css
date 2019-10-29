@@ -30,49 +30,56 @@ html, body
 }
 
 .navbar-brand {
-  font-size: 21px;
+	font-size: 21px;
 }
 
 
 .navbar-nav {
-  font-size: 17px;
+	font-size: 17px;
 } 
 
 .navbar {
-  background-color: hsl(180, 100%, 10%,10)!important;
+	background-color: hsl(180, 100%, 10%,10)!important;
 }
 
 .rightnav {
-  border-color: #b38600;
+	border-color: #b38600;
 }
 
 .dropdown-item li a:hover {
     background-color: red !important;
   }
 
-.cart-table {
-  
+
+@media screen and (max-width: 600px) {
+  .topnav a {
+    float: none;
+    width: 100%;
+  }
+}
+
+.cartTable {
   padding-top: 150px;
   padding-bottom: 50px;
 }
 
-.p-name {
+.table {
+  background-color: white;
+  padding-top: 100px;
+}
+
+.p-title {
   font-size: 22px;
 }
 
-.p-description {
-  font-size: 14px;
+.p-text {
+  font-size: 15px;
   color: grey;
 }
 
-.table {
-  background-color: white;
-}
-
-.thead {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  font-size: 17px;
+.question {
+  font-weight: 700;
+  font-size: 18px;
 }
 
 .table>tbody>tr>td, .table>tfoot>tr>td{
@@ -103,11 +110,17 @@ html, body
     display: inline-block; width: 8rem;
   }
   
+  
+  table#cart tbody td .btn-primary{display: block}
   table#cart tfoot td{display:block; }
   table#cart tfoot td .btn{display:block;}
   
 }
 
+
+.small {
+  color: grey;
+}
 
 .foot {
   padding-top: 30px;
@@ -137,4 +150,3 @@ html, body
 #myBtn:hover {
   background-color: #555; /* Add a dark-grey background on hover */
 }
-                                    

@@ -46,81 +46,67 @@ html, body
   border-color: #b38600;
 }
 
+.dropdown-item li a:hover {
+    background-color: red !important;
+  }
+
+.price-table {
+  padding: 20px;
+}
+
+.invoice {
+  padding-top: 150px;
+  padding-bottom: 50px;
+}
+
+.i-name {
+  font-size: 20px;
+}
+
+.p-description {
+  font-size: 14px;
+  color: grey;
+}
+
+.thead {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 17px;
 }
 
 .table>tbody>tr>td, .table>tfoot>tr>td{
     vertical-align: middle;
 }
-
-* {
-  box-sizing: border-box;
+@media screen and (max-width: 600px) {
+    table#cart tbody td .form-control{
+    width:20%;
+    display: inline !important;
+  }
+  .actions .btn{
+    width:36%;
+    margin:1.5em 0;
+  }
+  
+  .actions .btn-info{
+    float:left;
+  }
+  .actions .btn-danger{
+    float:right;
+  }
+  
+  table#cart thead { display: none; }
+  table#cart tbody td { display: block; padding: .6rem; min-width:200px;}
+  table#cart tbody tr td:first-child { background: #333; color: #fff; }
+  table#cart tbody td:before {
+    content: attr(data-th); font-weight: bold;
+    display: inline-block; width: 8rem;
+  }
+  
+  table#cart tfoot td{display:block; }
+  table#cart tfoot td .btn{display:block;}
+  
 }
 
-#regForm {
-  background-color: #ffffff;
-  margin: 100px auto;
-  padding: 60px;
-  width: 70%;
-  min-width: 300px;
-}
-
-h1 {
-  text-align: center;  
-}
-
-
-input {
-  padding: 10px;
-  width: 100%;
-  font-size: 15px;
-  border: 1px solid #ccccb3;
-}
-
-/* Mark input boxes that gets an error on validation: */
-input.invalid {
-  background-color: #ffdddd;
-}
-
-/* Hide all steps by default: */
-.tab {
-  display: none;
-}
-
-button {
-  color: #ffffff;
-  border: none;
-  font-size: 17px;
-  cursor: pointer;
-}
-
-button:hover {
-  opacity: 0.8;
-}
-
-#prevBtn {
-  background-color: #bbbbbb;
-}
-
-/* Make circles that indicate the steps of the form: */
-.step {
-  height: 15px;
-  width: 15px;
-  margin: 0 2px;
-  background-color: #bbbbbb;
-  border: none;  
-  border-radius: 50%;
-  display: inline-block;
-  opacity: 0.5;
-}
-
-.step.active {
-  opacity: 1;
-}
-
-/* Mark the steps that are finished and valid: */
-.step.finish {
-  background-color: #4CAF50;
-}
 
 .foot {
   padding-top: 30px;
@@ -150,4 +136,3 @@ button:hover {
 #myBtn:hover {
   background-color: #555; /* Add a dark-grey background on hover */
 }
-                                    
