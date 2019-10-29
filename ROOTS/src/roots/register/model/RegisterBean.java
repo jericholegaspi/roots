@@ -40,14 +40,6 @@ public class RegisterBean {
 	//dates
 	private java.sql.Date dateOfBirth;	
 	
-	//address
-	private String houseNumber; //nullable
-	private String street; //nullable
-	private String city; //nullable
-	private String province; //nullable
-	private String postalCode;//nullable
-	
-	
 	//Email Activation
 	
 
@@ -141,38 +133,6 @@ public class RegisterBean {
 	public void setDateOfBirth(java.sql.Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
-	
-	public String getHouseNumber() {
-		return houseNumber;
-	}
-
-	public void setHouseNumber(String houseNumber) {
-		this.houseNumber = houseNumber;
-	}
-
-	public String getStreet() {
-		return street;
-	}
-
-	public void setStreet(String street) {
-		this.street = street;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public String getProvince() {
-		return province;
-	}
-
-	public void setProvince(String province) {
-		this.province = province;
-	}
 
 	public double getTelephone() {
 		return telephone;
@@ -180,14 +140,6 @@ public class RegisterBean {
 
 	public void setTelephone(double telephone) {
 		this.telephone = telephone;
-	}
-
-	public String getPostalCode() {
-		return postalCode;
-	}
-
-	public void setPostalCode(String postalCode) {
-		this.postalCode = postalCode;
 	}
 	
 	
@@ -198,7 +150,7 @@ public class RegisterBean {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			connection = DriverManager.getConnection(
-				"jdbc:mysql://localhost:3306/isproj2_roots", 
+				"jdbc:mysql://localhost/isproj2_roots", 
 				"root", "");
 		} catch (ClassNotFoundException cfne) {
 			System.err.println(cfne.getMessage());

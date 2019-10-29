@@ -36,7 +36,7 @@
     
 <%
 String driverName = "com.mysql.jdbc.Driver";
-String connectionUrl = "jdbc:mysql://localhost:3306/";
+String connectionUrl = "jdbc:mysql://localhost/";
 String dbName = "isproj2_roots";
 String userId = "root";
 String password = "";

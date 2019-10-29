@@ -101,7 +101,7 @@ public class AdminBean {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			connection = DriverManager.getConnection(
-				"jdbc:mysql://localhost:3306/isproj2_roots", 
+				"jdbc:mysql://localhost/isproj2_roots", 
 				"root", "");
 		} catch (ClassNotFoundException cfne) {
 			System.err.println(cfne.getMessage());

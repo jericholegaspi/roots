@@ -21,7 +21,7 @@
 
 <%
 String driverName = "com.mysql.jdbc.Driver";
-String connectionUrl = "jdbc:mysql://localhost:3306/";
+String connectionUrl = "jdbc:mysql://localhost/";
 String dbName = "isproj2_roots";
 String userId = "root";
 String password = "";
@@ -159,7 +159,7 @@ e.printStackTrace();
 
   <br><br><h5>Billing Address</h5><br>
   
-  	<div class="form-row">
+<!--   	<div class="form-row">
       <div class="col">
         <label for="snumber">Street Number</label>
           <input id="houseNumber" placeholder="Enter your street number" oninput="this.className = ''" name="snumber"></p>
@@ -195,16 +195,35 @@ e.printStackTrace();
     <div class="btn-group float-right">
     	<a href="cart_page.html" class="btn btn-outline-secondary float-right btn-sm"><i class="far fa-edit"></i></a>
     	<a href="cart_page.html" class="btn btn-outline-danger float-right btn-sm"><i class="fas fa-trash-alt"></i></a>
-     </div> 
+     </div>  -->
      
      
-      <br><br><br>
+      <br>
 	<button class="btn btn-outline-primary" onclick="homeAddressSwitch()" id="HomeAdddBtn" type="button" data-toggle="collapse" data-target="#homeAddress" aria-expanded="false" aria-controls="collapseExample">
 		<i class="fas fa-plus-circle"></i> Home Address
 	</button>
-
+	<!-- Start Collapsible Home Address -->
 	<div class="collapse" id="homeAddress">
-      <br>
+	<br>
+	<div class="form-row">
+		<div class="col">
+        <label for="snumber">Current Address</label>
+        <input id="currentAddress" class="form-control" type="text" placeholder="Enter your current home address" readonly></p>
+      </div>
+	</div>
+
+	
+	<div class="btn-group btn-group-toggle float-right" data-toggle="buttons" role="group">
+		<!-- Call addHomeAddress -->
+		<a class="btn btn-outline-success float-right btn-sm" role="tab" data-toggle="collapse" data-target="#addHomeAddress"><i class="fas fa-plus"></i></a>
+		<!-- Call ediHomeAddress -->
+    	<a class="btn btn-outline-warning float-right btn-sm" data-toggle="collapse" data-target="#editHomeAddress"><i class="fas fa-edit"></i></a>
+    	<a href="cart_page.html" class="btn btn-outline-danger float-right btn-sm"><i class="fas fa-trash-alt"></i></a>
+     </div>
+      <br><br>
+      
+      <!-- start of addHomeAddress -->
+      <div class="collapse" id="addHomeAddress">
      <div class="form-row">
       <div class="col">
         <label for="snumber">Street Number</label>
@@ -237,54 +256,157 @@ e.printStackTrace();
           <input id="postalCode" placeholder="Enter your postal code" oninput="this.className = ''" name="sname"></p>
     	</div>
     </div>
-    <a href="cart_page.html" class="btn btn-outline-secondary float-right btn-sm"><i class="fas fa-plus"></i> <i class="far fa-address-card"></i></a>
-    </div>		  
-		  
-	<br><br>
-	<button class="btn btn-primary" onclick="switchAddress()" id="WorkAddBtn" type="button" data-toggle="collapse" data-target="#workAddress" aria-expanded="false" aria-controls="collapseExample">
-		<i class="fas fa-plus-circle"></i> Work Address
-	</button>
-		  
-
-
+    <a href="cart_page.html" class="btn btn-success float-right btn-sm"><i class="fas fa-save"></i> Save</a>
+    </div>
     
-    <div class="collapse" id="workAddress">
-      <br>
+    <br><br>
+    <!-- End of addHomeAddress -->	
+      
+      <!-- start of editHomeAddress -->
+      <div class="collapse" id="editHomeAddress">
      <div class="form-row">
       <div class="col">
         <label for="snumber">Street Number</label>
-          <input placeholder="Enter your street number" oninput="this.className = ''" name="snumber"></p>
+          <input id="houseNumber" placeholder="Enter your street number" oninput="this.className = ''" name="snumber"></p>
       </div>
       <div class="col">
         <label for="sname">Street Name</label>
-          <input placeholder="Enter your street name" oninput="this.className = ''" name="sname"></p>
+          <input id="street" placeholder="Enter your street name" oninput="this.className = ''" name="sname"></p>
       </div>
       <div class="col">
         <label for="sname">Barangay/Subdivision</label>
-          <input placeholder="Enter your barangay/subdivision" oninput="this.className = ''" name="sname"></p>
+          <input id="barangay" placeholder="Enter your barangay/subdivision" oninput="this.className = ''" name="sname"></p>
       </div>
     </div>
     <div class="form-row">
     	<div class="col">
     	<label for="sname">City</label>
-    		<select class="form-control">
+    		<select id="city" class="form-control">
 			  <option>Manila</option>
 			</select>
     	</div>
     	<div class="col">
     	<label for="sname">Province</label>
-    		<select class="form-control">
+    		<select id="province" class="form-control">
 			  <option>Cavite</option>
 			</select>
     	</div>
     	<div class="col">
     		 <label for="sname">Postal Code</label>
-          <input placeholder="Enter your postal code" oninput="this.className = ''" name="sname"></p>
+          <input id="postalCode" placeholder="Enter your postal code" oninput="this.className = ''" name="sname"></p>
     	</div>
     </div>
-    <a href="cart_page.html" class="btn btn-outline-secondary float-right btn-sm"><i class="fas fa-plus"></i> <i class="far fa-address-card"></i></a>
-    <br><br>
+     <a href="cart_page.html" class="btn btn-success float-right btn-sm"><i class="fas fa-save"></i> Update</a>
     </div>
+    
+    <!-- End of editHomeAddress -->	
+    </div>
+    <!-- End of Collapsible Home Address -->	  
+		  
+	<br><br>
+	<button class="btn btn-primary" onclick="switchAddress()" id="WorkAddBtn" type="button" data-toggle="collapse" data-target="#workAddress" aria-expanded="false" aria-controls="collapseExample">
+		<i class="fas fa-plus-circle"></i> Work Address
+	</button>
+	
+    <div class="collapse" id="workAddress">
+    <br>
+      <div class="form-row">
+		<div class="col">
+        <label for="snumber">Current Address</label>
+        <input id="currentAddress" class="form-control" type="text" placeholder="Enter your current work address" readonly></p>
+      </div>
+	</div>
+
+	
+	<div class="btn-group btn-group-toggle float-right" data-toggle="buttons" role="group">
+		<!-- Call addWorkAddress -->
+		<a class="btn btn-outline-success float-right btn-sm" role="tab" data-toggle="collapse" data-target="#addWorkAddress"><i class="fas fa-plus"></i></a>
+		<!-- Call editWorkAddress -->
+    	<a class="btn btn-outline-warning float-right btn-sm" data-toggle="collapse" data-target="#editWorkAddress"><i class="fas fa-edit"></i></a>
+    	<a href="cart_page.html" class="btn btn-outline-danger float-right btn-sm"><i class="fas fa-trash-alt"></i></a>
+     </div>
+      <br><br>
+      
+      <!-- start of addWorkAddress -->
+      <div class="collapse" id="addWorkAddress">
+     <div class="form-row">
+      <div class="col">
+        <label for="snumber">Street Number</label>
+          <input id="houseNumber" placeholder="Enter your street number" oninput="this.className = ''" name="snumber"></p>
+      </div>
+      <div class="col">
+        <label for="sname">Street Name</label>
+          <input id="street" placeholder="Enter your street name" oninput="this.className = ''" name="sname"></p>
+      </div>
+      <div class="col">
+        <label for="sname">Barangay/Subdivision</label>
+          <input id="barangay" placeholder="Enter your barangay/subdivision" oninput="this.className = ''" name="sname"></p>
+      </div>
+    </div>
+    <div class="form-row">
+    	<div class="col">
+    	<label for="sname">City</label>
+    		<select id="city" class="form-control">
+			  <option>Manila</option>
+			</select>
+    	</div>
+    	<div class="col">
+    	<label for="sname">Province</label>
+    		<select id="province" class="form-control">
+			  <option>Cavite</option>
+			</select>
+    	</div>
+    	<div class="col">
+    		 <label for="sname">Postal Code</label>
+          <input id="postalCode" placeholder="Enter your postal code" oninput="this.className = ''" name="sname"></p>
+    	</div>
+    </div>
+    <a href="cart_page.html" class="btn btn-success float-right btn-sm"><i class="fas fa-save"></i> Save</a>
+    </div>
+    
+    <br><br>
+    <!-- End of addWorkAddress -->	
+      
+      <!-- start of editWorkAddress -->
+      <div class="collapse" id="editWorkAddress">
+     <div class="form-row">
+      <div class="col">
+        <label for="snumber">Street Number</label>
+          <input id="houseNumber" placeholder="Enter your street number" oninput="this.className = ''" name="snumber"></p>
+      </div>
+      <div class="col">
+        <label for="sname">Street Name</label>
+          <input id="street" placeholder="Enter your street name" oninput="this.className = ''" name="sname"></p>
+      </div>
+      <div class="col">
+        <label for="sname">Barangay/Subdivision</label>
+          <input id="barangay" placeholder="Enter your barangay/subdivision" oninput="this.className = ''" name="sname"></p>
+      </div>
+    </div>
+    <div class="form-row">
+    	<div class="col">
+    	<label for="sname">City</label>
+    		<select id="city" class="form-control">
+			  <option>Manila</option>
+			</select>
+    	</div>
+    	<div class="col">
+    	<label for="sname">Province</label>
+    		<select id="province" class="form-control">
+			  <option>Cavite</option>
+			</select>
+    	</div>
+    	<div class="col">
+    		 <label for="sname">Postal Code</label>
+          <input id="postalCode" placeholder="Enter your postal code" oninput="this.className = ''" name="sname"></p>
+    	</div>
+    </div>
+     <a href="cart_page.html" class="btn btn-success float-right btn-sm"><i class="fas fa-save"></i> Update</a>
+    </div>
+    
+    <!-- End of editWorkAddress -->	
+    </div>
+    <br><br>
   </div>
  
 

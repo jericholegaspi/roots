@@ -29,7 +29,7 @@ if((request.getSession(false).getAttribute("email")== null) )
 
 <%
 String driverName = "com.mysql.jdbc.Driver";
-String connectionUrl = "jdbc:mysql://localhost:3306/";
+String connectionUrl = "jdbc:mysql://localhost/";
 String dbName = "roots";
 String userId = "root";
 String password = "";
