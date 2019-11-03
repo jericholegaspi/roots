@@ -83,7 +83,7 @@ if((request.getSession(false).getAttribute("email")== null) )
       </div>
     </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
+    <div class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit"><span class="fa fa-search"></span></button>
 
@@ -104,7 +104,7 @@ if((request.getSession(false).getAttribute("email")== null) )
       </li>
     </ul>
            
-    </form>    
+    </div>    
   </div>
 </nav> 
 </div>
@@ -115,25 +115,21 @@ if((request.getSession(false).getAttribute("email")== null) )
 try {
 connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
 statement = connection.createStatement();
-String sql = "SELECT * FROM users where userId = " + session.getAttribute("uid");
+String sql = "SELECT * FROM users where userID = " + session.getAttribute("uid");
 
 resultSet = statement.executeQuery(sql);
 while (resultSet.next()) {
 %>  
-
-<form id="regForm">
+<!-- change to div -->
+<div id="regForm">
   <!-- One "tab" for each step in the form: -->
   
 
   <div class="tab"><h5>Contact Information</h5><br>
     <div class="form-row">
       <div class="col">
-        <label for="fname">First Name</label>
-         <input name="firstName" type="text" disabled class="form-control" value="<%= resultSet.getString("firstName") %>"></p>
-      </div>
-      <div class="col">
-        <label for="lname">Last Name</label>
-         <input name="lastName" type="text" disabled class="form-control" value="<%= resultSet.getString("lastName") %>"></p>
+        <label for="fname">Full Name</label>
+         <input name="firstName" type="text" disabled class="form-control" value="<%= resultSet.getString("firstName") %> <%= resultSet.getString("middleName") %> <%= resultSet.getString("lastName") %>"></p>
       </div>
     </div>
       <label for="email">Email Address</label>
@@ -158,46 +154,9 @@ e.printStackTrace();
 %>
 
   <br><br><h5>Billing Address</h5><br>
+  <input type="hidden" name="userId" value="<%= session.getAttribute("uid") %>">
   
-<!--   	<div class="form-row">
-      <div class="col">
-        <label for="snumber">Street Number</label>
-          <input id="houseNumber" placeholder="Enter your street number" oninput="this.className = ''" name="snumber"></p>
-      </div>
-      <div class="col">
-        <label for="sname">Street Name</label>
-          <input id="street" placeholder="Enter your street name" oninput="this.className = ''" name="sname"></p>
-      </div>
-      <div class="col">
-        <label for="sname">Barangay/Subdivision</label>
-          <input id="barangay" placeholder="Enter your barangay/subdivision" oninput="this.className = ''" name="sname"></p>
-      </div>
-    </div>
-    <div class="form-row">
-    	<div class="col">
-    	<label for="sname">City</label>
-    		<select id="city" class="form-control">
-			  <option>Manila</option>
-			</select>
-    	</div>
-    	<div class="col">
-    	<label for="sname">Province</label>
-    		<select id="province" class="form-control">
-			  <option>Cavite</option>
-			</select>
-    	</div>
-    	<div class="col">
-    		 <label for="sname">Postal Code</label>
-          <input id="postalCode" placeholder="Enter your postal code" oninput="this.className = ''" name="sname"></p>
-    	</div>
-    </div>
-    
-    <div class="btn-group float-right">
-    	<a href="cart_page.html" class="btn btn-outline-secondary float-right btn-sm"><i class="far fa-edit"></i></a>
-    	<a href="cart_page.html" class="btn btn-outline-danger float-right btn-sm"><i class="fas fa-trash-alt"></i></a>
-     </div>  -->
-     
-     
+          
       <br>
 	<button class="btn btn-outline-primary" onclick="homeAddressSwitch()" id="HomeAdddBtn" type="button" data-toggle="collapse" data-target="#homeAddress" aria-expanded="false" aria-controls="collapseExample">
 		<i class="fas fa-plus-circle"></i> Home Address
@@ -207,104 +166,176 @@ e.printStackTrace();
 	<br>
 	<div class="form-row">
 		<div class="col">
-        <label for="snumber">Current Address</label>
-        <input id="currentAddress" class="form-control" type="text" placeholder="Enter your current home address" readonly></p>
+        <label for="snumber">Current Home Address</label>
+       
+<%
+try {
+connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+statement = connection.createStatement();
+String sql = "SELECT deliveryAddressID, houseNumber, street, barangay, city, province FROM deliveryaddress WHERE userID = " + session.getAttribute("uid") + " AND addressType = 'home'";
+
+resultSet = statement.executeQuery(sql);
+if (resultSet.next() == false) {
+%>  
+        <input id="currentAddress" class="form-control" type="text" value="No Home Address Record" readonly></p>
+        <div class="btn-group btn-group-toggle float-right" data-toggle="buttons" role="group">
+        
+        <!-- Add Button -->
+        <a class="btn btn-outline-success float-right btn-sm" role="tab" data-toggle="collapse" data-target="#addHomeAddress"><i class="fas fa-plus"></i></a>
+  		</div>     
+<%
+}
+else{
+		do{
+%>
+		<input id="currentAddress" class="form-control" type="text" value="<%= resultSet.getString("houseNumber") %> <%= resultSet.getString("street") %> <%= resultSet.getString("barangay") %> <%= resultSet.getString("city") %> <%= resultSet.getString("province") %> " readonly></p>
+		<div class="btn-group btn-group-toggle float-right" data-toggle="buttons" role="group">
+		
+		<!-- Edit Button -->
+		<a class="btn btn-outline-warning float-right btn-sm" data-toggle="collapse" data-target="#editHomeAddress"><i class="fas fa-edit"></i></a>
+    	<!-- Delete Button -->
+    	<button class="btn btn-outline-danger float-right btn-sm" data-toggle="modal" data-target="#delete-confirmation"><i class="fas fa-trash-alt"></i></button>
+		</div>
+<%		
+		} while (resultSet.next());
+	}
+} catch (Exception e) {
+e.printStackTrace();
+}
+%>
+
       </div>
 	</div>
 
 	
-	<div class="btn-group btn-group-toggle float-right" data-toggle="buttons" role="group">
-		<!-- Call addHomeAddress -->
+<!-- 	<div class="btn-group btn-group-toggle float-right" data-toggle="buttons" role="group">
+		Add Button
 		<a class="btn btn-outline-success float-right btn-sm" role="tab" data-toggle="collapse" data-target="#addHomeAddress"><i class="fas fa-plus"></i></a>
-		<!-- Call ediHomeAddress -->
+		Edit Button
     	<a class="btn btn-outline-warning float-right btn-sm" data-toggle="collapse" data-target="#editHomeAddress"><i class="fas fa-edit"></i></a>
+    	Delete Button
     	<a href="cart_page.html" class="btn btn-outline-danger float-right btn-sm" data-toggle="modal" data-target="#delete-confirmation"><i class="fas fa-trash-alt"></i></a>
-     </div>
+     </div> -->
       <br><br>
       
       <!-- start of addHomeAddress -->
+      <form action="addHome.action" name="myForm" method="post">
       <div class="collapse" id="addHomeAddress">
      <div class="form-row">
       <div class="col">
-        <label for="snumber">Street Number</label>
-          <input id="houseNumber" placeholder="Enter your street number" oninput="this.className = ''" name="snumber"></p>
+        <label for="snumber">House Number</label>
+          <input name="houseNumber" class="form-control" placeholder="Enter your house number" oninput="this.className = ''"></p>
       </div>
       <div class="col">
         <label for="sname">Street Name</label>
-          <input id="street" placeholder="Enter your street name" oninput="this.className = ''" name="sname"></p>
+          <input name="street" class="form-control" placeholder="Enter your street name" oninput="this.className = ''"></p>
       </div>
       <div class="col">
         <label for="sname">Barangay/Subdivision</label>
-          <input id="barangay" placeholder="Enter your barangay/subdivision" oninput="this.className = ''" name="sname"></p>
+          <input name="barangay" class="form-control" placeholder="Enter your barangay/subdivision" oninput="this.className = ''"></p>
       </div>
     </div>
     <div class="form-row">
     	<div class="col">
     	<label for="sname">City</label>
-    		<select id="city" class="form-control">
-			  <option>Manila</option>
-			</select>
+            <input name="city" class="form-control" placeholder="Enter your city"oninput="this.className = ''"></p>
     	</div>
     	<div class="col">
     	<label for="sname">Province</label>
-    		<select id="province" class="form-control">
-			  <option>Cavite</option>
+    		<select name="province" class="form-control">
+			  <option value="Metro Manila">Metro Manila</option>
+			  <option value="Batangas">Batangas</option>
+			  <option value="Bulacan">Bulacan</option>
+			  <option value="Cavite">Cavite</option>
+			  <option value="Laguna">Laguna</option>
+			  <option value="Pampanga">Pampanga</option>
+			  <option value="Rizal">Rizal</option>
 			</select>
     	</div>
     	<div class="col">
     		 <label for="sname">Postal Code</label>
-          <input id="postalCode" placeholder="Enter your postal code" oninput="this.className = ''" name="sname"></p>
+          <input name="postalCode" class="form-control" placeholder="Enter your postal code" oninput="this.className = ''"></p>
     	</div>
     </div>
-    <a href="cart_page.html" class="btn btn-success float-right btn-sm"><i class="fas fa-save"></i> Save</a>
+    	<button class="btn btn-success float-right btn-sm" value="Add Home Address"><i class="fas fa-save"></i> Save</button>
     </div>
-    
-    <br><br>
+
+    <br>
+    <input type="hidden" name="userID" value="<%= session.getAttribute("uid") %>">
+    </form>
     <!-- End of addHomeAddress -->	
+
+<%
+try {
+connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+statement = connection.createStatement();
+String sql = "SELECT deliveryAddressID, houseNumber, street, barangay, city, province, postalCode FROM deliveryaddress WHERE userID = " + session.getAttribute("uid") + " AND addressType = 'home'";
+
+resultSet = statement.executeQuery(sql);
+while (resultSet.next())
+{
+%>
       
-      <!-- start of editHomeAddress -->
+    <!-- start of editHomeAddress -->
+     <form action="updateHome.action" name="myForm" method="post">
       <div class="collapse" id="editHomeAddress">
      <div class="form-row">
       <div class="col">
-        <label for="snumber">Street Number</label>
-          <input id="houseNumber" placeholder="Enter your street number" oninput="this.className = ''" name="snumber"></p>
+        <label for="snumber">House Number</label>
+          <input name="houseNumber" class="form-control" value="<%= resultSet.getString("houseNumber") %>" oninput="this.className = ''"></p>
       </div>
       <div class="col">
         <label for="sname">Street Name</label>
-          <input id="street" placeholder="Enter your street name" oninput="this.className = ''" name="sname"></p>
+          <input name="street" class="form-control" value="<%= resultSet.getString("street") %>" oninput="this.className = ''"></p>
       </div>
       <div class="col">
         <label for="sname">Barangay/Subdivision</label>
-          <input id="barangay" placeholder="Enter your barangay/subdivision" oninput="this.className = ''" name="sname"></p>
+          <input name="barangay" class="form-control" value="<%= resultSet.getString("barangay") %>" oninput="this.className = ''"></p>
       </div>
     </div>
     <div class="form-row">
     	<div class="col">
     	<label for="sname">City</label>
-    		<select id="city" class="form-control">
-			  <option>Manila</option>
-			</select>
+            <input name="city" class="form-control" value="<%= resultSet.getString("city") %>" oninput="this.className = ''"></p>
     	</div>
     	<div class="col">
     	<label for="sname">Province</label>
-    		<select id="province" class="form-control">
-			  <option>Cavite</option>
+    		<select name="province" class="form-control">
+			  <option value="<%= resultSet.getString("province") %>" selected="selected">Current: <%= resultSet.getString("province") %></option>
+			  <option value="Metro Manila">Metro Manila</option>
+			  <option value="Batangas">Batangas</option>
+			  <option value="Bulacan">Bulacan</option>
+			  <option value="Cavite">Cavite</option>
+			  <option value="Laguna">Laguna</option>
+			  <option value="Pampanga">Pampanga</option>
+			  <option value="Rizal">Rizal</option>
 			</select>
     	</div>
     	<div class="col">
     		 <label for="sname">Postal Code</label>
-          <input id="postalCode" placeholder="Enter your postal code" oninput="this.className = ''" name="sname"></p>
+          <input name="postalCode" class="form-control" value="<%= resultSet.getString("postalCode") %>" oninput="this.className = ''"></p>
     	</div>
     </div>
-     <a href="cart_page.html" class="btn btn-success float-right btn-sm"><i class="fas fa-save"></i> Update</a>
-    </div>
+    <button class="btn btn-success float-right btn-sm" value="Add Home Address"><i class="fas fa-save"></i> Update</button>
+    <input type="hidden" name="userID" value="<%= session.getAttribute("uid") %>">
+    <input type="hidden" name="deliveryAddressID" value="<%= resultSet.getString("deliveryAddressID") %>">
     
+    </div>
+    </form>
+<%
+}
+} catch (Exception e) {
+e.printStackTrace();
+}
+%>
     <!-- End of editHomeAddress -->	
     </div>
+  
     <!-- End of Collapsible Home Address -->	  
 		  
+	
 	<br><br>
-	<button class="btn btn-primary" onclick="switchAddress()" id="WorkAddBtn" type="button" data-toggle="collapse" data-target="#workAddress" aria-expanded="false" aria-controls="collapseExample">
+	<button class="btn btn-primary" onclick="workAddressSwitch()" id="WorkAddBtn" type="button" data-toggle="collapse" data-target="#workAddress" aria-expanded="false" aria-controls="collapseExample">
 		<i class="fas fa-plus-circle"></i> Work Address
 	</button>
 	
@@ -312,98 +343,154 @@ e.printStackTrace();
     <br>
       <div class="form-row">
 		<div class="col">
-        <label for="snumber">Current Address</label>
-        <input id="currentAddress" class="form-control" type="text" placeholder="Enter your current work address" readonly></p>
-      </div>
-	</div>
+        <label for="snumber">Current Work Address</label>
+<%
+try {
+connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+statement = connection.createStatement();
+String sql = "SELECT deliveryAddressID, houseNumber, street, barangay, city, province FROM deliveryaddress WHERE userID = " + session.getAttribute("uid") + " AND addressType = 'work'";
 
+resultSet = statement.executeQuery(sql);
+if (resultSet.next() == false) {
+%>  
+        <input id="currentAddress" class="form-control" type="text" placeholder="No Home Address Record" readonly></p>
+        <div class="btn-group btn-group-toggle float-right" data-toggle="buttons" role="group">
+      	<!-- Call addWorkAddress -->
+      		<a class="btn btn-outline-success float-right btn-sm" role="tab" data-toggle="collapse" data-target="#addWorkAddress"><i class="fas fa-plus"></i></a>
+	</div>
 	
+<%
+}
+else{
+		do{
+%>
+
+	<input id="currentAddress" class="form-control" type="text" value="<%= resultSet.getString("houseNumber") %> <%= resultSet.getString("street") %> <%= resultSet.getString("barangay") %> <%= resultSet.getString("city") %> <%= resultSet.getString("province") %> " readonly></p>
 	<div class="btn-group btn-group-toggle float-right" data-toggle="buttons" role="group">
-		<!-- Call addWorkAddress -->
-		<a class="btn btn-outline-success float-right btn-sm" role="tab" data-toggle="collapse" data-target="#addWorkAddress"><i class="fas fa-plus"></i></a>
 		<!-- Call editWorkAddress -->
     	<a class="btn btn-outline-warning float-right btn-sm" data-toggle="collapse" data-target="#editWorkAddress"><i class="fas fa-edit"></i></a>
-    	<a href="cart_page.html" class="btn btn-outline-danger float-right btn-sm" data-toggle="modal" data-target="#delete-confirmation"><i class="fas fa-trash-alt"></i></a>
+    	<!-- Call deleteWorkAddress -->
+    	<button class="btn btn-outline-danger float-right btn-sm" data-toggle="modal" data-target="#delete-confirmation"><i class="fas fa-trash-alt"></i></button>
      </div>
+<%		
+		} while (resultSet.next());
+	}
+} catch (Exception e) {
+e.printStackTrace();
+}
+%>
       <br><br>
       
       <!-- start of addWorkAddress -->
-      <div class="collapse" id="addWorkAddress">
+      <form action="addWork.action" name="myForm" method="post">
+      <div class="collapse" id="addHomeAddress">
      <div class="form-row">
       <div class="col">
-        <label for="snumber">Street Number</label>
-          <input id="houseNumber" placeholder="Enter your street number" oninput="this.className = ''" name="snumber"></p>
+        <label for="snumber">House Number</label>
+          <input name="houseNumber" class="form-control" placeholder="Enter your house number" oninput="this.className = ''"></p>
       </div>
       <div class="col">
         <label for="sname">Street Name</label>
-          <input id="street" placeholder="Enter your street name" oninput="this.className = ''" name="sname"></p>
+          <input name="street" class="form-control" placeholder="Enter your street name" oninput="this.className = ''"></p>
       </div>
       <div class="col">
         <label for="sname">Barangay/Subdivision</label>
-          <input id="barangay" placeholder="Enter your barangay/subdivision" oninput="this.className = ''" name="sname"></p>
+          <input name="barangay" class="form-control" placeholder="Enter your barangay/subdivision" oninput="this.className = ''"></p>
       </div>
     </div>
     <div class="form-row">
     	<div class="col">
     	<label for="sname">City</label>
-    		<select id="city" class="form-control">
-			  <option>Manila</option>
-			</select>
+            <input name="city" class="form-control" placeholder="Enter your city"oninput="this.className = ''"></p>
     	</div>
     	<div class="col">
     	<label for="sname">Province</label>
-    		<select id="province" class="form-control">
-			  <option>Cavite</option>
+    		<select name="province" class="form-control">
+			  <option value="Metro Manila">Metro Manila</option>
+			  <option value="Batangas">Batangas</option>
+			  <option value="Bulacan">Bulacan</option>
+			  <option value="Cavite">Cavite</option>
+			  <option value="Laguna">Laguna</option>
+			  <option value="Pampanga">Pampanga</option>
+			  <option value="Rizal">Rizal</option>
 			</select>
     	</div>
     	<div class="col">
     		 <label for="sname">Postal Code</label>
-          <input id="postalCode" placeholder="Enter your postal code" oninput="this.className = ''" name="sname"></p>
+          <input name="postalCode" class="form-control" placeholder="Enter your postal code" oninput="this.className = ''"></p>
     	</div>
     </div>
-    <a href="cart_page.html" class="btn btn-success float-right btn-sm"><i class="fas fa-save"></i> Save</a>
+    	<button class="btn btn-success float-right btn-sm" value="Add Home Address"><i class="fas fa-save"></i> Save</button>
     </div>
-    
-    <br><br>
+
+    <br>
+    <input type="hidden" name="userID" value="<%= session.getAttribute("uid") %>">
+    </form>
     <!-- End of addWorkAddress -->	
-      
+  
+<%
+try {
+connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+statement = connection.createStatement();
+String sql = "SELECT deliveryAddressID, houseNumber, street, barangay, city, province, postalCode FROM deliveryaddress WHERE userID = " + session.getAttribute("uid") + " AND addressType = 'work'";
+
+resultSet = statement.executeQuery(sql);
+while (resultSet.next())
+{
+%>  
+  
       <!-- start of editWorkAddress -->
+     <form action="updateWork.action" name="myForm" method="post">
       <div class="collapse" id="editWorkAddress">
      <div class="form-row">
       <div class="col">
-        <label for="snumber">Street Number</label>
-          <input id="houseNumber" placeholder="Enter your street number" oninput="this.className = ''" name="snumber"></p>
+        <label for="snumber">House Number</label>
+          <input name="houseNumber" class="form-control" value="<%= resultSet.getString("houseNumber") %>" oninput="this.className = ''"></p>
       </div>
       <div class="col">
         <label for="sname">Street Name</label>
-          <input id="street" placeholder="Enter your street name" oninput="this.className = ''" name="sname"></p>
+          <input name="street" class="form-control" value="<%= resultSet.getString("street") %>" oninput="this.className = ''"></p>
       </div>
       <div class="col">
         <label for="sname">Barangay/Subdivision</label>
-          <input id="barangay" placeholder="Enter your barangay/subdivision" oninput="this.className = ''" name="sname"></p>
+          <input name="barangay" class="form-control" value="<%= resultSet.getString("barangay") %>" oninput="this.className = ''"></p>
       </div>
     </div>
     <div class="form-row">
     	<div class="col">
     	<label for="sname">City</label>
-    		<select id="city" class="form-control">
-			  <option>Manila</option>
-			</select>
+            <input name="city" class="form-control" value="<%= resultSet.getString("city") %>" oninput="this.className = ''"></p>
     	</div>
     	<div class="col">
     	<label for="sname">Province</label>
-    		<select id="province" class="form-control">
-			  <option>Cavite</option>
+    		<select name="province" class="form-control">
+			  <option value="<%= resultSet.getString("province") %>" selected="selected">Current: <%= resultSet.getString("province") %></option>
+			  <option value="Metro Manila">Metro Manila</option>
+			  <option value="Batangas">Batangas</option>
+			  <option value="Bulacan">Bulacan</option>
+			  <option value="Cavite">Cavite</option>
+			  <option value="Laguna">Laguna</option>
+			  <option value="Pampanga">Pampanga</option>
+			  <option value="Rizal">Rizal</option>
 			</select>
     	</div>
     	<div class="col">
     		 <label for="sname">Postal Code</label>
-          <input id="postalCode" placeholder="Enter your postal code" oninput="this.className = ''" name="sname"></p>
+          <input name="postalCode" class="form-control" value="<%= resultSet.getString("postalCode") %>" oninput="this.className = ''"></p>
     	</div>
     </div>
-     <a href="cart_page.html" class="btn btn-success float-right btn-sm"><i class="fas fa-save"></i> Update</a>
-    </div>
+    <button class="btn btn-success float-right btn-sm" value="Add Home Address"><i class="fas fa-save"></i> Update</button>
+    <input type="hidden" name="userID" value="<%= session.getAttribute("uid") %>">
+    <input type="hidden" name="deliveryAddressID" value="<%= resultSet.getString("deliveryAddressID") %>">
     
+    </div>
+    </form>
+<%
+}
+} catch (Exception e) {
+e.printStackTrace();
+}
+%>
     <!-- End of editWorkAddress -->	
     </div>
     <br><br>
@@ -497,7 +584,7 @@ e.printStackTrace();
     <span class="step"></span>
     <span class="step"></span>
   </div>
-</form>
+</div>
 
 </div>
 
@@ -590,7 +677,7 @@ e.printStackTrace();
 </footer>
 <!-- Footer -->
 
-<!-- START of Modal -->
+<!-- START of Delete Modal -->
 <div class="modal fade" id="delete-confirmation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xs modal-dialog-centered" role="document">
     <div class="modal-content text-center">
@@ -607,7 +694,13 @@ e.printStackTrace();
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
-        <a href="userBillingPage.jsp" class="btn btn-primary">Proceed</a>
+        
+        <form action="deleteHome.action" name="myForm" method="post">
+        <button class="btn btn-primary">Proceed</button>
+    	<input type="hidden" name="userID" value="<%= session.getAttribute("uid") %>">
+        </form>
+ 
+
       </div>
     </div>
   </div>
@@ -649,7 +742,7 @@ function showTab(n) {
   //... and fix the Previous/Next buttons:
   if (n == 0) {
     document.getElementById("prevBtn").style.display = "none";
-
+   // document.getElementById("nextBtn").href = "";
   } else {
     document.getElementById("prevBtn").style.display = "inline";
   }
@@ -683,7 +776,7 @@ function nextPrev(n) {
   showTab(currentTab);
 }
 
-function validateForm() {
+/* function validateForm() {
   // This function deals with validation of the form fields
   var x, y, i, valid = true;
   x = document.getElementsByClassName("tab");
@@ -703,7 +796,7 @@ function validateForm() {
     document.getElementsByClassName("step")[currentTab].className += " finish";
   }
   return valid; // return the valid status
-}
+} */
 
 function fixStepIndicator(n) {
   // This function removes the "active" class of all steps...
@@ -716,6 +809,13 @@ function fixStepIndicator(n) {
 }
 
 function homeAddressSwitch() {	
+
+	
+	
+}
+
+function workAddressSwitch() {
+	
 	
 }
 

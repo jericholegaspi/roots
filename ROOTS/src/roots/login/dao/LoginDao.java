@@ -84,7 +84,7 @@ public String authenticateAdmin(RegisterBean loginBean)
 	 {
 	 con = getDBConnection();
 	 statement = con.createStatement();
-	 resultSet = statement.executeQuery("select email,password from users WHERE userTypeId = 1 ");
+	 resultSet = statement.executeQuery("select email,password from users WHERE userTypeID = 1 ");
 	 
 	 while(resultSet.next())
 	 {
@@ -115,7 +115,7 @@ public int retrieveUserId(RegisterBean loginBean)
 	  try
 	 {
 	 con = getDBConnection();
-	 String sql = "SELECT userId from users WHERE  email = ? AND password = ?";
+	 String sql = "SELECT userID from users WHERE  email = ? AND password = ?";
 	 PreparedStatement ps = con.prepareStatement(sql);
 	 ps.setString(1, email);
 	 ps.setString(2, password);

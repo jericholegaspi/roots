@@ -167,8 +167,8 @@ public class RegisterBean {
 		if (connection != null) { //means a valid connection
 			String sql = "INSERT INTO users (firstName, middleName, lastName, gender, "
 					+ "password, mobileNo, telephone, email, "
-					+ "dateOfBirth, dateAdded, dateModified, userTypeId) "
-					+ " VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+					+ "dateOfBirth, userTypeID) "
+					+ " VALUES (?,?,?,?,?,?,?,?,?,?)";
 			
 			try {
 				PreparedStatement pstmnt = connection.prepareStatement(sql);
@@ -182,9 +182,7 @@ public class RegisterBean {
 				pstmnt.setDouble(7, this.telephone);
 				pstmnt.setString(8, this.email);
 				pstmnt.setDate(9, this.dateOfBirth);
-				pstmnt.setDate(10, java.sql.Date.valueOf(java.time.LocalDate.now()));
-				pstmnt.setDate(11, java.sql.Date.valueOf(java.time.LocalDate.now()));
-				pstmnt.setInt(12, 2);
+				pstmnt.setInt(10, 2);
 				
 				pstmnt.executeUpdate();
 				return true;

@@ -28,6 +28,38 @@
 					<result name="error">/error.jsp</result>
 				</action>
 				
+				
+				<!-- ADDRESS  -->
+				<action name="addHome" class="roots.user.action.AddHomeAddressAction">
+					<result name="success" type="redirect">/userBillingPage.jsp</result>
+					<result name="error">/error.jsp</result>
+				</action>
+				
+				<action name="updateHome" class="roots.user.action.UpdateHomeAddressAction">
+					<result name="success" type="redirect">/userBillingPage.jsp</result>
+					<result name="error">/error.jsp</result>
+				</action>
+				
+				<action name="deleteHome" class="roots.user.action.DeleteHomeAddressAction">
+					<result name="success" type="redirect">/userBillingPage.jsp</result>
+					<result name="error">/error.jsp</result>
+				</action>
+				
+				<action name="addWork" class="roots.user.action.AddWorkAddressAction">
+					<result name="success" type="redirect">/userBillingPage.jsp</result>
+					<result name="error">/error.jsp</result>
+				</action>
+				
+				<action name="updateWork" class="roots.user.action.UpdateWorkAddressAction">
+					<result name="success" type="redirect">/userBillingPage.jsp</result>
+					<result name="error">/error.jsp</result>
+				</action>
+				
+				<action name="deleteWork" class="roots.user.action.DeleteWorkAddressAction">
+					<result name="success" type="redirect">/userBillingPage.jsp</result>
+					<result name="error">/error.jsp</result>
+				</action>
+				
 		
 		
 		<!-- ADMIN ACTION -->

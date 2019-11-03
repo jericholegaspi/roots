@@ -117,8 +117,8 @@ public class AdminBean {
 		
 		if (connection != null) { //means a valid connection
 			String sql = "UPDATE users "
-	                + "SET firstName = ?, middleName = ?, lastName = ?, password = ?, dateModified = ? "
-	                + "WHERE userId = ? AND userTypeId = 1";
+	                + "SET firstName = ?, middleName = ?, lastName = ?, password = ?"
+	                + "WHERE userID = ? AND userTypeID = 1";
 		
 			try {
 				PreparedStatement pstmnt = connection.prepareStatement(sql);
@@ -127,8 +127,7 @@ public class AdminBean {
 				pstmnt.setString(2, this.middleName);
 				pstmnt.setString(3, this.lastName);
 				pstmnt.setString(4, this.password);
-				pstmnt.setDate(5, java.sql.Date.valueOf(java.time.LocalDate.now()));
-				pstmnt.setInt(6, this.userId);
+				pstmnt.setInt(5, this.userId);
 				
 				pstmnt.executeUpdate();
 				return true;

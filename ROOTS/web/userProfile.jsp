@@ -120,7 +120,7 @@ try {
 connection = DriverManager.getConnection(
 connectionUrl + dbName, userId, password);
 statement = connection.createStatement();
-String sql = "SELECT * FROM users where userId = " + session.getAttribute("uid");
+String sql = "SELECT * FROM users where userID = " + session.getAttribute("uid");
 
 resultSet = statement.executeQuery(sql);
 while (resultSet.next()) {

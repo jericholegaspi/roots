@@ -77,7 +77,7 @@ if((request.getSession(false).getAttribute("email")== null) )
 try {
 connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
 statement = connection.createStatement();
-String sql = "SELECT * FROM users where userId = " + session.getAttribute("uid");
+String sql = "SELECT * FROM users where userID = " + session.getAttribute("uid");
 
 resultSet = statement.executeQuery(sql);
 while (resultSet.next()) {
@@ -254,13 +254,13 @@ e.printStackTrace();
 try {
 connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
 statement = connection.createStatement();
-String sql = "SELECT u.userId, u.firstName, u.middleName, u.lastName, ut.userType, u.gender, u.mobileNo, u.telephone, u.email, u.dateAdded, u.dateModified FROM users u INNER JOIN usertype ut ON u.userTypeId = ut.userTypeId";
+String sql = "SELECT u.userID, u.firstName, u.middleName, u.lastName, ut.userType, u.gender, u.mobileNo, u.telephone, u.email, u.dateAdded, u.dateModified FROM users u INNER JOIN usertype ut ON u.userTypeId = ut.userTypeId";
 
 resultSet = statement.executeQuery(sql);
 while (resultSet.next()) {
 %>
                                         <tr>
-                                            <td><%= resultSet.getString("userId") %></td>
+                                            <td><%= resultSet.getString("userID") %></td>
                                             <td><%= resultSet.getString("firstName") %> <%= resultSet.getString("middleName") %> <%= resultSet.getString("lastName") %></td>
                                             <td><%= resultSet.getString("userType") %></td>
                                             <td><%= resultSet.getString("gender") %></td>
