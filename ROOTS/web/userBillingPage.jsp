@@ -66,7 +66,7 @@ if((request.getSession(false).getAttribute("email")== null) )
         <a class="nav-link" href="catalogue_page.html">Catalogue</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="products_page.html">Products</a>
+        <a class="nav-link" href="userProductIndex.jsp">Products</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">Services</a>
@@ -89,7 +89,7 @@ if((request.getSession(false).getAttribute("email")== null) )
 
       <ul class="navbar-nav navbar-right">
         <li class="nav-item">
-          <a class="nav-link" href="cart_page.html"><span class="fa fa-shopping-cart"><span class="badge total-count"></span></span></a>
+          <a class="nav-link" href="userCartPage.jsp"><span class="fa fa-shopping-cart"><span class="badge total-count"></span></span></a>
         </li>
       <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
@@ -156,7 +156,49 @@ e.printStackTrace();
   <br><br><h5>Billing Address</h5><br>
   <input type="hidden" name="userId" value="<%= session.getAttribute("uid") %>">
   
+<<<<<<< Updated upstream
           
+=======
+<!--   	<div class="form-row">
+      <div class="col">
+        <label for="snumber">Street Number</label>
+          <input id="houseNumber" placeholder="Enter your street number" oninput="this.className = ''" name="snumber"></p>
+      </div>
+      <div class="col">
+        <label for="sname">Street Name</label>
+          <input id="street" placeholder="Enter your street name" oninput="this.className = ''" name="sname"></p>
+      </div>
+      <div class="col">
+        <label for="sname">Barangay/Subdivision</label>
+          <input id="barangay" placeholder="Enter your barangay/subdivision" oninput="this.className = ''" name="sname"></p>
+      </div>
+    </div>
+    <div class="form-row">
+    	<div class="col">
+    	<label for="sname">City</label>
+    		<select id="city" class="form-control">
+			  <option>Manila</option>
+			</select>
+    	</div>
+    	<div class="col">
+    	<label for="sname">Province</label>
+    		<select id="province" class="form-control">
+			  <option>Cavite</option>
+			</select>
+    	</div>
+    	<div class="col">
+    		 <label for="sname">Postal Code</label>
+          <input id="postalCode" placeholder="Enter your postal code" oninput="this.className = ''" name="sname"></p>
+    	</div>
+    </div>
+    
+    <div class="btn-group float-right">
+    	<a href="userCartPage.jsp" class="btn btn-outline-secondary float-right btn-sm"><i class="far fa-edit"></i></a>
+    	<a href="userCartPage.jsp" class="btn btn-outline-danger float-right btn-sm"><i class="fas fa-trash-alt"></i></a>
+     </div>  -->
+     
+     
+>>>>>>> Stashed changes
       <br>
 	<button class="btn btn-outline-primary" onclick="homeAddressSwitch()" id="HomeAdddBtn" type="button" data-toggle="collapse" data-target="#homeAddress" aria-expanded="false" aria-controls="collapseExample">
 		<i class="fas fa-plus-circle"></i> Home Address
@@ -213,9 +255,14 @@ e.printStackTrace();
 		<a class="btn btn-outline-success float-right btn-sm" role="tab" data-toggle="collapse" data-target="#addHomeAddress"><i class="fas fa-plus"></i></a>
 		Edit Button
     	<a class="btn btn-outline-warning float-right btn-sm" data-toggle="collapse" data-target="#editHomeAddress"><i class="fas fa-edit"></i></a>
+<<<<<<< Updated upstream
     	Delete Button
     	<a href="cart_page.html" class="btn btn-outline-danger float-right btn-sm" data-toggle="modal" data-target="#delete-confirmation"><i class="fas fa-trash-alt"></i></a>
      </div> -->
+=======
+    	<a href="userCartPage.jsp" class="btn btn-outline-danger float-right btn-sm" data-toggle="modal" data-target="#delete-confirmation"><i class="fas fa-trash-alt"></i></a>
+     </div>
+>>>>>>> Stashed changes
       <br><br>
       
       <!-- start of addHomeAddress -->
@@ -257,7 +304,11 @@ e.printStackTrace();
           <input name="postalCode" class="form-control" placeholder="Enter your postal code" oninput="this.className = ''"></p>
     	</div>
     </div>
+<<<<<<< Updated upstream
     	<button class="btn btn-success float-right btn-sm" value="Add Home Address"><i class="fas fa-save"></i> Save</button>
+=======
+    <a href="userCartPage.jsp" class="btn btn-success float-right btn-sm"><i class="fas fa-save"></i> Save</a>
+>>>>>>> Stashed changes
     </div>
 
     <br>
@@ -316,9 +367,14 @@ while (resultSet.next())
           <input name="postalCode" class="form-control" value="<%= resultSet.getString("postalCode") %>" oninput="this.className = ''"></p>
     	</div>
     </div>
+<<<<<<< Updated upstream
     <button class="btn btn-success float-right btn-sm" value="Add Home Address"><i class="fas fa-save"></i> Update</button>
     <input type="hidden" name="userID" value="<%= session.getAttribute("uid") %>">
     <input type="hidden" name="deliveryAddressID" value="<%= resultSet.getString("deliveryAddressID") %>">
+=======
+     <a href="userCartPage.jsp" class="btn btn-success float-right btn-sm"><i class="fas fa-save"></i> Update</a>
+    </div>
+>>>>>>> Stashed changes
     
     </div>
     </form>
@@ -369,8 +425,12 @@ else{
 	<div class="btn-group btn-group-toggle float-right" data-toggle="buttons" role="group">
 		<!-- Call editWorkAddress -->
     	<a class="btn btn-outline-warning float-right btn-sm" data-toggle="collapse" data-target="#editWorkAddress"><i class="fas fa-edit"></i></a>
+<<<<<<< Updated upstream
     	<!-- Call deleteWorkAddress -->
     	<button class="btn btn-outline-danger float-right btn-sm" data-toggle="modal" data-target="#delete-confirmation"><i class="fas fa-trash-alt"></i></button>
+=======
+    	<a href="userCartPage.jsp" class="btn btn-outline-danger float-right btn-sm" data-toggle="modal" data-target="#delete-confirmation"><i class="fas fa-trash-alt"></i></a>
+>>>>>>> Stashed changes
      </div>
 <%		
 		} while (resultSet.next());
@@ -420,7 +480,11 @@ e.printStackTrace();
           <input name="postalCode" class="form-control" placeholder="Enter your postal code" oninput="this.className = ''"></p>
     	</div>
     </div>
+<<<<<<< Updated upstream
     	<button class="btn btn-success float-right btn-sm" value="Add Home Address"><i class="fas fa-save"></i> Save</button>
+=======
+    <a href="userCartPage.jsp" class="btn btn-success float-right btn-sm"><i class="fas fa-save"></i> Save</a>
+>>>>>>> Stashed changes
     </div>
 
     <br>
@@ -479,9 +543,14 @@ while (resultSet.next())
           <input name="postalCode" class="form-control" value="<%= resultSet.getString("postalCode") %>" oninput="this.className = ''"></p>
     	</div>
     </div>
+<<<<<<< Updated upstream
     <button class="btn btn-success float-right btn-sm" value="Add Home Address"><i class="fas fa-save"></i> Update</button>
     <input type="hidden" name="userID" value="<%= session.getAttribute("uid") %>">
     <input type="hidden" name="deliveryAddressID" value="<%= resultSet.getString("deliveryAddressID") %>">
+=======
+     <a href="userCartPage.jsp" class="btn btn-success float-right btn-sm"><i class="fas fa-save"></i> Update</a>
+    </div>
+>>>>>>> Stashed changes
     
     </div>
     </form>

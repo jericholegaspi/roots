@@ -32,8 +32,6 @@
     
     <!-- Data Tables -->
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
-   
-    
 </head>
 <body>
 
@@ -42,7 +40,7 @@
 <%@page import="java.sql.Statement"%>
 <%@page import="java.sql.Connection"%>
 
-<%
+	<%
 	String id = request.getParameter("userId");
 	String driverName = "com.mysql.jdbc.Driver";
 	String connectionUrl = "jdbc:mysql://localhost/";
@@ -101,6 +99,7 @@
                 </li>
                 <li class="active" data-toggle="collapse" data-target="#productsPages">
                    <a href="#">
+                   <i class="pe-7s-cart"></i>
                         <p>Products</p>
                     </a>
                     <ul style="list-style: none;" id="productsPages" class="collapse in">
@@ -415,7 +414,7 @@
             Product Name:</br> 
             <input type='text' class="form-control" name='prodName' minlength='0' maxlength='100' required="required"/><br/>
             
-            Category: </br> <select class="form-control" name='categoryID' required="required">
+            Category: </br> <select class="form-control" name='catID' required="required">
             <option value="" disabled selected>Select your option</option>
             <% while(resultSet.next()){%>
             <option value="<%=resultSet.getString("catID") %>"><%=resultSet.getString("catID") %> - <%=resultSet.getString("category") %></option>
@@ -486,7 +485,7 @@
             <input type='text' id="productNameGetTest" class="form-control" name='prodName' minlength='0' maxlength='100' required="required"/><br/>
             
             Current Category: 	<input type="text" id="categoryGetTest" class="form-control" readonly/></br> 
-            <select class="form-control" name='categoryID' required="required">
+            <select class="form-control" name='catID' required="required">
             <option value="" disabled selected>Select your option...</option>
             <%
 				try {

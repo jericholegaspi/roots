@@ -102,11 +102,11 @@
                 </li>
                 <li class="active" data-toggle="collapse" data-target="#productsPages">
                    <a href="#">
-                        <i class="pe-7s-cart"></i>
+                   <i class="pe-7s-cart"></i>
                         <p>Products</p>
                     </a>
                     <ul style="list-style: none;" id="productsPages" class="collapse in">
-	                    <li>
+	                    <li class="active">
 		                    <a href="adminProductDetails.jsp">
 		                    <i class="fa fa-list-alt" aria-hidden="true"></i>
 		                        <p>Product Details</p>
@@ -120,7 +120,7 @@
 		                    </a>
 	                    </li>
 	                    
-	                    <li class="active">
+	                    <li>
 		                    <a href="adminProductHistory.jsp">
 		                    <i class="fa fa-history" aria-hidden="true"></i>
 		                        <p>Product History</p>
@@ -383,7 +383,7 @@
 	try {
 		connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
 		statement = connection.createStatement();
-		String sqlcategory = "SELECT * FROM categorytable";
+		String sqlcategory = "SELECT * FROM category";
 		resultSet = statement.executeQuery(sqlcategory);
 	%>
 
@@ -407,7 +407,7 @@
             Product Name:</br> 
             <input type='text' class="form-control" name='prodName' minlength='0' maxlength='100' required="required"/><br/>
             
-            Category: </br> <select class="form-control" name='categoryID' required="required">
+            Category: </br> <select class="form-control" name='catID' required="required">
             <option value="" disabled selected>Select your option</option>
             <% while(resultSet.next()){%>
             <option value="<%=resultSet.getString("catID") %>"><%=resultSet.getString("catID") %> - <%=resultSet.getString("category") %></option>
@@ -490,13 +490,13 @@
             <input type='text' id="productNameGetTest" class="form-control" name='prodName' minlength='0' maxlength='100' required="required"/><br/>
             
             Current Category: 	<input type="text" id="categoryGetTest" class="form-control" readonly/></br> 
-            <select class="form-control" name='categoryID' required="required">
+            <select class="form-control" name='catID' required="required">
             <option value="" disabled selected>Select your option...</option>
             <%
 				try {
 				connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
 				statement = connection.createStatement();
-				String sqlcategory = "SELECT * FROM categorytable";
+				String sqlcategory = "SELECT * FROM category";
 				resultSet = statement.executeQuery(sqlcategory);
 				while(resultSet.next()){%>
             <option value="<%=resultSet.getString("catID") %>"><%=resultSet.getString("catID") %> - <%=resultSet.getString("category") %></option>

@@ -1,8 +1,6 @@
 package model.customer;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -14,6 +12,7 @@ public class AddOrderBean {
 	private int userID;
 	private int prodID;
 	private int catID;
+	private int orderID;
 	private String paymentStatus;
 	private String deliveryStatus;
 	private String orderStatus;
@@ -59,7 +58,13 @@ public class AddOrderBean {
 
 	
 	public void process() {
-		computeOrderPrice();
+		/* computeOrderPrice(); */
+	}
+	
+	public void startOrderFlow() {
+		insertOrderRecord();
+		insertOrderItemRecord();
+		insertOrderReferenceRecord();
 	}
 	
 	public void computeOrderPrice() {
@@ -83,6 +88,14 @@ public class AddOrderBean {
 	}
 	public void setCatID(int catID) {
 		this.catID = catID;
+	}
+
+	public int getOrderID() {
+		return orderID;
+	}
+
+	public void setOrderID(int orderID) {
+		this.orderID = orderID;
 	}
 
 	public String getPaymentStatus() {
@@ -169,24 +182,21 @@ public class AddOrderBean {
 		return connection;
 	}
 	
-	public boolean insertRecordOrder() {		
+	public boolean insertOrderRecord() {		
 		Connection connection = getDBConnection();
 		
 		if (connection != null) { //means a valid connection
-			String sql = "INSERT INTO orderstable (userID, prodID, catID,"
-					+ " paymentStatus, deliveryStatus, orderStatus, cartStatus) "
-					+ " VALUES (?,?,?,?,?,?,?)";
+			String sql = "INSERT INTO orders (userID, paymentStatus, deliveryStatus,"
+					+ " orderStatus, cartStatus) VALUES (?,?,?,?,?)";
 			
 			try {
 				PreparedStatement pstmnt = connection.prepareStatement(sql);
 				
 				pstmnt.setInt(1, this.userID);
-				pstmnt.setInt(2, this.prodID);
-				pstmnt.setInt(3, this.catID);
-				pstmnt.setString(4, "Not yet paid");
-				pstmnt.setString(5, "Processing");
-				pstmnt.setString(6, "Incomplete");
-				pstmnt.setString(7, "Pending");
+				pstmnt.setString(2, "Not yet paid");
+				pstmnt.setString(3, "Processing");
+				pstmnt.setString(4, "Incomplete");
+				pstmnt.setString(5, "Pending");
 				
 				pstmnt.executeUpdate();
 				return true;
@@ -198,4 +208,88 @@ public class AddOrderBean {
 		}
 		return false;
 	}
+	
+	public boolean insertOrderItemRecord() {		
+		Connection connection = getDBConnection();
+		
+		if (connection != null) { //means a valid connection
+			String sql = "INSERT INTO orderItems (userID, prodID, cartState)"
+					+ " VALUES (?,?,?)";
+			
+			try {
+				PreparedStatement pstmnt = connection.prepareStatement(sql);
+				
+				pstmnt.setInt(1, this.userID);
+				pstmnt.setInt(2, this.prodID);
+				pstmnt.setString(3, "Pending");
+				
+				pstmnt.executeUpdate();
+				return true;
+			} catch (SQLException sqle) {
+				System.err.println("Error on insertOrderItemRecord: " + sqle.getMessage());
+			}			
+		} else {
+			System.err.println("Missing on invalid connection.");
+		}
+		return false;
+	}
+	
+	public boolean insertOrderReferenceRecord() {		
+		Connection connection = getDBConnection();
+		
+		if (connection != null) { //means a valid connection
+			String sql = "INSERT INTO orderReference (userID)"
+					+ " VALUES (?)";
+			
+			try {
+				PreparedStatement pstmnt = connection.prepareStatement(sql);
+				
+				pstmnt.setInt(1, this.userID);	
+				
+				pstmnt.executeUpdate();
+				return true;
+			} catch (SQLException sqle) {
+				System.err.println("Error on insertOrderReferenceRecord: " + sqle.getMessage());
+			}			
+		} else {
+			System.err.println("Missing on invalid connection.");
+		}
+		return false;
+	}
 }
+
+/*
+Payment Statuses CASHLESS
+1. Not Yet paid
+2. Paid
+3. Cancelled
+
+Payment Status COD
+1.
+2.
+3.
+
+Delivery Statuses
+1. Processing (While waiting for PayPal Payment)
+2. Ready for Pickup (Admin)
+3. Ready for Delivery (Admim)
+4. In Transit (Admin)
+5. Delivered (Admin)
+6. Cancelled (If cancelled by user)
+
+Order Statuses
+1. Incomplete (If Payment Status = Not yet Paid & Delivery Status = Processing)
+2. Complete (If Payments Status = Paid & Delivery Status = Delivered)
+3. Cancelled (If cancelled by user)
+
+Order Reference Status
+1. Pending
+2. Set
+3. Cancelled
+
+Cart Statuses
+1. Pending
+2. CheckOut
+
+
+*/

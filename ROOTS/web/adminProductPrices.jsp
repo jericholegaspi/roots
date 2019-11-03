@@ -97,13 +97,13 @@
                         <p>Catalogue</p>
                     </a>
                 </li>
-                <li data-toggle="collapse" data-target="#productsPages">
+                <li class="active" data-toggle="collapse" data-target="#productsPages">
                    <a href="#">
-                        <i class="pe-7s-cart"></i>
+                   <i class="pe-7s-cart"></i>
                         <p>Products</p>
                     </a>
-                    <ul style="list-style: none;" id="productsPages" class="collapse">
-	                    <li>
+                    <ul style="list-style: none;" id="productsPages" class="collapse in">
+	                    <li class="active">
 		                    <a href="adminProductDetails.jsp">
 		                    <i class="fa fa-list-alt" aria-hidden="true"></i>
 		                        <p>Product Details</p>
@@ -124,19 +124,20 @@
 		                    </a>
 	                    </li>
                     </ul>
+                </li>
                 <li>
                    <a href="modalities.jsp">
                         <i class="pe-7s-note2"></i>
                         <p>Modalities</p>
                     </a>
                 </li>
-                <li class="active" data-toggle="collapse" data-target="#pricesPages">
+                <li data-toggle="collapse" data-target="#pricesPages">
                    <a href="#">
                         <i class="fa fa-money" aria-hidden="true"></i>
                         <p>Price Management</p>
                     </a>
-                    <ul style="list-style: none;" id="pricesPages" class="collapse in">
-	                    <li class="active">
+                    <ul style="list-style: none;" id="pricesPages" class="collapse">
+	                    <li>
 		                    <a href="adminProductPrices.jsp">
 		                    <i class="fa fa-list-alt" aria-hidden="true"></i>
 		                        <p>Product Prices</p>
@@ -370,12 +371,12 @@
 		try {
 			connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
 			statement = connection.createStatement();
-			String sqlproduct = "SELECT productsTable.prodID, productsTable.prodName,"
-					+ " productsTable.description, productsTable.initialPrice, productsTable.prodQty,"
-					+ " unitsTable.unit, categoryTable.catID, categoryTable.category, productsTable.Availability,"
-					+ " productsTable.prodLastUpdate, productsTable.critLevel FROM productsTable INNER JOIN categoryTable ON"
-					+ " productsTable.categoryID = categoryTable.catID"
-					+ " INNER JOIN unitsTable ON productsTable.unitID = unitsTable.unitID";
+			String sqlproduct = "SELECT products.prodID, products.prodName,"
+					+ " products.description, products.initialPrice, products.prodQty,"
+					+ " units.unit, category.catID, category.category, products.Availability,"
+					+ " products.prodLastUpdate, products.critLevel FROM products"
+					+ " INNER JOIN category ON products.catID = category.catID"
+					+ " INNER JOIN units ON products.unitID = units.unitID";
 			resultSet = statement.executeQuery(sqlproduct);
 		while (resultSet.next()) {
 	%>
@@ -420,11 +421,11 @@
 		try {
 			connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
 			statement = connection.createStatement();
-			String sqlcategory = "SELECT prodPriceTable.prodPriceID, productsTable.prodName,"
-					+ " prodPriceTable.prodPriceChange, prodPriceChangeRefTable.prodPriceChangeRefNoID,"
-					+ " prodPriceTable.priceChangeDate FROM prodPriceTable INNER JOIN productsTable ON"
-					+ " prodPriceTable.prodID = productsTable.prodID INNER JOIN prodPriceChangeRefTable ON"
-					+ " prodPriceTable.prodPriceChangeRefNoID = prodPriceChangeRefTable.prodPriceChangeRefNoID";
+			String sqlcategory = "SELECT prodPrice.prodPriceID, products.prodName,"
+					+ " prodPrice.prodPriceChange, prodPriceChangeRef.prodPriceChangeRefNoID,"
+					+ " prodPrice.priceChangeDate FROM prodPrice INNER JOIN products ON"
+					+ " prodPrice.prodID = products.prodID INNER JOIN prodPriceChangeRef ON"
+					+ " prodPrice.prodPriceChangeRefNoID = prodPriceChangeRef.prodPriceChangeRefNoID";
 			resultSet = statement.executeQuery(sqlcategory);
 		while (resultSet.next()) {
 	%>

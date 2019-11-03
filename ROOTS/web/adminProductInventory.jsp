@@ -99,18 +99,18 @@
                 </li>
                 <li class="active" data-toggle="collapse" data-target="#productsPages">
                    <a href="#">
-                        <i class="pe-7s-cart"></i>
+                   <i class="pe-7s-cart"></i>
                         <p>Products</p>
                     </a>
                     <ul style="list-style: none;" id="productsPages" class="collapse in">
-	                    <li>
+	                    <li class="active">
 		                    <a href="adminProductDetails.jsp">
 		                    <i class="fa fa-list-alt" aria-hidden="true"></i>
 		                        <p>Product Details</p>
 		                    </a>
 	                    </li>
 	                    
-	                    <li class="active">
+	                    <li>
 		                    <a href="adminProductInventory.jsp">
 		                    <i class="fa fa-home" aria-hidden="true"></i>
 		                        <p>Product Inventory</p>
@@ -124,6 +124,7 @@
 		                    </a>
 	                    </li>
                     </ul>
+                </li>
                 <li>
                    <a href="modalities.jsp">
                         <i class="pe-7s-note2"></i>
@@ -277,12 +278,12 @@
 		try {
 			connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
 			statement = connection.createStatement();
-			String sqlproduct = "SELECT productsTable.prodID, productsTable.prodName,"
-					+ " productsTable.description, productsTable.initialPrice, productsTable.prodQty,"
-					+ " unitsTable.unit, categoryTable.catID, categoryTable.category, productsTable.Availability,"
-					+ " productsTable.prodLastUpdate, productsTable.critLevel FROM productsTable INNER JOIN categoryTable ON"
-					+ " productsTable.categoryID = categoryTable.catID"
-					+ " INNER JOIN unitsTable ON productsTable.unitID = unitsTable.unitID";
+			String sqlproduct = "SELECT products.prodID, products.prodName,"
+					+ " products.description, products.initialPrice, products.prodQty,"
+					+ " units.unit, category.catID, category.category, products.Availability,"
+					+ " products.prodLastUpdate, products.critLevel FROM products INNER JOIN category ON"
+					+ " products.catID = category.catID"
+					+ " INNER JOIN units ON products.unitID = units.unitID";
 			resultSet = statement.executeQuery(sqlproduct);
 		while (resultSet.next()) {
 	%>
@@ -328,10 +329,10 @@
 		try {
 			connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
 			statement = connection.createStatement();
-			String sqlcategory = "SELECT inventoryTable.inventoryID, productsTable.prodName,"
-					+ " inventoryTable.prodQtyChange, inventoryTable.prodQtyChangeDate, inventoryTable.qtyChangeDesc"
-					+ " FROM inventoryTable INNER JOIN productsTable ON"
-					+ " inventoryTable.prodID = productsTable.prodID";
+			String sqlcategory = "SELECT inventory.inventoryID, products.prodName,"
+					+ " inventory.prodQtyChange, inventory.prodQtyChangeDate, inventory.qtyChangeDesc"
+					+ " FROM inventory INNER JOIN products ON"
+					+ " inventory.prodID = products.prodID";
 			resultSet = statement.executeQuery(sqlcategory);
 		while (resultSet.next()) {
 	%>

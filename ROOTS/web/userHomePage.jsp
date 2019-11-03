@@ -56,7 +56,7 @@ if((request.getSession(false).getAttribute("email")== null) )
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
         <li><a href="catalog-logged_in.html">Catalogue</a></li>
-        <li><a href="userProductsPage.jsp">Products</a></li> <!-- TEST CHECKOUT -->
+        <li><a href="userProductIndex.jsp">Products</a></li> <!-- TEST CHECKOUT -->
         <li><a href="services-logged_in.html">Services</a></li>
         <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Contact Us <span class="caret"></span></a>

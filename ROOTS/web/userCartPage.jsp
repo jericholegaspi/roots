@@ -19,6 +19,8 @@
 
  <link rel="shortcut icon" sizes="16x16 32x32 64x64" href="assets/css/images/logo5.png"/>
 
+ <script src="assets/js/cartTotal.js" async="true"></script>
+
 </head>
 
 <% //In case, if User session is not set, redirect to Login page.
@@ -29,6 +31,31 @@ if((request.getSession(false).getAttribute("email")== null) )
 <%} %>
 
 <body>
+
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.Connection"%>
+
+	<%
+	String id = request.getParameter("userId");
+	String driverName = "com.mysql.jdbc.Driver";
+	String connectionUrl = "jdbc:mysql://localhost/";
+	String dbName = "isproj2_roots";
+	String userId = "isproj2_roots";
+	String password = "^qp&6Afnsd7S^jRf";
+
+	try {
+		Class.forName(driverName);
+	} catch (ClassNotFoundException e) {
+		e.printStackTrace();
+	}
+
+	Connection connection = null;
+	Statement statement = null;
+	ResultSet resultSet = null;
+	%>
+
   <div class="container-fluid">
   <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
   <!-- Brand -->
@@ -48,7 +75,7 @@ if((request.getSession(false).getAttribute("email")== null) )
         <a class="nav-link" href="catalogue_page.html">Catalogue</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="products_page.html">Products</a>
+        <a class="nav-link" href="userProductIndex.jsp">Products</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">Services</a>
@@ -71,7 +98,7 @@ if((request.getSession(false).getAttribute("email")== null) )
 
       <ul class="navbar-nav navbar-right">
         <li class="nav-item">
-          <a class="nav-link" href="cart_page.html"><span class="fa fa-shopping-cart"><span class="badge total-count"></span></span></a>
+          <a class="nav-link" href="userCartPage.jsp"><span class="fa fa-shopping-cart"><span class="badge total-count"></span></span></a>
         </li>
       <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
@@ -98,103 +125,60 @@ if((request.getSession(false).getAttribute("email")== null) )
             <thead>
             <tr>
               <th style="width:50%">Product</th>
-              <th style="width:8%">Price</th>
+              <th style="width:8%">Unit Price</th>
               <th style="width:8%">Quantity</th>
               <th style="width:8">Unit</th>
               <th style="width:13%" class="text-center">Subtotal</th>
               <th style="width:15%"></th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td data-th="Product">
-                <div class="row">
-                  <div class="col-sm-3 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
-                  <div class="col-sm-8">
-                    <h4 class="nomargin p-title">Product Name 1</h4>
-                    <p class="p-text">Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet.</p>
-                  </div>
-                </div>
-              </td>
-              <td data-th="Price">$1.99</td>
-              <td data-th="Quantity">
-                <input type="number" class="form-control text-center" value="1">
-              </td>
-              <td data-th="Unit" class="text-center">Bundle</td>
-              <td data-th="Subtotal" class="text-center">1.99</td>
-              <td class="actions" data-th="">
-                <button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>                
-              </td>
-            </tr>
-
-            <tr>
-              <td data-th="Product">
-                <div class="row">
-                  <div class="col-sm-3 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
-                  <div class="col-sm-8">
-                    <h4 class="nomargin p-title">Product Name 2</h4>
-                    <p class="p-text">Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet.</p>
-                  </div>
-                </div>
-              </td>
-              <td data-th="Price">$1.99</td>
-              <td data-th="Quantity">
-                <input type="number" class="form-control text-center" value="1">
-              </td>
-              <td data-th="Unit" class="text-center">Bundle</td>
-              <td data-th="Subtotal" class="text-center">1.99</td>
-              <td class="actions" data-th="">
-                <button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>                
-              </td>
-            </tr>
-
-            <tr>
-              <td data-th="Product">
-                <div class="row">
-                  <div class="col-sm-3 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
-                  <div class="col-sm-8">
-                    <h4 class="nomargin p-title">Product Name 3</h4>
-                    <p class="p-text">Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet.</p>
-                  </div>
-                </div>
-              </td>
-              <td data-th="Price">$1.99</td>
-              <td data-th="Quantity">
-                <input type="number" class="form-control text-center" value="1">
-              </td>
-              <td data-th="Unit" class="text-center">Bundle</td>
-              <td data-th="Subtotal" class="text-center">1.99</td>
-              <td class="actions" data-th="">
-                <button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>                
-              </td>
-            </tr>
-
-            <tr>
-              <td data-th="Product">
-                <div class="row">
-                  <div class="col-sm-3 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
-                  <div class="col-sm-8">
-                    <h4 class="nomargin p-title">Product Name 4</h4>
-                    <p class="p-text">Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet.</p>
-                  </div>
-                </div>
-              </td>
-              <td data-th="Price">$1.99</td>
-              <td data-th="Quantity">
-                <input type="number" class="form-control text-center" value="1">
-              </td>
-              <td data-th="Unit" class="text-center">Bundle</td>
-              <td data-th="Subtotal" class="text-center">1.99</td>
-              <td class="actions" data-th="">
-                <button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>                
-              </td>
-            </tr>
+          <tbody class="cart-items">
+            <%
+			try {
+				connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+				statement = connection.createStatement();
+				String sqlproduct = "SELECT orderItems.orderItemID, orderItems.userID, orderItems.prodID,"
+						+ " orderItems.cartState, products.prodID, products.prodName, products.description,"
+						+ " products.initialPrice, products.unitID, units.unitID, units.unit FROM orderItems"
+						+ " INNER JOIN products ON orderItems.prodID = products.prodID"
+						+ " INNER JOIN units ON products.unitID = units.unitID"
+						+ " WHERE orderItems.userID = " + session.getAttribute("uid") + " AND"
+						+ " orderItems.cartState = 'Pending'";
+				resultSet = statement.executeQuery(sqlproduct);
+			while (resultSet.next()) {
+			%>
+			<tr class="cart-row">
+			    <td data-th="Product">
+			        <div class="row">
+			            <div class="col-sm-3 hidden-xs">
+			            	<img src="http://placehold.it/100x100" alt="..." class="img-responsive" />
+			            </div>
+			            <div class="col-sm-8">
+			                <h4 class="nomargin p-title"><%=resultSet.getString("prodName")%></h4>
+			                <p class="p-text"><%=resultSet.getString("description")%></p>
+			            </div>
+			        </div>
+			    </td>
+			    <td data-th="Price" class="cart-price">&#8369;<%=resultSet.getString("initialPrice")%></td>
+			    <td data-th="Quantity"><input type="number" class="cart-quantity-input form-control text-center" min='1' value="1"></td>
+			    <td data-th="Unit" class="text-center"><%=resultSet.getString("unit")%></td>
+			    <td data-th="Subtotal" class="cart-item-subtotal text-center">&#8369;<%=resultSet.getString("initialPrice")%></td>
+			    <td class="actions" data-th="">
+			        <button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
+			    </td>
+			</tr>
+			<%
+					}
+				} catch (Exception e) {
+				e.printStackTrace();
+			}
+			%>
           </tbody>
           <tfoot>
             <tr>
               <td><a href="#" class="btn btn-outline-primary"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
               <td colspan="3" class="hidden-xs"></td>
-              <td data-th="Subtotal" class="hidden-xs text-center"><strong>Total $1.99</strong></td>
+              <td data-th="Subtotal" class="cart-total-price hidden-xs text-center">Total: </td>
               <td><a href="userBillingPage.jsp" class="btn btn-warning" data-toggle="modal" data-target="#checkout-confirmation">Checkout <i class="fa fa-angle-right"></i></a></td>
             </tr>
           </tfoot>

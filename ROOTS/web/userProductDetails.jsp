@@ -6,6 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<title>Product Details</title>
 	<meta charset="utf-8">
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,14 +21,21 @@
 	
 	<link rel="shortcut icon" sizes="16x16 32x32 64x64" href="assets/css/images/logo5.png"/>
 </head>
-<title>Product Details</title>
+<% //In case, if User session is not set, redirect to Login page.
+if((request.getSession(false).getAttribute("email")== null) )
+{
+%>
+<jsp:forward page="userLogin.jsp"></jsp:forward>
+<% 
+} 
+%>
 <body>
-<%@page import="java.sql.DriverManager"%>
-<%@page import="java.sql.ResultSet"%>
-<%@page import="java.sql.Statement"%>
-<%@page import="java.sql.Connection"%>
+	<%@page import="java.sql.DriverManager"%>
+	<%@page import="java.sql.ResultSet"%>
+	<%@page import="java.sql.Statement"%>
+	<%@page import="java.sql.Connection"%>
 
-<%
+	<%
 	String id = request.getParameter("userId");
 	String driverName = "com.mysql.jdbc.Driver";
 	String connectionUrl = "jdbc:mysql://localhost/";
@@ -45,8 +53,6 @@
 	Statement statement = null;
 	ResultSet resultSet = null;
 	%>
-	
-	
 <div class="container-fluid">
     <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
         <!-- Brand -->
@@ -89,7 +95,7 @@
 
                 <ul class="navbar-nav navbar-right">
                     <li class="nav-item">
-                        <a class="nav-link" href="cart_page.html"><span class="fa fa-shopping-cart"><span class="badge total-count"></span></span></a>
+                        <a class="nav-link" href="userCartPage.jsp"><span class="fa fa-shopping-cart"><span class="badge total-count"></span></span></a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
@@ -100,58 +106,105 @@
                             <a class="dropdown-item" href="invoice_page.html"><span class="fa fa-sign-in"></span>Invoice</a>
                             <a class="dropdown-item" href="#"><span class="fa fa-sign-in"></span>Logout</a>
                         </div>
+
                     </li>
                 </ul>
+
             </form>
         </div>
     </nav>
 </div>
-		
-<div class="container product-detail">
+
+<div class="container product-detail justify-content-center">
+
+	<%
+		int prodIDChain = Integer.parseInt(request.getParameter("prodID"));
+		try {
+		connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+		statement = connection.createStatement();
+		String sqlproduct = "SELECT products.prodID, products.prodName,"
+				+ " products.description, products.initialPrice, products.prodQty,"
+				+ " units.unit, category.catID, category.category, products.Availability,"
+				+ " products.prodLastUpdate, products.critLevel FROM products"
+				+ " INNER JOIN category ON products.catID = category.catID"
+				+ " INNER JOIN units ON products.unitID = units.unitID"
+				+ " WHERE prodID = " + prodIDChain;
+		resultSet = statement.executeQuery(sqlproduct); 
+		resultSet.first();
+	%>
+	<form action="addToCart.action" method="post" id="addToCart">
     <div class="card">
         <div class="col-sm-12">
             <div class="row">
-				<%
-				int prodIDChain = Integer.parseInt(request.getParameter("prodID"));
-				try {
-				connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
-				statement = connection.createStatement();
-				String sqlproduct = "SELECT products.prodID, products.prodName,"
-						+ " products.description, products.initialPrice, products.prodQty,"
-						+ " units.unit, category.catID, category.category, products.Availability,"
-						+ " products.prodLastUpdate, products.critLevel FROM products"
-						+ " INNER JOIN category ON products.catID = category.catID"
-						+ " INNER JOIN units ON products.unitID = units.unitID"
-						+ " WHERE prodID = " + prodIDChain;
-				resultSet = statement.executeQuery(sqlproduct); 
-				resultSet.first();
-				%>
                 <div class="col-sm-4">
                     <div class="card-title">
                         <h3><%=resultSet.getString("prodName")%></h3>
                     </div>
+                    <input type="hidden" name="userID" value="<%= session.getAttribute("uid") %>"/>
+                    <input type="hidden" name="prodID" value="<%=resultSet.getString("prodID")%>"/>
                     <img class="card-img-top responsive-img" src="assets/css/images/amp.jpg" alt="Card image" style="width:100%; height:200px;">
+                    <br><br><br><br>
+                    <a href="userProductIndex.jsp" class="btn btn-outline-primary float-left btn-lg"><i class="fas fa-arrow-left"></i></a>
+                    <br>
                 </div>
                 <div class="card-body col-sm-8">
-
-                    <h6>Description</h6>
+                    <h6><strong>Description</strong></h6>
+                    <br>
                     <p class="p-desc"><%=resultSet.getString("description")%></p>
                     <br>
+                    <a href="userCartPage.jsp" class="btn btn-warning float-right btn-lg" data-toggle="modal" data-target="#cart-confirmation">Add to Cart</a>
                     <h6><strong>Price</strong></h6>
-                    <h5><%=resultSet.getString("initialPrice")%>/<%=resultSet.getString("unit")%></h5>
+                    <h5><strong><%=resultSet.getString("initialPrice")%>/<%=resultSet.getString("unit")%></strong></h5>
+				</form>
+				<%
+					} catch (Exception e) {
+					e.printStackTrace();
+				}
+				%>
+				
+				
+                    <br>
+
+                    <h6>Comments:</h6>
+                    <div class="container mt-4 overflow-auto" style="height:200px;">
+                        <div class="media border p-3 align-self-start">
+                            <img src="assets/css/images/abi-1.jpg" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+                            <div class="media-body">
+                                <h6>Abigail Abada <small><i>Posted on February 19, 2016</i></small></h6>
+                                <p class="feedback">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                            </div>
+                        </div>
+                        <div class="media border p-3 align-self-start">
+                            <img src="assets/css/images/abi-1.jpg" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+                            <div class="media-body">
+                                <h6>John Doe <small><i>Posted on February 19, 2016</i></small></h6>
+                                <p class="feedback">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                            </div>
+                        </div>
+                        <div class="media border p-3 align-self-start">
+                            <img src="assets/css/images/abi-1.jpg" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+                            <div class="media-body">
+                                <h6>John Doe <small><i>Posted on February 19, 2016</i></small></h6>
+                                <p class="feedback">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                            </div>
+                        </div>
+                        <div class="media border p-3 align-self-start">
+                            <img src="assets/css/images/abi-1.jpg" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+                            <div class="media-body">
+                                <h6>John Doe <small><i>Posted on February 19, 2016</i></small></h6>
+                                <p class="feedback">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                            </div>
+                        </div>
+                    </div>
+
                     <br><br>
-                    <a href="userProductIndex.jsp" class="btn btn-outline-primary btn-lg"><i class="fas fa-arrow-left"></i></a>
-                    <a href="cart_page.html" class="btn btn-warning float-right btn-lg" data-toggle="modal" data-target="#cart-confirmation">Add to Cart</a>
                 </div>
-            <%
-				} catch (Exception e) {
-				e.printStackTrace();
-			}
-			%>
             </div>
         </div>
     </div>
+
 </div>
+
 
 
 <!-- Footer -->
@@ -169,6 +222,7 @@
                 <!-- Content -->
                 <h5 class="text-uppercase">ROOTS</h5>
                 <p>Here you can use rows and columns to organize your footer content.</p>
+
             </div>
             <!-- Grid column -->
 
@@ -259,7 +313,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
-                <a href="cart_page.html" class="btn btn-warning">Yes</a>
+                <button type="submit" form="addToCart" class="btn btn-warning">Yes</button>
             </div>
         </div>
     </div>
@@ -270,28 +324,26 @@
 
 
 <script>
-  <!-- go to top -->
-$(document).ready(function(){
-  $('body').scrollspy({target: ".navbar", offset: 50});   
-});
-
-window.onscroll = function() {scrollFunction()};
-
-function scrollFunction() {
-  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-    document.getElementById("myBtn").style.display = "block";
-  } else {
-    document.getElementById("myBtn").style.display = "none";
-  }
-}
-
-// When the user clicks on the button, scroll to the top of the document
-function topFunction() {
-  document.body.scrollTop = 0; // For Safari
-  document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-}
+    <!-- go to top -->
+    $(document).ready(function(){
+      $('body').scrollspy({target: ".navbar", offset: 50});   
+    });
+    
+    window.onscroll = function() {scrollFunction()};
+    
+    function scrollFunction() {
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        document.getElementById("myBtn").style.display = "block";
+      } else {
+        document.getElementById("myBtn").style.display = "none";
+      }
+    }
+    
+    // When the user clicks on the button, scroll to the top of the document
+    function topFunction() {
+      document.body.scrollTop = 0; // For Safari
+      document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    }
 </script>
-
-
 </body>
 </html>

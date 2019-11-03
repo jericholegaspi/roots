@@ -94,49 +94,92 @@ e.printStackTrace();
 
             <ul class="nav">
                 <li>
-                    <a href="adminProfile.jsp">
+                    <a href="admin.jsp">
                         <i class="pe-7s-user"></i>
                         <p>Profile</p>
                     </a>
                 </li>
                 <li>
-                    <a href="dashboard.html">
+                    <a href="dashboard.jsp">
                         <i class="pe-7s-graph"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
-                <li class="active">
-                    <a href="adminUsers.jsp">
+                <li>
+                    <a href="users.jsp">
                         <i class="pe-7s-users"></i>
                         <p>Users</p>
                     </a>
                 </li>
                 <li>
-                    <a href="catalogue.html">
+                    <a href="catalogue.jsp">
                         <i class="pe-7s-notebook"></i>
                         <p>Catalogue</p>
                     </a>
                 </li>
-                <li>
-                    <a href="products.html">
-                        <i class="pe-7s-cart"></i>
+                <li class="active" data-toggle="collapse" data-target="#productsPages">
+                   <a href="#">
+                   <i class="pe-7s-cart"></i>
                         <p>Products</p>
                     </a>
+                    <ul style="list-style: none;" id="productsPages" class="collapse in">
+	                    <li class="active">
+		                    <a href="adminProductDetails.jsp">
+		                    <i class="fa fa-list-alt" aria-hidden="true"></i>
+		                        <p>Product Details</p>
+		                    </a>
+	                    </li>
+	                    
+	                    <li>
+		                    <a href="adminProductInventory.jsp">
+		                    <i class="fa fa-home" aria-hidden="true"></i>
+		                        <p>Product Inventory</p>
+		                    </a>
+	                    </li>
+	                    
+	                    <li>
+		                    <a href="adminProductHistory.jsp">
+		                    <i class="fa fa-history" aria-hidden="true"></i>
+		                        <p>Product History</p>
+		                    </a>
+	                    </li>
+                    </ul>
                 </li>
                 <li>
-                    <a href="modalities.html">
+                   <a href="modalities.jsp">
                         <i class="pe-7s-note2"></i>
                         <p>Modalities</p>
                     </a>
                 </li>
+                <li data-toggle="collapse" data-target="#pricesPages">
+                   <a href="#">
+                        <i class="fa fa-money" aria-hidden="true"></i>
+                        <p>Price Management</p>
+                    </a>
+                    <ul style="list-style: none;" id="pricesPages" class="collapse">
+	                    <li>
+		                    <a href="adminProductPrices.jsp">
+		                    <i class="fa fa-list-alt" aria-hidden="true"></i>
+		                        <p>Product Prices</p>
+		                    </a>
+	                    </li>
+	                    
+	                    <li>
+		                    <a href="adminModealityPrices.jsp">
+		                    <i class="fa fa-home" aria-hidden="true"></i>
+		                        <p>Modality Prices</p>
+		                    </a>
+	                    </li>
+                    </ul>
+                </li>
                 <li>
-                    <a href="lp.html">
+                    <a href="lp.jsp">
                         <i class="pe-7s-id"></i>
                         <p>Licensed Practitioners</p>
                     </a>
                 </li>
                 <li>
-                    <a href="feedback.html">
+                    <a href="feedback.jsp">
                         <i class="pe-7s-comment"></i>
                         <p>Feedback</p>
                     </a>

@@ -58,12 +58,12 @@ html, body
 }
 
 .product-detail {
-  padding-top: 150px;
+  padding-top: 100px;
   padding-bottom: 50px;
 }
 
 .p-desc {
-  text-indent: 20px;
+  font-size: 14px;
 }
 
 .card {
@@ -90,6 +90,10 @@ html, body
 
 .p-text {
   font-size: 14px;
+}
+
+.feedback {
+  font-size: 12px;
 }
 
 .small {

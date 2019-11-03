@@ -106,14 +106,14 @@
 					<result name="error">/error.jsp</result>
 				</action>
 				
-				<action name="addToCart" class="action.customer.AddToCartAction">
-					<result name="error">/error.jsp</result>
-					<result name="success">/userProductIndex.jsp</result>
-				</action>
-				
 				<action name="selectItemID" class="action.customer.SelectItemIDAction">
 					<result name="success">/userProductDetails.jsp</result>
 					<result name="error">/error.jsp</result>
 				</action> 
+				
+				<action name="addToCart" class="action.customer.AddToCartAction">
+					<result name="error">/error.jsp</result>
+					<result name="success">/userProductIndex.jsp</result>
+				</action>
 	</package>
 </struts>
