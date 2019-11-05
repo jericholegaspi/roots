@@ -16,9 +16,14 @@ function openModal(event){
 	var button = event.target;
 	var shopItem = button.parentElement.parentElement;
 	var productID = shopItem.getElementsByClassName('cart-product-id')[0].innerHTML;
-	var productName = shopItem.getElementsByClassName('cart-product-name')[0].innerText;
+	var productName = shopItem.getElementsByClassName('cart-product-name')[0].innerHTML;
 	console.log(productID, productName);
+	changeText(productID, productName);
 	/*changeText(title, category, price, unit, description);*/
+}
+
+function changeText(productID, productName){
+	var modalProductID = document.getElementsByClassName('')
 }
 
 /*function changeText(title, category, price, unit, description){
