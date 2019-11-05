@@ -20,6 +20,7 @@
  <link rel="shortcut icon" sizes="16x16 32x32 64x64" href="assets/css/images/logo5.png"/>
 
  <script src="assets/js/cartTotal.js" async="true"></script>
+ <script src="assets/js/cartItemDelete.js" async="true"></script>
 
 </head>
 
@@ -109,10 +110,8 @@ if((request.getSession(false).getAttribute("email")== null) )
         <a class="dropdown-item" href="invoice_page.html"><span class="fa fa-sign-in"></span>Invoice</a>
         <a class="dropdown-item" href="#"><span class="fa fa-sign-in"></span>Logout</a>
       </div>
-        
       </li>
     </ul>
-           
     </form>    
   </div>
 </nav> 
@@ -124,12 +123,13 @@ if((request.getSession(false).getAttribute("email")== null) )
   <table id="cart" class="table table-hover table-condensed">
             <thead>
             <tr>
-              <th style="width:50%">Product</th>
-              <th style="width:8%">Unit Price</th>
-              <th style="width:8%">Quantity</th>
-              <th style="width:8">Unit</th>
-              <th style="width:13%" class="text-center">Subtotal</th>
-              <th style="width:15%"></th>
+              <th style="width:1%"></th>
+              <th style="width:49%">Product</th>
+              <th style="width:10%">Unit Price</th>
+              <th style="width:10%">Quantity</th>
+              <th style="width:10%">Unit</th>
+              <th style="width:10%" class="text-center">Subtotal</th>
+              <th style="width:10%"></th>
             </tr>
           </thead>
           <tbody class="cart-items">
@@ -143,28 +143,31 @@ if((request.getSession(false).getAttribute("email")== null) )
 						+ " INNER JOIN products ON orderItems.prodID = products.prodID"
 						+ " INNER JOIN units ON products.unitID = units.unitID"
 						+ " WHERE orderItems.userID = " + session.getAttribute("uid") + " AND"
-						+ " orderItems.cartState = 'Pending'";
+						+ " orderItems.cartState = 'Idle'";
 				resultSet = statement.executeQuery(sqlproduct);
 			while (resultSet.next()) {
 			%>
 			<tr class="cart-row">
+				<td data-th="ID" ><span style="display:  none;" class="cart-product-id"><%=resultSet.getString("prodID")%></span></td>
 			    <td data-th="Product">
 			        <div class="row">
 			            <div class="col-sm-3 hidden-xs">
 			            	<img src="http://placehold.it/100x100" alt="..." class="img-responsive" />
 			            </div>
 			            <div class="col-sm-8">
-			                <h4 class="nomargin p-title"><%=resultSet.getString("prodName")%></h4>
+			                <h4 class="cart-product-name nomargin p-title"><%=resultSet.getString("prodName")%></h4>
 			                <p class="p-text"><%=resultSet.getString("description")%></p>
 			            </div>
 			        </div>
 			    </td>
-			    <td data-th="Price" class="cart-price">&#8369;<%=resultSet.getString("initialPrice")%></td>
+			    <td data-th="Unit Price" class="cart-price">&#8369;<%=resultSet.getString("initialPrice")%></td>
 			    <td data-th="Quantity"><input type="number" class="cart-quantity-input form-control text-center" min='1' value="1"></td>
-			    <td data-th="Unit" class="text-center"><%=resultSet.getString("unit")%></td>
+			    <td data-th="Unit"><%=resultSet.getString("unit")%></td>
 			    <td data-th="Subtotal" class="cart-item-subtotal text-center">&#8369;<%=resultSet.getString("initialPrice")%></td>
 			    <td class="actions" data-th="">
-			        <button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
+			        <button class="cart-item-delete btn btn-danger btn-sm" data-toggle="modal" data-target="#delete-confirmation">
+			        	<i class="fas fa-trash-alt"></i>
+			        </button>
 			    </td>
 			</tr>
 			<%
@@ -176,6 +179,7 @@ if((request.getSession(false).getAttribute("email")== null) )
           </tbody>
           <tfoot>
             <tr>
+              <td></td>
               <td><a href="#" class="btn btn-outline-primary"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
               <td colspan="3" class="hidden-xs"></td>
               <td data-th="Subtotal" class="cart-total-price hidden-xs text-center">Total: </td>
@@ -184,13 +188,6 @@ if((request.getSession(false).getAttribute("email")== null) )
           </tfoot>
         </table>
 </div>
-
-
-<button onclick="topFunction()" id="myBtn" title="Go to top"><span class="fa fa-angle-double-up"></span></button>
-
-</div>
-
-<br>
 
 <!-- Footer -->
 <footer class="page-footer font-small blue pt-4">
@@ -276,13 +273,38 @@ if((request.getSession(false).getAttribute("email")== null) )
 </footer>
 <!-- Footer -->
 
+<!-- START of Delete Confirmation Modal -->
+<div class="modal fade" id="delete-confirmation" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xs modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel"><i class="fas fa-exclamation-circle fa-2x justify-content-center" style="color:#bbbb77"></i>
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      		<input type="text" name="prodID" id="productIdGetTest" readonly/>
+      		<input type="text" name="prodName" id="productName	GetTest" readonly/>
+            <p class="text-center">Are you sure you want to delete this item?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+        <input type="submit" form="removeCartItem" class="btn btn-danger" value="Delete">
+      </div>
+    </div>
+  </div>
+</div> 
 
-<!-- START of Modal -->
+<!--END of Delete Confirmation Modal -->
+
+<!-- START of Checkout Confirmation Modal -->
 <div class="modal fade" id="checkout-confirmation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xs modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-cart-plus fa-2x justify-content-center"></i>
+        <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-exclamation-circle fa-2x justify-content-center" style="color:#bbbb77"></i>
         </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -294,14 +316,14 @@ if((request.getSession(false).getAttribute("email")== null) )
             <p class="text-center">You have ( ) items in your cart</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
         <a href="userBillingPage.jsp" class="btn btn-warning">Proceed</a>
       </div>
     </div>
   </div>
 </div> 
 
-<!--END of Modal -->
+<!--END of Checkout Confirmation Modal -->
 
 <script>
   <!-- go to top -->
@@ -319,11 +341,32 @@ function scrollFunction() {
   }
 }
 
+//For multiple modals modals:
+
 // When the user clicks on the button, scroll to the top of the document
 function topFunction() {
   document.body.scrollTop = 0; // For Safari
   document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 }
+
+/* 	var table = document.getElementById('cart');
+	
+	for(var i = 1; i < table.rows.length; i++){
+	    table.rows[i].onclick = function(){
+		document.getElementById("productIdGetTest").value = this.cells[0].innerHTML;
+	}
+} */
+	
+/* function hideProdID(){
+	for(var i = 1; i < table.rows.length; i++){
+	    table.rows[i].onload = function(){
+		document.getElementById("putangina").style.visibility = "hidden";
+	    }
+	}
+	/* document.getElementById("putangina").style.visibility = "hidden"; */
+/* }
+
+window.onload = hideProdID();  */
 
 </script>
 </body>

@@ -18,6 +18,7 @@ public class AddOrderBean {
 	private String orderStatus;
 	private int deliveryAddressID;
 	private String cartStatus;
+	private String prodName;
 	
 	//computed values
 	private int orderPrice;
@@ -168,6 +169,14 @@ public class AddOrderBean {
 		this.cartStatus = cartStatus;
 	}
 
+	public String getProdName() {
+		return prodName;
+	}
+
+	public void setProdName(String prodName) {
+		this.prodName = prodName;
+	}
+
 	private Connection getDBConnection() {
 		Connection connection = null;
 		
@@ -196,7 +205,7 @@ public class AddOrderBean {
 				pstmnt.setString(2, "Not yet paid");
 				pstmnt.setString(3, "Processing");
 				pstmnt.setString(4, "Incomplete");
-				pstmnt.setString(5, "Pending");
+				pstmnt.setString(5, "Idle");
 				
 				pstmnt.executeUpdate();
 				return true;
@@ -221,7 +230,7 @@ public class AddOrderBean {
 				
 				pstmnt.setInt(1, this.userID);
 				pstmnt.setInt(2, this.prodID);
-				pstmnt.setString(3, "Pending");
+				pstmnt.setString(3, "Idle");
 				
 				pstmnt.executeUpdate();
 				return true;
@@ -250,6 +259,28 @@ public class AddOrderBean {
 				return true;
 			} catch (SQLException sqle) {
 				System.err.println("Error on insertOrderReferenceRecord: " + sqle.getMessage());
+			}			
+		} else {
+			System.err.println("Missing on invalid connection.");
+		}
+		return false;
+	}
+	
+	public boolean removeCartItemRecord() {		
+		Connection connection = getDBConnection();
+		
+		if (connection != null) { //means a valid connection
+			String sql = "UPDATE orderItems SET cartState = ? WHERE prodID = ?";
+			try {
+				PreparedStatement pstmnt = connection.prepareStatement(sql);
+				
+				pstmnt.setString(1, "Removed");	
+				pstmnt.setInt(2, this.prodID);	
+				
+				pstmnt.executeUpdate();
+				return true;
+			} catch (SQLException sqle) {
+				System.err.println("Error on removeCartItemRecord: " + sqle.getMessage());
 			}			
 		} else {
 			System.err.println("Missing on invalid connection.");
@@ -287,9 +318,9 @@ Order Reference Status
 2. Set
 3. Cancelled
 
-Cart Statuses
-1. Pending
-2. CheckOut
-
-
+Cart Statuses in orders table
+1. Idle
+2. Processing
+3. CheckOut
+4. Cancelled
 */

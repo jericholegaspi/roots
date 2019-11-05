@@ -305,7 +305,7 @@
                                             <td><%=resultSet.getString("Availability")%></td>
                                             <td><%=resultSet.getString("critLevel")%></td>
                                             <td><%=resultSet.getString("prodLastUpdate")%></td>
-                                            <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editproduct"><span class="glyphicon glyphicon-edit"></span> EDIT</button></td>     
+                                            <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editproduct"><span class="glyphicon glyphicon-edit"></span>EDIT</button></td>     
                                         </tr>
 	<%
 			}

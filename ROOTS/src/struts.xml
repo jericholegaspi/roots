@@ -112,8 +112,13 @@
 				</action> 
 				
 				<action name="addToCart" class="action.customer.AddToCartAction">
-					<result name="error">/error.jsp</result>
 					<result name="success">/userProductIndex.jsp</result>
+					<result name="error">/error.jsp</result>
+				</action>
+				
+				<action name="removeCartItem" class="action.customer.RemoveCartItemAction">
+					<result name="success">/userCartPage.jsp</result>
+					<result name="error">/error.jsp</result>
 				</action>
 	</package>
 </struts>

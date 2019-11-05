@@ -90,33 +90,26 @@ if((request.getSession(false).getAttribute("email")== null) )
                 </li>
             </ul>
             <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit"><span class="fa fa-search"></span></button>
-
                 <ul class="navbar-nav navbar-right">
                     <li class="nav-item">
                         <a class="nav-link" href="userCartPage.jsp"><span class="fa fa-shopping-cart"><span class="badge total-count"></span></span></a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-        <span class="fa fa-user"></span>
-      </a>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#"><span class="fa fa-sign-in"></span>Profile</a>
-                            <a class="dropdown-item" href="invoice_page.html"><span class="fa fa-sign-in"></span>Invoice</a>
-                            <a class="dropdown-item" href="#"><span class="fa fa-sign-in"></span>Logout</a>
-                        </div>
-
+        				<span class="fas fa-user-alt"></span></a>
+						<div class="dropdown-menu dropdown-menu-right">
+							<a class="dropdown-item" href="profilePage.html"><i class="fas fa-user-alt fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Profile</span></a>
+							<a class="dropdown-item" href="invoicelist_page.html"><i class="fas fa-file-invoice fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Invoice</span></a>
+							<a class="dropdown-item" href="appointmentListPage.html"><i class="far fa-calendar-check fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Appointment</a>
+							<a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Logout</span></a>
+						</div>
                     </li>
                 </ul>
-
             </form>
         </div>
     </nav>
 </div>
-
 <div class="container product-detail justify-content-center">
-
 	<%
 		int prodIDChain = Integer.parseInt(request.getParameter("prodID"));
 		try {
@@ -135,6 +128,7 @@ if((request.getSession(false).getAttribute("email")== null) )
 	<form action="addToCart.action" method="post" id="addToCart">
     <div class="card">
         <div class="col-sm-12">
+        <a href="userProductIndex.jsp" class="btn btn-outline-primary float-left btn-lg"><i class="fas fa-arrow-left"></i></a>
             <div class="row">
                 <div class="col-sm-4">
                     <div class="card-title">
@@ -144,7 +138,7 @@ if((request.getSession(false).getAttribute("email")== null) )
                     <input type="hidden" name="prodID" value="<%=resultSet.getString("prodID")%>"/>
                     <img class="card-img-top responsive-img" src="assets/css/images/amp.jpg" alt="Card image" style="width:100%; height:200px;">
                     <br><br><br><br>
-                    <a href="userProductIndex.jsp" class="btn btn-outline-primary float-left btn-lg"><i class="fas fa-arrow-left"></i></a>
+                    
                     <br>
                 </div>
                 <div class="card-body col-sm-8">
@@ -202,7 +196,6 @@ if((request.getSession(false).getAttribute("email")== null) )
             </div>
         </div>
     </div>
-
 </div>
 
 
@@ -296,7 +289,7 @@ if((request.getSession(false).getAttribute("email")== null) )
     <div class="modal-dialog modal-xs modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-cart-plus fa-4x" style="height: 70px; color: green;"></i>
+                <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-exclamation-circle fa-2x" style="color: #bbbb77;"></i>
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -304,15 +297,15 @@ if((request.getSession(false).getAttribute("email")== null) )
             </div>
             <div class="modal-body">
                 <div class="row text-center">
-                    <div class="col-md-10">
-                        <p class="p-title">Are you sure you want to add this to cart?</p>
+                    <div class="col-md-12">
+                        <p>Are you sure you want to add this to cart?</p>
                     </div>
 
                 </div>
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-outline-primary" data-dismiss="modal">No</button>
                 <button type="submit" form="addToCart" class="btn btn-warning">Yes</button>
             </div>
         </div>
