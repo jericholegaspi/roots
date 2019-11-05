@@ -98,7 +98,7 @@ button:hover {
 }
 
 #prevBtn {
-  background-color: #bbbbbb;
+  background-color: #ffffff;
 }
 
 /* Make circles that indicate the steps of the form: */
@@ -106,7 +106,7 @@ button:hover {
   height: 15px;
   width: 15px;
   margin: 0 2px;
-  background-color: #bbbbbb;
+  background-color: #ffffff;
   border: none;  
   border-radius: 50%;
   display: inline-block;

@@ -47,9 +47,9 @@ public class AddToCartAction extends ActionSupport implements ModelDriven<AddOrd
 		        if (rs.next()) {
 		        	statement = connection.createStatement();
 					String sqlproduct = "SELECT * FROM orders";
-					resultSet = statement.executeQuery(sqlproduct);
+					resultSet = statement.executeQuery(sqlproduct); 
 					while (resultSet.next()) {
-						if(resultSet.getString("cartStatus").equals("Idle")){	 
+						if(resultSet.getString("cartStatus").equals("Idle") && resultSet.getInt("userID") == orderObj.getUserID()){	 
 							orderObj.insertOrderItemRecord();
 							System.out.println("~~~ADD ITEM ORDER~~~");
 						}else{

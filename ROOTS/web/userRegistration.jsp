@@ -64,7 +64,8 @@
 										<select name="gender" class="form-control" required>
 											<option value="" disabled="disabled" selected="selected">Sex</option>
 											<option value="M">Male</option>
-											<option value="F">Female</option>	
+											<option value="F">Female</option>
+											<option value="Prefer Not To Say">Prefer Not To Say</option>	
 										</select>								
 							</div>
 						</div>

@@ -120,7 +120,7 @@ String sql = "SELECT * FROM users where userID = " + session.getAttribute("uid")
 resultSet = statement.executeQuery(sql);
 while (resultSet.next()) {
 %>  
-<!-- change to div -->
+
 <div id="regForm">
   <!-- One "tab" for each step in the form: -->
   
@@ -153,54 +153,23 @@ e.printStackTrace();
 }
 %>
 
-  <br><br><h5>Billing Address</h5><br>
+  <br><br><h5>Delivery Address</h5><br>
+      	
+      	<div class="col-sm-6">
+    	<label for="sname">Delivery Address</label>
+    		<select id="selectAddress" class="form-control" onchange="switchAddress(this.value)">
+    		  <option value="" disabled="disabled" selected="selected">Select Delivery Address</option>
+			  <option value="Home Address">Home Address</option>
+			  <option value="Work Address">Work Address</option>
+			</select>
+    	</div>
+    	
+    	<br>
+    	
   <input type="hidden" name="userId" value="<%= session.getAttribute("uid") %>">
-  
-<<<<<<< Updated upstream
-          
-=======
-<!--   	<div class="form-row">
-      <div class="col">
-        <label for="snumber">Street Number</label>
-          <input id="houseNumber" placeholder="Enter your street number" oninput="this.className = ''" name="snumber"></p>
-      </div>
-      <div class="col">
-        <label for="sname">Street Name</label>
-          <input id="street" placeholder="Enter your street name" oninput="this.className = ''" name="sname"></p>
-      </div>
-      <div class="col">
-        <label for="sname">Barangay/Subdivision</label>
-          <input id="barangay" placeholder="Enter your barangay/subdivision" oninput="this.className = ''" name="sname"></p>
-      </div>
-    </div>
-    <div class="form-row">
-    	<div class="col">
-    	<label for="sname">City</label>
-    		<select id="city" class="form-control">
-			  <option>Manila</option>
-			</select>
-    	</div>
-    	<div class="col">
-    	<label for="sname">Province</label>
-    		<select id="province" class="form-control">
-			  <option>Cavite</option>
-			</select>
-    	</div>
-    	<div class="col">
-    		 <label for="sname">Postal Code</label>
-          <input id="postalCode" placeholder="Enter your postal code" oninput="this.className = ''" name="sname"></p>
-    	</div>
-    </div>
-    
-    <div class="btn-group float-right">
-    	<a href="userCartPage.jsp" class="btn btn-outline-secondary float-right btn-sm"><i class="far fa-edit"></i></a>
-    	<a href="userCartPage.jsp" class="btn btn-outline-danger float-right btn-sm"><i class="fas fa-trash-alt"></i></a>
-     </div>  -->
      
-     
->>>>>>> Stashed changes
       <br>
-	<button class="btn btn-outline-primary" onclick="homeAddressSwitch()" id="HomeAdddBtn" type="button" data-toggle="collapse" data-target="#homeAddress" aria-expanded="false" aria-controls="collapseExample">
+	<button class="btn btn-outline-primary" id="HomeAddBtn" disabled type="button" data-toggle="collapse" data-target="#homeAddress" aria-expanded="false" aria-controls="collapseExample">
 		<i class="fas fa-plus-circle"></i> Home Address
 	</button>
 	<!-- Start Collapsible Home Address -->
@@ -236,7 +205,7 @@ else{
 		<!-- Edit Button -->
 		<a class="btn btn-outline-warning float-right btn-sm" data-toggle="collapse" data-target="#editHomeAddress"><i class="fas fa-edit"></i></a>
     	<!-- Delete Button -->
-    	<button class="btn btn-outline-danger float-right btn-sm" data-toggle="modal" data-target="#delete-confirmation"><i class="fas fa-trash-alt"></i></button>
+    	<button class="btn btn-outline-danger float-right btn-sm" data-toggle="modal" data-target="#delete-confirmationHome"><i class="fas fa-trash-alt"></i></button>
 		</div>
 <%		
 		} while (resultSet.next());
@@ -249,20 +218,7 @@ e.printStackTrace();
       </div>
 	</div>
 
-	
-<!-- 	<div class="btn-group btn-group-toggle float-right" data-toggle="buttons" role="group">
-		Add Button
-		<a class="btn btn-outline-success float-right btn-sm" role="tab" data-toggle="collapse" data-target="#addHomeAddress"><i class="fas fa-plus"></i></a>
-		Edit Button
-    	<a class="btn btn-outline-warning float-right btn-sm" data-toggle="collapse" data-target="#editHomeAddress"><i class="fas fa-edit"></i></a>
-<<<<<<< Updated upstream
-    	Delete Button
-    	<a href="cart_page.html" class="btn btn-outline-danger float-right btn-sm" data-toggle="modal" data-target="#delete-confirmation"><i class="fas fa-trash-alt"></i></a>
-     </div> -->
-=======
-    	<a href="userCartPage.jsp" class="btn btn-outline-danger float-right btn-sm" data-toggle="modal" data-target="#delete-confirmation"><i class="fas fa-trash-alt"></i></a>
      </div>
->>>>>>> Stashed changes
       <br><br>
       
       <!-- start of addHomeAddress -->
@@ -304,11 +260,7 @@ e.printStackTrace();
           <input name="postalCode" class="form-control" placeholder="Enter your postal code" oninput="this.className = ''"></p>
     	</div>
     </div>
-<<<<<<< Updated upstream
     	<button class="btn btn-success float-right btn-sm" value="Add Home Address"><i class="fas fa-save"></i> Save</button>
-=======
-    <a href="userCartPage.jsp" class="btn btn-success float-right btn-sm"><i class="fas fa-save"></i> Save</a>
->>>>>>> Stashed changes
     </div>
 
     <br>
@@ -367,17 +319,12 @@ while (resultSet.next())
           <input name="postalCode" class="form-control" value="<%= resultSet.getString("postalCode") %>" oninput="this.className = ''"></p>
     	</div>
     </div>
-<<<<<<< Updated upstream
     <button class="btn btn-success float-right btn-sm" value="Add Home Address"><i class="fas fa-save"></i> Update</button>
     <input type="hidden" name="userID" value="<%= session.getAttribute("uid") %>">
     <input type="hidden" name="deliveryAddressID" value="<%= resultSet.getString("deliveryAddressID") %>">
-=======
-     <a href="userCartPage.jsp" class="btn btn-success float-right btn-sm"><i class="fas fa-save"></i> Update</a>
     </div>
->>>>>>> Stashed changes
+        </form>
     
-    </div>
-    </form>
 <%
 }
 } catch (Exception e) {
@@ -385,13 +332,11 @@ e.printStackTrace();
 }
 %>
     <!-- End of editHomeAddress -->	
-    </div>
   
     <!-- End of Collapsible Home Address -->	  
-		  
 	
 	<br><br>
-	<button class="btn btn-primary" onclick="workAddressSwitch()" id="WorkAddBtn" type="button" data-toggle="collapse" data-target="#workAddress" aria-expanded="false" aria-controls="collapseExample">
+	<button class="btn btn-primary" id="WorkAddBtn" disabled type="button" data-toggle="collapse" data-target="#workAddress" aria-expanded="false" aria-controls="collapseExample">
 		<i class="fas fa-plus-circle"></i> Work Address
 	</button>
 	
@@ -412,7 +357,7 @@ if (resultSet.next() == false) {
         <input id="currentAddress" class="form-control" type="text" placeholder="No Home Address Record" readonly></p>
         <div class="btn-group btn-group-toggle float-right" data-toggle="buttons" role="group">
       	<!-- Call addWorkAddress -->
-      		<a class="btn btn-outline-success float-right btn-sm" role="tab" data-toggle="collapse" data-target="#addWorkAddress"><i class="fas fa-plus"></i></a>
+      	<a class="btn btn-outline-success float-right btn-sm" role="tab" data-toggle="collapse" data-target="#addWorkAddress"><i class="fas fa-plus"></i></a>
 	</div>
 	
 <%
@@ -425,12 +370,8 @@ else{
 	<div class="btn-group btn-group-toggle float-right" data-toggle="buttons" role="group">
 		<!-- Call editWorkAddress -->
     	<a class="btn btn-outline-warning float-right btn-sm" data-toggle="collapse" data-target="#editWorkAddress"><i class="fas fa-edit"></i></a>
-<<<<<<< Updated upstream
     	<!-- Call deleteWorkAddress -->
-    	<button class="btn btn-outline-danger float-right btn-sm" data-toggle="modal" data-target="#delete-confirmation"><i class="fas fa-trash-alt"></i></button>
-=======
-    	<a href="userCartPage.jsp" class="btn btn-outline-danger float-right btn-sm" data-toggle="modal" data-target="#delete-confirmation"><i class="fas fa-trash-alt"></i></a>
->>>>>>> Stashed changes
+    	<button class="btn btn-outline-danger float-right btn-sm" data-toggle="modal" data-target="#delete-confirmationWork"><i class="fas fa-trash-alt"></i></button>
      </div>
 <%		
 		} while (resultSet.next());
@@ -443,7 +384,7 @@ e.printStackTrace();
       
       <!-- start of addWorkAddress -->
       <form action="addWork.action" name="myForm" method="post">
-      <div class="collapse" id="addHomeAddress">
+      <div class="collapse" id="addWorkAddress">
      <div class="form-row">
       <div class="col">
         <label for="snumber">House Number</label>
@@ -480,11 +421,7 @@ e.printStackTrace();
           <input name="postalCode" class="form-control" placeholder="Enter your postal code" oninput="this.className = ''"></p>
     	</div>
     </div>
-<<<<<<< Updated upstream
     	<button class="btn btn-success float-right btn-sm" value="Add Home Address"><i class="fas fa-save"></i> Save</button>
-=======
-    <a href="userCartPage.jsp" class="btn btn-success float-right btn-sm"><i class="fas fa-save"></i> Save</a>
->>>>>>> Stashed changes
     </div>
 
     <br>
@@ -543,37 +480,51 @@ while (resultSet.next())
           <input name="postalCode" class="form-control" value="<%= resultSet.getString("postalCode") %>" oninput="this.className = ''"></p>
     	</div>
     </div>
-<<<<<<< Updated upstream
     <button class="btn btn-success float-right btn-sm" value="Add Home Address"><i class="fas fa-save"></i> Update</button>
     <input type="hidden" name="userID" value="<%= session.getAttribute("uid") %>">
     <input type="hidden" name="deliveryAddressID" value="<%= resultSet.getString("deliveryAddressID") %>">
-=======
-     <a href="userCartPage.jsp" class="btn btn-success float-right btn-sm"><i class="fas fa-save"></i> Update</a>
     </div>
->>>>>>> Stashed changes
-    
-    </div>
-    </form>
+        </form>  
 <%
 }
 } catch (Exception e) {
 e.printStackTrace();
 }
 %>
+
+</div>
     <!-- End of editWorkAddress -->	
     </div>
     <br><br>
   </div>
- 
+  </div> <!-- End of First Tab -->
+ 	
+ 	<br>
 
+<%
+try {
+connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+statement = connection.createStatement();
+String sql = "SELECT * FROM users where userID = " + session.getAttribute("uid");
+
+resultSet = statement.executeQuery(sql);
+while (resultSet.next()) {
+%>  
   <div class="tab"><h5>Order Summary</h5><br>
     <div class="col-sm-12">
       <div class="row">
-        <div class="col">
-        <p>Name: Abigail Abada</p>
-        <p>Phone Number: 4778425</p>
-        <p>Email Address: abigailhana.abada@benilde.edu.ph</p>
-        <p>Billing Address: <i>104 Northeast Ipil St. Marikina Heights Marikina City</i></p>
+        <div class="col">	
+        <p><strong>Name</strong>: <%= resultSet.getString("firstName") %> <%= resultSet.getString("middleName") %> <%= resultSet.getString("lastName") %></p>
+        <p><strong>Phone Number</strong>: <%= resultSet.getString("telephone") %></p>
+        <p><strong>Mobile Number</strong>:  <%= resultSet.getString("mobileNo") %> </p>
+        <p><strong>Email Address</strong>: <%= resultSet.getString("email") %> </p>
+<%
+}
+} catch (Exception e) {
+e.printStackTrace();
+}
+%>
+        <p><strong>Address</strong>: <i>104 Northeast Ipil St. Marikina Heights Marikina City</i></p>
         </div>
       </div>
     </div>
@@ -636,15 +587,22 @@ e.printStackTrace();
         </div>
 
     </div>
-</div>
+</div> <!-- End of Second Tab -->
 
+<form action="/action_page.php" method="get" id="form1">
+ <input type="hidden" name="fname"><br>
+  <input type="hidden" name="fname"><br>
+  <input type="hidden" name="fname"><br>
+ 
+</form>
 
 
   <div style="overflow:auto;">
     <div style="float:right;">
-    	<a class="btn btn-outline-warning btn-lg" id="prevBtn" onclick="nextPrev(-1)"> Previous</a>
-    	<a class="btn btn-warning btn-lg" id="nextBtn" onclick="nextPrev(1)"> Next</a>
-    
+    	<a class="btn btn-outline-primary btn-lg" id="prevBtn" onclick="nextPrev(-1)"> Previous</a>
+        <form>
+    	<button class="btn btn-warning btn-lg" id="nextBtn" onclick="nextPrev(1)"> Next</button>
+    	</form>
       
     </div>
   </div>
@@ -660,7 +618,7 @@ e.printStackTrace();
 <button onclick="topFunction()" id="myBtn" title="Go to top"><span class="fa fa-angle-double-up"></span></button>
 
 
-</div>
+
 <br>
 <!-- Footer -->
 <footer class="page-footer font-small blue pt-4">
@@ -746,19 +704,19 @@ e.printStackTrace();
 </footer>
 <!-- Footer -->
 
-<!-- START of Delete Modal -->
-<div class="modal fade" id="delete-confirmation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- START of Delete Modal for Home Address-->
+<div class="modal fade" id="delete-confirmationHome" tabindex="-1" role="dialog" aria-labelledby="deleteHomeAddr" aria-hidden="true">
   <div class="modal-dialog modal-xs modal-dialog-centered" role="document">
     <div class="modal-content text-center">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-exclamation-circle fa-2x justify-content-center" style="color:grey;"></i>
+        <h5 class="modal-title" id="deleteHomeAddr"><i class="fas fa-exclamation-circle fa-2x justify-content-center" style="color:#bbbb77;"></i>
         </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-            <p class="question text-center">Are you sure you want to delete your address?</p>
+            <p class="question text-center">Are you sure you want to delete your Home Address?</p>
             <br>
       </div>
       <div class="modal-footer">
@@ -775,8 +733,38 @@ e.printStackTrace();
   </div>
 </div> 
 
-<!--END of Modal -->
+<!--END of Delete Modal for for Home Address -->
 
+
+<!-- START of Delete Modal for Work Address-->
+<div class="modal fade" id="delete-confirmationWork" tabindex="-1" role="dialog" aria-labelledby="deleteWorkAddr" aria-hidden="true">
+  <div class="modal-dialog modal-xs modal-dialog-centered" role="document">
+    <div class="modal-content text-center">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteWorkAddr"><i class="fas fa-exclamation-circle fa-2x justify-content-center" style="color:#bbbb77;"></i>
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <p class="question text-center">Are you sure you want to delete your Work Address?</p>
+            <br>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+        
+        <form action="deleteWork.action" name="myForm" method="post">        <button class="btn btn-primary">Proceed</button>
+    	<input type="hidden" name="userID" value="<%= session.getAttribute("uid") %>">
+        </form>
+ 
+
+      </div>
+    </div>
+  </div>
+</div> 
+
+<!--END of Delete Confirmation Home Address Modal -->
 
 <script>
   <!-- go to top -->
@@ -811,17 +799,14 @@ function showTab(n) {
   //... and fix the Previous/Next buttons:
   if (n == 0) {
     document.getElementById("prevBtn").style.display = "none";
-   // document.getElementById("nextBtn").href = "";
+    document.getElementById("nextBtn").innerHTML = "Next";
+    document.getElementById("nextBtn").setAttribute("onclick", "nextPrev(1)");
   } else {
     document.getElementById("prevBtn").style.display = "inline";
-  }
-  if (n == 1) {
     document.getElementById("nextBtn").innerHTML = "Proceed";
     document.getElementById("nextBtn").setAttribute("onclick", "location.href='userInvoicePage.jsp'");
-
-  } else {
-    document.getElementById("nextBtn").innerHTML = "Next";
   }
+
   //... and run a function that will display the correct step indicator:
   fixStepIndicator(n)
 }
@@ -845,11 +830,11 @@ function nextPrev(n) {
   showTab(currentTab);
 }
 
-/* function validateForm() {
-  // This function deals with validation of the form fields
+function validateForm() {
+	 // This function deals with validation of the form fields
   var x, y, i, valid = true;
   x = document.getElementsByClassName("tab");
-  y = x[currentTab].getElementsByTagName("input");
+  /* y = x[currentTab].getElementsByTagName("input");
   // A loop that checks every input field in the current tab:
   for (i = 0; i < y.length; i++) {
     // If a field is empty...
@@ -859,13 +844,14 @@ function nextPrev(n) {
       // and set the current valid status to false
       valid = false;
     }
-  }
+  } */
   // If the valid status is true, mark the step as finished and valid:
-  if (valid) {
+  if (valid) { 
     document.getElementsByClassName("step")[currentTab].className += " finish";
+  
   }
   return valid; // return the valid status
-} */
+} 
 
 function fixStepIndicator(n) {
   // This function removes the "active" class of all steps...
@@ -877,17 +863,22 @@ function fixStepIndicator(n) {
   x[n].className += " active";
 }
 
-function homeAddressSwitch() {	
+function switchAddress(select){
+	if(select == "Home Address") {
+	    document.getElementById("homeAddress").style.display = "block";
+	    document.getElementById("workAddress").style.display = "none";
 
-	
-	
+	} else if (select == "Work Address"){
+	    document.getElementById("homeAddress").style.display = "none";
+	    document.getElementById("workAddress").style.display = "block";
+	} else {
+	    document.getElementById('WorkAddBtn').disabled = true;
+	    document.getElementById("HomeAddBtn").disabled = true;
+	}
 }
 
-function workAddressSwitch() {
-	
-	
-}
-
+window.onload = switchAddress();
+//window.onclick = switchAddress;
 
 </script>
 
