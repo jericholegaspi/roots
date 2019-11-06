@@ -590,29 +590,60 @@ e.printStackTrace();
             </tr>
           </thead>
           <tbody>
+            <%
+			try {
+				statement = connection.createStatement();
+				String sqlproduct = "SELECT orderItems.orderItemID, orderItems.userID, orderItems.prodID,"
+						+ " orderItems.cartState, orderItems.orderItemQty, orderItems.orderItemSubTotal,"
+						+ " products.prodID, products.prodName, products.description,"
+						+ " products.initialPrice, products.unitID, units.unitID, units.unit FROM orderItems"
+						+ " INNER JOIN products ON orderItems.prodID = products.prodID"
+						+ " INNER JOIN units ON products.unitID = units.unitID"
+						+ " WHERE orderItems.userID = " + session.getAttribute("uid") + " AND"
+						+ " orderItems.cartState = 'Idle'";
+				
+				resultSet = statement.executeQuery(sqlproduct);
+			while (resultSet.next()) {
+			%>
             <tr>
-              <td data-th="Item">1</td>
-              <td data-th="Quantity">Software</td>
-              <td data-th="Unit Cost">LTS Versions</td>
-              <td data-th="Subtotal">21</td>
+              <td data-th="Item"><%=resultSet.getString("prodName")%></td>
+              <td id="quantity" data-th="Quantity"><%=resultSet.getInt("orderItemQty")%></td>
+              <td id="initialprice" data-th="Unit Cost"><%=resultSet.getString("initialPrice")%></td>
+              <td id="subtotal" data-th="Subtotal"><%=resultSet.getInt("orderItemSubTotal")%></td>
             </tr>
+			<%
+					}
+				} catch (Exception e) {
+				e.printStackTrace();
+			}
+			%>
+			
+			<%
+			try {
+				statement = connection.createStatement();
+				String sqlproduct = "SELECT orderTotalPrice "
+						+ "FROM orders WHERE userID = "+ session.getAttribute("uid") +" AND cartStatus = 'Idle'";
+				
+				resultSet = statement.executeQuery(sqlproduct);
+			while (resultSet.next()) {
+			%>
             <tr>
-              <td data-th="Item">1</td>
-              <td data-th="Quantity">Software</td>
-              <td data-th="Unit Cost">LTS Versions</td>
-              <td data-th="Subtotal">21</td>
+            <td>Item Total</td>
+            <td></td>
+            <td></td>
+            <td id="itemtotal"><%=resultSet.getInt("orderTotalPrice")%></td>
             </tr>
-            <tr>
-              <td data-th="Item">1</td>
-              <td data-th="Quantity">Software</td>
-              <td data-th="Unit Cost">LTS Versions</td>
-              <td data-th="Subtotal">21</td>
-            </tr>
+            <%
+					}
+				} catch (Exception e) {
+				e.printStackTrace();
+			}
+			%>
           </tbody>
           <tfoot>
 	        <tr>
 	          <td class="hidden-xs" colspan="3"></td>
-	          <td class="hidden-xs">Total</td>
+	          <td class="hidden-xs"><strong>Grand Total</strong></td>
 	          <!-- PayPal Total -->
 	          <td id="paypaltotal" class="hidden-xs"><h4><strong>500</strong></h4></td>
 	        </tr>
@@ -1050,7 +1081,10 @@ paypal.Buttons({
   }).render('#paypal-button-container');
 
 
-
+/* function calculate(){
+	
+	document.getElementById('itemtotal').innerHTML = ;
+} */
 
 
 </script>

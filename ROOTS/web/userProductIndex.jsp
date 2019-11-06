@@ -146,7 +146,7 @@ if((request.getSession(false).getAttribute("email")== null) )
         <!-- Nav pills -->
         <ul class="nav nav-pills mx-auto" role="tablist">
             <li class="nav-item">
-                <img class="responsive-img float-left" src="assets/css/images/pitahc-logo.jpg" alt="Card image" style="width:90px; height:90px;">
+                <img class="float-left" src="assets/css/images/pitahc-logo.jpg" alt="Card image" style="width:90px; height:90px;">
             </li>
             <li class="ml-auto">
                 <div class="btn-group">
@@ -192,7 +192,6 @@ if((request.getSession(false).getAttribute("email")== null) )
             </a>
                         </li>
                     </ul>
-                   <img src="responsive-img" src="assets/css/images/pitahc-logo.png" alt="pitahc-logo" style="width:90px; height:90px;">
                 </nav>
                 
                 <div class="row" id="myDIV">
@@ -212,7 +211,7 @@ if((request.getSession(false).getAttribute("email")== null) )
 				<form action="selectItemID.action" method="post">
                     <div class="col">
                         <div class="card item">
-                            <img class="card-img-top responsive-img" src="images/amp.jpg" alt="Card image" style="width:100%; height:200px;">
+                            <img class="card-img-top" src="assets/css/images/amp.jpg" alt="Card image" style="width:100%; height:200px;">
                             <div class="card-body">
                                 <h4 class="card-title"><%=resultSet.getString("prodName")%></h4>
                                 <h6 class="card-subtitle mb-2 text-muted"><%=resultSet.getString("category")%></h6>
