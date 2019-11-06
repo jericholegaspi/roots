@@ -379,7 +379,7 @@ public class AddOrderBean {
 				pstmnt.executeUpdate();
 				return true;
 			} catch (SQLException sqle) {
-				System.err.println("Error on goToBillingRecord: " + sqle.getMessage());
+				System.err.println("Error on insertReferenceOrderIDRecord: " + sqle.getMessage());
 			}			
 		} else {
 			System.err.println("Missing on invalid connection.");

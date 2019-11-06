@@ -228,7 +228,10 @@ if((request.getSession(false).getAttribute("email") == null))
         <!-- Content -->
         <h5 class="text-uppercase text-warning">ROOTS</h5>
         <p class="text-white"><small>A web-enabled application that provides traditional and alternative medicine services from licensed practitioners with the ability to  purchase medicinal plants, herbs and other products online.</small></p>
-
+		<form action="submitIDToDetails.action" method="post" id="submitIDToDetails">
+			<input type="hidden" name="prodID" id="edit-prodID"/>
+			<input type="hidden" name="prodName" id="edit-prodName"/>
+		</form>
       </div>
       <!-- Grid column -->
 
@@ -292,7 +295,7 @@ if((request.getSession(false).getAttribute("email") == null))
   <!-- Footer Links -->
 
   <!-- Copyright -->
-  <div class="footer-copyright text-center text-light py-3">Â© 2019 Copyright:
+  <div class="footer-copyright text-center text-light py-3">© 2019 Copyright:
     <a href="https://mdbootstrap.com/education/bootstrap/" class="text-warning"> Roots.com</a>
   </div>
   <!-- Copyright -->
@@ -344,15 +347,32 @@ if((request.getSession(false).getAttribute("email") == null))
             <br>
             <%
 			try {
+				Statement statement2 = null;
+				ResultSet resultSet2 = null;
+				
 				connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+				
+				statement2 = connection.createStatement();
+				String sqlorderitem = "SELECT * FROM orders"
+						+ " WHERE userID = " + session.getAttribute("uid") + " AND"
+						+ " cartStatus = 'Idle'";
+				resultSet2 = statement.executeQuery(sqlorderitem);
+				resultSet2.first();
+				
 				statement = connection.createStatement();
 				String sqlproduct = "SELECT COUNT(orderItemID) FROM orderItems"
 						+ " WHERE userID = " + session.getAttribute("uid") + " AND"
 						+ " orderItems.cartState = 'Idle'";
 				resultSet = statement.executeQuery(sqlproduct);
-				resultSet.next();
+				resultSet.first();
 			%>
             <p class="text-center">You have (<%=resultSet.getInt("count(orderItemID)")%>) items in your cart</p>
+            <form action="goToBilling.action" method="post" id="goToBilling">
+				<input type="hidden" name="cartItemTotalCount" value="<%=resultSet.getInt("count(orderItemID)")%>">
+				<input type="hidden" name="orderID" value="<%=resultSet2.getInt("orderID")%>">
+				<input type="hidden" name="userID" value="<%=session.getAttribute("uid")%>">
+				<input type="hidden" name="orderTotalPrice" class="cart-total-price-duplicate"/>
+			</form>
             <%
 			} catch (Exception e) {
 				e.printStackTrace();

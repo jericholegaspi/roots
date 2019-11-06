@@ -17,6 +17,7 @@ public class GoToBillingAction extends ActionSupport implements ModelDriven<AddO
 	private AddOrderBean orderObj = new AddOrderBean();
 	
 	public String execute() {
+		orderObj.process();
 		System.out.println("Order ID: " + orderObj.getOrderID());
 		System.out.println("User ID: " + orderObj.getUserID());
 		System.out.println("Total Cart Items: " + orderObj.getCartItemTotalCount());

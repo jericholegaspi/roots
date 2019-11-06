@@ -15,7 +15,7 @@ function ready(){
         var input = quantityInputs[i];
         input.addEventListener('change', subTotalChanged);
     }
-    loadInitialTotal();    
+    loadInitialTotal(); 
 }
 
 function quantityChanged(event) {
