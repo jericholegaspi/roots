@@ -15,10 +15,11 @@ public class AddOrderBean {
 	private int orderID;
 	private String prodName;
 	private int deliveryAddressID;
-	
+	private int initialPrice;
+
 	//values for computation
 	private int cartItemTotalCount;
-	private int cartItemQty;
+	private int orderItemQty;
 	private int orderItemSubTotal;
 	
 	//computed values
@@ -60,7 +61,7 @@ public class AddOrderBean {
 
 	
 	public void process() {
-		/* computeOrderPrice(); */
+		computeCartTotalAmount();
 	}
 	
 	public void startOrderFlow() {
@@ -75,7 +76,7 @@ public class AddOrderBean {
 		insertCartTotalPriceRecord();
 	}
 	public void computeCartTotalAmount() {
-		orderTotalPrice = orderItemSubTotal * cartItemQty;
+		orderItemSubTotal = this.initialPrice * this.orderItemQty;
 	}
 	
 	public int getUserID() {
@@ -99,6 +100,14 @@ public class AddOrderBean {
 
 	public int getOrderID() {
 		return orderID;
+	}
+	
+	public int getInitialPrice() {
+		return initialPrice;
+	}
+
+	public void setInitialPrice(int initialPrice) {
+		this.initialPrice = initialPrice;
 	}
 
 	public void setOrderID(int orderID) {
@@ -134,15 +143,6 @@ public class AddOrderBean {
 	}
 	public void setDeliveryAddressID(int deliveryAddressID) {
 		this.deliveryAddressID = deliveryAddressID;
-	}
-	public void setCartItemQty(int cartItemQty) {
-		this.cartItemQty = cartItemQty;
-	}
-	public double getCartItemQty() {
-		return cartItemQty;
-	}
-	public void setOrderQty(int orderQty) {
-		this.cartItemQty = orderQty;
 	}
 	public double getOrderTotalPrice() {
 		return orderTotalPrice;
@@ -192,6 +192,14 @@ public class AddOrderBean {
 		this.prodName = prodName;
 	}
 
+	public int getOrderItemQty() {
+		return orderItemQty;
+	}
+
+	public void setOrderItemQty(int orderItemQty) {
+		this.orderItemQty = orderItemQty;
+	}
+
 	private Connection getDBConnection() {
 		Connection connection = null;
 		
@@ -237,8 +245,8 @@ public class AddOrderBean {
 		Connection connection = getDBConnection();
 		
 		if (connection != null) { //means a valid connection
-			String sql = "INSERT INTO orderItems (userID, prodID, cartState)"
-					+ " VALUES (?,?,?)";
+			String sql = "INSERT INTO orderItems (userID, prodID, cartState, orderItemQty, orderItemSubTotal)"
+					+ " VALUES (?,?,?,?,?)";
 			
 			try {
 				PreparedStatement pstmnt = connection.prepareStatement(sql);
@@ -246,6 +254,8 @@ public class AddOrderBean {
 				pstmnt.setInt(1, this.userID);
 				pstmnt.setInt(2, this.prodID);
 				pstmnt.setString(3, "Idle");
+				pstmnt.setInt(4, this.orderItemQty);
+				pstmnt.setInt(5, this.orderItemSubTotal);
 				
 				pstmnt.executeUpdate();
 				return true;
@@ -258,17 +268,44 @@ public class AddOrderBean {
 		return false;
 	}
 	
-	public boolean insertOrderReferenceRecord() {		
+	public boolean insertOrderItemSubTotalRecord() {		
 		Connection connection = getDBConnection();
 		
 		if (connection != null) { //means a valid connection
-			String sql = "INSERT INTO orderReference (userID)"
-					+ " VALUES (?)";
+			String sql = "UPDATE orderItems SET orderItemSubTotal = ?  WHERE userID = ? AND cartState = ? AND prodID = ?";
 			
 			try {
 				PreparedStatement pstmnt = connection.prepareStatement(sql);
 				
-				pstmnt.setInt(1, this.userID);	
+				pstmnt.setInt(1, this.orderItemSubTotal);
+				pstmnt.setInt(2, this.userID);
+				pstmnt.setString(3, "Idle");
+				pstmnt.setInt(4, this.prodID);
+				
+				pstmnt.executeUpdate();
+				return true;
+			} catch (SQLException sqle) {
+				System.err.println("Error on insertOrderItemSubTotalRecord: " + sqle.getMessage());
+			}			
+		} else {
+			System.err.println("Missing on invalid connection.");
+		}
+		return false;
+	}
+	
+	public boolean insertOrderReferenceRecord() {		
+		Connection connection = getDBConnection();
+		
+		if (connection != null) { //means a valid connection
+			String sql = "INSERT INTO orderReference (userID, cartCondition)"
+					+ " VALUES (?,?)";
+			
+			try {
+				PreparedStatement pstmnt = connection.prepareStatement(sql);
+				
+				pstmnt.setInt(1, this.userID);
+				pstmnt.setString(2, "Idle");
+				
 				
 				pstmnt.executeUpdate();
 				return true;
@@ -367,6 +404,31 @@ public class AddOrderBean {
 				return true;
 			} catch (SQLException sqle) {
 				System.err.println("Error on insertCartTotalPriceRecord: " + sqle.getMessage());
+			}			
+		} else {
+			System.err.println("Missing on invalid connection.");
+		}
+		return false;
+	}
+	
+	public boolean editCartItemQuantityRecord() {		
+		Connection connection = getDBConnection();
+		
+		if (connection != null) { //means a valid connection
+			String sql = "UPDATE orderItems SET orderItemQty = ?, orderItemSubTotal = ? WHERE cartState = ? AND userID = ? AND prodID = ?";
+			try {
+				PreparedStatement pstmnt = connection.prepareStatement(sql);
+				
+				pstmnt.setInt(1, this.orderItemQty);
+				pstmnt.setInt(2, this.orderItemSubTotal);
+				pstmnt.setString(3, "Idle");	
+				pstmnt.setInt(4, this.userID);
+				pstmnt.setInt(5, this.prodID);
+				
+				pstmnt.executeUpdate();
+				return true;
+			} catch (SQLException sqle) {
+				System.err.println("Error on editCartItemQuantityRecord: " + sqle.getMessage());
 			}			
 		} else {
 			System.err.println("Missing on invalid connection.");

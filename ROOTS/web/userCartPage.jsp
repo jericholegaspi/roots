@@ -158,7 +158,8 @@ if((request.getSession(false).getAttribute("email") == null))
 				resultSet2.first(); */
 				statement = connection.createStatement();
 				String sqlproduct = "SELECT orderItems.orderItemID, orderItems.userID, orderItems.prodID,"
-						+ " orderItems.cartState, products.prodID, products.prodName, products.description,"
+						+ " orderItems.cartState, orderItems.orderItemQty, orderItems.orderItemSubTotal,"
+						+ " products.prodID, products.prodName, products.description,"
 						+ " products.initialPrice, products.unitID, units.unitID, units.unit FROM orderItems"
 						+ " INNER JOIN products ON orderItems.prodID = products.prodID"
 						+ " INNER JOIN units ON products.unitID = units.unitID"
@@ -182,13 +183,17 @@ if((request.getSession(false).getAttribute("email") == null))
 			        </div>
 			    </td>
 			    <td data-th="Unit Price" class="cart-price">&#8369;<%=resultSet.getInt("initialPrice")%></td>
-			    <td data-th="Quantity"><input type="number" class="cart-quantity-input form-control text-center" min='1' value='1'></td>
+			    <td data-th="Quantity"><span class="cart-product-quantity"><%=resultSet.getInt("orderItemQty")%></span></td>
 			    <td data-th="Unit"><%=resultSet.getString("unit")%></td>
-			    <td data-th="Subtotal" class="cart-item-subtotal text-center">&#8369;<%=resultSet.getInt("initialPrice")%></td>
+			    <td data-th="Subtotal" class="cart-item-subtotal text-center">&#8369;<%=resultSet.getInt("orderItemSubTotal")%></td>
 			    <td class="actions" data-th="">
+			    	<button type="submit" form="submitIDToDetails" class="cart-item-edit btn btn-info btn-sm">
+			        	Edit Qty <i class="fa fa-magic"></i> 
+			        </button>
 			        <button class="cart-item-delete btn btn-danger btn-sm" data-toggle="modal" data-target="#delete-confirmation">
 			        	<i class="fas fa-trash-alt"></i>
 			        </button>
+			        
 			    </td>
 			</tr>
 			<%
@@ -224,6 +229,11 @@ if((request.getSession(false).getAttribute("email") == null))
         <!-- Content -->
         <h5 class="text-uppercase">ROOTS</h5>
         <p>Here you can use rows and columns to organize your footer content.</p>
+        <form action="submitIDToDetails.action" method="post" id="submitIDToDetails">
+      		<input type="hidden" name="prodID" id="edit-prodID"/>
+      		<input type="hidden" name="prodName" id="edit-prodName"/>
+      		<input type="hidden" name="orderItemQty" id="edit-prodQty"/>
+		</form>
         
 			<%
 			try {

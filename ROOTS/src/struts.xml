@@ -109,7 +109,12 @@
 				<action name="selectItemID" class="action.customer.SelectItemIDAction">
 					<result name="success">/userProductDetails.jsp</result>
 					<result name="error">/error.jsp</result>
-				</action> 
+				</action>
+				
+				<action name="submitIDToDetails" class="action.customer.SubmitIDToDetails">
+					<result name="success">/editCartItemQuantityPage.jsp</result>
+					<result name="error">/error.jsp</result>
+				</action>
 				
 				<action name="addToCart" class="action.customer.AddToCartAction">
 					<result name="success">/userProductIndex.jsp</result>
@@ -123,6 +128,11 @@
 				
 				<action name="goToBilling" class="action.customer.GoToBillingAction">
 					<result name="success">/userBillingPage.jsp</result>
+					<result name="error">/error.jsp</result>
+				</action>
+				
+				<action name="editOrderQuantity" class="action.customer.EditOrderItemQuantityAction">
+					<result name="success">/userCartPage.jsp</result>
 					<result name="error">/error.jsp</result>
 				</action>
 	</package>

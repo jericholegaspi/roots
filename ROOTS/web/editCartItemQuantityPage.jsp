@@ -129,6 +129,17 @@ if((request.getSession(false).getAttribute("email")== null) )
 		int prodIDChain = Integer.parseInt(request.getParameter("prodID"));
 		try {
 		connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+		
+		ResultSet resultSet2 = null;
+		Statement statement2 = null;
+		
+		statement2 = connection.createStatement();
+		String sqlorderitems = "SELECT * FROM orderItems"
+				+ " WHERE userID = " + session.getAttribute("uid") + " AND"
+				+ " cartState = 'Idle' AND prodID = " + prodIDChain;
+		resultSet2 = statement2.executeQuery(sqlorderitems);
+		resultSet2.first();
+		
 		statement = connection.createStatement();
 		String sqlproduct = "SELECT products.prodID, products.prodName,"
 				+ " products.description, products.initialPrice, products.prodQty,"
@@ -140,10 +151,10 @@ if((request.getSession(false).getAttribute("email")== null) )
 		resultSet = statement.executeQuery(sqlproduct); 
 		resultSet.first();
 	%>
-	<form action="addToCart.action" method="post" id="addToCart">
+	<form action="editOrderQuantity.action" method="post" id="addToCart">
     <div class="card">
         <div class="col-sm-12">
-        <a href="userProductIndex.jsp" class="btn btn-outline-primary float-left btn-lg"><i class="fas fa-arrow-left"></i></a>
+        <a href="userCartPage.jsp" class="btn btn-outline-primary float-left btn-lg"><i class="fas fa-arrow-left"></i></a>
             <div class="row">
                 <div class="col-sm-4">
                     <div class="card-title">
@@ -166,8 +177,8 @@ if((request.getSession(false).getAttribute("email")== null) )
                     <br>
                     <br>
                     <h6><strong>Quantity</strong></h6>
-                    <a href="userCartPage.jsp" class="btn btn-warning float-right btn-lg" data-toggle="modal" data-target="#cart-confirmation">Add to Cart</a>
-                    <p><input type="number" name="orderItemQty" min='1' max='<%=resultSet.getString("prodQty")%>' value="1"/><br>
+                    <a href="userCartPage.jsp" class="btn btn-warning float-right btn-lg" data-toggle="modal" data-target="#cart-confirmation">Update Quantity</a>
+                    <p><input type="number" name="orderItemQty" min='1' max='<%=resultSet.getString("prodQty")%>' value='<%=resultSet2.getString("orderitemQty")%>'/><br>
 					<small>Stock:<%=resultSet.getString("prodQty")%></small></p>
 					<input type="hidden" name="initialPrice" value="<%=resultSet.getString("initialPrice")%>"/>
 				</form>

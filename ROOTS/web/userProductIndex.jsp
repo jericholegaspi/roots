@@ -221,7 +221,7 @@ if((request.getSession(false).getAttribute("email")== null) )
                                 <h4 class="card-title"><%=resultSet.getString("prodName")%></h4>
                                 <h6 class="card-subtitle mb-2 text-muted"><%=resultSet.getString("category")%></h6>
                                 <br>
-                                <p class="card-text">P <%=resultSet.getString("initialPrice")%>/<%=resultSet.getString("unit")%></p>
+                                <p class="card-text">&#8369;<%=resultSet.getString("initialPrice")%>/<%=resultSet.getString("unit")%></p>
                                 <input type="hidden" name='prodID' value="<%=resultSet.getString("prodID")%>" readonly/>
                                 <input type="submit" class="btn btn-warning stretched-link float-right" value="See Details"/>
                             </div>

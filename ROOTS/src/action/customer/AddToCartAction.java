@@ -18,8 +18,13 @@ public class AddToCartAction extends ActionSupport implements ModelDriven<AddOrd
 	
 	public String execute() {
 		
+		orderObj.process();
+		
 		System.out.println("User ID: " + orderObj.getUserID());
 		System.out.println("Product ID: " + orderObj.getProdID());
+		System.out.println("Quantity: " + orderObj.getOrderItemQty());
+		System.out.println("Price: " + orderObj.getInitialPrice());
+		System.out.println("SubTotal: " + orderObj.getOrderItemSubTotal());
 		
 		String driverName = "com.mysql.jdbc.Driver";
 		String connectionUrl = "jdbc:mysql://localhost/";

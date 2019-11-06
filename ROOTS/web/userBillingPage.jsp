@@ -584,7 +584,7 @@ e.printStackTrace();
         <table class="table mobile-optimised">
           <thead>
             <tr>
-              <th scope="col">Item</th>
+              <th scope="col">Product Name</th>
               <th scope="col">Quantity</th>
               <th scope="col">Unit Cost</th>
               <th scope="col">Subtotal</th>
