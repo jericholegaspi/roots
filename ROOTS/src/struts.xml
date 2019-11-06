@@ -120,5 +120,10 @@
 					<result name="success">/userCartPage.jsp</result>
 					<result name="error">/error.jsp</result>
 				</action>
+				
+				<action name="goToBilling" class="action.customer.GoToBillingAction">
+					<result name="success">/userBillingPage.jsp</result>
+					<result name="error">/error.jsp</result>
+				</action>
 	</package>
 </struts>

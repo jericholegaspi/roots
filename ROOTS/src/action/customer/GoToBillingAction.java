@@ -10,16 +10,18 @@ import javax.sql.DataSource;
 
 import model.customer.AddOrderBean;
 
-public class RemoveCartItemAction extends ActionSupport implements ModelDriven<AddOrderBean>{
+public class GoToBillingAction extends ActionSupport implements ModelDriven<AddOrderBean>{
 	
 	private static final long serialVersionUID = 1L;
 	
 	private AddOrderBean orderObj = new AddOrderBean();
 	
 	public String execute() {
-		System.out.println("ProductID: " + orderObj.getProdID());
-		System.out.println("Removed " + orderObj.getProdName() + " from cart.");
-		orderObj.removeCartItemRecord();
+		System.out.println("Order ID: " + orderObj.getOrderID());
+		System.out.println("User ID: " + orderObj.getUserID());
+		System.out.println("Total Cart Items: " + orderObj.getCartItemTotalCount());
+		System.out.println("Total Cart Price: " + orderObj.getOrderTotalPrice());
+		orderObj.proceedToBilling();
 		return SUCCESS;
 	}
 	

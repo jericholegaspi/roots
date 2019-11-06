@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+	<%@page import="java.sql.*"%>
+	<%@page import="com.mysql.jdbc.PreparedStatement"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,6 +20,31 @@
 
 </head>
 <body>
+
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.Connection"%>
+
+	<%
+	String id = request.getParameter("userId");
+	String driverName = "com.mysql.jdbc.Driver";
+	String connectionUrl = "jdbc:mysql://localhost/";
+	String dbName = "isproj2_roots";
+	String userId = "isproj2_roots";
+	String password = "^qp&6Afnsd7S^jRf";
+
+	try {
+		Class.forName(driverName);
+	} catch (ClassNotFoundException e) {
+		e.printStackTrace();
+	}
+
+	Connection connection = null;
+	Statement statement = null;
+	ResultSet resultSet = null;
+	%>
+
   <div class="container-fluid">
   <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
   <!-- Brand -->
@@ -58,9 +86,24 @@
       <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit"><span class="fa fa-search"></span></button>
 
       <ul class="navbar-nav navbar-right">
+        <%
+		try {
+			connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+			statement = connection.createStatement();
+			String sqlproduct = "SELECT COUNT(orderItemID) FROM orderItems"
+					+ " WHERE userID = " + session.getAttribute("uid") + " AND"
+					+ " orderItems.cartState = 'Idle'";
+			resultSet = statement.executeQuery(sqlproduct);
+			resultSet.next();
+		%>
         <li class="nav-item">
-          <a class="nav-link" href="userCartPage.jsp"><span class="fa fa-shopping-cart"><span class="badge total-count"></span></span></a>
+          <a class="nav-link" href="userCartPage.jsp"><span class="fa fa-shopping-cart"><span class="badge total-count"><%=resultSet.getInt("count(orderItemID)")%></span></span></a>
         </li>
+        <%
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		%>
       <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
         <span class="fa fa-user"></span>

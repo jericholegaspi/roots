@@ -96,11 +96,25 @@ if((request.getSession(false).getAttribute("email")== null) )
     <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit"><span class="fa fa-search"></span></button>
-
       <ul class="navbar-nav navbar-right">
+   		<%
+		try {
+			connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+			statement = connection.createStatement();
+			String sqlproduct = "SELECT COUNT(orderItemID) FROM orderItems"
+					+ " WHERE userID = " + session.getAttribute("uid") + " AND"
+					+ " orderItems.cartState = 'Idle'";
+			resultSet = statement.executeQuery(sqlproduct);
+			resultSet.next();
+		%>
         <li class="nav-item">
-          <a class="nav-link" href="userCartPage.jsp"><span class="fa fa-shopping-cart"><span class="badge total-count"></span></span></a>
+          <a class="nav-link" href="userCartPage.jsp"><span class="fa fa-shopping-cart"><span class="badge total-count"><%=resultSet.getInt("count(orderItemID)")%></span></span></a>
         </li>
+        <%
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		%>
       <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
         <span class="fa fa-user"></span>
@@ -123,19 +137,25 @@ if((request.getSession(false).getAttribute("email")== null) )
   <table id="cart" class="table table-hover table-condensed">
             <thead>
             <tr>
-              <th style="width:1%"></th>
-              <th style="width:49%">Product</th>
+              <th style="width:48%">Product</th>
               <th style="width:10%">Unit Price</th>
               <th style="width:10%">Quantity</th>
-              <th style="width:10%">Unit</th>
-              <th style="width:10%" class="text-center">Subtotal</th>
-              <th style="width:10%"></th>
+              <th style="width:5%">Unit</th>
+              <th style="width:12%" class="text-center">Subtotal</th>
+              <th style="width:15%"></th>
             </tr>
           </thead>
           <tbody class="cart-items">
             <%
 			try {
+				/* ResultSet resultSet2 = null;
+				Statement statement2 = null;
 				connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+				statement2 = connection.createStatement();
+				String sqlorders = "SELECT * FROM orders WHERE userID = " + session.getAttribute("uid") + " AND"
+						+ " cartStatus = 'Idle'";
+				resultSet2 = statement2.executeQuery(sqlorders);
+				resultSet2.first(); */
 				statement = connection.createStatement();
 				String sqlproduct = "SELECT orderItems.orderItemID, orderItems.userID, orderItems.prodID,"
 						+ " orderItems.cartState, products.prodID, products.prodName, products.description,"
@@ -144,26 +164,27 @@ if((request.getSession(false).getAttribute("email")== null) )
 						+ " INNER JOIN units ON products.unitID = units.unitID"
 						+ " WHERE orderItems.userID = " + session.getAttribute("uid") + " AND"
 						+ " orderItems.cartState = 'Idle'";
+				
 				resultSet = statement.executeQuery(sqlproduct);
 			while (resultSet.next()) {
 			%>
 			<tr class="cart-row">
-				<td data-th="ID" ><span style="display:  none;" class="cart-product-id"><%=resultSet.getString("prodID")%></span></td>
 			    <td data-th="Product">
 			        <div class="row">
 			            <div class="col-sm-3 hidden-xs">
 			            	<img src="http://placehold.it/100x100" alt="..." class="img-responsive" />
 			            </div>
 			            <div class="col-sm-8">
+			           		<h4 style="display: none;" class="cart-product-id"><%=resultSet.getInt("prodID")%></h4>
 			                <h4 class="cart-product-name nomargin p-title"><%=resultSet.getString("prodName")%></h4>
 			                <p class="p-text"><%=resultSet.getString("description")%></p>
 			            </div>
 			        </div>
 			    </td>
-			    <td data-th="Unit Price" class="cart-price">&#8369;<%=resultSet.getString("initialPrice")%></td>
-			    <td data-th="Quantity"><input type="number" class="cart-quantity-input form-control text-center" min='1' value="1"></td>
+			    <td data-th="Unit Price" class="cart-price">&#8369;<%=resultSet.getInt("initialPrice")%></td>
+			    <td data-th="Quantity"><input type="number" class="cart-quantity-input form-control text-center" min='1' value='1'></td>
 			    <td data-th="Unit"><%=resultSet.getString("unit")%></td>
-			    <td data-th="Subtotal" class="cart-item-subtotal text-center">&#8369;<%=resultSet.getString("initialPrice")%></td>
+			    <td data-th="Subtotal" class="cart-item-subtotal text-center">&#8369;<%=resultSet.getInt("initialPrice")%></td>
 			    <td class="actions" data-th="">
 			        <button class="cart-item-delete btn btn-danger btn-sm" data-toggle="modal" data-target="#delete-confirmation">
 			        	<i class="fas fa-trash-alt"></i>
@@ -179,7 +200,6 @@ if((request.getSession(false).getAttribute("email")== null) )
           </tbody>
           <tfoot>
             <tr>
-              <td></td>
               <td><a href="#" class="btn btn-outline-primary"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
               <td colspan="3" class="hidden-xs"></td>
               <td data-th="Subtotal" class="cart-total-price hidden-xs text-center">Total: </td>
@@ -204,7 +224,38 @@ if((request.getSession(false).getAttribute("email")== null) )
         <!-- Content -->
         <h5 class="text-uppercase">ROOTS</h5>
         <p>Here you can use rows and columns to organize your footer content.</p>
-
+        
+			<%
+			try {
+				connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+				
+				ResultSet resultSet2 = null;
+				Statement statement2 = null;
+				
+				statement2 = connection.createStatement();
+				String sqlorderitems = "SELECT COUNT(orderItemID) FROM orderItems"
+						+ " WHERE userID = " + session.getAttribute("uid") + " AND"
+						+ " orderItems.cartState = 'Idle'";
+				resultSet2 = statement2.executeQuery(sqlorderitems);
+				resultSet2.first();
+				
+				statement = connection.createStatement();
+				String sqlproduct = "SELECT * FROM orders WHERE userID = " + session.getAttribute("uid") + " AND"
+						+ " cartStatus = 'Idle'";
+				resultSet = statement.executeQuery(sqlproduct);
+				resultSet.first();
+			%>
+			<form action="goToBilling.action" method="post" id="goToBilling">
+				<input type="hidden" name="orderID" value="<%=resultSet.getInt("orderID")%>"/>
+				<input type="hidden" name="userID" value="<%=session.getAttribute("uid") %>"/>
+				<input type="hidden" name="cartItemTotalCount" value="<%=resultSet2.getInt("count(orderItemID)")%>"/>
+				<input type="hidden" name="orderTotalPrice" class="cart-total-price-duplicate" readonly/>
+			</form>
+			<%
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			%>
       </div>
       <!-- Grid column -->
 
@@ -265,7 +316,7 @@ if((request.getSession(false).getAttribute("email")== null) )
   <!-- Footer Links -->
 
   <!-- Copyright -->
-  <div class="footer-copyright text-center py-3">Â© 2019 Copyright:
+  <div class="footer-copyright text-center py-3">� 2019 Copyright:
     <a href="https://mdbootstrap.com/education/bootstrap/"> Roots.com</a>
   </div>
   <!-- Copyright -->
@@ -285,13 +336,15 @@ if((request.getSession(false).getAttribute("email")== null) )
         </button>
       </div>
       <div class="modal-body">
-      		<input type="text" name="prodID" id="productIdGetTest" readonly/>
-      		<input type="text" name="prodName" id="productName	GetTest" readonly/>
+      	<form action="removeCartItem.action" method="post" id="removeCartItem">
+      		<input type="hidden" name="prodID" id="modal-prodID"/>
+      		<input type="hidden" name="prodName" id="modal-prodName"/>
             <p class="text-center">Are you sure you want to delete this item?</p>
+		</form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
-        <input type="submit" form="removeCartItem" class="btn btn-danger" value="Delete">
+        <button type="submit" form="removeCartItem" class="btn btn-danger">Delete</button>
       </div>
     </div>
   </div>
@@ -313,11 +366,26 @@ if((request.getSession(false).getAttribute("email")== null) )
       <div class="modal-body">
             <p class="question text-center">Are you want to proceed with the check out?</p>
             <br>
-            <p class="text-center">You have ( ) items in your cart</p>
+            <%
+			try {
+				connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+				statement = connection.createStatement();
+				String sqlproduct = "SELECT COUNT(orderItemID) FROM orderItems"
+						+ " WHERE userID = " + session.getAttribute("uid") + " AND"
+						+ " orderItems.cartState = 'Idle'";
+				resultSet = statement.executeQuery(sqlproduct);
+				resultSet.next();
+			%>
+            <p class="text-center">You have (<%=resultSet.getInt("count(orderItemID)")%>) items in your cart</p>
+            <%
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			%>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
-        <a href="userBillingPage.jsp" class="btn btn-warning">Proceed</a>
+        <button type="submit" form="goToBilling" class="btn btn-warning">Proceed</button>
       </div>
     </div>
   </div>
@@ -331,15 +399,15 @@ $(document).ready(function(){
   $('body').scrollspy({target: ".navbar", offset: 50});   
 });
 
-window.onscroll = function() {scrollFunction()};
+/* window.onscroll = function() {scrollFunction()}; */
 
-function scrollFunction() {
+/* function scrollFunction() {
   if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
     document.getElementById("myBtn").style.display = "block";
   } else {
     document.getElementById("myBtn").style.display = "none";
   }
-}
+} */
 
 //For multiple modals modals:
 
@@ -349,24 +417,6 @@ function topFunction() {
   document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 }
 
-/* 	var table = document.getElementById('cart');
-	
-	for(var i = 1; i < table.rows.length; i++){
-	    table.rows[i].onclick = function(){
-		document.getElementById("productIdGetTest").value = this.cells[0].innerHTML;
-	}
-} */
-	
-/* function hideProdID(){
-	for(var i = 1; i < table.rows.length; i++){
-	    table.rows[i].onload = function(){
-		document.getElementById("putangina").style.visibility = "hidden";
-	    }
-	}
-	/* document.getElementById("putangina").style.visibility = "hidden"; */
-/* }
-
-window.onload = hideProdID();  */
 
 </script>
 </body>

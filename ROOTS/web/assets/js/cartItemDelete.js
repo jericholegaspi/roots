@@ -17,13 +17,17 @@ function openModal(event){
 	var shopItem = button.parentElement.parentElement;
 	var productID = shopItem.getElementsByClassName('cart-product-id')[0].innerHTML;
 	var productName = shopItem.getElementsByClassName('cart-product-name')[0].innerHTML;
-	console.log(productID, productName);
+	console.log(productName, productID);
 	changeText(productID, productName);
 	/*changeText(title, category, price, unit, description);*/
 }
 
 function changeText(productID, productName){
-	var modalProductID = document.getElementsByClassName('')
+	var modalProductID = document.getElementById('modal-prodID');
+	var modalProductName = document.getElementById('modal-prodName');
+	modalProductID.value = productID;
+	modalProductName.value = productName;
+	console.log(modalProductID, modalProductName)
 }
 
 /*function changeText(title, category, price, unit, description){

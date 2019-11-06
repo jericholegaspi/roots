@@ -91,9 +91,24 @@ if((request.getSession(false).getAttribute("email")== null) )
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <ul class="navbar-nav navbar-right">
-                    <li class="nav-item">
-                        <a class="nav-link" href="userCartPage.jsp"><span class="fa fa-shopping-cart"><span class="badge total-count"></span></span></a>
-                    </li>
+                <%
+				try {
+					connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+					statement = connection.createStatement();
+					String sqlproduct = "SELECT COUNT(orderItemID) FROM orderItems"
+							+ " WHERE userID = " + session.getAttribute("uid") + " AND"
+							+ " orderItems.cartState = 'Idle'";
+					resultSet = statement.executeQuery(sqlproduct);
+					resultSet.next();
+				%>
+		        <li class="nav-item">
+		          <a class="nav-link" href="userCartPage.jsp"><span class="fa fa-shopping-cart"><span class="badge total-count"><%=resultSet.getInt("count(orderItemID)")%></span></span></a>
+		        </li>
+		        <%
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				%>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
         				<span class="fas fa-user-alt"></span></a>

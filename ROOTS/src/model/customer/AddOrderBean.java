@@ -13,20 +13,21 @@ public class AddOrderBean {
 	private int prodID;
 	private int catID;
 	private int orderID;
+	private String prodName;
+	private int deliveryAddressID;
+	
+	//values for computation
+	private int cartItemTotalCount;
+	private int cartItemQty;
+	private int orderItemSubTotal;
+	
+	//computed values
+	private int orderTotalPrice;
 	private String paymentStatus;
 	private String deliveryStatus;
 	private String orderStatus;
-	private int deliveryAddressID;
 	private String cartStatus;
-	private String prodName;
-	
-	//computed values
-	private int orderPrice;
-	
-	//values for computation
-	private int prodPrice;
-	private int orderQuantity;
-	private int prodQty;
+	private String cartState;
 	
 	/*
 	 	Payment Statuses
@@ -68,8 +69,13 @@ public class AddOrderBean {
 		insertOrderReferenceRecord();
 	}
 	
-	public void computeOrderPrice() {
-		orderPrice = prodPrice * orderQuantity;
+	public void proceedToBilling(){
+		goToBillingRecord();
+		insertReferenceOrderIDRecord();
+		insertCartTotalPriceRecord();
+	}
+	public void computeCartTotalAmount() {
+		orderTotalPrice = orderItemSubTotal * cartItemQty;
 	}
 	
 	public int getUserID() {
@@ -129,36 +135,37 @@ public class AddOrderBean {
 	public void setDeliveryAddressID(int deliveryAddressID) {
 		this.deliveryAddressID = deliveryAddressID;
 	}
-	public void setOrderQuantity(int orderQuantity) {
-		this.orderQuantity = orderQuantity;
+	public void setCartItemQty(int cartItemQty) {
+		this.cartItemQty = cartItemQty;
 	}
-	public double getOrderQuantity() {
-		return orderQuantity;
+	public double getCartItemQty() {
+		return cartItemQty;
 	}
 	public void setOrderQty(int orderQty) {
-		this.orderQuantity = orderQty;
+		this.cartItemQty = orderQty;
 	}
-	public double getOrderPrice() {
-		return orderPrice;
+	public double getOrderTotalPrice() {
+		return orderTotalPrice;
 	}
-	public void setOrderPrice(int orderPrice) {
-		this.orderPrice = orderPrice;
-	}
-
-	public double getProdQty() {
-		return prodQty;
+	
+	public void setOrderTotalPrice(int orderTotalPrice) {
+		this.orderTotalPrice = orderTotalPrice;
 	}
 
-	public void setProdQty(int prodQty) {
-		this.prodQty = prodQty;
+	public double getCartItemTotalCount() {
+		return cartItemTotalCount;
 	}
 
-	public double getProdPrice() {
-		return prodPrice;
+	public void setCartItemTotalCount(int cartItemTotalCount) {
+		this.cartItemTotalCount = cartItemTotalCount;
 	}
 
-	public void setProdPrice(int prodPrice) {
-		this.prodPrice = prodPrice;
+	public double getOrderItemSubTotal() {
+		return orderItemSubTotal;
+	}
+
+	public void setOrderItemSubTotal(int orderItemSubTotal) {
+		this.orderItemSubTotal = orderItemSubTotal;
 	}
 	
 	public String getCartStatus() {
@@ -167,6 +174,14 @@ public class AddOrderBean {
 
 	public void setCartStatus(String cartStatus) {
 		this.cartStatus = cartStatus;
+	}
+
+	public String getCartState() {
+		return cartState;
+	}
+
+	public void setCartState(String cartState) {
+		this.cartState = cartState;
 	}
 
 	public String getProdName() {
@@ -281,6 +296,77 @@ public class AddOrderBean {
 				return true;
 			} catch (SQLException sqle) {
 				System.err.println("Error on removeCartItemRecord: " + sqle.getMessage());
+			}			
+		} else {
+			System.err.println("Missing on invalid connection.");
+		}
+		return false;
+	}
+	
+	public boolean goToBillingRecord() {		
+		Connection connection = getDBConnection();
+		
+		if (connection != null) { //means a valid connection
+			String sql = "UPDATE orderItems SET orderID = ? WHERE cartState = ? AND userID = ?";
+			try {
+				PreparedStatement pstmnt = connection.prepareStatement(sql);
+				
+				pstmnt.setInt(1, this.orderID);	
+				pstmnt.setString(2, "Idle");
+				pstmnt.setInt(3, this.userID);
+				
+				
+				pstmnt.executeUpdate();
+				return true;
+			} catch (SQLException sqle) {
+				System.err.println("Error on goToBillingRecord: " + sqle.getMessage());
+			}			
+		} else {
+			System.err.println("Missing on invalid connection.");
+		}
+		return false;
+	}
+	
+	public boolean insertReferenceOrderIDRecord() {		
+		Connection connection = getDBConnection();
+		
+		if (connection != null) { //means a valid connection
+			String sql = "UPDATE orderReference SET orderID = ? WHERE cartCondition = ? AND userID = ?";
+			try {
+				PreparedStatement pstmnt = connection.prepareStatement(sql);
+				
+				pstmnt.setInt(1, this.orderID);	
+				pstmnt.setString(2, "Idle");	
+				pstmnt.setInt(3, this.userID);
+				
+				pstmnt.executeUpdate();
+				return true;
+			} catch (SQLException sqle) {
+				System.err.println("Error on goToBillingRecord: " + sqle.getMessage());
+			}			
+		} else {
+			System.err.println("Missing on invalid connection.");
+		}
+		return false;
+	}
+	
+	public boolean insertCartTotalPriceRecord() {		
+		Connection connection = getDBConnection();
+		
+		if (connection != null) { //means a valid connection
+			String sql = "UPDATE orders SET orderTotalPrice = ?, cartItemTotalCount = ? WHERE cartStatus = ? AND userID = ?";
+			try {
+				PreparedStatement pstmnt = connection.prepareStatement(sql);
+				
+				pstmnt.setInt(1, this.orderTotalPrice);	
+				pstmnt.setInt(2, this.cartItemTotalCount);	
+				pstmnt.setString(3, "Idle");	
+				pstmnt.setInt(4, this.userID);
+				
+				pstmnt.executeUpdate();
+				return true;
+			} catch (SQLException sqle) {
+				System.err.println("Error on insertCartTotalPriceRecord: " + sqle.getMessage());
 			}			
 		} else {
 			System.err.println("Missing on invalid connection.");
