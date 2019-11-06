@@ -66,9 +66,10 @@ function loadInitialTotal(){
         var cartRow = cartRows[i];
         var priceElement = cartRow.getElementsByClassName('cart-item-subtotal')[0];
         var price = parseFloat(priceElement.innerText.replace('\u20B1', ''));
-        total = total + (price);
+        total = total + price;
     }
     total = Math.round(total * 100) / 100;
     document.getElementsByClassName('cart-total-price')[0].innerHTML = 'Total: \u20B1' + total;
     document.getElementsByClassName('cart-total-price-duplicate')[0].value = total;
+    console.log(total);
 }

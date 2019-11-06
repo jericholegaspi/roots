@@ -1,11 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-	<%@page import="java.sql.*"%>
-	<%@page import="com.mysql.jdbc.PreparedStatement"%>
+
+	<%@page import="java.sql.DriverManager"%>
+	<%@page import="java.sql.ResultSet"%>
+	<%@page import="java.sql.Statement"%>
+	<%@page import="java.sql.Connection"%>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Billing Page</title>
+<title>Profile</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -15,9 +18,9 @@
 
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
- <link rel="stylesheet" type="text/css" href="assets/css/billingPage.css">
+ <link rel="stylesheet" type="text/css" href="assets/css/profilePage.css">
 
-  <link rel="shortcut icon" sizes="16x16 32x32 64x64" href="assets/css/images/logo5.png"/>
+ <link rel="shortcut icon" sizes="16x16 32x32 64x64" href="assets/css/images/logo5.png"/>
 
 <%
 String driverName = "com.mysql.jdbc.Driver";
@@ -47,11 +50,6 @@ if((request.getSession(false).getAttribute("email")== null) )
 <%} %>
 
 <body>
-
-  <!-- PayPal API -->
-  <script src="https://www.paypal.com/sdk/js?client-id=AQcMM3RdMEi_MxhI4tErRCEzKhIriOxlG1TIOrsdwAz-xBJ0QJhqsgu4jRSTRNlztO1kWroOqdNFfnww&currency=PHP">
-  </script>
-
   <div class="container-fluid">
   <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
   <!-- Brand -->
@@ -71,10 +69,10 @@ if((request.getSession(false).getAttribute("email")== null) )
         <a class="nav-link" href="catalogue_page.html">Catalogue</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="userProductIndex.jsp">Products</a>
+        <a class="nav-link" href="products_page.html">Products</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Services</a>
+        <a class="nav-link" href="servicePage.html">Services</a>
       </li>
 
       <li class="nav-item dropdown">
@@ -82,99 +80,135 @@ if((request.getSession(false).getAttribute("email")== null) )
         More
       </a>
       <div class="dropdown-menu">
-        <a class="dropdown-item" href="#">About</a>
-        <a class="dropdown-item" href="#">Contact Us</a>
-        <a class="dropdown-item" href="#">FAQs</a>
+        <a class="dropdown-item" href="aboutPage.html">About</a>
+        <a class="dropdown-item" href="contactUsPage.html">Contact Us</a>
+        <a class="dropdown-item" href="FAQPage.html">FAQs</a>
       </div>
     </li>
     </ul>
-    <div class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit"><span class="fa fa-search"></span></button>
+    <form class="form-inline my-2 my-lg-0">
 
       <ul class="navbar-nav navbar-right">
         <li class="nav-item">
-          <a class="nav-link" href="userCartPage.jsp"><span class="fa fa-shopping-cart"><span class="badge total-count"></span></span></a>
+          <a class="nav-link" href="cart_page.html"><span class="fa fa-shopping-cart"><span class="badge total-count"></span></span></a>
         </li>
       <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-        <span class="fa fa-user"></span>
+        <span class="fas fa-user-alt"></span>
       </a>
       <div class="dropdown-menu dropdown-menu-right">
-        <a class="dropdown-item" href="#"><span class="fa fa-sign-in"></span>Profile</a>
-        <a class="dropdown-item" href="#"><span class="fa fa-sign-in"></span>Invoice</a>
-        <a class="dropdown-item" href="#"><span class="fa fa-sign-in"></span>Logout</a>
+        <a class="dropdown-item" href="profilePage.html"><i class="fas fa-user-alt fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Profile</span></a>
+        <a class="dropdown-item" href="invoicelist_page.html"><i class="fas fa-file-invoice fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Invoice</span></a>
+        <a class="dropdown-item" href="appointmentListPage.html"><i class="far fa-calendar-check fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Appointment</a>
+        <a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Logout</span></a>
       </div>
         
       </li>
     </ul>
            
-    </div>    
+    </form>    
   </div>
 </nav> 
 </div>
 
-<div class="container-fluid bill">
 
-<%
-try {
-connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
-statement = connection.createStatement();
-String sql = "SELECT * FROM users where userID = " + session.getAttribute("uid");
-
-resultSet = statement.executeQuery(sql);
-while (resultSet.next()) {
-%>  
-
-<div id="regForm">
-  <!-- One "tab" for each step in the form: -->
-  
-
-  <div class="tab"><h5>Contact Information</h5><br>
-    <div class="form-row">
-      <div class="col">
-        <label for="fname">Full Name</label>
-         <input name="firstName" type="text" disabled class="form-control" value="<%= resultSet.getString("firstName") %> <%= resultSet.getString("middleName") %> <%= resultSet.getString("lastName") %>"></p>
+<div class="container profile">
+  <div class="card col-sm-12">
+  <div class="row">
+    <div class="col-sm-3">
+      <div class="form-group">
+        <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-circle img-thumbnail rounded-circle" alt="avatar" for="uploadImage">
+          <small>Upload a different photo</small>
+          <input id="uploadImage" type="file" class="text-center center-block file-upload">
       </div>
-    </div>
-      <label for="email">Email Address</label>
-         <input name="email" type="text" disabled class="form-control" value="<%= resultSet.getString("email") %>"></p>
-    <div class="form-row">
-      <div class="col">
-        <label for="phone">Telephone Number</label>
-         <input name="telephone" type="text" disabled class="form-control" value="<%= resultSet.getString("telephone") %>"></p>
+      <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+        <a class="nav-link active" id="profileTab" data-toggle="pill" href="#profileContent" role="tab" aria-controls="profileContent" aria-selected="true">Profile</a>
+        <a class="nav-link" id="trasactionTab" data-toggle="pill" href="#transactionContent" role="tab" aria-controls="transactionContent" aria-selected="false">Transaction History</a>
       </div>
-      <div class="col">
-        <label for="mobile">Mobile Number</label>
-         <input name="mobile" type="text" disabled class="form-control" value="<%= resultSet.getString("mobileNo") %>"></p>
-      </div>
+      
     </div>
 
-        
-<%
-}
-} catch (Exception e) {
-e.printStackTrace();
-}
-%>
+  <!-- Start of Profile -->
+  <div class="col-sm-9">
+    <div> <!-- CHANGE TO DIV -->
+      <div class="tab-content" id="v-pills-tabContent">
+        <div class="tab-pane fade show active" id="profileContent" role="tabpanel" aria-labelledby="profileTab"><br>
+          <h5>Profile</h5><br>
+          <div class="form-row">
 
-  <br><br><h5>Delivery Address</h5><br>
-      	
-      	<div class="col-sm-6">
-    	<label for="sname">Select your Delivery Address:</label>
-    		<select id="selectAddress" class="form-control" onchange="switchAddress(this.value)">
-    		  <option value="" disabled="disabled" selected="selected">Select Delivery Address</option>
-			  <option value="Home Address">Home Address</option>
-			  <option value="Work Address">Work Address</option>
-			</select>
-    	</div>
-    	
-    	<br>
+            <div class="col">
+              <label for="fname">First Name</label>
+              <input class="form-control" placeholder="Enter your first name" oninput="this.className = ''" name="fname"></p>
+            </div>
+            <div class="col">
+              <label for="fname">Middle Name</label>
+              <input class="form-control" placeholder="Enter your first name" oninput="this.className = ''" name="fname"></p>
+            </div>
+            <div class="col">
+              <label for="lname">Last Name</label>
+              <input class="form-control" placeholder="Enter your last name" oninput="this.className = ''" name="lname"></p>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col">
+              <label for="email">Email Address</label>
+                <input class="form-control" placeholder="Enter your email address" oninput="this.className = ''" name="email"></p>
+            </div>
+            <div class="col-sm-2">
+              <div class="form-group">
+                <label for="genderOption">Gender</label>
+                <select class="form-control" id="genderOption">
+                  <option> </option>
+                  <option>M</option>
+                  <option>F</option>
+                  <option>Prefer not to say </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="col">
+              <label for="phone">Phone Number</label>
+                <input class="form-control" placeholder="Enter your phone number" oninput="this.className = ''" name="phone"></p>
+            </div>
+            <div class="col">
+              <label for="phone">Mobile Number</label>
+                <input class="form-control" placeholder="Enter your phone number" oninput="this.className = ''" name="phone"></p>
+            </div>
+          </div>
+          <a href="cart_page.html" class="btn btn-warning float-right btn-sm">Update</a>
+          <br><br>
+          <a href="cart_page.html" class="btn btn-link float-right" id="changePwd" data-toggle="collapse" data-target="#changePassword" aria-expanded="false" aria-controls="collapseExample">Change Password</a>
+          <br><br>
+          <div class="collapse" id="changePassword">
+            <div class="form-row">
+              <div class="col">
+                <label for="oldPwd">Old Password</label>
+                  <input type="password" id="oldPwd" class="form-control" placeholder="Enter old password" oninput="this.className = ''" name="snumber"></p>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="col">
+                <label for="newPwd">New Password</label>
+                  <input type="password" id="newPwd" class="form-control" placeholder="Enter new password" oninput="this.className = ''" name="snumber"></p>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="col">
+                <label for="confirmPwd">Confirm Password</label>
+                  <input type="password" id="confirmPwd" class="form-control" placeholder="Enter confirm password" oninput="this.className = ''" name="snumber"></p>
+              </div>
+            </div>
+            <a href="cart_page.html" class="btn btn-warning float-right btn-sm">Update</a>
+          </div>
+
+          <br><br><hr>
+  <h5>Delivery Address</h5><br>
     	
   <input type="hidden" name="userID" value="<%= session.getAttribute("uid") %>">
      
-      <br>
-	<button class="btn btn-outline-primary" id="HomeAddBtn" disabled type="button" data-toggle="collapse" data-target="#homeAddress" aria-expanded="false" aria-controls="collapseExample">
+	<button class="btn btn-outline-primary" id="HomeAddBtn" type="button" data-toggle="collapse" data-target="#homeAddress" aria-expanded="false" aria-controls="collapseExample">
 		<i class="fas fa-plus-circle"></i> Home Address
 	</button>
 	<!-- Start Collapsible Home Address -->
@@ -342,7 +376,7 @@ e.printStackTrace();
     <!-- End of Collapsible Home Address -->	  
 	
 	<br><br>
-	<button class="btn btn-primary" id="WorkAddBtn" disabled type="button" data-toggle="collapse" data-target="#workAddress" aria-expanded="false" aria-controls="collapseExample">
+	<button class="btn btn-primary" id="WorkAddBtn" type="button" data-toggle="collapse" data-target="#workAddress" aria-expanded="false" aria-controls="collapseExample">
 		<i class="fas fa-plus-circle"></i> Work Address
 	</button>
 	
@@ -502,174 +536,65 @@ e.printStackTrace();
 </div>
     <!-- End of editWorkAddress -->	
     </div>
-    <br><br>
+
+
+        </div> 
+          <!-- End of Form -->
+        </div>
+        <!-- End of Profile -->
+
+        <!-- Start of Transaction History -->
+        <div class="tab-pane fade" id="transactionContent" role="tabpanel" aria-labelledby="trasactionTab">
+          <h5>Transaction History</h5><br>
+          <table class="table mobile-optimised">
+            <thead>
+              <th scope="col">Date</th>
+              <th scope="col">Transaction</th>
+              <th scope="col">Product</th>
+              <th scope="col">Total Amount</th>
+              <th scope="col">Status</th>
+              <th scope="col">Rate</th>
+
+            </thead>
+            <tbody>
+              <tr>
+                <td data-th="Date">10/12/19</td>
+                <td data-th="Transaction">Appointment</td>
+                <td data-th="Product">Hilot</td>
+                <td data-th="Total Amount">Licensed Practitioner</td>
+                <td data-th="Status">Paid</td>
+                <td data-th="Rate"><a href="cart_page.html" class="btn btn-success float-right btn-sm" data-toggle="modal" data-target="#commentModal"> Comment</a></td>
+              </tr>
+              <tr>
+                <td data-th="Date">10/13/19</td>
+                <td data-th="Transaction">Order</td>
+                <td data-th="Product">1 Papaya<br>
+                                      2 Ampalaya</td>
+                <td data-th="Total Amount">P 500</td>
+                <td data-th="Status">Paid</td>
+                <td data-th="Rate"><a href="cart_page.html" class="btn btn-success float-right btn-sm" data-toggle="modal" data-target="#commentModal"> Comment</a></td>
+              </tr>
+            </tbody>
+            
+          </table>
+          
+        </div>
+        <!-- End of Transaction History -->
+      </div>
+    </div>
   </div>
-  </div> <!-- End of First Tab -->
- 	
- 	<br>
-
-<%
-try {
-connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
-statement = connection.createStatement();
-String sql = "SELECT * FROM users where userID = " + session.getAttribute("uid");
-
-resultSet = statement.executeQuery(sql);
-while (resultSet.next()) {
-%>  
-  <div class="tab"><h5>Order Summary</h5><br>
-    <div class="col-sm-12">
-      <div class="row">
-        <div class="col">	
-        <p><strong>Name</strong>: <span id="myname"><%= resultSet.getString("firstName") %> <%= resultSet.getString("middleName") %> <%= resultSet.getString("lastName") %></span></p>
-        <p><strong>Phone Number</strong>: <%= resultSet.getString("telephone") %></p>
-        <p><strong>Mobile Number</strong>:  <%= resultSet.getString("mobileNo") %> </p>
-        <p><strong>Email Address</strong>: <%= resultSet.getString("email") %> </p>
-<%
-}
-} catch (Exception e) {
-e.printStackTrace();
-}
-%>
-
-<input type="hidden" id="dat2" value="">
-<!-- If Home is selected -->
-<div id="da1">
-<%
-try {
-connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
-statement = connection.createStatement();
-String sql = "SELECT deliveryAddressID, houseNumber, street, barangay, city, province, postalCode FROM deliveryaddress WHERE userID = " + session.getAttribute("uid") + " AND addressType = 'home'";
-resultSet = statement.executeQuery(sql);
-while (resultSet.next())
-{
-%>  
-        <p><strong>Address</strong>: <i><%= resultSet.getString("houseNumber") %> <%= resultSet.getString("street") %> <%= resultSet.getString("barangay") %> <%= resultSet.getString("city") %> <%= resultSet.getString("province") %></i></p>
-        <input type="hidden" id="daIDhome" value="<%= resultSet.getString("deliveryAddressID") %>">
-        
-<%
-}
-} catch (Exception e) {
-e.printStackTrace();
-}
-%>
-</div>
-
-<!-- If Work is selected -->
-<div id="da2">
-<%
-try {
-connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
-statement = connection.createStatement();
-String sql = "SELECT deliveryAddressID,houseNumber, street, barangay, city, province, postalCode FROM deliveryaddress WHERE userID = " + session.getAttribute("uid") + " AND addressType = 'work'";
-resultSet = statement.executeQuery(sql);
-while (resultSet.next())
-{
-%>  
-        <p><strong>Address</strong>: <i><%= resultSet.getString("houseNumber") %> <%= resultSet.getString("street") %> <%= resultSet.getString("barangay") %> <%= resultSet.getString("city") %> <%= resultSet.getString("province") %></i></p>
-		<input type="hidden" id="daIDwork" value="<%= resultSet.getString("deliveryAddressID") %>">
-<%
-}
-} catch (Exception e) {
-e.printStackTrace();
-}
-%>
-</div>
- 		</div>
-      </div>
-    </div>
-    <br><br>
-    <div class="col-sm-12">
-      <div class="row">
-        <table class="table mobile-optimised">
-          <thead>
-            <tr>
-              <th scope="col">Item</th>
-              <th scope="col">Quantity</th>
-              <th scope="col">Unit Cost</th>
-              <th scope="col">Subtotal</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td data-th="Item">1</td>
-              <td data-th="Quantity">Software</td>
-              <td data-th="Unit Cost">LTS Versions</td>
-              <td data-th="Subtotal">21</td>
-            </tr>
-            <tr>
-              <td data-th="Item">1</td>
-              <td data-th="Quantity">Software</td>
-              <td data-th="Unit Cost">LTS Versions</td>
-              <td data-th="Subtotal">21</td>
-            </tr>
-            <tr>
-              <td data-th="Item">1</td>
-              <td data-th="Quantity">Software</td>
-              <td data-th="Unit Cost">LTS Versions</td>
-              <td data-th="Subtotal">21</td>
-            </tr>
-          </tbody>
-          <tfoot>
-	        <tr>
-	          <td class="hidden-xs" colspan="3"></td>
-	          <td class="hidden-xs">Total</td>
-	          <!-- PayPal Total -->
-	          <td id="paypaltotal" class="hidden-xs"><h4><strong>500</strong></h4></td>
-	        </tr>
-          </tfoot>
-        </table>      
-      </div>
-      <br>
-        <h5>Mode of Payment</h5><br>
-			<div class="col-sm-6">
-	    	<label for="sname">Select your Payment Method:</label>
-	    		<select id="selectPayment" class="form-control" onchange="switchPayment(this.value)">
-	    		  <option value="" disabled="disabled" selected="selected">Select Payment Method</option>
-				  <option value="PayPal">PayPal</option>
-				  <option value="Cash on Delivery">Cash on Delivery</option>
-				</select>
-	    	</div>        
-        
-		<br> <br> <br>
-        <form action="#" id="paypalaction" method="post">
-        <!-- PayPal Button -->
-		<div class="col-sm-6" id="paypal-button-container"></div>
-		    	<input type="hidden" name="userID" value="<%= session.getAttribute("uid") %>">
-		</form>
-
-
-    </div>
-</div> <!-- End of Second Tab -->
-
-  <div style="overflow:auto;">
-    <div style="float:right;">
-    	<a class="btn btn-outline-primary btn-lg" id="prevBtn" onclick="nextPrev(-1)"> Previous</a>
-    	<button class="btn btn-warning btn-lg" id="nextBtn" onclick="nextPrev(1)"> Next</button>
-    	
-    	<button class="btn btn-outline-primary btn-lg" id="prevBtn2" onclick="nextPrev(-1)"> Previous</button>
-    	<br> <br>
-    	<form action="#" id="cashondeliveryaction" method="post">
-    	<button class="btn btn-warning btn-lg" id="nextBtn2" data-toggle="modal" data-target="#proceed-confirmation"> Proceed </button>	
-    	</form>
     
-    </div>
   </div>
  
-  <!-- Circles which indicates the steps of the form: -->
-  <div style="text-align:center;margin-top:40px;">
-    <span class="step"></span>
-    <span class="step"></span>
-  </div>
 </div>
 
-</div>
 
 <button onclick="topFunction()" id="myBtn" title="Go to top"><span class="fa fa-angle-double-up"></span></button>
 
-
+</div>
 
 <br>
+
 <!-- Footer -->
 <footer class="page-footer font-small blue pt-4">
 
@@ -683,8 +608,8 @@ e.printStackTrace();
       <div class="col-md-6 mt-md-0 mt-3">
 
         <!-- Content -->
-        <h5 class="text-uppercase">ROOTS</h5>
-        <p>Here you can use rows and columns to organize your footer content.</p>
+        <h5 class="text-uppercase text-warning">ROOTS</h5>
+        <p class="text-white">Here you can use rows and columns to organize your footer content.</p>
 
       </div>
       <!-- Grid column -->
@@ -695,20 +620,20 @@ e.printStackTrace();
       <div class="col-md-3 mb-md-0 mb-3">
 
         <!-- Links -->
-        <h5 class="text-uppercase">Links</h5>
+        <h5 class="text-uppercase text-warning">Links</h5>
 
         <ul class="list-unstyled">
           <li>
-            <a href="#!">Home</a>
+            <a href="Home_Page_v2.html" class="text-secondary">Home</a>
           </li>
           <li>
-            <a href="#!">Catalogue</a>
+            <a href="catalogue_page.html" class="text-secondary">Catalogue</a>
           </li>
           <li>
-            <a href="#!">Products</a>
+            <a href="products_page.html" class="text-secondary">Products</a>
           </li>
           <li>
-            <a href="#!">Services</a>
+            <a href="servicePage.html" class="text-secondary">Services</a>
           </li>
         </ul>
 
@@ -719,20 +644,20 @@ e.printStackTrace();
       <div class="col-md-3 mb-md-0 mb-3">
 
         <!-- Links -->
-        <h5 class="text-uppercase">More</h5>
+        <h5 class="text-uppercase text-warning">More</h5>
 
         <ul class="list-unstyled">
           <li>
-            <a href="#!">Contact Us</a>
+            <a href="contactUsPage.html" class="text-secondary">Contact Us</a>
           </li>
           <li>
-            <a href="#!">FAQs</a>
+            <a href="FAQPage.html" class="text-secondary">FAQs</a>
           </li>
           <li>
-            <a href="#!">Privacy Policy</a>
+            <a href="#!" class="text-secondary">Privacy Policy</a>
           </li>
           <li>
-            <a href="#!">Terms and Conditions</a>
+            <a href="#!" class="text-secondary">Terms and Conditions</a>
           </li>
         </ul>
 
@@ -746,8 +671,8 @@ e.printStackTrace();
   <!-- Footer Links -->
 
   <!-- Copyright -->
-  <div class="footer-copyright text-center py-3">© 2019 Copyright:
-    <a href="https://mdbootstrap.com/education/bootstrap/"> Roots.com</a>
+  <div class="footer-copyright text-center text-light py-3">© 2019 Copyright:
+    <a href="https://mdbootstrap.com/education/bootstrap/" class="text-warning"> Roots.com</a>
   </div>
   <!-- Copyright -->
 
@@ -817,41 +742,41 @@ e.printStackTrace();
 
 <!--END of Delete Confirmation Work Address Modal -->
 
-<!-- START of Proceed Confirmation Modal-->
-<div class="modal fade" id="proceed-confirmation" tabindex="-1" role="dialog" aria-labelledby="confirmProceed" aria-hidden="true">
+
+<!-- START of Modal -->
+<div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xs modal-dialog-centered" role="document">
-    <div class="modal-content text-center">
+    <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="confirmProceed"><i class="fas fa-exclamation-circle fa-2x justify-content-center" style="color:#bbbb77;"></i>
+        <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-comment-dots fa-2x" style="color: #bbbb77;"></i>
         </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-            <p class="question text-center">Are you sure you want to proceed?
-            <br><br>
-            <small>Note: There are no Refund Policy and Return Policy</small>
-            </p>
+        <div class="row">
+          <div class="col-md-12">            
+              <div class="form-group">
+                <label for="exampleFormControlTextarea1">Comment:</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+              </div>
+          </div>
+        </div>
+        
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
-        
-        <form action="" name="myForm" method="post">        
-	        <button class="btn btn-primary">Proceed</button>
-	    	<input type="hidden" name="userID" value="<%= session.getAttribute("uid") %>">
-	    </form>
- 
-
+        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+         <a href="cart_page.html" class="btn btn-warning">Submit</a>
       </div>
     </div>
   </div>
 </div> 
 
-<!--END of Proceed Confirmation Modal -->
+<!--END of Modal -->
 
-<script>
-  <!-- go to top -->
+<script type="text/javascript">
+//go to top
 $(document).ready(function(){
   $('body').scrollspy({target: ".navbar", offset: 50});   
 });
@@ -872,186 +797,25 @@ function topFunction() {
   document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 }
 
-//previous and next button 
-var currentTab = 0; // Current tab is set to be the first tab (0)
-showTab(currentTab); // Display the current tab
+//upload profile picture
+$(document).ready(function() {
 
-function showTab(n) {
-  // This function will display the specified tab of the form...
-  var x = document.getElementsByClassName("tab");
-  x[n].style.display = "block";
-  //... and fix the Previous/Next buttons:
-  if (n == 0) {
-    document.getElementById("prevBtn").style.display = "none";
-    document.getElementById("prevBtn2").style.display = "none";
-    document.getElementById("nextBtn").style.display = "inline";
-    document.getElementById("nextBtn2").style.display = "none";
-    document.getElementById("nextBtn").setAttribute("onclick", "nextPrev(1);displayAddress();switchPayment();");
-  } else {
-    document.getElementById("prevBtn").style.display = "none";
-    document.getElementById("prevBtn2").style.display = "inline";
-    document.getElementById("nextBtn2").style.display = "inline";
-    document.getElementById("nextBtn").style.display = "none";
-    //document.getElementById("nextBtn").innerHTML = "Proceed";
-  }
+    
+    var readURL = function(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
 
-  //... and run a function that will display the correct step indicator:
-  fixStepIndicator(n)
-}
-
-function nextPrev(n) {
-  // This function will figure out which tab to display
-  var x = document.getElementsByClassName("tab");
-  // Exit the function if any field in the current tab is invalid:
-  if (n == 1 && !validateForm()) return false;
-  // Hide the current tab:
-  x[currentTab].style.display = "none";
-  // Increase or decrease the current tab by 1:
-  currentTab = currentTab + n;
-  // if you have reached the end of the form...
-  if (currentTab >= x.length) {
-    // ... the form gets submitted:
-    document.getElementById("regForm").submit();
-    return false;
-  }
-  // Otherwise, display the correct tab:
-  showTab(currentTab);
-}
-
-function validateForm() {
-	 // This function deals with validation of the form fields
-	 var ha = document.getElementById("currentHomeAddress").value;
-	 console.log(ha);
-	 var wa = document.getElementById("currentWorkAddress").value;
-	 console.log(wa);
-	var add = document.getElementById("selectAddress");
-	var selected = add.options[add.selectedIndex].value;
-
-	if ((ha == "No Home Address Record")  && (wa == "No Work Address Record")) 
-	{
-		alert("No Address Record Found");
-		return false;
-	}	
-	else if((selected == "Home Address") && (ha == "No Home Address Record")) {
-		alert("No Home Address Record Found");
-		return false;
-	}	
-	else if ((selected == "Work Address") && (wa == "No Work Address Record")){
-		alert("No Work Address Record Found");
-		return false;
-	}
-	
-  var x, y, i, valid = true;
-  x = document.getElementsByClassName("tab");
-  /* y = x[currentTab].getElementsByTagName("input");
-  // A loop that checks every input field in the current tab:
-  for (i = 0; i < y.length; i++) {
-    // If a field is empty...
-    if (y[i].value == "") {
-      // add an "invalid" class to the field:
-      y[i].className += " invalid";
-      // and set the current valid status to false
-      valid = false;
+            reader.onload = function (e) {
+                $('.avatar').attr('src', e.target.result);
+            }    
+            reader.readAsDataURL(input.files[0]);
+        }
     }
-  } */
-  // If the valid status is true, mark the step as finished and valid:
-  if (valid) { 
-    document.getElementsByClassName("step")[currentTab].className += " finish";
-  
-  }
-  return valid; // return the valid status
-} 
-
-function fixStepIndicator(n) {
-  // This function removes the "active" class of all steps...
-  var i, x = document.getElementsByClassName("step");
-  for (i = 0; i < x.length; i++) {
-    x[i].className = x[i].className.replace(" active", "");
-  }
-  //... and adds the "active" class on the current step:
-  x[n].className += " active";
-}
-
-function switchAddress(select){	
-	 if(select == "Home Address") {
-	    document.getElementById("homeAddress").style.display = "block";
-	    document.getElementById("workAddress").style.display = "none";
-	    document.getElementById("dat2").setAttribute("value", "home");
-	} else if (select == "Work Address"){
-	    document.getElementById("homeAddress").style.display = "none";
-	    document.getElementById("workAddress").style.display = "block";
-	    document.getElementById("dat2").setAttribute("value", "work");   
-	} else {
-	    document.getElementById('WorkAddBtn').disabled = true;
-	    document.getElementById("HomeAddBtn").disabled = true;
-	}
-	 console.log(dat2);
-}
-
-function switchPayment(payment){
-	if(payment == "PayPal") {
-	    document.getElementById("paypalaction").style.display = "block";
-	    document.getElementById("nextBtn2").style.display = "none";	    
-	} else if (payment == "Cash on Delivery"){
-	    document.getElementById("nextBtn2").style.display = "inline";
-	    document.getElementById("paypalaction").style.display = "none";
-	} else {
-	    document.getElementById("nextBtn2").style.display = "none";
-	    document.getElementById("paypalaction").style.display = "none";
-	}
-}
-
-function displayAddress(){
-	var dat2 =  document.getElementById("dat2").value;
-	console.log(dat2);
-	if(dat2 == "home") {
-		document.getElementById("da1").style.display = "block";
-		document.getElementById("da2").style.display = "none";
-	} else {
-		document.getElementById("da1").style.display = "none";
-		document.getElementById("da2").style.display = "block";
-	}
-
-}
-
-window.onload = switchAddress();
-
-
-paypal.Buttons({
-    createOrder: function(data, actions) {
-      var total = document.getElementById('paypaltotal').innerText;
-      return actions.order.create({
-        purchase_units: [{
-          amount: {
-            value: total
-          }
-        }]
-      });
-    },
-    onApprove: function(data, actions) {
-      return actions.order.capture().then(function(details) {
-        alert('Transaction completed by ' + document.getElementById('myname').innerHTML);
-        // Call Order Action
-        document.getElementById("paypalaction").submit();
-        // Call your server to save the transaction
-        return fetch('/paypal-transaction-complete', {
-          method: 'post',
-          headers: {
-            'content-type': 'application/json'
-          },
-          body: JSON.stringify({
-            orderID: data.orderID
-          })
-        });
-      });
-    }
-  }).render('#paypal-button-container');
-
-
-
-
+    $(".file-upload").on('change', function(){
+        readURL(this);
+    });
+});
 
 </script>
-
 </body>
 </html>

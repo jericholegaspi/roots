@@ -19,8 +19,8 @@
 
  <link rel="shortcut icon" sizes="16x16 32x32 64x64" href="assets/css/images/logo5.png"/>
 
- <script src="assets/js/cartTotal.js" async="true"></script>
- <script src="assets/js/cartItemDelete.js" async="true"></script>
+ <script src="assets/js/cartTotal.js" async></script>
+ <script src="assets/js/cartItemDelete.js" async></script>
 
 </head>
 
@@ -249,7 +249,7 @@ if((request.getSession(false).getAttribute("email") == null))
 				<input type="hidden" name="orderID" value="<%=resultSet.getInt("orderID")%>"/>
 				<input type="hidden" name="userID" value="<%=session.getAttribute("uid") %>"/>
 				<input type="hidden" name="cartItemTotalCount" value="<%=resultSet2.getInt("count(orderItemID)")%>"/>
-				<input type="hidden" name="orderTotalPrice" class="cart-total-price-duplicate" readonly/>
+				<input type="hidden" name="orderTotalPrice" class="cart-total-price-duplicate"/>
 			</form>
 			<%
 			} catch (Exception e) {
