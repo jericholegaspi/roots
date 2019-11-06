@@ -25,7 +25,7 @@
 </head>
 
 <% //In case, if User session is not set, redirect to Login page.
-if((request.getSession(false).getAttribute("email")== null) )
+if((request.getSession(false).getAttribute("email") == null))
 {
 %>
 <jsp:forward page="userLogin.jsp"></jsp:forward>
