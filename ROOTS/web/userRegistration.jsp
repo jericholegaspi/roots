@@ -153,7 +153,7 @@
 							<hr>
 								<div class="card-footer">
 									<div class="row align-items-center read">
-										<input type="checkbox" name="pp"> I have read the&emsp;<a href="privacyPolicy.html" target="_blank">Privacy Policy</a>																			
+										<input type="checkbox" name="pp"> I have read the&emsp;<a href="userPrivacyPolicyPage.jsp" target="_blank">Privacy Policy</a>																			
 									</div>
 								</div>
 									<p class="sub"><button class="btn btn-warning btn-block" value="Register"> Submit </button></p>

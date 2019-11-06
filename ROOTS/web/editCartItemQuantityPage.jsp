@@ -56,7 +56,7 @@ if((request.getSession(false).getAttribute("email")== null) )
 <div class="container-fluid">
     <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
         <!-- Brand -->
-        <a class="navbar-brand" href="Home_Page_v2.html">
+        <a class="navbar-brand" href="userHomePage.jsp">
       <img src="assets/css/images/logo5.png" height="50px" width="90px">
   </a>
 
@@ -69,7 +69,7 @@ if((request.getSession(false).getAttribute("email")== null) )
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="catalogue_page.html">Catalogue</a>
+                    <a class="nav-link" href="userCataloguePage.jsp">Catalogue</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="userProductIndex.jsp">Products</a>
@@ -113,9 +113,9 @@ if((request.getSession(false).getAttribute("email")== null) )
                         <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
         				<span class="fas fa-user-alt"></span></a>
 						<div class="dropdown-menu dropdown-menu-right">
-							<a class="dropdown-item" href="profilePage.html"><i class="fas fa-user-alt fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Profile</span></a>
-							<a class="dropdown-item" href="invoicelist_page.html"><i class="fas fa-file-invoice fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Invoice</span></a>
-							<a class="dropdown-item" href="appointmentListPage.html"><i class="far fa-calendar-check fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Appointment</a>
+							<a class="dropdown-item" href="userProfile.jsp"><i class="fas fa-user-alt fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Profile</span></a>
+							<a class="dropdown-item" href="userInvoiceListPage.jsp"><i class="fas fa-file-invoice fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Invoice</span></a>
+							<a class="dropdown-item" href="userAppointmentListPage.jsp"><i class="far fa-calendar-check fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Appointment</a>
 							<a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Logout</span></a>
 						</div>
                     </li>

@@ -53,7 +53,7 @@
 			</div>
 			<div class="card-footer">
 				<div class="d-flex justify-content-center links">
-					<a href="#">Forgot your password?</a>
+					<a href="userForgotPasswordPage.jsp">Forgot your password?</a>
 				</div>
 			</div>
 		</div>

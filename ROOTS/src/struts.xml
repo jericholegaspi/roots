@@ -60,7 +60,47 @@
 					<result name="error">/error.jsp</result>
 				</action>
 				
-		
+				<!-- PROFILE  -->
+				<action name="updateUser" class="roots.user.action.UpdateUserAction">
+					<result name="success" type="redirect">/userProfile.jsp</result>
+					<result name="error">/error.jsp</result>
+				</action>
+				
+				<action name="updatePassword" class="roots.user.action.UpdatePasswordAction">
+					<result name="success" type="redirect">/userProfile.jsp</result>
+					<result name="error">/error.jsp</result>
+				</action>
+				
+				<action name="addHomeProfile" class="roots.user.action.AddHomeAddressAction">
+					<result name="success" type="redirect">/userProfile.jsp</result>
+					<result name="error">/error.jsp</result>
+				</action>
+				
+				<action name="updateHomeProfile" class="roots.user.action.UpdateHomeAddressAction">
+					<result name="success" type="redirect">/userProfile.jsp</result>
+					<result name="error">/error.jsp</result>
+				</action>
+				
+				<action name="deleteHomeProfile" class="roots.user.action.DeleteHomeAddressAction">
+					<result name="success" type="redirect">/userProfile.jsp</result>
+					<result name="error">/error.jsp</result>
+				</action>
+				
+				<action name="addWorkProfile" class="roots.user.action.AddWorkAddressAction">
+					<result name="success" type="redirect">/userProfile.jsp</result>
+					<result name="error">/error.jsp</result>
+				</action>
+				
+				<action name="updateWorkProfile" class="roots.user.action.UpdateWorkAddressAction">
+					<result name="success" type="redirect">/userProfile.jsp</result>
+					<result name="error">/error.jsp</result>
+				</action>
+				
+				<action name="deleteWorkProfile" class="roots.user.action.DeleteWorkAddressAction">
+					<result name="success" type="redirect">/userProfile.jsp</result>
+					<result name="error">/error.jsp</result>
+				</action>
+				
 		
 		<!-- ADMIN ACTION -->
 				<action name="adminlogin" class="roots.admin.action.AdminLoginAction">

@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Cart</title>
+<title>Invoice</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -27,6 +27,12 @@
   <link rel="shortcut icon" sizes="16x16 32x32 64x64" href="assets/css/images/logo5.png"/>
 
 </head>
+<% //In case, if User session is not set, redirect to Login page.
+if((request.getSession(false).getAttribute("email")== null) )
+{
+%>
+<jsp:forward page="userLogin.jsp"></jsp:forward>
+<%} %>
 <body>
 
 <%@page import="java.sql.DriverManager"%>
@@ -60,7 +66,7 @@
   <div class="container-fluid">
   <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
   <!-- Brand -->
-  <a class="navbar-brand" href="Home_Page_v2.html">
+  <a class="navbar-brand" href="userHomePage.jsp">
       <img src="assets/css/images/logo5.png" height="50px" width="90px">
   </a>
 
@@ -73,13 +79,13 @@
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="catalogue_page.html">Catalogue</a>
+        <a class="nav-link" href="userCataloguePage.jsp">Catalogue</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="userProductIndex.jsp">Products</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Services</a>
+        <a class="nav-link" href="userServicePage.jsp">Services</a>
       </li>
 
       <li class="nav-item dropdown">
@@ -87,9 +93,9 @@
         More
       </a>
       <div class="dropdown-menu">
-        <a class="dropdown-item" href="#">About</a>
-        <a class="dropdown-item" href="#">Contact Us</a>
-        <a class="dropdown-item" href="#">FAQs</a>
+        <a class="dropdown-item" href="userAboutPage.jsp">About</a>
+        <a class="dropdown-item" href="userContactUsPage.jsp">Contact Us</a>
+        <a class="dropdown-item" href="userFAQPage.jsp">FAQs</a>
       </div>
     </li>
     </ul>
@@ -118,12 +124,13 @@
 		%>
       <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-        <span class="fa fa-user"></span>
+        <span class="fas fa-user-alt"></span>
       </a>
       <div class="dropdown-menu dropdown-menu-right">
-        <a class="dropdown-item" href="#"><span class="fa fa-sign-in"></span>Profile</a>
-        <a class="dropdown-item" href="#"><span class="fa fa-sign-in"></span>Invoice</a>
-        <a class="dropdown-item" href="#"><span class="fa fa-sign-in"></span>Logout</a>
+        <a class="dropdown-item" href="userProfile.jsp"><i class="fas fa-user-alt fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Profile</span></a>
+        <a class="dropdown-item" href="userInvoiceListPage.jsp"><i class="fas fa-file-invoice fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Invoice</span></a>
+        <a class="dropdown-item" href="userAppointmentListPage.jsp"><i class="far fa-calendar-check fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Appointment</a>
+        <a class="dropdown-item" href="logout.action"><i class="fas fa-sign-out-alt fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Logout</span></a>
       </div>
         
       </li>
@@ -265,8 +272,8 @@
       <div class="col-md-6 mt-md-0 mt-3">
 
         <!-- Content -->
-        <h5 class="text-uppercase">ROOTS</h5>
-        <p>Here you can use rows and columns to organize your footer content.</p>
+        <h5 class="text-uppercase text-warning">ROOTS</h5>
+        <p class="text-white"><small>A web-enabled application that provides traditional and alternative medicine services from licensed practitioners with the ability to  purchase medicinal plants, herbs and other products online.</small></p>
 
       </div>
       <!-- Grid column -->
@@ -277,20 +284,20 @@
       <div class="col-md-3 mb-md-0 mb-3">
 
         <!-- Links -->
-        <h5 class="text-uppercase">Links</h5>
+        <h5 class="text-uppercase text-warning">Links</h5>
 
         <ul class="list-unstyled">
           <li>
-            <a href="#!">Home</a>
+            <a href="userHomePage.jsp" class="text-secondary">Home</a>
           </li>
           <li>
-            <a href="#!">Catalogue</a>
+            <a href="userCataloguePage.jsp" class="text-secondary">Catalogue</a>
           </li>
           <li>
-            <a href="#!">Products</a>
+            <a href="userPrivacyPolicyPage.jsp" target="_blank" class="text-secondary">Privacy Policy</a>
           </li>
           <li>
-            <a href="#!">Services</a>
+            <a href="userTermsConditionsPage.jsp" target="_blank" class="text-secondary">Terms and Conditions</a>
           </li>
         </ul>
 
@@ -301,20 +308,23 @@
       <div class="col-md-3 mb-md-0 mb-3">
 
         <!-- Links -->
-        <h5 class="text-uppercase">More</h5>
+        <h5 class="text-uppercase text-warning">More</h5>
 
         <ul class="list-unstyled">
           <li>
-            <a href="#!">Contact Us</a>
+            <a href="userAboutPage.jsp" class="text-secondary">About</a>
           </li>
           <li>
-            <a href="#!">FAQs</a>
+            <a href="userContactUsPage.jsp" class="text-secondary">Contact Us</a>
           </li>
           <li>
-            <a href="#!">Privacy Policy</a>
+            <a href="userFAQPage.jsp" class="text-secondary">FAQs</a>
           </li>
           <li>
-            <a href="#!">Terms and Conditions</a>
+            <a href="userPrivacyPolicyPage.jsp" class="text-secondary">Privacy Policy</a>
+          </li>
+          <li>
+            <a href="userTermsConditionsPage.jsp" class="text-secondary">Terms and Conditions</a>
           </li>
         </ul>
 
@@ -328,8 +338,8 @@
   <!-- Footer Links -->
 
   <!-- Copyright -->
-  <div class="footer-copyright text-center py-3">© 2019 Copyright:
-    <a href="https://mdbootstrap.com/education/bootstrap/"> Roots.com</a>
+  <div class="footer-copyright text-center text-light py-3">Â© 2019 Copyright:
+    <a href="https://mdbootstrap.com/education/bootstrap/" class="text-warning"> Roots.com</a>
   </div>
   <!-- Copyright -->
 

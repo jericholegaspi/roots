@@ -94,25 +94,25 @@ e.printStackTrace();
 %> 
             <ul class="nav">
                 <li>
-                    <a href="admin.jsp">
+                    <a href="adminProfile.jsp">
                         <i class="pe-7s-user"></i>
                         <p>Profile</p>
                     </a>
                 </li>
                 <li>
-                    <a href="dashboard.jsp">
+                    <a href="#">
                         <i class="pe-7s-graph"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
                 <li>
-                    <a href="users.jsp">
+                    <a href="adminUsers.jsp">
                         <i class="pe-7s-users"></i>
                         <p>Users</p>
                     </a>
                 </li>
                 <li>
-                    <a href="catalogue.jsp">
+                    <a href="#">
                         <i class="pe-7s-notebook"></i>
                         <p>Catalogue</p>
                     </a>
@@ -146,7 +146,7 @@ e.printStackTrace();
                     </ul>
                 </li>
                 <li>
-                   <a href="modalities.jsp">
+                   <a href="#">
                         <i class="pe-7s-note2"></i>
                         <p>Modalities</p>
                     </a>
@@ -173,13 +173,13 @@ e.printStackTrace();
                     </ul>
                 </li>
                 <li>
-                    <a href="lp.jsp">
+                    <a href="#">
                         <i class="pe-7s-id"></i>
                         <p>Licensed Practitioners</p>
                     </a>
                 </li>
                 <li>
-                    <a href="feedback.jsp">
+                    <a href="#">
                         <i class="pe-7s-comment"></i>
                         <p>Feedback</p>
                     </a>

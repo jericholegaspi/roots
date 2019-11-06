@@ -56,7 +56,7 @@ if((request.getSession(false).getAttribute("email")== null) )
 <div class="container-fluid">
     <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
         <!-- Brand -->
-        <a class="navbar-brand" href="Home_Page_v2.html">
+        <a class="navbar-brand" href="userHomePage.jsp">
       <img src="assets/css/images/logo5.png" height="50px" width="90px">
   </a>
 
@@ -69,13 +69,13 @@ if((request.getSession(false).getAttribute("email")== null) )
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="catalogue_page.html">Catalogue</a>
+                    <a class="nav-link" href="userCataloguePage.jsp">Catalogue</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="userProductIndex.jsp">Products</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Services</a>
+                    <a class="nav-link" href="userServicePage.jsp">Services</a>
                 </li>
 
                 <li class="nav-item dropdown">
@@ -83,9 +83,9 @@ if((request.getSession(false).getAttribute("email")== null) )
         More
       </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">About</a>
-                        <a class="dropdown-item" href="#">Contact Us</a>
-                        <a class="dropdown-item" href="#">FAQs</a>
+                        <a class="dropdown-item" href="userAboutPage.jsp">About</a>
+                        <a class="dropdown-item" href="userContactUsPage.jsp">Contact Us</a>
+                        <a class="dropdown-item" href="userFAQPage.jsp">FAQs</a>
                     </div>
                 </li>
             </ul>
@@ -113,10 +113,10 @@ if((request.getSession(false).getAttribute("email")== null) )
                         <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
         				<span class="fas fa-user-alt"></span></a>
 						<div class="dropdown-menu dropdown-menu-right">
-							<a class="dropdown-item" href="profilePage.html"><i class="fas fa-user-alt fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Profile</span></a>
-							<a class="dropdown-item" href="invoicelist_page.html"><i class="fas fa-file-invoice fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Invoice</span></a>
-							<a class="dropdown-item" href="appointmentListPage.html"><i class="far fa-calendar-check fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Appointment</a>
-							<a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Logout</span></a>
+							<a class="dropdown-item" href="userProfile.jsp"><i class="fas fa-user-alt fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Profile</span></a>
+							<a class="dropdown-item" href="userInvoiceListPage.jsp"><i class="fas fa-file-invoice fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Invoice</span></a>
+							<a class="dropdown-item" href="userAppointmentListPage.jsp"><i class="far fa-calendar-check fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Appointment</a>
+							<a class="dropdown-item" href="logout.action"><i class="fas fa-sign-out-alt fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Logout</span></a>
 						</div>
                     </li>
                 </ul>
@@ -218,89 +218,93 @@ if((request.getSession(false).getAttribute("email")== null) )
         </div>
     </div>
 </div>
+<button onclick="topFunction()" id="myBtn" title="Go to top"><span class="fa fa-angle-double-up"></span></button>
 
 
 
 <!-- Footer -->
 <footer class="page-footer font-small blue pt-4">
 
-    <!-- Footer Links -->
-    <div class="container text-center text-md-left">
+  <!-- Footer Links -->
+  <div class="container text-center text-md-left">
 
-        <!-- Grid row -->
-        <div class="row foot">
+    <!-- Grid row -->
+    <div class="row foot">
 
-            <!-- Grid column -->
-            <div class="col-md-6 mt-md-0 mt-3">
+      <!-- Grid column -->
+      <div class="col-md-6 mt-md-0 mt-3">
 
-                <!-- Content -->
-                <h5 class="text-uppercase">ROOTS</h5>
-                <p>Here you can use rows and columns to organize your footer content.</p>
+        <!-- Content -->
+        <h5 class="text-uppercase text-warning">ROOTS</h5>
+        <p class="text-white"><small>A web-enabled application that provides traditional and alternative medicine services from licensed practitioners with the ability to  purchase medicinal plants, herbs and other products online.</small></p>
 
-            </div>
-            <!-- Grid column -->
+      </div>
+      <!-- Grid column -->
 
-            <hr class="clearfix w-100 d-md-none pb-3">
+      <hr class="clearfix w-100 d-md-none pb-3">
 
-            <!-- Grid column -->
-            <div class="col-md-3 mb-md-0 mb-3">
+      <!-- Grid column -->
+      <div class="col-md-3 mb-md-0 mb-3">
 
-                <!-- Links -->
-                <h5 class="text-uppercase">Links</h5>
+        <!-- Links -->
+        <h5 class="text-uppercase text-warning">Links</h5>
 
-                <ul class="list-unstyled">
-                    <li>
-                        <a href="#!">Home</a>
-                    </li>
-                    <li>
-                        <a href="#!">Catalogue</a>
-                    </li>
-                    <li>
-                        <a href="#!">Products</a>
-                    </li>
-                    <li>
-                        <a href="#!">Services</a>
-                    </li>
-                </ul>
+        <ul class="list-unstyled">
+          <li>
+            <a href="userHomePage.jsp" class="text-secondary">Home</a>
+          </li>
+          <li>
+            <a href="userCataloguePage.jsp" class="text-secondary">Catalogue</a>
+          </li>
+          <li>
+            <a href="userPrivacyPolicyPage.jsp" target="_blank" class="text-secondary">Privacy Policy</a>
+          </li>
+          <li>
+            <a href="userTermsConditionsPage.jsp" target="_blank" class="text-secondary">Terms and Conditions</a>
+          </li>
+        </ul>
 
-            </div>
-            <!-- Grid column -->
+      </div>
+      <!-- Grid column -->
 
-            <!-- Grid column -->
-            <div class="col-md-3 mb-md-0 mb-3">
+      <!-- Grid column -->
+      <div class="col-md-3 mb-md-0 mb-3">
 
-                <!-- Links -->
-                <h5 class="text-uppercase">More</h5>
+        <!-- Links -->
+        <h5 class="text-uppercase text-warning">More</h5>
 
-                <ul class="list-unstyled">
-                    <li>
-                        <a href="#!">Contact Us</a>
-                    </li>
-                    <li>
-                        <a href="#!">FAQs</a>
-                    </li>
-                    <li>
-                        <a href="#!">Privacy Policy</a>
-                    </li>
-                    <li>
-                        <a href="#!">Terms and Conditions</a>
-                    </li>
-                </ul>
+        <ul class="list-unstyled">
+          <li>
+            <a href="userAboutPage.jsp" class="text-secondary">About</a>
+          </li>
+          <li>
+            <a href="userContactUsPage.jsp" class="text-secondary">Contact Us</a>
+          </li>
+          <li>
+            <a href="userFAQPage.jsp" class="text-secondary">FAQs</a>
+          </li>
+          <li>
+            <a href="userPrivacyPolicyPage.jsp" class="text-secondary">Privacy Policy</a>
+          </li>
+          <li>
+            <a href="userTermsConditionsPage.jsp" class="text-secondary">Terms and Conditions</a>
+          </li>
+        </ul>
 
-            </div>
-            <!-- Grid column -->
-
-        </div>
-        <!-- Grid row -->
+      </div>
+      <!-- Grid column -->
 
     </div>
-    <!-- Footer Links -->
+    <!-- Grid row -->
 
-    <!-- Copyright -->
-    <div class="footer-copyright text-center py-3">© 2019 Copyright:
-        <a href="https://mdbootstrap.com/education/bootstrap/"> Roots.com</a>
-    </div>
-    <!-- Copyright -->
+  </div>
+  <!-- Footer Links -->
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center text-light py-3">Â© 2019 Copyright:
+    <a href="https://mdbootstrap.com/education/bootstrap/" class="text-warning"> Roots.com</a>
+  </div>
+  <!-- Copyright -->
 
 </footer>
 <!-- Footer -->

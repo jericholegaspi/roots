@@ -52,7 +52,7 @@ html, body
 
 
 .hero-image {
-  background-image: linear-gradient(rgba(204, 255, 242, 0.5), rgba(51, 51, 26, 0.5)), url("images/catalogue-1.jpg");
+  background-image: linear-gradient(rgba(204, 255, 242, 0.5), rgba(51, 51, 26, 0.5)), url("assets/css/images/services-2.jpg");
   height: 100%;
   width: 100%;
   background-position: center;
@@ -80,7 +80,7 @@ min-height: 100%;
   left: 50%;
   transform: translate(-50%, -50%);
   color: white;
-  font-size:4.5vw;
+  font-size:70px;
   font-style: 'Arial Rounded MT Bold';
   text-shadow: 0 0 8px #666666;
 }
@@ -90,7 +90,7 @@ hr {
 }
 
 p.description {
-  font-size: 1vw;
+  font-size: 15px;
 
 }
 

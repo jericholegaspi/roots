@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Numans');
-/* @import "compass"; */
+@import "compass";
 
 html, body
 {
@@ -30,110 +30,90 @@ html, body
 }
 
 .navbar-brand {
-	font-size: 21px;
+  font-size: 21px;
 }
 
 
 .navbar-nav {
-	font-size: 17px;
+  font-size: 17px;
 } 
 
 .navbar {
-	background-color: hsl(180, 100%, 10%,10)!important;
+  background-color: hsl(180, 100%, 10%,10)!important;
 }
 
 .rightnav {
-	border-color: #b38600;
+  border-color: #b38600;
 }
 
 .dropdown-item li a:hover {
     background-color: red !important;
   }
 
-
-.hero-image {
-  background-image: linear-gradient(rgba(204, 255, 242, 0.5), rgba(51, 51, 26, 0.5)), url("images/catalogue-1.jpg");
-  height: 100%;
-  width: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  position: relative;
-  padding-top: 70px;
-
-min-width: 100%;
-min-height: 100%;
-
+.cart-table {
+  
+  padding-top: 150px;
+  padding-bottom: 50px;
 }
 
-@media screen and (max-width: 600px) {
-  .topnav a {
-    float: none;
-    width: 100%;
-  }
+.i-name {
+  font-size: 20px;
 }
 
-.hero-text {
-  text-align: center;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  font-size:64px;
-  font-style: 'Arial Rounded MT Bold';
-  text-shadow: 0 0 8px #666666;
-}
-
-hr {
-  border-color: white;
-}
-
-p.description {
-  font-size: 15px;
-
-}
-
-.col {
-  padding-bottom: 10px;
-  padding-top: 10px;
-  align-content: center;
-}
-
-.card {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  width:240px;
-}
-
-.category {
-  color: grey;
-}
-
-.card-text {
-  color: grey;
-  white-space: nowrap;  
-  overflow: hidden;
-  text-align: left;
-  text-overflow: ellipsis;
-  font-size: 16px; 
-}
-
-.p-title {
-  font-weight: 700;
-}
-
-.p-text {
+.p-description {
   font-size: 14px;
+  color: grey;
 }
 
-.note {
-	padding-top: 30px;
+.table {
+  background-color: white;
 }
+
+.thead {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 17px;
+}
+
+.table>tbody>tr>td, .table>tfoot>tr>td{
+    vertical-align: middle;
+}
+@media screen and (max-width: 600px) {
+    table#cart tbody td .form-control{
+    width:20%;
+    display: inline !important;
+  }
+  .actions .btn{
+    width:36%;
+    margin:1.5em 0;
+  }
+  
+  .actions .btn-info{
+    float:left;
+  }
+  .actions .btn-danger{
+    float:right;
+  }
+  
+  table#cart thead { display: none; }
+  table#cart tbody td { display: block; padding: .6rem; min-width:320px;}
+  table#cart tbody tr td:first-child { background: #333; color: #fff; }
+  table#cart tbody td:before {
+    content: attr(data-th); font-weight: bold;
+    display: inline-block; width: 8rem;
+  }
+  
+  table#cart tfoot td{display:block; }
+  table#cart tfoot td .btn{display:block;}
+  
+}
+
 
 .foot {
   padding-top: 30px;
   padding-bottom: 70px;
 }
+
 .page-footer {
   background-color: hsl(60, 20%, 25%,10)!important;
 }
@@ -157,3 +137,4 @@ p.description {
 #myBtn:hover {
   background-color: #555; /* Add a dark-grey background on hover */
 }
+                                    

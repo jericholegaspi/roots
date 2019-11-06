@@ -50,6 +50,15 @@ public class RegisterBean {
 		sendGMail(this.email); //Email Method
 		insertUser();
 	}
+	
+	public void updateUser() {
+		updateProfile();
+	}
+	
+	public void updatePassword() {
+		password = getSHA(this.password); //Hash Algorithm Method
+		updatePass();
+	}
 
 	//Getters & Setters	
 	public String getFirstName() {
@@ -306,6 +315,63 @@ public class RegisterBean {
             me.printStackTrace();
         }
     }
+	
+	public boolean updateProfile() {		
+		Connection connection = getDBConnection();
+		
+		if (connection != null) { //means a valid connection
+			String sql = "UPDATE users "
+	                + "SET firstName = ?, middleName = ?, lastName = ?, gender = ?, mobileNo = ?, telephone = ? "
+	                + "WHERE userID = ?";
+		
+			try {
+				PreparedStatement pstmnt = connection.prepareStatement(sql);
+				
+				pstmnt.setString(1, this.firstName);
+				pstmnt.setString(2, this.middleName);
+				pstmnt.setString(3, this.lastName);
+				pstmnt.setString(4, this.gender);
+				pstmnt.setDouble(5, this.mobileNo);
+				pstmnt.setDouble(6, this.telephone);
+				pstmnt.setInt(7, this.userId);
+				
+				pstmnt.executeUpdate();
+				return true;
+			
+			} catch (SQLException sqle) {
+				System.err.println("Error on UpdateRecordAddress: " + sqle.getMessage());
+			}			
+		} else {
+			System.err.println("Missing on invalid connection.");
+		}
+		return false;
+	}
+	
+	public boolean updatePass() {		
+		Connection connection = getDBConnection();
+		
+		if (connection != null) { //means a valid connection
+			String sql = "UPDATE users "
+	                + "SET password = ? "
+	                + "WHERE userID = ?";
+		
+			try {
+				PreparedStatement pstmnt = connection.prepareStatement(sql);
+				
+				pstmnt.setString(1, this.password);
+				pstmnt.setInt(2, this.userId);
+				
+				pstmnt.executeUpdate();
+				return true;
+			
+			} catch (SQLException sqle) {
+				System.err.println("Error on UpdateRecordAddress: " + sqle.getMessage());
+			}			
+		} else {
+			System.err.println("Missing on invalid connection.");
+		}
+		return false;
+	}
 	 
 	 
 

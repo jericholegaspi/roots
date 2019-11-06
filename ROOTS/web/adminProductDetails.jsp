@@ -33,6 +33,14 @@
     <!-- Data Tables -->
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
 </head>
+
+<% //In case, if User session is not set, redirect to Login page.
+if((request.getSession(false).getAttribute("email")== null) )
+{
+%>
+<jsp:forward page="adminLogin.jsp"></jsp:forward>
+<%} %>
+
 <body>
 
 <%@page import="java.sql.DriverManager"%>
@@ -74,25 +82,25 @@
 
             <ul class="nav">
                 <li>
-                    <a href="admin.jsp">
+                    <a href="adminProfile.jsp">
                         <i class="pe-7s-user"></i>
                         <p>Profile</p>
                     </a>
                 </li>
                 <li>
-                    <a href="dashboard.jsp">
+                    <a href="#">
                         <i class="pe-7s-graph"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
                 <li>
-                    <a href="users.jsp">
+                    <a href="adminUsers.jsp">
                         <i class="pe-7s-users"></i>
                         <p>Users</p>
                     </a>
                 </li>
                 <li>
-                    <a href="catalogue.jsp">
+                    <a href="#">
                         <i class="pe-7s-notebook"></i>
                         <p>Catalogue</p>
                     </a>
@@ -126,7 +134,7 @@
                     </ul>
                 </li>
                 <li>
-                   <a href="modalities.jsp">
+                   <a href="#">
                         <i class="pe-7s-note2"></i>
                         <p>Modalities</p>
                     </a>
@@ -153,13 +161,13 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="lp.jsp">
+                    <a href="#">
                         <i class="pe-7s-id"></i>
                         <p>Licensed Practitioners</p>
                     </a>
                 </li>
                 <li>
-                    <a href="feedback.jsp">
+                    <a href="#">
                         <i class="pe-7s-comment"></i>
                         <p>Feedback</p>
                     </a>
@@ -239,7 +247,7 @@
                               </ul>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="adminlogout.action">
                                 <p>Log out</p>
                             </a>
                         </li>

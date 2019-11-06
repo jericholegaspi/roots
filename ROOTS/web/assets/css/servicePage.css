@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Numans');
-/* @import "compass"; */
+@import "compass";
 
 html, body
 {
@@ -46,13 +46,17 @@ html, body
 	border-color: #b38600;
 }
 
+.under {
+  text-indent:10px;
+}
+
 .dropdown-item li a:hover {
     background-color: red !important;
   }
 
 
 .hero-image {
-  background-image: linear-gradient(rgba(204, 255, 242, 0.5), rgba(51, 51, 26, 0.5)), url("images/catalogue-1.jpg");
+  background-image: linear-gradient(rgba(204, 255, 242, 0.5), rgba(51, 51, 26, 0.5)), url("images/services-6.jpg");
   height: 100%;
   width: 100%;
   background-position: center;
@@ -80,13 +84,18 @@ min-height: 100%;
   left: 50%;
   transform: translate(-50%, -50%);
   color: white;
-  font-size:64px;
+  font-size:70px;
   font-style: 'Arial Rounded MT Bold';
   text-shadow: 0 0 8px #666666;
 }
 
 hr {
   border-color: white;
+}
+
+.service {
+  padding-top: 100px;
+  padding-bottom: 70px;
 }
 
 p.description {
@@ -102,7 +111,7 @@ p.description {
 
 .card {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  width:240px;
+  width:320px;
 }
 
 .category {
@@ -110,12 +119,12 @@ p.description {
 }
 
 .card-text {
-  color: grey;
   white-space: nowrap;  
   overflow: hidden;
   text-align: left;
   text-overflow: ellipsis;
   font-size: 16px; 
+  font-weight: 700;
 }
 
 .p-title {
@@ -126,14 +135,15 @@ p.description {
   font-size: 14px;
 }
 
-.note {
-	padding-top: 30px;
+.small {
+  color: grey;
 }
 
 .foot {
   padding-top: 30px;
   padding-bottom: 70px;
 }
+
 .page-footer {
   background-color: hsl(60, 20%, 25%,10)!important;
 }

@@ -42,35 +42,61 @@ if((request.getSession(false).getAttribute("email")== null) )
 
 <body data-spy="scroll" data-target=".navbar" data-offset="50">
 
-<nav class="navbar navbar-inverse navbar-expand-sm navbar-fixed-top">
+<nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
+  <!-- Brand -->
+  <a class="navbar-brand" href="userHomePage.jsp">
+      <img src="assets/css/images/logo5.png" height="50px" width="90px">
+  </a>
 
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>                        
-      </button>
-      <a class="navbar-brand" class="active" href="userHomePage.jsp"><img src="assets/css/images/logo-roots.png" height="110px" width="200px"></a>
-    </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav">
-        <li><a href="catalog-logged_in.html">Catalogue</a></li>
-        <li><a href="userProductIndex.jsp">Products</a></li> <!-- TEST CHECKOUT -->
-        <li><a href="services-logged_in.html">Services</a></li>
-        <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Contact Us <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-              <li><a href="contact-logged_in.html">About Us</a></li>
-              <li><a href="faq-logged_in.html">FAQs</a></li>
-          </ul>
+  <!-- Toggler/collapsibe Button -->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- Navbar links -->
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="userCataloguePage.jsp">Catalogue</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="userProductIndex.jsp">Products</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="userServicePage.jsp">Services</a>
+      </li>
+
+      <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+        More
+      </a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="userAboutPage.jsp">About</a>
+        <a class="dropdown-item" href="userContactUsPage.jsp">Contact Us</a>
+        <a class="dropdown-item" href="userFAQPage.jsp">FAQs</a>
+      </div>
+    </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <ul class="navbar-nav navbar-right">
+        <li class="nav-item">
+          <a class="nav-link" href="userCartPage.jsp"><span class="fa fa-shopping-cart"><span class="badge total-count"></span></span></a>
         </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="userProfile.jsp"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
-        <li><a href="logout.action"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
-      </ul>
-    </div>
+      <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+        <span class="fas fa-user-alt"></span>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right">
+        <a class="dropdown-item" href="userProfile.jsp"><i class="fas fa-user-alt fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Profile</span></a>
+        <a class="dropdown-item" href="userInvoiceListPage.jsp"><i class="fas fa-file-invoice fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Invoice</span></a>
+        <a class="dropdown-item" href="userAppointmentListPage.jsp"><i class="far fa-calendar-check fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Appointment</a>
+        <a class="dropdown-item" href="logout.action"><i class="fas fa-sign-out-alt fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Logout</span></a>
+      </div>
+        
+      </li>
+    </ul>
+           
+    </form>    
   </div>
 </nav>
 <div class="bg">
@@ -130,8 +156,8 @@ if((request.getSession(false).getAttribute("email")== null) )
 <div class="hero-image second">
   <div class="hero-text">
     <h1 class="down">Begin Here</h1>
-    <button class="cat" href="catalog-logged_in.html">Go to Catalogue</button>
-    <button class="cat" href="allproducts-logged_in.html">Go to Products</button>
+    <button class="cat" href="userCataloguePage.jsp">Go to Catalogue</button>
+    <button class="cat" href="userProductIndex.jsp">Go to Products</button>
     <button class="cat">Go to Services</button>
   </div>
 </div>

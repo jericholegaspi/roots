@@ -53,7 +53,7 @@ if((request.getSession(false).getAttribute("email")== null) )
   <div class="container-fluid">
   <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
   <!-- Brand -->
-  <a class="navbar-brand" href="Home_Page_v2.html">
+  <a class="navbar-brand" href="userHomePage.jsp">
       <img src="assets/css/images/logo5.png" height="50px" width="90px">
   </a>
 
@@ -66,13 +66,13 @@ if((request.getSession(false).getAttribute("email")== null) )
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="catalogue_page.html">Catalogue</a>
+        <a class="nav-link" href="userCataloguePage.jsp">Catalogue</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="products_page.html">Products</a>
+        <a class="nav-link" href="userProductIndex.jsp">Products</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="servicePage.html">Services</a>
+        <a class="nav-link" href="userServicePage.jsp">Services</a>
       </li>
 
       <li class="nav-item dropdown">
@@ -80,9 +80,9 @@ if((request.getSession(false).getAttribute("email")== null) )
         More
       </a>
       <div class="dropdown-menu">
-        <a class="dropdown-item" href="aboutPage.html">About</a>
-        <a class="dropdown-item" href="contactUsPage.html">Contact Us</a>
-        <a class="dropdown-item" href="FAQPage.html">FAQs</a>
+        <a class="dropdown-item" href="userAboutPage.jsp">About</a>
+        <a class="dropdown-item" href="userContactUsPage.jsp">Contact Us</a>
+        <a class="dropdown-item" href="userFAQPage.jsp">FAQs</a>
       </div>
     </li>
     </ul>
@@ -90,17 +90,17 @@ if((request.getSession(false).getAttribute("email")== null) )
 
       <ul class="navbar-nav navbar-right">
         <li class="nav-item">
-          <a class="nav-link" href="cart_page.html"><span class="fa fa-shopping-cart"><span class="badge total-count"></span></span></a>
+          <a class="nav-link" href="userCartPage.jsp"><span class="fa fa-shopping-cart"><span class="badge total-count"></span></span></a>
         </li>
       <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
         <span class="fas fa-user-alt"></span>
       </a>
       <div class="dropdown-menu dropdown-menu-right">
-        <a class="dropdown-item" href="profilePage.html"><i class="fas fa-user-alt fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Profile</span></a>
-        <a class="dropdown-item" href="invoicelist_page.html"><i class="fas fa-file-invoice fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Invoice</span></a>
-        <a class="dropdown-item" href="appointmentListPage.html"><i class="far fa-calendar-check fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Appointment</a>
-        <a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Logout</span></a>
+        <a class="dropdown-item" href="userProfile.jsp"><i class="fas fa-user-alt fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Profile</span></a>
+        <a class="dropdown-item" href="userInvoiceListPage.jsp"><i class="fas fa-file-invoice fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Invoice</span></a>
+        <a class="dropdown-item" href="userAppointmentListPage.jsp"><i class="far fa-calendar-check fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Appointment</a>
+        <a class="dropdown-item" href="logout.action"><i class="fas fa-sign-out-alt fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Logout</span></a>
       </div>
         
       </li>
@@ -130,39 +130,48 @@ if((request.getSession(false).getAttribute("email")== null) )
 
   <!-- Start of Profile -->
   <div class="col-sm-9">
-    <div> <!-- CHANGE TO DIV -->
+    <div>
       <div class="tab-content" id="v-pills-tabContent">
         <div class="tab-pane fade show active" id="profileContent" role="tabpanel" aria-labelledby="profileTab"><br>
           <h5>Profile</h5><br>
-          <div class="form-row">
+<%
+try {
+connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+statement = connection.createStatement();
+String sql = "SELECT * FROM users where userID = " + session.getAttribute("uid");
 
+resultSet = statement.executeQuery(sql);
+while (resultSet.next()) {
+%>  
+      <form action="updateUser.action" name="myForm" method="post">
+          <div class="form-row">
             <div class="col">
               <label for="fname">First Name</label>
-              <input class="form-control" placeholder="Enter your first name" oninput="this.className = ''" name="fname"></p>
+              <input class="form-control" value="<%= resultSet.getString("firstName") %>" oninput="this.className = ''" name="firstName" required></p>
             </div>
             <div class="col">
               <label for="fname">Middle Name</label>
-              <input class="form-control" placeholder="Enter your first name" oninput="this.className = ''" name="fname"></p>
+              <input class="form-control" value="<%= resultSet.getString("middleName") %>" oninput="this.className = ''" name="middleName" required></p>
             </div>
             <div class="col">
               <label for="lname">Last Name</label>
-              <input class="form-control" placeholder="Enter your last name" oninput="this.className = ''" name="lname"></p>
+              <input class="form-control" value="<%= resultSet.getString("lastName") %>" oninput="this.className = ''" name="lastName" required></p>
             </div>
           </div>
           <div class="form-row">
             <div class="col">
               <label for="email">Email Address</label>
-                <input class="form-control" placeholder="Enter your email address" oninput="this.className = ''" name="email"></p>
+                <input class="form-control" value="<%= resultSet.getString("email") %>" oninput="this.className = ''" disabled></p>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-4">
               <div class="form-group">
                 <label for="genderOption">Gender</label>
-                <select class="form-control" id="genderOption">
-                  <option> </option>
-                  <option>M</option>
-                  <option>F</option>
-                  <option>Prefer not to say </option>
-                </select>
+										<select name="gender" class="form-control" required>
+											<option value="<%= resultSet.getString("gender") %>" selected="selected">Current: <%= resultSet.getString("gender") %></option>
+											<option value="Male">Male</option>
+											<option value="Female">Female</option>
+											<option value="Prefer Not To Say">Prefer Not To Say</option>	
+										</select>	
               </div>
             </div>
           </div>
@@ -170,43 +179,70 @@ if((request.getSession(false).getAttribute("email")== null) )
           <div class="form-row">
             <div class="col">
               <label for="phone">Phone Number</label>
-                <input class="form-control" placeholder="Enter your phone number" oninput="this.className = ''" name="phone"></p>
+                <input class="form-control" value="<%= resultSet.getString("telephone") %>" oninput="this.className = ''" name="telephone" required></p>
             </div>
             <div class="col">
               <label for="phone">Mobile Number</label>
-                <input class="form-control" placeholder="Enter your phone number" oninput="this.className = ''" name="phone"></p>
+                <input class="form-control" value="<%= resultSet.getString("mobileNo") %>" oninput="this.className = ''" name="mobileNo" required></p>
             </div>
           </div>
-          <a href="cart_page.html" class="btn btn-warning float-right btn-sm">Update</a>
+          <input type="hidden" name="userId" value="<%= session.getAttribute("uid") %>">
+          <button class="btn btn-warning float-right btn-sm">Update</button>
+          </form>
+<%
+}
+} catch (Exception e) {
+e.printStackTrace();
+}
+%>
           <br><br>
-          <a href="cart_page.html" class="btn btn-link float-right" id="changePwd" data-toggle="collapse" data-target="#changePassword" aria-expanded="false" aria-controls="collapseExample">Change Password</a>
+<%
+try {
+connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+statement = connection.createStatement();
+String sql = "SELECT * FROM users where userID = " + session.getAttribute("uid");
+
+resultSet = statement.executeQuery(sql);
+while (resultSet.next()) {
+%>  
+      <form action="updatePassword.action" id="changepassword" name="myForm" method="post">
+          <input type="hidden" name="userId" value="<%= session.getAttribute("uid") %>">
+          <button class="btn btn-link float-right" id="changePwd" data-toggle="collapse" data-target="#changePassword" aria-expanded="false" aria-controls="collapseExample">Change Password</button>
           <br><br>
           <div class="collapse" id="changePassword">
             <div class="form-row">
               <div class="col">
                 <label for="oldPwd">Old Password</label>
-                  <input type="password" id="oldPwd" class="form-control" placeholder="Enter old password" oninput="this.className = ''" name="snumber"></p>
+                  <input type="password" id="oldPwd" class="form-control" placeholder="Enter old password" oninput="this.className = ''" required></p>
               </div>
             </div>
             <div class="form-row">
               <div class="col">
                 <label for="newPwd">New Password</label>
-                  <input type="password" id="newPwd" class="form-control" placeholder="Enter new password" oninput="this.className = ''" name="snumber"></p>
+                  <input type="password" id="newPwd" class="form-control" placeholder="Enter new password" oninput="this.className = ''" name = "password" required></p>
               </div>
             </div>
             <div class="form-row">
               <div class="col">
                 <label for="confirmPwd">Confirm Password</label>
-                  <input type="password" id="confirmPwd" class="form-control" placeholder="Enter confirm password" oninput="this.className = ''" name="snumber"></p>
+                  <input type="password" id="confirmPwd" class="form-control" placeholder="Enter confirm password" oninput="this.className = ''" required></p>
               </div>
             </div>
-            <a href="cart_page.html" class="btn btn-warning float-right btn-sm">Update</a>
+            <button type="button" class="btn btn-warning float-right btn-sm" onclick="sha256()">Update</button>
           </div>
+          <input type="hidden" id="oldPwdFromDb" value="<%= resultSet.getString("password") %>" oninput="this.className = ''"></p>
+          </form>
+<%
+}
+} catch (Exception e) {
+e.printStackTrace();
+}
+%>
 
           <br><br><hr>
   <h5>Delivery Address</h5><br>
     	
-  <input type="hidden" name="userID" value="<%= session.getAttribute("uid") %>">
+    <input type="hidden" name="userId" value="<%= session.getAttribute("uid") %>">
      
 	<button class="btn btn-outline-primary" id="HomeAddBtn" type="button" data-toggle="collapse" data-target="#homeAddress" aria-expanded="false" aria-controls="collapseExample">
 		<i class="fas fa-plus-circle"></i> Home Address
@@ -262,7 +298,7 @@ e.printStackTrace();
       <br><br>
       
       <!-- start of addHomeAddress -->
-      <form action="addHome.action" name="myForm" method="post">
+      <form action="addHomeProfile.action" name="myForm" method="post">
       <div class="collapse" id="addHomeAddress">
      <div class="form-row">
       <div class="col">
@@ -320,7 +356,7 @@ while (resultSet.next())
 %>
       
     <!-- start of editHomeAddress -->
-     <form action="updateHome.action" name="myForm" method="post">
+     <form action="updateHomeProfile.action" name="myForm" method="post">
       <div class="collapse" id="editHomeAddress">
      <div class="form-row">
       <div class="col">
@@ -424,7 +460,7 @@ e.printStackTrace();
       <br><br>
       
       <!-- start of addWorkAddress -->
-      <form action="addWork.action" name="myForm" method="post">
+      <form action="addWorkProfile.action" name="myForm" method="post">
       <div class="collapse" id="addWorkAddress">
      <div class="form-row">
       <div class="col">
@@ -482,7 +518,7 @@ while (resultSet.next())
 %>  
   
       <!-- start of editWorkAddress -->
-     <form action="updateWork.action" name="myForm" method="post">
+     <form action="updateWorkProfile.action" name="myForm" method="post">
       <div class="collapse" id="editWorkAddress">
      <div class="form-row">
       <div class="col">
@@ -563,7 +599,7 @@ e.printStackTrace();
                 <td data-th="Product">Hilot</td>
                 <td data-th="Total Amount">Licensed Practitioner</td>
                 <td data-th="Status">Paid</td>
-                <td data-th="Rate"><a href="cart_page.html" class="btn btn-success float-right btn-sm" data-toggle="modal" data-target="#commentModal"> Comment</a></td>
+                <td data-th="Rate"><a href="userCartPage.jsp" class="btn btn-success float-right btn-sm" data-toggle="modal" data-target="#commentModal"> Comment</a></td>
               </tr>
               <tr>
                 <td data-th="Date">10/13/19</td>
@@ -572,7 +608,7 @@ e.printStackTrace();
                                       2 Ampalaya</td>
                 <td data-th="Total Amount">P 500</td>
                 <td data-th="Status">Paid</td>
-                <td data-th="Rate"><a href="cart_page.html" class="btn btn-success float-right btn-sm" data-toggle="modal" data-target="#commentModal"> Comment</a></td>
+                <td data-th="Rate"><a href="userCartPage.jsp" class="btn btn-success float-right btn-sm" data-toggle="modal" data-target="#commentModal"> Comment</a></td>
               </tr>
             </tbody>
             
@@ -624,16 +660,16 @@ e.printStackTrace();
 
         <ul class="list-unstyled">
           <li>
-            <a href="Home_Page_v2.html" class="text-secondary">Home</a>
+            <a href="userHomePage.jsp" class="text-secondary">Home</a>
           </li>
           <li>
-            <a href="catalogue_page.html" class="text-secondary">Catalogue</a>
+            <a href="userCataloguePage.jsp" class="text-secondary">Catalogue</a>
           </li>
           <li>
-            <a href="products_page.html" class="text-secondary">Products</a>
+            <a href="userProductIndex.jsp" class="text-secondary">Products</a>
           </li>
           <li>
-            <a href="servicePage.html" class="text-secondary">Services</a>
+            <a href="userServicePage.jsp" class="text-secondary">Services</a>
           </li>
         </ul>
 
@@ -648,16 +684,16 @@ e.printStackTrace();
 
         <ul class="list-unstyled">
           <li>
-            <a href="contactUsPage.html" class="text-secondary">Contact Us</a>
+            <a href="userContactUsPage.jsp" class="text-secondary">Contact Us</a>
           </li>
           <li>
-            <a href="FAQPage.html" class="text-secondary">FAQs</a>
+            <a href="userFAQPage.jsp" class="text-secondary">FAQs</a>
           </li>
           <li>
-            <a href="#!" class="text-secondary">Privacy Policy</a>
+            <a href="userPrivacyPolicyPage.jsp" class="text-secondary">Privacy Policy</a>
           </li>
           <li>
-            <a href="#!" class="text-secondary">Terms and Conditions</a>
+            <a href="userTermsConditionsPage.jsp" class="text-secondary">Terms and Conditions</a>
           </li>
         </ul>
 
@@ -697,7 +733,7 @@ e.printStackTrace();
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
         
-        <form action="deleteHome.action" name="myForm" method="post">
+        <form action="deleteHomeProfile.action" name="myForm" method="post">
         <button class="btn btn-primary">Proceed</button>
     	<input type="hidden" name="userID" value="<%= session.getAttribute("uid") %>">
         </form>
@@ -729,7 +765,7 @@ e.printStackTrace();
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
         
-        <form action="deleteWork.action" name="myForm" method="post">        
+        <form action="deleteWorkProfile.action" name="myForm" method="post">        
         <button class="btn btn-primary">Proceed</button>
     	<input type="hidden" name="userID" value="<%= session.getAttribute("uid") %>">
         </form>
@@ -767,7 +803,7 @@ e.printStackTrace();
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
-         <a href="cart_page.html" class="btn btn-warning">Submit</a>
+         <a href="userCartPage.jsp" class="btn btn-warning">Submit</a>
       </div>
     </div>
   </div>
@@ -815,6 +851,43 @@ $(document).ready(function() {
         readURL(this);
     });
 });
+
+async function sha256() {
+	var oldPwd = document.getElementById("oldPwd").value;
+    // encode as UTF-8
+    const msgBuffer = new TextEncoder('utf-8').encode(oldPwd);                    
+
+    // hash the message
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+
+    // convert ArrayBuffer to Array
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+
+    // convert bytes to hex string                  
+    const hashHex = hashArray.map(b => ('00' + b.toString(16)).slice(-2)).join('');
+    console.log(hashHex);
+    
+    var oldPwdFromDb = document.getElementById("oldPwdFromDb").value;
+
+    
+    if(oldPwdFromDb != hashHex){
+    	alert("Password is incorrect");
+    	return false;
+    }
+    
+    else if (document.getElementById("confirmPwd").value != document.getElementById("newPwd").value) {
+    	alert("Passwords do not match");
+		return false;
+    }
+    else
+    {
+    	document.getElementById("changepassword").submit();
+    }
+
+    
+}
+
+
 
 </script>
 </body>
