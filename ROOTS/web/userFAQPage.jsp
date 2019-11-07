@@ -16,12 +16,7 @@
   <link rel="shortcut icon" sizes="16x16 32x32 64x64" href="assets/css/images/logo5.png"/>
 
 </head>
-<% //In case, if User session is not set, redirect to Login page.
-if((request.getSession(false).getAttribute("email")== null) )
-{
-%>
-<jsp:forward page="userLogin.jsp"></jsp:forward>
-<%} %>
+
 <body>
   <div class="container-fluid">
   <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
