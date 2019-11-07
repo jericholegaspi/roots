@@ -41,7 +41,6 @@ function updateCartTotal() {
     total = Math.round(total * 100) / 100;
     document.getElementsByClassName('cart-total-price')[0].innerHTML = 'Total: \u20B1' + total;
     document.getElementsByClassName('cart-total-price-duplicate')[0].value = total;
-    
 }
 
 function subTotalChanged(event){

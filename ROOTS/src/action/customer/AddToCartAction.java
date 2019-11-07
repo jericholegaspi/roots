@@ -55,28 +55,45 @@ public class AddToCartAction extends ActionSupport implements ModelDriven<AddOrd
 					resultSet = statement.executeQuery(sqlproduct); 
 					while (resultSet.next()) {
 						if(resultSet.getString("cartStatus").equals("Idle") && resultSet.getInt("userID") == orderObj.getUserID()){	 
-							orderObj.insertOrderItemRecord();
-							System.out.println("~~~ADD ITEM ORDER~~~");
+							PreparedStatement checkItemExists = connection.prepareStatement("SELECT 1 FROM orderItems WHERE userID = ? AND prodID = ? AND cartState = ?");
+							checkItemExists.setInt(1, orderObj.getUserID());
+							checkItemExists.setInt(2, orderObj.getProdID());
+							checkItemExists.setString(3, "Idle");
+							try (ResultSet rs2 = checkItemExists.executeQuery()){
+								if(rs2.next()) {
+									orderObj.addQtyToExistingCartItemRecord();
+									System.out.println("~~~UPDATE ORDER ITEM~~~");							
+								}else {
+									orderObj.insertOrderItemRecord();
+									System.out.println("~~~ADD ORDER ITEM~~~");	
+								}
+							}catch (Exception e) {
+						    	e.printStackTrace();
+							}
+							
 						}else{
 							/* orderObj.startOrderFlow(); */
 							System.out.println("~~~ELSE~~~");
 						}
 					}
-		        } else {
+		        }else {
 		            try {
 		            	orderObj.startOrderFlow();
 		            	System.out.println("~~~START ORDER FLOW~~~");
 		            }catch (Exception e) {
 		    			e.printStackTrace();
-		            	}	
-		        	} 
-		    	} catch (Exception e) {
-		    	e.printStackTrace();
-		    }
+		    			System.out.println("~~~CATCH 1~~~");
+		            }	
+		        } 
+	    	} catch (Exception e) {
+	    	e.printStackTrace();
+	    	System.out.println("~~~CATCH 2~~~");
+	    	}
 		}catch (Exception e) {
 	    	e.printStackTrace();
+	    	System.out.println("~~~CATCH 3~~~");
 		}
-			return SUCCESS;
+		return SUCCESS;
 	}
 	
 	//Reference: https://stackoverflow.com/questions/42454582/check-if-value-accountnumber-exist-in-a-java-database

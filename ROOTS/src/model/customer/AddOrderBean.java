@@ -435,6 +435,45 @@ public class AddOrderBean {
 		}
 		return false;
 	}
+	
+	public boolean addQtyToExistingCartItemRecord() {		
+		Connection connection = getDBConnection();
+		
+		if (connection != null) { //means a valid connection
+			try {
+				Statement statement = null;
+				ResultSet resultSet = null;
+				statement = connection.createStatement();
+				String sqlproduct = "SELECT * FROM orderItems"
+						+ " WHERE userID = " + this.userID + " AND"
+						+ " orderItems.cartState = 'Idle' AND prodID = " + this.prodID;
+				resultSet = statement.executeQuery(sqlproduct);
+				resultSet.first();
+				
+				String sql = "UPDATE orderItems SET orderItemQty = ?, orderItemSubTotal = ? WHERE cartState = ? AND userID = ? AND prodID = ?";
+				try {
+					PreparedStatement pstmnt = connection.prepareStatement(sql);
+					
+					pstmnt.setInt(1, resultSet.getInt("orderItemQty") + this.orderItemQty);
+					pstmnt.setInt(2, resultSet.getInt("orderItemSubTotal") + this.orderItemSubTotal);
+					pstmnt.setString(3, "Idle");	
+					pstmnt.setInt(4, this.userID);
+					pstmnt.setInt(5, this.prodID);
+					
+					pstmnt.executeUpdate();
+					return true;
+				} catch (SQLException sqle) {
+					System.err.println("Error on addQtyOnExistingCartItemRecord: " + sqle.getMessage());
+				}			
+			}
+			catch (Exception e) {
+			e.printStackTrace();
+			}
+		} else {
+			System.err.println("Missing on invalid connection.");
+		}
+		return false;
+	}
 }
 
 /*

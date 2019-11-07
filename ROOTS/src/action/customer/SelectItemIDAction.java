@@ -13,6 +13,7 @@ public class SelectItemIDAction extends ActionSupport implements ModelDriven<Add
 	
 	public String execute() {		
 		System.out.println("Product ID: " + orderObj.getProdID());
+		System.out.println("///SELECTED///");
 		return SUCCESS;
 	}
 
