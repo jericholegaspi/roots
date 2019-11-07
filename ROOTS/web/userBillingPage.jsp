@@ -545,6 +545,7 @@ while (resultSet.next())
 %>  
         <p><strong>Address</strong>: <i><%= resultSet.getString("houseNumber") %> <%= resultSet.getString("street") %> <%= resultSet.getString("barangay") %> <%= resultSet.getString("city") %> <%= resultSet.getString("province") %></i></p>
         <input type="hidden" id="daIDhome" value="<%= resultSet.getString("deliveryAddressID") %>">
+        <input type="hidden" id="daDeliverHome" value="<%= resultSet.getString("province") %>">
         
 <%
 }
@@ -567,6 +568,7 @@ while (resultSet.next())
 %>  
         <p><strong>Address</strong>: <i><%= resultSet.getString("houseNumber") %> <%= resultSet.getString("street") %> <%= resultSet.getString("barangay") %> <%= resultSet.getString("city") %> <%= resultSet.getString("province") %></i></p>
 		<input type="hidden" id="daIDwork" value="<%= resultSet.getString("deliveryAddressID") %>">
+		<input type="hidden" id="daDeliverWork" value="<%= resultSet.getString("province") %>">
 <%
 }
 } catch (Exception e) {
@@ -578,6 +580,8 @@ e.printStackTrace();
       </div>
     </div>
     <br><br>
+    <input type="hidden" id="deliverProvince" value="">
+    <input type="hidden" id="paymentmethod" value=""> 
     <div class="col-sm-12">
       <div class="row">
         <table class="table mobile-optimised">
@@ -586,7 +590,9 @@ e.printStackTrace();
               <th scope="col">Product Name</th>
               <th scope="col">Quantity</th>
               <th scope="col">Unit Cost</th>
-              <th scope="col">Subtotal</th>
+              <th scope="col"></th>
+              <th scope="col">Amount</th>
+              
             </tr>
           </thead>
           <tbody>
@@ -609,6 +615,7 @@ e.printStackTrace();
               <td data-th="Item"><%=resultSet.getString("prodName")%></td>
               <td id="quantity" data-th="Quantity"><%=resultSet.getInt("orderItemQty")%></td>
               <td id="initialprice" data-th="Unit Cost"><%=resultSet.getString("initialPrice")%></td>
+              <td></td>
               <td id="subtotal" data-th="Subtotal"><%=resultSet.getInt("orderItemSubTotal")%></td>
             </tr>
 			<%
@@ -628,27 +635,57 @@ e.printStackTrace();
 			while (resultSet.next()) {
 			%>
             <tr>
-            <td>Item Total</td>
-            <td></td>
-            <td></td>
-            <td id="itemtotal"><%=resultSet.getInt("orderTotalPrice")%></td>
+	            <td></td>
+	            <td></td>
+	            <td></td>
+	            <td><strong><i>Items Sub-Total</i></strong></td>
+	            <td id="itemtotal"><h5><strong><%=resultSet.getInt("orderTotalPrice")%></strong></h5></td>
             </tr>
+            
             <%
 					}
 				} catch (Exception e) {
 				e.printStackTrace();
 			}
 			%>
+			<tr>
+	            <td></td>
+	            <td></td>
+	            <td></td>
+	            <td><i>VAT (12%)</i></td>
+	            <td id="vat"></td>
+	        </tr>
+	        <tr id="paypalrow">
+	            <td></td>
+	            <td></td>
+	            <td></td>
+	            <td><i>PayPal Fee</i></td>
+	            <td id="paypalfee"></td>
+	        </tr>
+	      	<tr>
+	            <td></td>
+	            <td></td>
+	            <td></td>
+	            <td><i>Delivery Fee</i></td>
+	            <td id="deliverfee"></td>
+	        </tr>	        
           </tbody>
           <tfoot>
+             <tr>
+	            <td></td>
+	            <td></td>
+	            <td></td>
+	            <td><strong><i>Inclusive Fees Sub-Total</i></strong></td>
+	            <td id="inclusivefees"></td>
+            </tr>
 	        <tr>
 	          <td class="hidden-xs" colspan="3"></td>
-	          <td class="hidden-xs"><strong>Grand Total</strong></td>
+	          <td class="hidden-xs"><h3><strong>Grand Total</strong></h3></td>
 	          <!-- PayPal Total -->
-	          <td id="paypaltotal" class="hidden-xs"><h4><strong>500</strong></h4></td>
+	          <td id="grandtotal" class="hidden-xs"></td>
 	        </tr>
           </tfoot>
-        </table>      
+        </table>
       </div>
       <br>
         <h5>Mode of Payment</h5><br>
@@ -919,7 +956,7 @@ function showTab(n) {
     document.getElementById("prevBtn2").style.display = "none";
     document.getElementById("nextBtn").style.display = "inline";
     document.getElementById("nextBtn2").style.display = "none";
-    document.getElementById("nextBtn").setAttribute("onclick", "nextPrev(1);displayAddress();switchPayment();");
+    document.getElementById("nextBtn").setAttribute("onclick", "nextPrev(1);displayAddress();switchPayment();calculate();");
   } else {
     document.getElementById("prevBtn").style.display = "none";
     document.getElementById("prevBtn2").style.display = "inline";
@@ -964,7 +1001,11 @@ function validateForm() {
 	{
 		alert("No Address Record Found");
 		return false;
-	}	
+	}
+	else if ((selected == "")){
+		alert("No Selected Address");
+		return false;
+	}
 	else if((selected == "Home Address") && (ha == "No Home Address Record")) {
 		alert("No Home Address Record Found");
 		return false;
@@ -973,6 +1014,7 @@ function validateForm() {
 		alert("No Work Address Record Found");
 		return false;
 	}
+
 	
   var x, y, i, valid = true;
   x = document.getElementsByClassName("tab");
@@ -1022,12 +1064,19 @@ function switchAddress(select){
 }
 
 function switchPayment(payment){
+    document.getElementById("paypalrow").style.display = "none";
 	if(payment == "PayPal") {
 	    document.getElementById("paypalaction").style.display = "block";
-	    document.getElementById("nextBtn2").style.display = "none";	    
+	    document.getElementById("nextBtn2").style.display = "none";
+	    document.getElementById("paypalrow").style.display = "";
+	    document.getElementById("paymentmethod").setAttribute("value", "paypal");
+	    calculate();
 	} else if (payment == "Cash on Delivery"){
 	    document.getElementById("nextBtn2").style.display = "inline";
 	    document.getElementById("paypalaction").style.display = "none";
+	    document.getElementById("paypalrow").style.display = "none";
+	    document.getElementById("paymentmethod").setAttribute("value", "cod");   
+	    calculate();
 	} else {
 	    document.getElementById("nextBtn2").style.display = "none";
 	    document.getElementById("paypalaction").style.display = "none";
@@ -1040,9 +1089,14 @@ function displayAddress(){
 	if(dat2 == "home") {
 		document.getElementById("da1").style.display = "block";
 		document.getElementById("da2").style.display = "none";
+		var daDeliverHome = document.getElementById('daDeliverHome').value;
+	    document.getElementById("deliverProvince").setAttribute("value", daDeliverHome);   
+		
 	} else {
 		document.getElementById("da1").style.display = "none";
 		document.getElementById("da2").style.display = "block";
+		var daDeliverWork = document.getElementById('daDeliverWork').value;
+	    document.getElementById("deliverProvince").setAttribute("value", daDeliverWork);   
 	}
 
 }
@@ -1052,7 +1106,7 @@ window.onload = switchAddress();
 
 paypal.Buttons({
     createOrder: function(data, actions) {
-      var total = document.getElementById('paypaltotal').innerText;
+      var total = document.getElementById('grandtotal').innerText;
       return actions.order.create({
         purchase_units: [{
           amount: {
@@ -1081,10 +1135,84 @@ paypal.Buttons({
   }).render('#paypal-button-container');
 
 
-/* function calculate(){
+function calculate(){
+	//Compute VAT
+	var itemtotal = parseInt(document.getElementById('itemtotal').innerText);
+	var vat = itemtotal * .12;
+	vat = Math.round(vat * 100) / 100;
+    document.getElementById("vat").innerHTML = vat;
+    
+    //Compute PayPal Fee
+    var paypalfee = ((itemtotal * 0.044) + 15);
+    paypalfee = Math.round(paypalfee * 100) / 100;
+    document.getElementById("paypalfee").innerHTML = paypalfee;
+    
+    //Compute Delivery Fee
+    var deliverfee = 0;
+    var deliverProvince = document.getElementById("deliverProvince").value;
+    if (deliverProvince == "Metro Manila")
+    	{
+    		deliverfee = 89;
+    	}
+    else if (deliverProvince == "Rizal")
+		{
+			deliverfee = 119;
+		}
+    else if (deliverProvince == "Bulacan")
+		{
+			deliverfee = 119;
+		}
+    else if (deliverProvince == "Cavite")
+		{
+			deliverfee = 119;
+		}
+	else if (deliverProvince == "Laguna")
+		{
+			deliverfee = 139;
+		}
+	else if (deliverProvince == "Batangas")
+		{
+			deliverfee = 139;
+		}
+	else if (deliverProvince == "Pampanga")
+		{
+			deliverfee = 139;
+		}
+    
+    deliverfee = Math.round(deliverfee * 100) / 100;
+    
+    document.getElementById("deliverfee").innerHTML = deliverfee;
+    
+    var paymentmethod = document.getElementById("paymentmethod").value;
+
+    //Compute Inclusive Fees
+    var inclusivefees = 0;
+
+    if (paymentmethod=="paypal"){
+    	inclusivefees = vat + paypalfee + deliverfee;
+    }
+    else {
+    	inclusivefees = vat + deliverfee;
+    }
+    inclusivefees = Math.round (inclusivefees * 100) / 100;
+    console.log(inclusivefees);
+    document.getElementById("inclusivefees").innerHTML = "<h5><strong>"+inclusivefees+"</strong></h5>";
+    
+    
+    //Compute Grand Total
+    var grandtotal = 0;
+    
+    if (paymentmethod=="paypal"){
+    	grandtotal = itemtotal + vat + paypalfee + deliverfee;
+    }
+    else {
+    	grandtotal = itemtotal + vat + deliverfee;
+    }
+    grandtotal = Math.round (grandtotal * 100) / 100;
+    console.log(grandtotal);
+    document.getElementById("grandtotal").innerHTML = "<h3><strong>"+grandtotal+"</strong></h3>";
 	
-	document.getElementById('itemtotal').innerHTML = ;
-} */
+}
 
 
 </script>
