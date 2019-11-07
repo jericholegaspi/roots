@@ -546,6 +546,8 @@ while (resultSet.next())
         <p><strong>Address</strong>: <i><%= resultSet.getString("houseNumber") %> <%= resultSet.getString("street") %> <%= resultSet.getString("barangay") %> <%= resultSet.getString("city") %> <%= resultSet.getString("province") %></i></p>
         <input type="hidden" id="daIDhome" value="<%= resultSet.getString("deliveryAddressID") %>">
         <input type="hidden" id="daDeliverHome" value="<%= resultSet.getString("province") %>">
+        <input type="hidden" id="deliveryHomeAddressID" value="<%= resultSet.getString("deliveryAddressID") %>">
+
         
 <%
 }
@@ -569,6 +571,8 @@ while (resultSet.next())
         <p><strong>Address</strong>: <i><%= resultSet.getString("houseNumber") %> <%= resultSet.getString("street") %> <%= resultSet.getString("barangay") %> <%= resultSet.getString("city") %> <%= resultSet.getString("province") %></i></p>
 		<input type="hidden" id="daIDwork" value="<%= resultSet.getString("deliveryAddressID") %>">
 		<input type="hidden" id="daDeliverWork" value="<%= resultSet.getString("province") %>">
+		<input type="hidden" id="deliveryWorkAddressID" value="<%= resultSet.getString("deliveryAddressID") %>">
+		
 <%
 }
 } catch (Exception e) {
@@ -699,10 +703,32 @@ e.printStackTrace();
 	    	</div>        
         
 		<br> <br> <br>
-        <form action="#" id="paypalaction" method="post">
+        <form action="paypal.action" id="paypalaction" method="post">
         <!-- PayPal Button -->
 		<div class="col-sm-6" id="paypal-button-container"></div>
 		    	<input type="hidden" name="userID" value="<%= session.getAttribute("uid") %>">
+		    	<!-- Get from query from deliveryaddress -->
+		    	<input type="hidden" id="daID" name="deliveryAddressID">
+		    	<!-- Get from id grandtotal -->
+		    	<input type="hidden" id="otp" name="orderTotalPrice">
+		    	<!-- Get from query from orderreference -->
+			<%
+			try {
+			connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+			statement = connection.createStatement();
+			String sql = "SELECT * FROM orderreference WHERE userID = " + session.getAttribute("uid") + " AND cartCondition = 'Idle'";
+			
+			resultSet = statement.executeQuery(sql);
+			while (resultSet.next())
+			{
+			%> 
+		     	<input type="hidden" id="orID" name="orderReferenceID" value="<%=resultSet.getInt("orderReferenceID")%>">
+        	<%
+					}
+				} catch (Exception e) {
+				e.printStackTrace();
+			}
+			%>
 		</form>
 
 
@@ -956,7 +982,7 @@ function showTab(n) {
     document.getElementById("prevBtn2").style.display = "none";
     document.getElementById("nextBtn").style.display = "inline";
     document.getElementById("nextBtn2").style.display = "none";
-    document.getElementById("nextBtn").setAttribute("onclick", "nextPrev(1);displayAddress();switchPayment();calculate();");
+    document.getElementById("nextBtn").setAttribute("onclick", "nextPrev(1);displayAddress();switchPayment();calculate();query();");
   } else {
     document.getElementById("prevBtn").style.display = "none";
     document.getElementById("prevBtn2").style.display = "inline";
@@ -1071,6 +1097,7 @@ function switchPayment(payment){
 	    document.getElementById("paypalrow").style.display = "";
 	    document.getElementById("paymentmethod").setAttribute("value", "paypal");
 	    calculate();
+	    query();
 	} else if (payment == "Cash on Delivery"){
 	    document.getElementById("nextBtn2").style.display = "inline";
 	    document.getElementById("paypalaction").style.display = "none";
@@ -1090,8 +1117,7 @@ function displayAddress(){
 		document.getElementById("da1").style.display = "block";
 		document.getElementById("da2").style.display = "none";
 		var daDeliverHome = document.getElementById('daDeliverHome').value;
-	    document.getElementById("deliverProvince").setAttribute("value", daDeliverHome);   
-		
+	    document.getElementById("deliverProvince").setAttribute("value", daDeliverHome);	
 	} else {
 		document.getElementById("da1").style.display = "none";
 		document.getElementById("da2").style.display = "block";
@@ -1214,6 +1240,27 @@ function calculate(){
 	
 }
 
+function query(){
+	//All needed hidden inputs for SQL query
+	
+	//To Get deliveryaddressID
+	var dat2 =  document.getElementById("dat2").value;
+	if(dat2 == "home") {
+		var deliveryHomeAddressID = document.getElementById('deliveryHomeAddressID').value;
+	    document.getElementById("daID").setAttribute("value", deliveryHomeAddressID);   
+	} else {
+		var deliveryWorkAddressID = document.getElementById('deliveryWorkAddressID').value;
+	    document.getElementById("daID").setAttribute("value", deliveryWorkAddressID);   
+	}
+	console.log(document.getElementById("daID").value);
+	
+	//To Get Grand Total
+	var gt = parseFloat(document.getElementById("grandtotal").innerText);	
+	document.getElementById("otp").setAttribute("value", gt);
+    console.log("GT:" + gt);
+	
+	
+}
 
 </script>
 

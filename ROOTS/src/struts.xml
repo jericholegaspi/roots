@@ -101,6 +101,11 @@
 					<result name="error">/error.jsp</result>
 				</action>
 				
+				<action name="paypal" class="roots.user.action.PaypalAction">
+					<result name="success" type="redirect">/userInvoicePage.jsp</result>
+					<result name="error">/error.jsp</result>
+				</action>
+				
 		
 		<!-- ADMIN ACTION -->
 				<action name="adminlogin" class="roots.admin.action.AdminLoginAction">
