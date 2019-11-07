@@ -40,41 +40,46 @@ public class AddToCartAction extends ActionSupport implements ModelDriven<AddOrd
 		
 		Connection connection = null;
 		Statement statement = null;
+		Statement statement2 = null;
 		ResultSet resultSet = null;
+		ResultSet resultSet2 = null;
+		
 		
 		
 		try {
 			connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
-			PreparedStatement checkOrderRecordExists = connection.prepareStatement("SELECT 1 FROM orders WHERE userID = ?");
+			PreparedStatement checkOrderRecordExists = connection.prepareStatement("SELECT 1 FROM orders WHERE userID = ? AND cartStatus = ?");
 			checkOrderRecordExists.setInt(1, orderObj.getUserID());
-			/* checkOrderRecordExists.setString(2, "CheckOut"); */
+			checkOrderRecordExists.setString(2, "Idle");
 		    try (ResultSet rs = checkOrderRecordExists.executeQuery()) {
-		        if (rs.next()) {
+		        if (rs.next()) { //There is already a record	
 		        	statement = connection.createStatement();
 					String sqlproduct = "SELECT * FROM orders";
 					resultSet = statement.executeQuery(sqlproduct); 
 					while (resultSet.next()) {
-						if(resultSet.getString("cartStatus").equals("Idle") && resultSet.getInt("userID") == orderObj.getUserID()){	 
-							PreparedStatement checkItemExists = connection.prepareStatement("SELECT 1 FROM orderItems WHERE userID = ? AND prodID = ? AND cartState = ?");
-							checkItemExists.setInt(1, orderObj.getUserID());
-							checkItemExists.setInt(2, orderObj.getProdID());
-							checkItemExists.setString(3, "Idle");
-							try (ResultSet rs2 = checkItemExists.executeQuery()){
-								if(rs2.next()) {
-									orderObj.addQtyToExistingCartItemRecord();
-									System.out.println("~~~UPDATE ORDER ITEM~~~");							
-								}else {
-									orderObj.insertOrderItemRecord();
-									System.out.println("~~~ADD ORDER ITEM~~~");	
+							if(resultSet.getString("cartStatus").equals("Idle") && resultSet.getInt("userID") == orderObj.getUserID()){	 
+								PreparedStatement checkItemExists = connection.prepareStatement("SELECT 1 FROM orderItems WHERE userID = ? AND prodID = ? AND cartState = ?");
+								checkItemExists.setInt(1, orderObj.getUserID());
+								checkItemExists.setInt(2, orderObj.getProdID());
+								checkItemExists.setString(3, "Idle");
+								try (ResultSet rs2 = checkItemExists.executeQuery()){
+									if(rs2.next()) {
+										orderObj.addQtyToExistingCartItemRecord();
+										System.out.println("~~~UPDATE ORDER ITEM~~~");							
+									}else {
+										orderObj.insertOrderItemRecord();
+										System.out.println("~~~ADD ORDER ITEM~~~");	
+									}
+								}catch (Exception e) {
+							    	e.printStackTrace();
 								}
-							}catch (Exception e) {
-						    	e.printStackTrace();
+							}else{
+							/*
+							 * orderObj.startOrderFlow();
+							 * System.out.println("~~~START FOLLOWING ORDER FLOW~~~");
+							 */
+								System.out.println("~~~ELSE~~~");
 							}
-							
-						}else{
-							/* orderObj.startOrderFlow(); */
-							System.out.println("~~~ELSE~~~");
-						}
 					}
 		        }else {
 		            try {

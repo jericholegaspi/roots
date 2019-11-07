@@ -100,17 +100,17 @@ if((request.getSession(false).getAttribute("email")== null) )
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="adminCatalogue.jsp">
                         <i class="pe-7s-notebook"></i>
                         <p>Catalogue</p>
                     </a>
                 </li>
-                <li class="active" data-toggle="collapse" data-target="#productsPages">
+                <li class="active" data-target="#productsPages">
                    <a href="#">
                    <i class="pe-7s-cart"></i>
                         <p>Products</p>
                     </a>
-                    <ul style="list-style: none;" id="productsPages" class="collapse in">
+                    <ul style="list-style: none;" id="productsPages">
 	                    <li class="active">
 		                    <a href="adminProductDetails.jsp">
 		                    <i class="fa fa-list-alt" aria-hidden="true"></i>
@@ -153,7 +153,7 @@ if((request.getSession(false).getAttribute("email")== null) )
 	                    </li>
 	                    
 	                    <li>
-		                    <a href="adminModealityPrices.jsp">
+		                    <a href="adminModalityPrices.jsp">
 		                    <i class="fa fa-home" aria-hidden="true"></i>
 		                        <p>Modality Prices</p>
 		                    </a>
@@ -367,7 +367,6 @@ if((request.getSession(false).getAttribute("email")== null) )
                             </div>
                         </div>
                     </div>
-
                     </div>  
                 </div>
             </div>
@@ -602,16 +601,6 @@ if((request.getSession(false).getAttribute("email")== null) )
 
 	<script type="text/javascript">
         $(document).ready(function(){
-
-            demo.initChartist();
-
-            $.notify({
-                icon: 'pe-7s-gift',
-                message: "You are in the <b>Products Page</b> "
-            },{
-                type: 'danger',
-                timer: 4000
-            });
             
             //DataTables
             $('#productTable').DataTable();
@@ -634,5 +623,6 @@ if((request.getSession(false).getAttribute("email")== null) )
                  document.getElementById("descriptionGetTest").value = this.cells[6].innerHTML;
        		};
         }
+});
     </script>
 </html>

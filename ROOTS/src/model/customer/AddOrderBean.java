@@ -202,8 +202,7 @@ public class AddOrderBean {
 
 	private Connection getDBConnection() {
 		Connection connection = null;
-		
-		try {
+		/*try {
 			connection = ((DataSource) InitialContext.doLookup("java:/comp/env/jdbc/isproj2_roots")).getConnection();
 
 		} catch (NamingException ne) {
@@ -211,8 +210,19 @@ public class AddOrderBean {
 		} catch (SQLException sqle) {
 			System.err.println("Error on getDBConnection: " + sqle.getMessage());
 		}
+		return connection;*/
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			connection = DriverManager.getConnection(
+				"jdbc:mysql://localhost/isproj2_roots", 
+				"isproj2_roots", "^qp&6Afnsd7S^jRf");
+		} catch (ClassNotFoundException cfne) {
+			System.err.println(cfne.getMessage());
+		} catch (SQLException sqle) {
+			System.err.println(sqle.getMessage());
+		}
 		return connection;
-	}
+		}
 	
 	public boolean insertOrderRecord() {		
 		Connection connection = getDBConnection();

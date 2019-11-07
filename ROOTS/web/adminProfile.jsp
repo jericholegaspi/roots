@@ -93,7 +93,7 @@ e.printStackTrace();
 }
 %> 
             <ul class="nav">
-                <li>
+                <li class="active">
                     <a href="adminProfile.jsp">
                         <i class="pe-7s-user"></i>
                         <p>Profile</p>
@@ -112,18 +112,18 @@ e.printStackTrace();
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="adminCatalogue.jsp">
                         <i class="pe-7s-notebook"></i>
                         <p>Catalogue</p>
                     </a>
                 </li>
-                <li class="active" data-toggle="collapse" data-target="#productsPages">
+                <li data-toggle="collapse" data-target="#productsPages">
                    <a href="#">
                    <i class="pe-7s-cart"></i>
                         <p>Products</p>
                     </a>
-                    <ul style="list-style: none;" id="productsPages" class="collapse in">
-	                    <li class="active">
+                    <ul style="list-style: none;" id="productsPages" class="collapse">
+	                    <li>
 		                    <a href="adminProductDetails.jsp">
 		                    <i class="fa fa-list-alt" aria-hidden="true"></i>
 		                        <p>Product Details</p>
@@ -165,7 +165,7 @@ e.printStackTrace();
 	                    </li>
 	                    
 	                    <li>
-		                    <a href="adminModealityPrices.jsp">
+		                    <a href="adminModalityPrices.jsp">
 		                    <i class="fa fa-home" aria-hidden="true"></i>
 		                        <p>Modality Prices</p>
 		                    </a>

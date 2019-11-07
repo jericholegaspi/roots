@@ -99,25 +99,25 @@ if((request.getSession(false).getAttribute("email")== null) )
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="adminCatalogue.jsp">
                         <i class="pe-7s-notebook"></i>
                         <p>Catalogue</p>
                     </a>
                 </li>
-                <li class="active" data-toggle="collapse" data-target="#productsPages">
+                <li class="active" data-target="#productsPages">
                    <a href="#">
                    <i class="pe-7s-cart"></i>
                         <p>Products</p>
                     </a>
-                    <ul style="list-style: none;" id="productsPages" class="collapse in">
-	                    <li class="active">
+                    <ul style="list-style: none;" id="productsPages">
+	                    <li>
 		                    <a href="adminProductDetails.jsp">
 		                    <i class="fa fa-list-alt" aria-hidden="true"></i>
 		                        <p>Product Details</p>
 		                    </a>
 	                    </li>
 	                    
-	                    <li>
+	                    <li class="active">
 		                    <a href="adminProductInventory.jsp">
 		                    <i class="fa fa-home" aria-hidden="true"></i>
 		                        <p>Product Inventory</p>
@@ -152,7 +152,7 @@ if((request.getSession(false).getAttribute("email")== null) )
 	                    </li>
 	                    
 	                    <li>
-		                    <a href="adminModealityPrices.jsp">
+		                    <a href="adminModalityPrices.jsp">
 		                    <i class="fa fa-home" aria-hidden="true"></i>
 		                        <p>Modality Prices</p>
 		                    </a>
@@ -467,39 +467,29 @@ if((request.getSession(false).getAttribute("email")== null) )
 
 	<script type="text/javascript">
         $(document).ready(function(){
-
-            demo.initChartist();
-
-            $.notify({
-                icon: 'pe-7s-gift',
-                message: "You are in the <b>Products Page</b> "
-            },{
-                type: 'danger',
-                timer: 4000
-            });
             
-            //DataTables
-            $('#productTable').DataTable();
-            $('#categoryTable').DataTable();
-            
+			//DataTables
+			$('#productTable').DataTable();
+			$('#categoryTable').DataTable();
+	        
+	        
+	        //Get ID of row element
+	        var table = document.getElementById('productTable');
+	        
+	        for(var i = 1; i < table.rows.length; i++){
+	            table.rows[i].onclick = function(){
+	                 //rIndex = this.rowIndex;
+					 document.getElementById("productIdGetTest").value = this.cells[0].innerHTML;
+	                 document.getElementById("productNameGetTest").value = this.cells[1].innerHTML;
+	                 document.getElementById("quantityGetTest").value = this.cells[2].innerHTML;
+	                 document.getElementById("unitGetTest").value = this.cells[3].innerHTML;
+	                 /* document.getElementById("descriptionGetTest").value = this.cells[].innerHTML; */
+	                 /* document.getElementById("categoryGetTest").value = this.cells[].innerHTML; */
+	                 /* document.getElementById("priceGetTest").value = this.cells[].innerHTML; */
+	       		};
+	        }
+	        
         });
-        
-        //Get ID of row element
-        var table = document.getElementById('productTable');
-        
-        for(var i = 1; i < table.rows.length; i++){
-            table.rows[i].onclick = function(){
-                 //rIndex = this.rowIndex;
-				 document.getElementById("productIdGetTest").value = this.cells[0].innerHTML;
-                 document.getElementById("productNameGetTest").value = this.cells[1].innerHTML;
-                 document.getElementById("quantityGetTest").value = this.cells[2].innerHTML;
-                 document.getElementById("unitGetTest").value = this.cells[3].innerHTML;
-                 /* document.getElementById("descriptionGetTest").value = this.cells[].innerHTML; */
-                 /* document.getElementById("categoryGetTest").value = this.cells[].innerHTML; */
-                 /* document.getElementById("priceGetTest").value = this.cells[].innerHTML; */
-       		};
-        }
-        
         
     </script>
 </html>

@@ -10,7 +10,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="icon" type="image/png" href="assets/img/favicon.ico">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<title>ROOTS Admin: Products</title>
+<title>ROOTS Admin: Catalogue</title>
 
  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
@@ -101,18 +101,18 @@ if((request.getSession(false).getAttribute("email")== null) )
                         <p>Users</p>
                     </a>
                 </li>
-                <li>
+                <li class="active">
                     <a href="adminCatalogue.jsp">
                         <i class="pe-7s-notebook"></i>
                         <p>Catalogue</p>
                     </a>
                 </li>
-                <li class="active" data-target="#productsPages">
+                <li data-toggle="collapse" data-target="#productsPages">
                    <a href="#">
                    <i class="pe-7s-cart"></i>
                         <p>Products</p>
                     </a>
-                    <ul style="list-style: none;" id="productsPages">
+                    <ul style="list-style: none;" id="productsPages" class="collapse">
 	                    <li>
 		                    <a href="adminProductDetails.jsp">
 		                    <i class="fa fa-list-alt" aria-hidden="true"></i>
@@ -127,7 +127,7 @@ if((request.getSession(false).getAttribute("email")== null) )
 		                    </a>
 	                    </li>
 	                    
-	                    <li class="active">
+	                    <li>
 		                    <a href="adminProductHistory.jsp">
 		                    <i class="fa fa-history" aria-hidden="true"></i>
 		                        <p>Product History</p>
@@ -263,102 +263,115 @@ if((request.getSession(false).getAttribute("email")== null) )
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
-                          
-                    <!-- <div class="col-md-12">
+                    
+                    <div class="col-md-12">
                         <div class="card">
                             <div class="header">
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addnewproduct" style="float: right;"><span class="glyphicon glyphicon-plus"></span></button>
-                                <h4 class="title">Inventory </h4></h4>
-
-                                <p class="category">List of Products</p>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addnewcontent" style="float: right;"><span class="glyphicon glyphicon-plus"></span></button>
+                                <h4 class="title">Catalogue (Filipino)</h4></h4>
+                                <p class="category">Manage Catalogue Content</p>
                             </div>
                             <div class="content table-responsive table-full-width">
-                                <table class="table table-hover table-striped">
+                                <table class="table table-hover table-striped" id="productTable">
                                     <thead>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Quantity</th>
-                                        <th>Stock In</th>
-                                        <th>Price</th>
+                                    <tr>
+                                        <th>Catalogue ID</th>
+                                        <th>Plant Name</th>
+                                        <th>Scientific Name</th>
+                                        <th>Recommended Use</th>
+                                        <th>Beneficial Use</th>
+                                        <th>Traditional Use</th>
+                                        <th>Popular Use</th>                      
+                                        <th>Food Use</th>
+                                        <th>Caution</th>
+                                        <th>Additional Info</th>
+                                        <th>Other Info</th>
+                                        <th>Location</th>
+                                        <th>Source</th>
                                         <th>Date Added</th>
-                                        <th>Date Modified</th>
-                                        <th>Availability</th>
+                                        <th>Date Updated</th>
+                                        <th></th>
+                                    </tr>
                                     </thead>
                                     <tbody>
+	<%
+		try {
+			connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+			statement = connection.createStatement();
+			String sqlproduct = "SELECT * FROM catalogue";
+			resultSet = statement.executeQuery(sqlproduct);
+		while (resultSet.next()) {
+	%>
+									<tr>
+										<td><%=resultSet.getString("catalogueID")%></td>
+										<td><%=resultSet.getString("nameF")%></td>
+										<td><%=resultSet.getString("scientificName")%></td>
+										<td><%=resultSet.getString("recommendedF")%></td>
+										<td><%=resultSet.getString("benefitF")%></td>
+										<td><%=resultSet.getString("traditionalUseF")%></td>
+										<td><%=resultSet.getString("popularUseF")%></td>
+										<td><%=resultSet.getString("foodUseF")%></td>
+										<td><%=resultSet.getString("cautionF")%></td>
+										<td><%=resultSet.getString("addedInfoF")%></td>
+										<td><%=resultSet.getString("otherInfoF")%></td>
+										<td><%=resultSet.getString("location")%></td>
+										<td><%=resultSet.getString("source")%></td>
+										<td><%=resultSet.getString("catalogueDateAdded")%></td>
+										<td><%=resultSet.getString("catalogueDateUpdated")%></td>
+										<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editproduct"><span class="glyphicon glyphicon-edit"></span>EDIT</button></td>     
+									</tr>
+	<%
+			}
+		} catch (Exception e) {
+		e.printStackTrace();
+	}
+	%>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="header">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addnewcategory" style="float: right;"><span class="glyphicon glyphicon-plus"></span></button>
+                                <h4 class="title">Category</h4></h4>
+
+                                <p class="category">Add New Category</p>
+                            </div>
+                            <div class="content table-responsive table-full-width">
+                                <table class="table table-hover table-striped" id="categoryTable">
+                                    <thead>
+                                        <th>Category ID</th>
+                                        <th>Category</th>
+                                    </thead>
+                                    <tbody>
+	<%
+		try {
+			connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+			statement = connection.createStatement();
+			String sqlcategory = "SELECT * FROM category";
+			resultSet = statement.executeQuery(sqlcategory);
+		while (resultSet.next()) {
+	%>
                                         <tr>
-                                            <td>1</td>
-                                            <td>Dakota Rice</td>
-                                            <td>$36,738</td>
-                                            <td>4</td>
-                                            <td>Niger</td>
-                                            <td>Niger</td>
-                                            <td> Available </td>
-                                            <td>Backend</td>
-                                            <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editproduct"><span class="glyphicon glyphicon-edit"></span> EDIT</button></td>
+                                            <td><%=resultSet.getString("catID")%></td>
+                                            <td><%=resultSet.getString("category")%></td>
+                                            <!-- <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addnewcategory"><span class="glyphicon glyphicon-edit"></span> EDIT</button></td> -->     
                                         </tr>
+	<%
+			}
+		} catch (Exception e) {
+		e.printStackTrace();
+	}
+	%>
                                     </tbody>
                                 </table>
 
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="header">
-                                <h4 class="title">List of Orders</h4></h4>
-
-                                <p class="category">Change Status of Order</p>
-                            </div>
-                            <div class="content table-responsive table-full-width">
-                                <table class="table table-hover table-striped">
-                                    <thead>
-                                        <th>Order ID</th>
-                                        <th>Product ID</th>
-                                        <th>Product Name</th>
-                                        <th>User ID</th>
-                                        <th>User Name</th>
-                                        <th>Total</th>
-                                        <th>Quantity</th>                      
-                                        <th>Mode of Payment</th>
-                                        <th>Payment Status</th>
-                                        <th>Delivery Address</th>
-                                        <th>Order Status</th>
-                                        <th>Delivery Status</th>
-                                        <th>Date Modified</th>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>1</td>
-                                            <td>Dakota Rice</td>
-                                            <td>1</td>
-                                            <td>Abigail Abada</td>
-                                            <td>P350</td>
-                                            <td>2</td>
-                                            <td>Cash</td>
-                                            <td><select class="form-control">
-                                            <option value="" disabled="disabled" selected="selected">...</option>
-                                            <option value="paid">Paid</option>
-                                            <option value="unpaid">Unpaid</option>
-                                            </select></td>
-                                            <td>Address Address Address Address</td>
-                                            <td>Complete</td>
-                                            <td><select class="form-control">
-                                            <option value="" disabled="disabled" selected="selected">...</option>
-                                            <option value="rfp">Ready for Pickup</option>
-                                            <option value="rfd">Ready for Delivery</option>
-                                            <option value="it">In-Transit</option>
-                                            <option value="del">Delivered</option>
-                                            </select></td>
-                                            <td>03/07/2019</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-
-                            </div>
-                        </div>
-                    </div> -->
 
                     </div>  
                 </div>
@@ -386,81 +399,45 @@ if((request.getSession(false).getAttribute("email")== null) )
     </div>
 </div>
 
-	<%
-	try {
-		connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
-		statement = connection.createStatement();
-		String sqlcategory = "SELECT * FROM category";
-		resultSet = statement.executeQuery(sqlcategory);
-	%>
-
-<!-- Modal: addnewproduct -->
-<div class="modal fade eft" id="addnewproduct" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog modal-full-height modal-right" role="document">
-    <div class="modal-content">
-        <!--Header-->
-      <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel">Add New Product</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<!-- Modal: addnewcontent -->
+<div class="modal fade left" id="addnewcontent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-full-height modal-right" role="document">
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Add New Catalogue Content</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">×</span>
         </button>
-      </div>
-      <!--Body-->
-      <div class="modal-body">
-      <form action="addNewProduct.action" method="post">
-            <p align="left">
-            <!-- <s:textfield key="txtProdName" label="Name"/> -->
-            Product Name:</br> 
-            <input type='text' class="form-control" name='prodName' minlength='0' maxlength='100' required="required"/><br/>
-            
-            Category: </br> <select class="form-control" name='catID' required="required">
-            <option value="" disabled selected>Select your option</option>
-            <% while(resultSet.next()){%>
-            <option value="<%=resultSet.getString("catID") %>"><%=resultSet.getString("catID") %> - <%=resultSet.getString("category") %></option>
-            <%
-            		}
-				}	catch (Exception e) {
-			e.printStackTrace();
-			}
-	
-			try {
-					connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
-					statement = connection.createStatement();
-					String sqlcategory = "SELECT * FROM unitsTable";
-					resultSet = statement.executeQuery(sqlcategory);
-			%>
-            </select><br/>
-            Initial Price:</br><input type='number' class="form-control" name='initialPrice' min='0' max='999' required="required"/><br/>
-            Quantity:</br><input type='number' class="form-control" name='prodQty' min='1' max='300' required="required"/><br/>
-            Unit: </br> <select class="form-control" name='unitID' required="required">
-            <option value="" disabled selected>Select your option</option>
-            <% while(resultSet.next()){%>
-            <option value="<%=resultSet.getString("unitID") %>"><%=resultSet.getString("unitID") %> - <%=resultSet.getString("unit") %></option>
-            <%
-            		} 
-				}	catch (Exception e) {
-			 e.printStackTrace();
-            }
-            %>
-            </select><br/>
-            Description:</br><input type='text' class="form-control" name='description' minlength='0' maxlength='500' required="required"/><br/>
-            Critical Level:</br><input type='number' class="form-control" name='critLevel' min='0' max='999' required="required"/><br/>
-            <!-- Expiration Date:</br><input type="date"  name="expDate" required="required"/> -->
-            <!-- Availability: --></br> <input type='hidden' class="form-control" name='availability' value='Available'/><br/>
-            <!-- Image file name:</br><input type='text' class="form-control" name='image' readonly/><br/> -->
-            </p>      
-      <!--Footer-->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
-        <input type="submit" class="btn btn-primary" value="Submit">
-      </div>
-      </form>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
+                <form action="" method="post">
+                    <p align="left">
+                        Plant Name: <input type="text" name="" class="form-control" required/>
+                        Scientific Name: <input type="text" name="" class="form-control" required/>
+                        Recommended Use: <input type="text" name="" class="form-control" required/>
+                        Beneficial Use: <input type="text" name="" class="form-control" required/>
+                        Traditional Use: <input type="text" name="" class="form-control" required/>
+                        Popular Use: <input type="text" name="" class="form-control" required/>
+                        Food Use: <input type="text" name="" class="form-control" required/>
+                        Caution: <input type="text" name="" class="form-control" required/>
+                        Additional Info: <input type="text" name="" class="form-control" required/>
+                        Other Info: <input type="text" name="" class="form-control" required/>
+                        Location:  <input type="text" name="" class="form-control" required/>
+                        Source:  <input type="text" name="" class="form-control" required/>
+                    </p>
+                    <!--Footer-->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-primary" value="Submit">
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
-</div>
-<!-- Modal: addnewproduct -->
+<!-- Modal: addnewcontent -->
 
 <!-- Modal: editproduct -->
 <div class="modal fade eft" id="editproduct" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -474,68 +451,28 @@ if((request.getSession(false).getAttribute("email")== null) )
           <span aria-hidden="true">×</span>
         </button>
       </div>
-     		<%
-				try {
-				connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
-				statement = connection.createStatement();
-				String sqlcategory = "SELECT prodID FROM productsTable";
-				resultSet = statement.executeQuery(sqlcategory);
-			%>
       <!--Body-->
       <div class="modal-body">
-      <form action="editProduct.action" method="post">
+      <form action="" method="post">
             <p align="left">
              Product ID: </br>
-             <input type="text" class="form-control" name="prodID" id="productIdGetTest" readonly/><br/>
-            <%
-				}	catch (Exception e) {
-			e.printStackTrace();
-			}
-			%>
-            
+             <input type="text" class="form-control" name="prodID" id="productIdGetTest" readonly/><br/>            
             Product Name:</br> 
             <input type='text' id="productNameGetTest" class="form-control" name='prodName' minlength='0' maxlength='100' required="required"/><br/>
             
             Current Category: 	<input type="text" id="categoryGetTest" class="form-control" readonly/></br> 
             <select class="form-control" name='catID' required="required">
             <option value="" disabled selected>Select your option...</option>
-            <%
-				try {
-				connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
-				statement = connection.createStatement();
-				String sqlcategory = "SELECT * FROM category";
-				resultSet = statement.executeQuery(sqlcategory);
-				while(resultSet.next()){%>
-            <option value="<%=resultSet.getString("catID") %>"><%=resultSet.getString("catID") %> - <%=resultSet.getString("category") %></option>
-            <%
-            		}
-				}	catch (Exception e) {
-			e.printStackTrace();
-			}
-			%>
+            <option value=""></option>
             </select><br/>
             Current Price:</br><input type='number' id="priceGetTest" class="form-control" name='initialPrice' min='0' max='999' readonly/>
             <input type="submit" value="Update Price"  class="btn btn-primary" /><br/><br/>
             Current Quantity:</br><input type='number' id="quantityGetTest" class="form-control" name='prodQty' min='1' max='300' readonly/>
             <input type="submit" value="Update Quantity"  class="btn btn-primary" /><br/><br/>
-            <!-- Unit: </br> <select class="form-control"  name='unitID' required="required">
+            Unit: </br> <select class="form-control"  name='unitID' required="required">
             <option value="" disabled selected>Select your option...</option>
-            <%
-			try {
-					connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
-					statement = connection.createStatement();
-					String sqlcategory = "SELECT * FROM unitsTable";
-					resultSet = statement.executeQuery(sqlcategory);
-			
-            while(resultSet.next()){%>
-            <option value="<%=resultSet.getString("unitID") %>"><%=resultSet.getString("unitID") %> - <%=resultSet.getString("unit") %></option>
-            <%
-            		} 
-				}	catch (Exception e) {
-			e.printStackTrace();
-            }
-            %>
-            </select><br/> -->
+            <option value=""></option>
+            </select><br/>
             Description:</br><input type='text' id="descriptionGetTest" class="form-control" name='description' minlength='0' maxlength='500' required="required"/><br/>
             <!-- Availability:</br> <input type='text' class="form-control" name='availability' value='Yes' readonly /><br/>
             Image file name:</br><input type='text' class="form-control" name='image' readonly/><br/> -->
@@ -567,7 +504,7 @@ if((request.getSession(false).getAttribute("email")== null) )
       </div>
       <!--Body-->
       <div class="modal-body">
-      <form action="addNewCategory.action" method="post">
+      <form action="" method="post">
             <p align="left">
             <!-- <s:textfield key="txtProdName" label="Name"/> -->
             Category:</br> 
@@ -623,15 +560,9 @@ if((request.getSession(false).getAttribute("email")== null) )
        		};
         }
         
-        //Data Tables
-		//window.$ = window.jquery = require('./node_modules/jquery');
-        //window.dt = require('./node_modules/datatables.net')();
-        //window.$('#table_id').DataTable(); */
-        
         $(document).ready( function () {
-            $('#productTable').DataTable();
+            $('#catalogueTable').DataTable();
         });
-});        
-
+});
     </script>
 </html>

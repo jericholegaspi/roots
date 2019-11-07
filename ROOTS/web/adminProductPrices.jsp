@@ -98,18 +98,18 @@ if((request.getSession(false).getAttribute("email")== null) )
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="adminCatalogue.jsp">
                         <i class="pe-7s-notebook"></i>
                         <p>Catalogue</p>
                     </a>
                 </li>
-                <li class="active" data-toggle="collapse" data-target="#productsPages">
+                <li data-toggle="collapse" data-target="#productsPages">
                    <a href="#">
                    <i class="pe-7s-cart"></i>
                         <p>Products</p>
                     </a>
-                    <ul style="list-style: none;" id="productsPages" class="collapse in">
-	                    <li class="active">
+                    <ul style="list-style: none;" id="productsPages" class="collapse">
+	                    <li>
 		                    <a href="adminProductDetails.jsp">
 		                    <i class="fa fa-list-alt" aria-hidden="true"></i>
 		                        <p>Product Details</p>
@@ -137,13 +137,13 @@ if((request.getSession(false).getAttribute("email")== null) )
                         <p>Modalities</p>
                     </a>
                 </li>
-                <li data-toggle="collapse" data-target="#pricesPages">
+                <li class="active" data-target="#pricesPages">
                    <a href="#">
                         <i class="fa fa-money" aria-hidden="true"></i>
                         <p>Price Management</p>
                     </a>
-                    <ul style="list-style: none;" id="pricesPages" class="collapse">
-	                    <li>
+                    <ul style="list-style: none;" id="pricesPages">
+	                    <li class="active">
 		                    <a href="adminProductPrices.jsp">
 		                    <i class="fa fa-list-alt" aria-hidden="true"></i>
 		                        <p>Product Prices</p>
@@ -151,7 +151,7 @@ if((request.getSession(false).getAttribute("email")== null) )
 	                    </li>
 	                    
 	                    <li>
-		                    <a href="adminModealityPrices.jsp">
+		                    <a href="adminModalityPrices.jsp">
 		                    <i class="fa fa-home" aria-hidden="true"></i>
 		                        <p>Modality Prices</p>
 		                    </a>
@@ -259,102 +259,7 @@ if((request.getSession(false).getAttribute("email")== null) )
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
-                          
-                    <!-- <div class="col-md-12">
-                        <div class="card">
-                            <div class="header">
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addnewproduct" style="float: right;"><span class="glyphicon glyphicon-plus"></span></button>
-                                <h4 class="title">Inventory </h4></h4>
 
-                                <p class="category">List of Products</p>
-                            </div>
-                            <div class="content table-responsive table-full-width">
-                                <table class="table table-hover table-striped">
-                                    <thead>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Quantity</th>
-                                        <th>Stock In</th>
-                                        <th>Price</th>
-                                        <th>Date Added</th>
-                                        <th>Date Modified</th>
-                                        <th>Availability</th>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Dakota Rice</td>
-                                            <td>$36,738</td>
-                                            <td>4</td>
-                                            <td>Niger</td>
-                                            <td>Niger</td>
-                                            <td> Available </td>
-                                            <td>Backend</td>
-                                            <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editproduct"><span class="glyphicon glyphicon-edit"></span> EDIT</button></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="header">
-                                <h4 class="title">List of Orders</h4></h4>
-
-                                <p class="category">Change Status of Order</p>
-                            </div>
-                            <div class="content table-responsive table-full-width">
-                                <table class="table table-hover table-striped">
-                                    <thead>
-                                        <th>Order ID</th>
-                                        <th>Product ID</th>
-                                        <th>Product Name</th>
-                                        <th>User ID</th>
-                                        <th>User Name</th>
-                                        <th>Total</th>
-                                        <th>Quantity</th>                      
-                                        <th>Mode of Payment</th>
-                                        <th>Payment Status</th>
-                                        <th>Delivery Address</th>
-                                        <th>Order Status</th>
-                                        <th>Delivery Status</th>
-                                        <th>Date Modified</th>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>1</td>
-                                            <td>Dakota Rice</td>
-                                            <td>1</td>
-                                            <td>Abigail Abada</td>
-                                            <td>P350</td>
-                                            <td>2</td>
-                                            <td>Cash</td>
-                                            <td><select class="form-control">
-                                            <option value="" disabled="disabled" selected="selected">...</option>
-                                            <option value="paid">Paid</option>
-                                            <option value="unpaid">Unpaid</option>
-                                            </select></td>
-                                            <td>Address Address Address Address</td>
-                                            <td>Complete</td>
-                                            <td><select class="form-control">
-                                            <option value="" disabled="disabled" selected="selected">...</option>
-                                            <option value="rfp">Ready for Pickup</option>
-                                            <option value="rfd">Ready for Delivery</option>
-                                            <option value="it">In-Transit</option>
-                                            <option value="del">Delivered</option>
-                                            </select></td>
-                                            <td>03/07/2019</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-
-                            </div>
-                        </div>
-                    </div> -->
                     <div class="col-md-12">
                         <div class="card">
                             <div class="header">
@@ -451,11 +356,9 @@ if((request.getSession(false).getAttribute("email")== null) )
 	%>
                                     </tbody>
                                 </table>
-
                             </div>
                         </div>
                     </div>
-
                     </div>  
                 </div>
             </div>
@@ -557,38 +460,27 @@ if((request.getSession(false).getAttribute("email")== null) )
 
 	<script type="text/javascript">
         $(document).ready(function(){
-
-            demo.initChartist();
-
-            $.notify({
-                icon: 'pe-7s-gift',
-                message: "You are in the <b>Product Prices Page</b> "
-            },{
-                type: 'danger',
-                timer: 4000
-            });
             
-            //DataTables
-            $('#productTable').DataTable();
-            $('#categoryTable').DataTable();
-            
+			//DataTables
+			$('#productTable').DataTable();
+			$('#categoryTable').DataTable();
+	        
+	        //Get ID of row element
+	        var table = document.getElementById('productTable');
+	        
+	        for(var i = 1; i < table.rows.length; i++){
+	            table.rows[i].onclick = function(){
+	                 //rIndex = this.rowIndex;
+					 document.getElementById("productIdGetTest").value = this.cells[0].innerHTML;
+	                 document.getElementById("productNameGetTest").value = this.cells[1].innerHTML;
+	                 document.getElementById("priceGetTest").value = this.cells[2].innerHTML;
+	                 /* document.getElementById("unitGetTest").value = this.cells[].innerHTML; */
+	                 /* document.getElementById("descriptionGetTest").value = this.cells[].innerHTML; */
+	                 /* document.getElementById("categoryGetTest").value = this.cells[].innerHTML; */
+	                 /* document.getElementById("quantityGetTest").value = this.cells[].innerHTML; */
+	                 
+	       		};
+	        }
         });
-        
-        //Get ID of row element
-        var table = document.getElementById('productTable');
-        
-        for(var i = 1; i < table.rows.length; i++){
-            table.rows[i].onclick = function(){
-                 //rIndex = this.rowIndex;
-				 document.getElementById("productIdGetTest").value = this.cells[0].innerHTML;
-                 document.getElementById("productNameGetTest").value = this.cells[1].innerHTML;
-                 document.getElementById("priceGetTest").value = this.cells[2].innerHTML;
-                 /* document.getElementById("unitGetTest").value = this.cells[].innerHTML; */
-                 /* document.getElementById("descriptionGetTest").value = this.cells[].innerHTML; */
-                 /* document.getElementById("categoryGetTest").value = this.cells[].innerHTML; */
-                 /* document.getElementById("quantityGetTest").value = this.cells[].innerHTML; */
-                 
-       		};
-        }
     </script>
 </html>
