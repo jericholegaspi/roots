@@ -1,48 +1,29 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-
-	<%@page import="java.sql.DriverManager"%>
-	<%@page import="java.sql.ResultSet"%>
-	<%@page import="java.sql.Statement"%>
-	<%@page import="java.sql.Connection"%>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Home</title>
+<title>Home</title>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-  <!--Font-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
-  <!--Customized--> 
-  <link rel="stylesheet" type="text/css" href="assets/css/home.css">
- <style>
-   .carousel-inner > .item > img,
-   .carousel-inner > .item > a > img {
-    width: 75%;
-    margin: auto;
-   }
- </style>
+ <link rel="stylesheet" type="text/css" href="assets/css/homepage.css">
+
+ <link rel="shortcut icon" sizes="16x16 32x32 64x64" href="assets/css/images/logo5.png"/>
 </head>
-
-
-
 <% //In case, if User session is not set, redirect to Login page.
 if((request.getSession(false).getAttribute("email")== null) )
 {
 %>
 <jsp:forward page="userLogin.jsp"></jsp:forward>
 <%} %>
-
-
-
-<body data-spy="scroll" data-target=".navbar" data-offset="50">
-
-<nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
+<body>
+  <div class="container-fluid">
+  <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
   <!-- Brand -->
   <a class="navbar-brand" href="userHomePage.jsp">
       <img src="assets/css/images/logo5.png" height="50px" width="90px">
@@ -80,7 +61,7 @@ if((request.getSession(false).getAttribute("email")== null) )
     <form class="form-inline my-2 my-lg-0">
       <ul class="navbar-nav navbar-right">
         <li class="nav-item">
-          <a class="nav-link" href="userCartPage.jsp"><span class="fa fa-shopping-cart"><span class="badge total-count"></span></span></a>
+          <a class="nav-link" href="userCartPage.jsp"><span class="fa fa-shopping-cart"><span class="badge badge-pill badge-warning total-count">2</span></span></a>
         </li>
       <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
@@ -89,7 +70,7 @@ if((request.getSession(false).getAttribute("email")== null) )
       <div class="dropdown-menu dropdown-menu-right">
         <a class="dropdown-item" href="userProfile.jsp"><i class="fas fa-user-alt fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Profile</span></a>
         <a class="dropdown-item" href="userInvoiceListPage.jsp"><i class="fas fa-file-invoice fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Invoice</span></a>
-        <a class="dropdown-item" href="userAppointmentListPage.jsp"><i class="far fa-calendar-check fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Appointment</a>
+        <a class="dropdown-item" href="userAppointmentPage.jsp"><i class="far fa-calendar-check fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Appointment</a>
         <a class="dropdown-item" href="logout.action"><i class="fas fa-sign-out-alt fa-fw" style="color: #999966;"></i> <span style="padding-left:15px;">Logout</span></a>
       </div>
         
@@ -98,184 +79,378 @@ if((request.getSession(false).getAttribute("email")== null) )
            
     </form>    
   </div>
-</nav>
-<div class="bg">
+</nav> 
+</div>
+
+<!-- START of hero text -->
   <div class="hero-image">
-  <div class="hero-text">
-    <h1>Welcome</h1>
-    <button class="explore">Explore Roots</button>
+    <div class="hero-text"><strong>Welcome</strong></div>
   </div>
-</div>
 
-<div class="title">
+<!-- END of hero text -->
 
-<div id="rhome" class="carousel slide carousel-fade" data-ride="carousel">
+<!-- START of carousel -->
+
+<div id="demo" class="carousel slide" data-ride="carousel">
+
+  <!-- Indicators -->
+  <ul class="carousel-indicators">
+    <li data-target="#demo" data-slide-to="0" class="active"></li>
+    <li data-target="#demo" data-slide-to="1"></li>
+    <li data-target="#demo" data-slide-to="2"></li>
+    <li data-target="#demo" data-slide-to="3"></li>
+    <li data-target="#demo" data-slide-to="4"></li>
+  </ul>
   
-<!--Indicators-->
-  <ol class="carousel-indicators">
-    <li class="item1 active"></li>
-    <li class="item2"></li>
-    <li class="item3"></li>
-    <li class="item4"></li>
-    <li class="item5"></li>
-  </ol>
-  <!--/.Indicators-->
-
   <!-- The slideshow -->
-  <div class="carousel-inner" role="listbox">
-    <div class="item active">
-      <img src="assets/css/images/hpage-1.1.png" alt="Los Angeles" width="1100" height="500">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="assets/css/images/hpage-1.6.png" alt="PITAHC" width="1100" height="300">
     </div>
-    <div class="item">
-      <img src="assets/css/images/hpage-2.png" alt="Chicago" width="1100" height="500">
+    <div class="carousel-item">
+      <img src="assets/css/images/hpage-2.3.png" alt="PITAHC" width="1100" height="300">
     </div>
-    <div class="item">
-      <img src="assets/css/images/hpage-3.png" alt="New York" width="1100" height="500">
+    <div class="carousel-item">
+      <img src="assets/css/images/hpage-3.2.png" alt="Catalogue" width="1100" height="500">
     </div>
-    <div class="item">
-      <img src="assets/css/images/hpage-4.png" alt="New York" width="1100" height="500">
+    <div class="carousel-item">
+      <img src="assets/css/images/hpage-4.2.png" alt="Products" width="1100" height="500">
     </div>
-    <div class="item">
-      <img src="assets/css/images/hpage-5.png" alt="New York" width="1100" height="500">
+    <div class="carousel-item">
+      <img src="assets/css/images/hpage-5.2.png" alt="Services" width="1100" height="500">
     </div>
   </div>
-
-  <!-- Left and right controls -->
-  <a class="left carousel-control" href="#rhome" role="button">
-    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="right carousel-control" href="#rhome" role="button">
-    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
-</div>
-</div>
-
-<div class="row">
-<div class="hero-image second">
-  <div class="hero-text">
-    <h1 class="down">Begin Here</h1>
-    <button class="cat" href="userCataloguePage.jsp">Go to Catalogue</button>
-    <button class="cat" href="userProductIndex.jsp">Go to Products</button>
-    <button class="cat">Go to Services</button>
-  </div>
-</div>
-</div>
-
-<script>
-  $(document).ready(function(){
-    $("#rhome").carousel();
   
-  $(".item1").click(function(){
-    $("#rhome").carousel(0);
-});
-  $(".item2").click(function(){
-    $("#rhome").carousel(1);
-});
-  $(".item3").click(function(){
-    $("#rhome").carousel(2);
-});
-  $(".item4").click(function(){
-    $("#rhome").carousel(3);
-});
-  $(".item5").click(function(){
-    $("#rhome").carousel(4);
-});
-  $(".left").click(function(){
-    $("#rhome").carousel("prev");
-  });
-  $(".right").click(function(){
-    $("#rhome").carousel("next");
-  });
-});
+  <!-- Left and right controls -->
+  <a class="carousel-control-prev" href="#demo" data-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </a>
+  <a class="carousel-control-next" href="#demo" data-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </a>
+</div> 
+
+<!-- END of carousel -->
+
+<!-- START of Catalogue -->
 
 
-function initComparisons() {
-  var x, i;
-  /*find all elements with an "overlay" class:*/
-  x = document.getElementsByClassName("img-comp-overlay");
-  for (i = 0; i < x.length; i++) {
-    /*once for each "overlay" element:
-    pass the "overlay" element as a parameter when executing the compareImages function:*/
-    compareImages(x[i]);
-  }
-  function compareImages(img) {
-    var slider, img, clicked = 0, w, h;
-    /*get the width and height of the img element*/
-    w = img.offsetWidth;
-    h = img.offsetHeight;
-    /*set the width of the img element to 50%:*/
-    img.style.width = (w / 2) + "px";
-    /*create slider:*/
-    slider = document.createElement("DIV");
-    slider.setAttribute("class", "img-comp-slider");
-    /*insert slider*/
-    img.parentElement.insertBefore(slider, img);
-    /*position the slider in the middle:*/
-    slider.style.top = (h / 2) - (slider.offsetHeight / 2) + "px";
-    slider.style.left = (w / 2) - (slider.offsetWidth / 2) + "px";
-    /*execute a function when the mouse button is pressed:*/
-    slider.addEventListener("mousedown", slideReady);
-    /*and another function when the mouse button is released:*/
-    window.addEventListener("mouseup", slideFinish);
-    /*or touched (for touch screens:*/
-    slider.addEventListener("touchstart", slideReady);
-    /*and released (for touch screens:*/
-    window.addEventListener("touchstop", slideFinish);
-    function slideReady(e) {
-      /*prevent any other actions that may occur when moving over the image:*/
-      e.preventDefault();
-      /*the slider is now clicked and ready to move:*/
-      clicked = 1;
-      /*execute a function when the slider is moved:*/
-      window.addEventListener("mousemove", slideMove);
-      window.addEventListener("touchmove", slideMove);
-    }
-    function slideFinish() {
-      /*the slider is no longer clicked:*/
-      clicked = 0;
-    }
-    function slideMove(e) {
-      var pos;
-      /*if the slider is no longer clicked, exit this function:*/
-      if (clicked == 0) return false;
-      /*get the cursor's x position:*/
-      pos = getCursorPos(e)
-      /*prevent the slider from being positioned outside the image:*/
-      if (pos < 0) pos = 0;
-      if (pos > w) pos = w;
-      /*execute a function that will resize the overlay image according to the cursor:*/
-      slide(pos);
-    }
-    function getCursorPos(e) {
-      var a, x = 0;
-      e = e || window.event;
-      /*get the x positions of the image:*/
-      a = img.getBoundingClientRect();
-      /*calculate the cursor's x coordinate, relative to the image:*/
-      x = e.pageX - a.left;
-      /*consider any page scrolling:*/
-      x = x - window.pageXOffset;
-      return x;
-    }
-    function slide(x) {
-      /*resize the image:*/
-      img.style.width = x + "px";
-      /*position the slider:*/
-      slider.style.left = img.offsetWidth - (slider.offsetWidth / 2) + "px";
-    }
-  }
-}
+<div class="container-fluid catalogue">
+<center>
+  <div class="container">
+    <h1 class="left" style="color: #cccc99"><strong>Check Our Bilingual Plant Catalogue</strong></h1>
 
-initComparisons();
-</script>
-<br><br>
+        <!-- Nav pills -->
+  <ul class="nav nav-pills mx-auto float-center" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link btn-warning active" data-toggle="pill" href="#home">Filipino</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link btn-warning" data-toggle="pill" href="#menu1">English</a>
+    </li>
+  </ul>
+ </div>
+
+  <!-- Tab panes -->
+  <div class="tab-content nav">
+    <div id="home" class="container tab-pane active"><br> 
+
+      <div class="row" id="myDIV">
+        <div class="col">
+          <div class="card item">
+          <img class="card-img-top responsive-img" src="assets/css/images/amp.jpg" alt="Card image" style="width:100%; height:200px;">
+          <div class="card-body">
+            <h4 class="card-title">Ampalaya</h4>
+            <a href="catalogue_page.html" class="btn btn-warning float-left">Learn More  <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card item">
+          <img class="card-img-top responsive-img" src="assets/css/images/baw.jpg" alt="Card image" style="width:100%; height:200px;">
+          <div class="card-body">
+            <h4 class="card-title">Bawang</h4>
+            <a href="catalogue_page.html" class="btn btn-warning float-left">Learn More  <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card item">
+          <img class="card-img-top responsive-img" src="assets/css/images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
+          <div class="card-body">
+            <h4 class="card-title">Abokado</h4>
+            <a href="catalogue_page.html" class="btn btn-warning float-left">Learn More  <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+          </div>
+        </div>
+      </div>
+      <br>
+    </div>
+
+  <div id="menu1" class="container tab-pane fade"><br>
+    <div class="row" id="myDIV">
+      <div class="col">
+        <div class="card item">
+          <img class="card-img-top responsive-img" src="assets/css/images/pineapple-1.jpg" alt="Card image" style="width:100%; height:200px;"">
+          <div class="card-body">
+            <h4 class="card-title">Pineapple</h4>
+            <a href="catalogue_page.html" class="btn btn-warning float-left">Learn More  <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card item">
+          <img class="card-img-top responsive-img" src="assets/css/images/baw.jpg" alt="Card image" style="width:100%; height:200px;">
+          <div class="card-body">
+            <h4 class="card-title">Garlic</h4>
+            <a href="catalogue_page.html" class="btn btn-warning float-left">Learn More  <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card item">
+          <img class="card-img-top responsive-img" src="assets/css/images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
+          <div class="card-body">
+            <h4 class="card-title">Avocado</h4>
+            <a href="catalogue_page.html" class="btn btn-warning float-left">Learn More  <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <small class="text-white">Note: Basis for the catalogue is from the book provided by PITAHC entitled "Patnubay sa Paggamit ng Halamang Gamot", currently unpublicized or published/sold online.</small>
+    </center>
+  </div>
+
+<!-- END of Catalogue -->
+
+<!-- Start of products -->
+
+<div class="container-fluid intro">
+  <div class="container">
+  <h1 class="text-center" style="color:#444422;"><strong>Enjoy Purchasing Products with Roots</strong></h1><center>
+
+  <div class="row">
+    <div class="col">
+      <div class="card icons">
+        <i class="fas fa-shopping-cart fa-7x" style="color: #997300;"></i>
+      </div>
+      <div class="card-body">
+        <h4 class="card-title text-center" style="color: white;">Order Product/s</h4>
+        <p class="card-text text-center" style="color: #4d3900;">Purchase Products</p>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card icons">
+        <i class="fas fa-money-bill-wave fa-6x" style="color: #806000"></i>
+      </div>
+      <div class="card-body">
+        <h4 class="card-title text-center" style="color: white;">Payment</h4>
+        <p class="card-text text-center" style="color: #4d3900;">Cash on Deliver or PayPal</p>
+        <p class="card-text"></p>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card icons">
+        <i class="fas fa-box-open fa-6x" style="color: #e6ac00"></i>
+      </div>
+      <div class="card-body">
+        <h4 class="card-title text-center" style="color: white;">Receive Package</h4>
+        <p class="card-text text-center" style="color: #4d3900;">Track order and delivery status</p>
+        <p class="card-text"></p>
+      </div>
+    </div>
+    
+  </div>
+  <a href="products_page.html" class="btn btn-warning">See Products  <i class="fas fa-arrow-circle-right"></i></a>
+  </center>
+  </div>
+</div>
+
+<!-- End of Products -->
+
+
+<!-- START of Services -->  
+
+<div class="container-fluid services"><center>
+  <div class="container">
+  <h1 class="left" style="color: #cccc99"><strong>Our Modalities</strong></h1>
+  <div class="row">
+    
+  <div class="col">
+      <div class="card serv">
+        <div class="card-body">
+          <p class="card-text text-center"><i class="fas fa-search fa-5x" style="color: #e67300"></i></p>
+          <h4 class="card-title text-center">Browse Services</h4>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card serv">
+        <div class="card-body">
+          <p class="card-text text-center"><i class="fas fa-map-marker-alt fa-5x" style="color: #cc3300"></i></p>
+          <h4 class="card-title text-center">View Locations</h4>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card serv">
+        <div class="card-body">
+          <p class="card-text text-center"><i class="fas fa-calendar-check fa-5x" style="color: #cc9900"></i></p>
+          <h4 class="card-title text-center">Schedule Appointment</h4>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card serv">
+        <div class="card-body">
+          <p class="card-text text-center"><i class="fas fa-edit fa-5x" style="color: #79a6d2"></i></p>
+          <h4 class="card-title text-center">Give Feedback</h4>
+          
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <a href="servicePage.html" class="btn btn-warning">Explore Services <i class="fas fa-arrow-circle-right"></i></a>
+    <div class="col">
+      <div class="card icons">
+        <i class="fas fa-user-check fa-10x" style="color: #e69900; padding-right: 20px; padding-bottom: 20px;"></i>
+      </div>
+      <div class="card-body">
+        <h4 class="card-title text-center" style="color: white; padding-top: 50px; padding-left: 20px;">Licensed Practitoner</h4>
+        <p class="card-text text-center" style="color: white;">Provided by PITAHC</p>
+      </div>
+    </div>
+    
+  </center>
+</div>
+
+  <button onclick="topFunction()" id="myBtn" title="Go to top"><span class="fa fa-angle-double-up"></span></button>
+</div>
+
+</div>
+
+<!-- END of Services -->
+
+<!-- Footer -->
+<footer class="page-footer font-small blue pt-4">
+
+  <!-- Footer Links -->
+  <div class="container text-center text-md-left">
+
+    <!-- Grid row -->
+    <div class="row foot">
+
+      <!-- Grid column -->
+      <div class="col-md-6 mt-md-0 mt-3">
+
+        <!-- Content -->
+        <h5 class="text-uppercase text-warning">ROOTS</h5>
+        <p class="text-white"><small>A web-enabled application that provides traditional and alternative medicine services from licensed practitioners with the ability to  purchase medicinal plants, herbs and other products online.</small></p>
+
+      </div>
+      <!-- Grid column -->
+
+      <hr class="clearfix w-100 d-md-none pb-3">
+
+      <!-- Grid column -->
+      <div class="col-md-3 mb-md-0 mb-3">
+
+        <!-- Links -->
+        <h5 class="text-uppercase text-warning">Links</h5>
+
+        <ul class="list-unstyled">
+          <li>
+            <a href="userHomePage.jsp" class="text-secondary">Home</a>
+          </li>
+          <li>
+            <a href="userCataloguePage.jsp" class="text-secondary">Catalogue</a>
+          </li>
+          <li>
+            <a href="userProductIndex.jsp" class="text-secondary">Products</a>
+          </li>
+          <li>
+            <a href="userServicePage.jsp" class="text-secondary">Services</a>
+          </li>
+        </ul>
+
+      </div>
+      <!-- Grid column -->
+
+      <!-- Grid column -->
+      <div class="col-md-3 mb-md-0 mb-3">
+
+        <!-- Links -->
+        <h5 class="text-uppercase text-warning">More</h5>
+
+        <ul class="list-unstyled">
+          <li>
+            <a href="userAboutPage.jsp" class="text-secondary">About</a>
+          </li>
+          <li>
+            <a href="userContactUsPage.jsp" class="text-secondary">Contact Us</a>
+          </li>
+          <li>
+            <a href="userFAQPage.jsp" class="text-secondary">FAQs</a>
+          </li>
+          <li>
+            <a href="userPrivacyPolicyPage.jsp" target="_blank" class="text-secondary">Privacy Policy</a>
+          </li>
+          <li>
+            <a href="userTermsConditionsPage.jsp" target="_blank" class="text-secondary">Terms and Conditions</a>
+          </li>
+        </ul>
+
+      </div>
+      <!-- Grid column -->
+
+    </div>
+    <!-- Grid row -->
+
+  </div>
+  <!-- Footer Links -->
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center text-light py-3">© 2019 Copyright:
+    <a href="https://mdbootstrap.com/education/bootstrap/" class="text-warning"> Roots.com</a>
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
+
 
 <script>
+  <!-- go to top -->
 $(document).ready(function(){
   $('body').scrollspy({target: ".navbar", offset: 50});   
 });
+
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    document.getElementById("myBtn").style.display = "block";
+  } else {
+    document.getElementById("myBtn").style.display = "none";
+  }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+  document.body.scrollTop = 0; // For Safari
+  document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}
 </script>
+
 </body>
 </html>
