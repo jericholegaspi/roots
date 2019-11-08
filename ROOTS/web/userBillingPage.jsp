@@ -90,10 +90,25 @@ if((request.getSession(false).getAttribute("email")== null) )
     </ul>
     <div class="form-inline my-2 my-lg-0">
 
-      <ul class="navbar-nav navbar-right">
-        <li class="nav-item">
-          <a class="nav-link" href="userCartPage.jsp"><span class="fa fa-shopping-cart"><span class="badge total-count"></span></span></a>
-        </li>
+                <ul class="navbar-nav navbar-right">
+                <%
+				try {
+					connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+					statement = connection.createStatement();
+					String sqlproduct = "SELECT COUNT(orderItemID) FROM orderItems"
+							+ " WHERE userID = " + session.getAttribute("uid") + " AND"
+							+ " orderItems.cartState = 'Idle'";
+					resultSet = statement.executeQuery(sqlproduct);
+					resultSet.next();
+				%>
+		        <li class="nav-item">
+		          <a class="nav-link" href="userCartPage.jsp"><span class="fa fa-shopping-cart"><span class="badge badge-pill badge-warning total-count"><%=resultSet.getInt("count(orderItemID)")%></span></span></a>
+		        </li>
+		        <%
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				%>
       <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
         <span class="fas fa-user-alt"></span>
@@ -742,9 +757,7 @@ e.printStackTrace();
     	
     	<button class="btn btn-outline-primary btn-lg" id="prevBtn2" onclick="nextPrev(-1)"> Previous</button>
     	<br> <br>
-    	<form action="#" id="cashondeliveryaction" method="post">
     	<button class="btn btn-warning btn-lg" id="nextBtn2" data-toggle="modal" data-target="#proceed-confirmation"> Proceed </button>	
-    	</form>
     
     </div>
   </div>
@@ -933,9 +946,31 @@ e.printStackTrace();
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
         
-        <form action="" name="myForm" method="post">        
+        <form action="cod.action" name="myForm" method="post">        
 	        <button class="btn btn-primary">Proceed</button>
 	    	<input type="hidden" name="userID" value="<%= session.getAttribute("uid") %>">
+	    		<!-- Get from query from deliveryaddress -->
+		    	<input type="hidden" id="daID2" name="deliveryAddressID">
+		    	<!-- Get from id grandtotal -->
+		    	<input type="hidden" id="otp2" name="orderTotalPrice">
+		    	<!-- Get from query from orderreference -->
+			<%
+			try {
+			connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+			statement = connection.createStatement();
+			String sql = "SELECT * FROM orderreference WHERE userID = " + session.getAttribute("uid") + " AND cartCondition = 'Idle'";
+			
+			resultSet = statement.executeQuery(sql);
+			while (resultSet.next())
+			{
+			%> 
+		     	<input type="hidden" id="orID" name="orderReferenceID" value="<%=resultSet.getInt("orderReferenceID")%>">
+        	<%
+					}
+				} catch (Exception e) {
+				e.printStackTrace();
+			}
+			%>
 	    </form>
  
 
@@ -1104,6 +1139,7 @@ function switchPayment(payment){
 	    document.getElementById("paypalrow").style.display = "none";
 	    document.getElementById("paymentmethod").setAttribute("value", "cod");   
 	    calculate();
+	    query();
 	} else {
 	    document.getElementById("nextBtn2").style.display = "none";
 	    document.getElementById("paypalaction").style.display = "none";
@@ -1247,16 +1283,21 @@ function query(){
 	var dat2 =  document.getElementById("dat2").value;
 	if(dat2 == "home") {
 		var deliveryHomeAddressID = document.getElementById('deliveryHomeAddressID').value;
-	    document.getElementById("daID").setAttribute("value", deliveryHomeAddressID);   
+	    document.getElementById("daID").setAttribute("value", deliveryHomeAddressID);
+	    document.getElementById("daID2").setAttribute("value", deliveryHomeAddressID);   
+
 	} else {
 		var deliveryWorkAddressID = document.getElementById('deliveryWorkAddressID').value;
 	    document.getElementById("daID").setAttribute("value", deliveryWorkAddressID);   
+	    document.getElementById("daID2").setAttribute("value", deliveryHomeAddressID);   
+
 	}
 	console.log(document.getElementById("daID").value);
 	
 	//To Get Grand Total
 	var gt = parseFloat(document.getElementById("grandtotal").innerText);	
 	document.getElementById("otp").setAttribute("value", gt);
+	document.getElementById("otp2").setAttribute("value", gt);
     console.log("GT:" + gt);
 	
 	

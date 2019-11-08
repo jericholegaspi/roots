@@ -62,7 +62,7 @@ if((request.getSession(false).getAttribute("email")== null) )
     <form class="form-inline my-2 my-lg-0">
       <ul class="navbar-nav navbar-right">
         <li class="nav-item">
-          <a class="nav-link" href="userCartPage.jsp"><span class="fa fa-shopping-cart"><span class="badge total-count"></span></span></a>
+          <a class="nav-link" href="userCartPage.jsp"><span class="fa fa-shopping-cart"><span class="badge badge-pill badge-warning total-count"></span></span></a>
         </li>
       <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">

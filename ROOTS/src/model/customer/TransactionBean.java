@@ -33,7 +33,13 @@ public class TransactionBean {
 	
 	//Design-Facade
 	public void paypalprocess() {
-		updateOrders();
+		updateOrdersPaypal();
+		updateOrdersReference();
+		updateOrderItems();
+	}
+	
+	public void codprocess() {
+		updateOrdersCOD();
 		updateOrdersReference();
 		updateOrderItems();
 	}
@@ -88,7 +94,7 @@ public class TransactionBean {
 		return connection;
 	}
 			
-	public boolean updateOrders() {		
+	public boolean updateOrdersPaypal() {		
 		Connection connection = getDBConnection();
 		
 		if (connection != null) { //means a valid connection
@@ -101,7 +107,40 @@ public class TransactionBean {
 				
 				pstmnt.setString(1, "Paid");
 				pstmnt.setInt(2, this.deliveryAddressID);
-				pstmnt.setString(3, "Checkout");
+				pstmnt.setString(3, "CheckOut");
+				pstmnt.setFloat(4, this.orderTotalPrice);
+				pstmnt.setInt(5, this.orderReferenceID);
+				pstmnt.setInt(6, this.userID);
+				pstmnt.setString(7, "Idle");
+
+
+				pstmnt.executeUpdate();
+				return true;
+			
+			} catch (SQLException sqle) {
+				System.err.println("Error on PayPalTransaction: " + sqle.getMessage());
+			}			
+		} else {
+			System.err.println("Missing on invalid connection.");
+		}
+		return false;
+	}
+	
+	
+	public boolean updateOrdersCOD() {		
+		Connection connection = getDBConnection();
+		
+		if (connection != null) { //means a valid connection
+			String sql = "UPDATE orders "
+	                + "SET paymentStatus = ?, deliveryAddressID = ?, cartStatus = ?, orderTotalPrice = ?, orderReferenceID = ? "
+	                + "WHERE userID = ? AND cartStatus = ?";
+		
+			try {
+				PreparedStatement pstmnt = connection.prepareStatement(sql);
+				
+				pstmnt.setString(1, "COD");
+				pstmnt.setInt(2, this.deliveryAddressID);
+				pstmnt.setString(3, "CheckOut");
 				pstmnt.setFloat(4, this.orderTotalPrice);
 				pstmnt.setInt(5, this.orderReferenceID);
 				pstmnt.setInt(6, this.userID);
@@ -132,7 +171,7 @@ public class TransactionBean {
 			try {
 				PreparedStatement pstmnt = connection.prepareStatement(sql);
 				
-				pstmnt.setString(1, "Checkout");
+				pstmnt.setString(1, "CheckOut");
 				pstmnt.setInt(2, this.userID);
 				pstmnt.setString(3, "Idle");
 
@@ -160,7 +199,7 @@ public class TransactionBean {
 			try {
 				PreparedStatement pstmnt = connection.prepareStatement(sql);
 				
-				pstmnt.setString(1, "Checkout");
+				pstmnt.setString(1, "CheckOut");
 				pstmnt.setInt(2, this.userID);
 				pstmnt.setString(3, "Idle");
 

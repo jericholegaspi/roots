@@ -23,6 +23,29 @@ if((request.getSession(false).getAttribute("email")== null) )
 <jsp:forward page="userLogin.jsp"></jsp:forward>
 <%} %>
 <body>
+	<%@page import="java.sql.DriverManager"%>
+	<%@page import="java.sql.ResultSet"%>
+	<%@page import="java.sql.Statement"%>
+	<%@page import="java.sql.Connection"%>
+
+	<%
+	String id = request.getParameter("userId");
+	String driverName = "com.mysql.jdbc.Driver";
+	String connectionUrl = "jdbc:mysql://localhost/";
+	String dbName = "isproj2_roots";
+	String userId = "isproj2_roots";
+	String password = "^qp&6Afnsd7S^jRf";
+
+	try {
+		Class.forName(driverName);
+	} catch (ClassNotFoundException e) {
+		e.printStackTrace();
+	}
+
+	Connection connection = null;
+	Statement statement = null;
+	ResultSet resultSet = null;
+	%>
   <div class="container-fluid">
   <nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
   <!-- Brand -->
@@ -60,10 +83,25 @@ if((request.getSession(false).getAttribute("email")== null) )
     </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
-      <ul class="navbar-nav navbar-right">
-        <li class="nav-item">
-          <a class="nav-link" href="userCartPage.jsp"><span class="fa fa-shopping-cart"><span class="badge total-count"></span></span></a>
-        </li>
+                <ul class="navbar-nav navbar-right">
+                <%
+				try {
+					connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+					statement = connection.createStatement();
+					String sqlproduct = "SELECT COUNT(orderItemID) FROM orderItems"
+							+ " WHERE userID = " + session.getAttribute("uid") + " AND"
+							+ " orderItems.cartState = 'Idle'";
+					resultSet = statement.executeQuery(sqlproduct);
+					resultSet.next();
+				%>
+		        <li class="nav-item">
+		          <a class="nav-link" href="userCartPage.jsp"><span class="fa fa-shopping-cart"><span class="badge badge-pill badge-warning total-count"><%=resultSet.getInt("count(orderItemID)")%></span></span></a>
+		        </li>
+		        <%
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				%>
       <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
         <span class="fas fa-user-alt"></span>
@@ -101,7 +139,7 @@ if((request.getSession(false).getAttribute("email")== null) )
       <div class="row" id="myDIV">
         <div class="col">
           <div class="card item">
-          <img class="card-img-top responsive-img" src="assets/css/images/acu.jpeg" alt="Card image" style="width:100%; height:200px;">
+          <img class="card-img-top responsive-img" src="assets/css/images/acu.jpg" alt="Card image" style="width:100%; height:200px;">
           <div class="card-body">
             <h4 class="card-title">Acupuncture</h4> 
             <h6 class="card-subtitle mb-2 text-muted">PITAHC</h6>

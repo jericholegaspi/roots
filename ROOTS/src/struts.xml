@@ -101,7 +101,14 @@
 					<result name="error">/error.jsp</result>
 				</action>
 				
+				<!-- PayPal -->
 				<action name="paypal" class="roots.user.action.PaypalAction">
+					<result name="success" type="redirect">/userInvoiceListPage.jsp</result>
+					<result name="error">/error.jsp</result>
+				</action>
+				
+				<!-- Cash on Delivery -->
+				<action name="cod" class="roots.user.action.CODAction">
 					<result name="success" type="redirect">/userInvoiceListPage.jsp</result>
 					<result name="error">/error.jsp</result>
 				</action>

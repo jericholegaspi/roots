@@ -71,7 +71,9 @@ window.onpopstate = function () {
 		</div>
 	</div>
 </div>
-
+<a href="documentation/userListPage.html">User List</a>
+<br>
+<a href="documentation/test.pdf">User Manual</a>
 
 </body>
 

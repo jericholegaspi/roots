@@ -148,7 +148,7 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
 								</div>					
-									<input type="text" name="dateOfBirth">
+									<input type="text" class="form-control" name="dateOfBirth">
 							</div>
 							<hr>
 								<div class="card-footer">

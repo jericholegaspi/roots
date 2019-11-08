@@ -116,7 +116,7 @@ if((request.getSession(false).getAttribute("email")== null) )
 			resultSet.next();
 		%>
         <li class="nav-item">
-          <a class="nav-link" href="userCartPage.jsp"><span class="fa fa-shopping-cart"><span class="badge total-count"><%=resultSet.getInt("count(orderItemID)")%></span></span></a>
+          <a class="nav-link" href="userCartPage.jsp"><span class="fa fa-shopping-cart"><span class="badge badge-pill badge-warning total-count"><%=resultSet.getInt("count(orderItemID)")%></span></span></a>
         </li>
         <%
 		} catch (Exception e) {
@@ -178,7 +178,6 @@ if((request.getSession(false).getAttribute("email")== null) )
                 </p>
             </div>
         </div>
-
         <hr class="my-5">
 		 
         <div class="row pb-5 p-5">
@@ -209,7 +208,7 @@ if((request.getSession(false).getAttribute("email")== null) )
                 <p><%=resultSet.getString("mobileNo")%></p>
                 <p class="mb-1"><%=resultSet2.getString("houseNumber")%> <%=resultSet2.getString("street")%>, <%=resultSet2.getString("barangay")%>, <%=resultSet2.getString("city")%>, <span id="deliverProvince"><%=resultSet2.getString("province")%></span> <%=resultSet2.getString("postalCode")%></p>
             </div>
-
+            
             <div class="col-md-6 text-right">
                 <p class="font-weight-bold mb-4">Payment Details</p>
                 <p class="mb-1"><span class="text-muted">Mode of Payment: </span> <span id="paymentmethod">PayPal</span></p>
