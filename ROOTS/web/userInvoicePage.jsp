@@ -284,13 +284,7 @@ if((request.getSession(false).getAttribute("email")== null) )
 							%>
                         </tbody>
                         <tfoot>
-	                        <tr>
-					            <td></td>
-					            <td></td>
-					            <td></td>
-					            <td><strong><i>Items Sub-Total</i></strong></td>
-					            <td id="ist"></td>
-					        </tr>
+
                 <%
 				try {
 					connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
@@ -513,30 +507,7 @@ console.log(mop);
 	} else {
 		document.getElementById("paymentmethod").innerHTML = "Cash on Delivery"
 	}
-<<<<<<< Updated upstream
 	
-=======
-
-deliverfee = Math.round(deliverfee * 100) / 100;
-
-document.getElementById("deliverfee").innerHTML = deliverfee;
-
-var paymentmethod = document.getElementById("paymentmethod").value;
-
-//Compute Inclusive Fees
-var inclusivefees = 0;
-
-if (paymentmethod=="paypal"){
-	inclusivefees = vat + paypalfee + deliverfee;
-}
-else {
-	inclusivefees = vat + deliverfee;
-}
-inclusivefees = Math.round (inclusivefees * 100) / 100;
-console.log(inclusivefees);
-document.getElementById("inclusivefees").innerHTML = "<h5><strong>"+inclusivefees+"</strong></h5>";
-}
->>>>>>> Stashed changes
 
 </script>
 

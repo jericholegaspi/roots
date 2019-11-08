@@ -402,7 +402,7 @@
   <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <var id="catalogueVar"><input type="text" class="modal-catalogue-ID"/></var>
+        <var id="catalogueVar"><input type="hidden" class="modal-catalogue-ID"/></var>
         <h5 class="modal-title" id="exampleModalLabel">Catalogue Item Name
          <br> 
         <small>Scientific Name</small>
