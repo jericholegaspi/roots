@@ -124,13 +124,6 @@ if((request.getSession(false).getAttribute("email")== null) )
 		                        <p>Product Inventory</p>
 		                    </a>
 	                    </li>
-	                    
-	                    <li>
-		                    <a href="adminProductHistory.jsp">
-		                    <i class="fa fa-history" aria-hidden="true"></i>
-		                        <p>Product History</p>
-		                    </a>
-	                    </li>
                     </ul>
                 </li>
                 <li>
@@ -159,7 +152,7 @@ if((request.getSession(false).getAttribute("email")== null) )
 	                    </li>
 	                    
 	                    <li>
-		                    <a href="adminModalityPrices.jsp">
+		                    <a href="#">
 		                    <i class="fa fa-home" aria-hidden="true"></i>
 		                        <p>Modality Prices</p>
 		                    </a>
@@ -459,9 +452,7 @@ if((request.getSession(false).getAttribute("email")== null) )
             </select><br/>
             Description:</br><input type='text' class="form-control" name='description' minlength='0' maxlength='500' required="required"/><br/>
             Critical Level:</br><input type='number' class="form-control" name='critLevel' min='0' max='999' required="required"/><br/>
-            <!-- Expiration Date:</br><input type="date"  name="expDate" required="required"/> -->
             <!-- Availability: --></br> <input type='hidden' class="form-control" name='availability' value='Available'/><br/>
-            <!-- Image file name:</br><input type='text' class="form-control" name='image' readonly/><br/> -->
             </p>      
       <!--Footer-->
       <div class="modal-footer">
@@ -476,7 +467,7 @@ if((request.getSession(false).getAttribute("email")== null) )
 <!-- Modal: addnewproduct -->
 
 <!-- Modal: editproduct -->
-<div class="modal fade eft" id="editproduct" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+<div class="modal fade left" id="editproduct" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
   aria-hidden="true">
   <div class="modal-dialog modal-full-height modal-right" role="document">
     <div class="modal-content">
@@ -490,10 +481,8 @@ if((request.getSession(false).getAttribute("email")== null) )
       <!--Body-->
       <div class="modal-body">
       <form action="editProduct.action" method="post">
+            <input type="hidden" class="form-control" name="prodID" id="productIdGetTest" readonly/>
             <p align="left">
-             Product ID: </br>
-            <input type="text" class="form-control" name="prodID" id="productIdGetTest" readonly/><br/>
-            
             Product Name:</br> 
             <input type='text' id="productNameGetTest" class="form-control" name='prodName' minlength='0' maxlength='100' required="required"/><br/>
             
@@ -508,7 +497,7 @@ if((request.getSession(false).getAttribute("email")== null) )
 				resultSet = statement.executeQuery(sqlcategory);
 				while(resultSet.next()){
 			%>
-            <option value="<%=resultSet.getString("catID") %>"><%=resultSet.getString("catID") %> - <%=resultSet.getString("category") %></option>
+            <option value="<%=resultSet.getString("catID") %>"><%=resultSet.getString("category") %></option>
             <%
             		}
 				}	catch (Exception e) {
@@ -517,16 +506,17 @@ if((request.getSession(false).getAttribute("email")== null) )
 			%>
             </select><br/>
             Current Unit: 	<input type="text" id="unitGetTest" class="form-control" readonly/></br> 
+           	
            	<select class="form-control"  name='unitID' required="required">
             <option value="" disabled selected>Select your option...</option>
             <%
 			try {
-					connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
-					statement = connection.createStatement();
-					String sqlcategory = "SELECT * FROM units";
-					resultSet = statement.executeQuery(sqlcategory);
-            while(resultSet.next()){%>
-            <option value="<%=resultSet.getString("unitID") %>"><%=resultSet.getString("unitID") %> - <%=resultSet.getString("unit") %></option>
+				connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+				statement = connection.createStatement();
+				String sqlcategory = "SELECT * FROM units";
+				resultSet = statement.executeQuery(sqlcategory);
+           		while(resultSet.next()){%>
+            <option value="<%=resultSet.getString("unitID") %>"><%=resultSet.getString("unit") %></option>
             <%
             		} 
 				}	catch (Exception e) {

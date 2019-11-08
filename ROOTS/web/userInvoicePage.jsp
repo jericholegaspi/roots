@@ -513,7 +513,30 @@ console.log(mop);
 	} else {
 		document.getElementById("paymentmethod").innerHTML = "Cash on Delivery"
 	}
+<<<<<<< Updated upstream
 	
+=======
+
+deliverfee = Math.round(deliverfee * 100) / 100;
+
+document.getElementById("deliverfee").innerHTML = deliverfee;
+
+var paymentmethod = document.getElementById("paymentmethod").value;
+
+//Compute Inclusive Fees
+var inclusivefees = 0;
+
+if (paymentmethod=="paypal"){
+	inclusivefees = vat + paypalfee + deliverfee;
+}
+else {
+	inclusivefees = vat + deliverfee;
+}
+inclusivefees = Math.round (inclusivefees * 100) / 100;
+console.log(inclusivefees);
+document.getElementById("inclusivefees").innerHTML = "<h5><strong>"+inclusivefees+"</strong></h5>";
+}
+>>>>>>> Stashed changes
 
 </script>
 

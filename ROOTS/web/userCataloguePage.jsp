@@ -17,6 +17,8 @@
  <link rel="stylesheet" type="text/css" href="assets/css/cataloguepage.css">
 
   <link rel="shortcut icon" sizes="16x16 32x32 64x64" href="assets/css/images/logo5.png"/>
+  
+  <script src="assets/js/catalogueModal.js" async="true"></script>
 
 </head>
 
@@ -33,6 +35,7 @@
 	String dbName = "isproj2_roots";
 	String userId = "isproj2_roots";
 	String password = "^qp&6Afnsd7S^jRf";
+
 
 	try {
 		Class.forName(driverName);
@@ -139,10 +142,10 @@
   <!-- Nav pills -->
   <ul class="nav nav-pills mx-auto" role="tablist">
     <li class="nav-item">
-      <a class="nav-link btn-outline-warning active" data-toggle="pill" href="#home">Filipino</a>
+      <a class="nav-link btn-outline-warning active" data-toggle="pill" href="#filipino">Filipino</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link btn-outline-warning" data-toggle="pill" href="#menu1">English</a>
+      <a class="nav-link btn-outline-warning" data-toggle="pill" href="#english">English</a>
     </li>
     <li class="ml-auto">
       <input type="text" id="searchbar" onkeyup="myFunction()" class="search form-control" placeholder="Search for Plant" data-toggle="tooltip" data-placement="bottom" title="What are you looking for?">
@@ -154,7 +157,7 @@
 
   <!-- Tab panes -->
   <div class="tab-content nav">
-    <div id="home" class="container tab-pane active"><br>
+    <div id="filipino" class="container tab-pane active"><br>
  
       <nav aria-label="...">
         <ul class="pagination justify-content-end pagination-sm">
@@ -176,245 +179,34 @@
         </ul>
         <img class="responsive-img" src="assets/css/images/pitahc-logo.png" alt="pitahc-logo" style="width:90px; height:90px;">
       </nav>
-
+		
 
       <div class="row" id="myDIV">
+    	<%
+		try {
+			connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+			statement = connection.createStatement();
+			String sqlproduct = "SELECT * FROM catalogue";
+			resultSet = statement.executeQuery(sqlproduct);
+		while (resultSet.next()) {
+		%>
         <div class="col">
           <div class="card item">
           <img class="card-img-top responsive-img" src="assets/css/images/amp.jpg" alt="Card image" style="width:100%; height:200px;">
           <div class="card-body">
-            <h4 class="card-title">Pinya</h4>
-            <p class="card-text"><i>Scientific Name</i></p>
-            <a href="#" class="btn btn-warning stretched-link" data-toggle="modal" data-target="#product-details">See Details</a>
+            <h4 class="card-title"><%=resultSet.getString("nameF")%></h4>
+            <p class="card-text"><%=resultSet.getString("scientificName")%> <br></p>
+            <span style="display: none;" class="retrieve-catalogueID"><%=resultSet.getString("catalogueID")%></span>
+            <button class="see-details btn btn-warning stretched-link" data-toggle="modal" data-target="#product-details">See Details</button>
           </div>
           </div>
         </div>
-
-        <div class="col">
-          <div class="card item">
-          <img class="card-img-top responsive-img" src="assets/css/images/baw.jpg" alt="Card image" style="width:100%; height:200px;">
-          <div class="card-body">
-            <h4 class="card-title">Banana</h4>
-            <p class="card-text"><i>Scientific Name</i></p>
-            <a href="#" class="btn btn-warning stretched-link" data-toggle="modal" data-target="#product-details">See Details</a>
-          </div>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="card item">
-          <img class="card-img-top responsive-img" src="assets/css/images/baw.jpg" alt="Card image" style="width:100%; height:200px;">
-          <div class="card-body">
-            <h4 class="card-title">Bawang</h4>
-            <p class="card-text"><i>Scientific Name</i></p>
-            <a href="#" class="btn btn-warning stretched-link" data-toggle="modal" data-target="#product-details">See Details</a>
-          </div>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="card item">
-          <img class="card-img-top responsive-img" src="assets/css/images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
-          <div class="card-body">
-            <h4 class="card-title">Ube</h4>
-            <p class="card-text"><i>Scientific Name</i></p>
-            <a href="#" class="btn btn-warning stretched-link" data-toggle="modal" data-target="#product-details">See Details</a>
-          </div>
-          </div>
-        </div>
-      </div>
-      <br>
-
-      <div class="row" id="myDIV">
-        <div class="col">
-          <div class="card item">
-          <img class="card-img-top responsive-img" src="assets/css/images/amp.jpg" alt="Card image" style="width:100%; height:200px;">
-          <div class="card-body">
-            <h4 class="card-title">Pinya</h4>
-            <p class="card-text"><i>Scientific Name</i></p>
-            <a href="#" class="btn btn-warning stretched-link" data-toggle="modal" data-target="#product-details">See Details</a>
-          </div>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="card item">
-          <img class="card-img-top responsive-img" src="assets/css/images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
-          <div class="card-body">
-            <h4 class="card-title">Bayabas</h4>
-            <p class="card-text"><i>Scientific Name</i></p>
-            <a href="#" class="btn btn-warning stretched-link" data-toggle="modal" data-target="#product-details">See Details</a>
-          </div>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="card item">
-          <img class="card-img-top responsive-img" src="assets/css/images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
-          <div class="card-body">
-            <h4 class="card-title">Bayabas</h4>
-            <p class="card-text"><i>Scientific Name</i></p>
-            <a href="#" class="btn btn-warning stretched-link" data-toggle="modal" data-target="#product-details">See Details</a>
-          </div>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="card item">
-          <img class="card-img-top responsive-img" src="assets/css/images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
-          <div class="card-body">
-            <h4 class="card-title">Carrot</h4>
-            <p class="card-text"><i>Scientific Name</i></p>
-            <a href="#" class="btn btn-warning stretched-link" data-toggle="modal" data-target="#product-details">See Details</a>
-          </div>
-          </div>
-        </div>
-      </div>
-
-      <br>
-
-      <div class="row" id="myDIV">
-        <div class="col">
-          <div class="card item">
-          <img class="card-img-top responsive-img" src="assets/css/images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
-          <div class="card-body">
-            <h4 class="card-title">Malunggay</h4>
-            <p class="card-text"><i>Scientific Name</i></p>
-            <a href="#" class="btn btn-warning stretched-link" data-toggle="modal" data-target="#product-details">See Details</a>
-          </div>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="card item">
-          <img class="card-img-top responsive-img" src="assets/css/images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
-          <div class="card-body">
-            <h4 class="card-title">Coconut</h4>
-            <p class="card-text"><i>Scientific Name</i></p>
-            <a href="#" class="btn btn-warning stretched-link" data-toggle="modal" data-target="#product-details">See Details</a>
-          </div>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="card item">
-          <img class="card-img-top responsive-img" src="assets/css/images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
-          <div class="card-body">
-            <h4 class="card-title">Coconut</h4>
-            <p class="card-text"><i>Scientific Name</i></p>
-            <a href="#" class="btn btn-warning stretched-link" data-toggle="modal" data-target="#product-details">See Details</a>
-          </div>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="card item">
-          <img class="card-img-top responsive-img" src="assets/css/images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
-          <div class="card-body">
-            <h4 class="card-title">Mais</h4>
-            <p class="card-text"><i>Scientific Name</i></p>
-            <a href="#" class="btn btn-warning stretched-link" data-toggle="modal" data-target="#product-details">See Details</a>
-          </div>
-          </div>
-        </div>
-      </div>
-
-      <br>
-
-      <div class="row" id="myDIV">
-        <div class="col">
-          <div class="card item">
-          <img class="card-img-top responsive-img" src="assets/css/images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
-          <div class="card-body">
-            <h4 class="card-title">Ampalaya</h4>
-            <p class="card-text"><i>Scientific Name</i></p>
-            <a href="#" class="btn btn-warning stretched-link" data-toggle="modal" data-target="#product-details">See Details</a>
-          </div>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="card item">
-          <img class="card-img-top responsive-img" src="assets/css/images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
-          <div class="card-body">
-            <h4 class="card-title">Avocado</h4>
-            <p class="card-text"><i>Scientific Name</i></p>
-            <a href="#" class="btn btn-warning stretched-link" data-toggle="modal" data-target="#product-details">See Details</a>
-          </div>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="card item">
-          <img class="card-img-top responsive-img" src="assets/css/images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
-          <div class="card-body">
-            <h4 class="card-title">Avocado</h4>
-            <p class="card-text"><i>Scientific Name</i></p>
-            <a href="#" class="btn btn-warning stretched-link" data-toggle="modal" data-target="#product-details">See Details</a>
-          </div>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="card item">
-          <img class="card-img-top responsive-img" src="assets/css/images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
-          <div class="card-body">
-            <h4 class="card-title">Avocado</h4>
-            <p class="card-text"><i>Scientific Name</i></p>
-            <a href="#" class="btn btn-warning stretched-link" data-toggle="modal" data-target="#product-details">See Details</a>
-          </div>
-          </div>
-        </div>
-      </div>
-
-       <br>
-
-      <div class="row" id="myDIV">
-        <div class="col">
-          <div class="card item">
-          <img class="card-img-top responsive-img" src="assets/css/images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
-          <div class="card-body">
-            <h4 class="card-title">Avocado</h4>
-            <p class="card-text"><i>Scientific Name</i></p>
-            <a href="#" class="btn btn-warning stretched-link" data-toggle="modal" data-target="#product-details">See More</a>
-          </div>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="card item">
-          <img class="card-img-top responsive-img" src="assets/css/images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
-          <div class="card-body">
-            <h4 class="card-title">Ampalaya</h4>
-            <p class="card-text"><i>Scientific Name</i></p>
-            <a href="#" class="btn btn-warning stretched-link" data-toggle="modal" data-target="#product-details">See More</a>
-          </div>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="card item">
-          <img class="card-img-top responsive-img" src="assets/css/images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
-          <div class="card-body">
-            <h4 class="card-title">Ampalaya</h4>
-            <p class="card-text"><i>Scientific Name</i></p>
-            <a href="#" class="btn btn-warning stretched-link" data-toggle="modal" data-target="#product-details">See More</a>
-          </div>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="card item">
-          <img class="card-img-top responsive-img" src="assets/css/images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
-          <div class="card-body">
-            <h4 class="card-title">Ampalaya</h4>
-            <p class="card-text"><i>Scientific Name</i></p>
-            <a href="#" class="btn btn-warning stretched-link" data-toggle="modal" data-target="#product-details">See More</a>
-          </div>
-          </div>
-        </div>
-      </div>
-    <br>
+        <%
+				}
+			} catch (Exception e) {
+			e.printStackTrace();
+		}
+		%>
 
     <nav aria-label="...">
     <ul class="pagination justify-content-center pagination-sm">
@@ -436,7 +228,7 @@
     </ul>
   </div>
 
-    <div id="menu1" class="container tab-pane fade"><br>
+    <div id="english" class="container tab-pane fade"><br>
 
       <nav aria-label="...">
       <ul class="pagination justify-content-end pagination-sm">
@@ -457,193 +249,34 @@
         </li>
       </ul>
     </nav>
-
+	
+	
     <div class="row" id="myDIV">
+    	<%
+		try {
+			connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+			statement = connection.createStatement();
+			String sqlproduct = "SELECT * FROM catalogue";
+			resultSet = statement.executeQuery(sqlproduct);
+		while (resultSet.next()) {
+		%>
         <div class="col">
           <div class="card item">
           <img class="card-img-top responsive-img" src="assets/css/images/amp.jpg" alt="Card image" style="width:100%; height:200px;">
           <div class="card-body">
-            <h4 class="card-title">Pinya</h4>
-            <p class="card-text"><i>Scientific Name</i></p>
+            <h4 class="card-title"><%=resultSet.getString("nameF")%></h4>
+            <p class="card-text"><i><%=resultSet.getString("scientificName")%></i></p>
             <a href="#" class="btn btn-warning stretched-link" data-toggle="modal" data-target="#product-details">See Details</a>
           </div>
           </div>
         </div>
-
-        <div class="col">
-          <div class="card item">
-          <img class="card-img-top responsive-img" src="assets/css/images/baw.jpg" alt="Card image" style="width:100%; height:200px;">
-          <div class="card-body">
-            <h4 class="card-title">Bawang</h4>
-            <p class="card-text">Category</p>
-            <a href="#" class="btn btn-warning stretched-link" data-toggle="modal" data-target="#product-details">See Details</a>
-          </div>
-          </div>
-        </div>
-
-        
-
-        <div class="col">
-          <div class="card item">
-          <img class="card-img-top responsive-img" src="assets/css/images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
-          <div class="card-body">
-            <h4 class="card-title">Ube</h4>
-            <p class="card-text"><i>Scientific Name</i></p>
-            <a href="#" class="btn btn-warning stretched-link" data-toggle="modal" data-target="#product-details">See Details</a>
-          </div>
-          </div>
-        </div>
-      </div>
-      <br>
-
-      <div class="row" id="myDIV">
-        <div class="col">
-          <div class="card item">
-          <img class="card-img-top responsive-img" src="assets/css/images/amp.jpg" alt="Card image" style="width:100%; height:200px;">
-          <div class="card-body">
-            <h4 class="card-title">Pinya</h4>
-            <p class="card-text"><i>Scientific Name</i></p>
-            <a href="#" class="btn btn-warning stretched-link" data-toggle="modal" data-target="#product-details">See Details</a>
-          </div>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="card item">
-          <img class="card-img-top responsive-img" src="assets/css/images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
-          <div class="card-body">
-            <h4 class="card-title">Ampalaya</h4>
-            <p class="card-text"><i>Scientific Name</i></p>
-            <a href="#" class="btn btn-warning stretched-link" data-toggle="modal" data-target="#product-details">See More</a>
-          </div>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="card item">
-          <img class="card-img-top responsive-img" src="assets/css/images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
-          <div class="card-body">
-            <h4 class="card-title">Carrot</h4>
-            <p class="card-text"><i>Scientific Name</i></p>
-            <a href="#" class="btn btn-warning stretched-link" data-toggle="modal" data-target="#product-details">See Details</a>
-          </div>
-          </div>
-        </div>
-      </div>
-
-      <br>
-
-      <div class="row" id="myDIV">
-        <div class="col">
-          <div class="card item">
-          <img class="card-img-top responsive-img" src="assets/css/images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
-          <div class="card-body">
-            <h4 class="card-title">Malunggay</h4>
-            <p class="card-text"><i>Scientific Name</i></p>
-            <a href="#" class="btn btn-warning stretched-link" data-toggle="modal" data-target="#product-details">See Details</a>
-          </div>
-          </div>
-        </div>
-
-
-        <div class="col">
-          <div class="card item">
-          <img class="card-img-top responsive-img" src="assets/css/images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
-          <div class="card-body">
-            <h4 class="card-title">Ampalaya</h4>
-            <p class="card-text"><i>Scientific Name</i></p>
-            <a href="#" class="btn btn-warning stretched-link" data-toggle="modal" data-target="#product-details">See More</a>
-          </div>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="card item">
-          <img class="card-img-top responsive-img" src="assets/css/images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
-          <div class="card-body">
-            <h4 class="card-title">Mais</h4>
-            <p class="card-text"><i>Scientific Name</i></p>
-            <a href="#" class="btn btn-warning stretched-link" data-toggle="modal" data-target="#product-details">See Details</a>
-          </div>
-          </div>
-        </div>
-      </div>
-
-      <br>
-
-      <div class="row" id="myDIV">
-        <div class="col">
-          <div class="card item">
-          <img class="card-img-top responsive-img" src="assets/css/images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
-          <div class="card-body">
-            <h4 class="card-title">Ampalaya</h4>
-            <p class="card-text"><i>Scientific Name</i></p>
-            <a href="#" class="btn btn-warning stretched-link" data-toggle="modal" data-target="#product-details">See Details</a>
-          </div>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="card item">
-          <img class="card-img-top responsive-img" src="assets/css/images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
-          <div class="card-body">
-            <h4 class="card-title">Avocado</h4>
-            <p class="card-text"><i>Scientific Name</i></p>
-            <a href="#" class="btn btn-warning stretched-link" data-toggle="modal" data-target="#product-details">See Details</a>
-          </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col">
-          <div class="card item">
-          <img class="card-img-top responsive-img" src="assets/css/images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
-          <div class="card-body">
-            <h4 class="card-title">Ampalaya</h4>
-            <p class="card-text"><i>Scientific Name</i></p>
-            <a href="#" class="btn btn-warning stretched-link" data-toggle="modal" data-target="#product-details">See More</a>
-          </div>
-          </div>
-        </div>
-
-       <br>
-
-      <div class="row" id="myDIV">
-        <div class="col">
-          <div class="card item">
-          <img class="card-img-top responsive-img" src="assets/css/images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
-          <div class="card-body">
-            <h4 class="card-title">Avocado</h4>
-            <p class="card-text"><i>Scientific Name</i></p>
-            <a href="#" class="btn btn-warning stretched-link" data-toggle="modal" data-target="#product-details">See More</a>
-          </div>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="card item">
-          <img class="card-img-top responsive-img" src="assets/css/images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
-          <div class="card-body">
-            <h4 class="card-title">Ampalaya</h4>
-            <p class="card-text"><i>Scientific Name</i></p>
-            <a href="#" class="btn btn-warning stretched-link" data-toggle="modal" data-target="#product-details">See More</a>
-          </div>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="card item">
-          <img class="card-img-top responsive-img" src="assets/css/images/avocado.jpg" alt="Card image" style="width:100%; height:200px;">
-          <div class="card-body">
-            <h4 class="card-title">Ampalaya</h4>
-            <p class="card-text"><i>Scientific Name</i></p>
-            <a href="#" class="btn btn-warning stretched-link" data-toggle="modal" data-target="#product-details">See More</a>
-          </div>
-          </div>
-        </div>
-      </div>
-    <br>
-
+		<%
+				}
+			} catch (Exception e) {
+			e.printStackTrace();
+		}
+		%>
+      	
     <nav aria-label="...">
     <ul class="pagination justify-content-center pagination-sm">
       <li class="page-item disabled">
@@ -769,8 +402,9 @@
   <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
+        <var id="catalogueVar"><input type="text" class="modal-catalogue-ID"/></var>
         <h5 class="modal-title" id="exampleModalLabel">Catalogue Item Name
-          <br>
+         <br> 
         <small>Scientific Name</small>
         </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -785,48 +419,48 @@
           </div>
              <div class="col-md-8" style="overflow:auto; height: 350px;">
               <p class="p-title">Recommended:</p>
-              <p class="p-text">Description Description Description Description Description Description
-                Description Description Description Description Description Description Description Description Description Description Description Description
+              <p class="p-text"><textarea rows="4" cols="85" style="border: none; resize: none; outline: none;" readonly>Description Description Description Description Description Description
+                Description Description Description Description Description Description Description Description Description Description Description Description</textarea>
               </p>
               <br>
               <p class="p-title">Traditional Use:</p>
-              <p class="p-text">Description Description Description Description Description Description
-                Description Description Description Description Description Description Description Description Description Description Description Description
+              <p class="p-text"><textarea rows="4" cols="85" style="border: none; resize: none; outline: none;" readonly>Description Description Description Description Description Description
+                Description Description Description Description Description Description Description Description Description Description Description Description</textarea>
               </p>
               <br>
               <p class="p-title">Popular Use:</p>
-              <p class="p-text">Description Description Description Description Description Description
-                Description Description Description Description Description Description Description Description Description Description Description Description
+              <p class="p-text"><textarea rows="4" cols="85" style="border: none; resize: none; outline: none;" readonly>Description Description Description Description Description Description
+                Description Description Description Description Description Description Description Description Description Description Description Description</textarea>
               </p>
               <br>
               <p class="p-title">Food Use:</p>
-              <p class="p-text">Description Description Description Description Description Description
-                Description Description Description Description Description Description Description Description Description Description Description Description
+              <p class="p-text"><textarea rows="4" cols="85" style="border: none; resize: none; outline: none;" readonly>Description Description Description Description Description Description
+                Description Description Description Description Description Description Description Description Description Description Description Description</textarea>
               </p>
               <br>
               <p class="p-title">Caution:</p>
-              <p class="p-text">Description Description Description Description Description Description
-                Description Description Description Description Description Description Description Description Description Description Description Description
+              <p class="p-text"><textarea rows="4" cols="85" style="border: none; resize: none; outline: none;" readonly>Description Description Description Description Description Description
+                Description Description Description Description Description Description Description Description Description Description Description Description</textarea>
               </p>
               <br>          
               <p class="p-title">Other Information:</p>
-              <p class="p-text">Description Description Description Description Description Description
-                Description Description Description Description Description Description Description Description Description Description Description Description
+              <p class="p-text"><textarea rows="4" cols="85" style="border: none; resize: none; outline: none;" readonly>Description Description Description Description Description Description
+                Description Description Description Description Description Description Description Description Description Description Description Description</textarea>
               </p>
               <br>
               <p class="p-title">Location:</p>
-              <p class="p-text">Description Description Description Description Description Description
-                Description Description Description Description Description Description Description Description Description Description Description Description
+              <p class="p-text"><textarea rows="4" cols="85" style="border: none; resize: none; outline: none;" readonly>Description Description Description Description Description Description
+                Description Description Description Description Description Description Description Description Description Description Description Description</textarea>
               </p>
               <br>
               <p class="p-title">Added Information:</p>
-              <p class="p-text">Description Description Description Description Description Description
-                Description Description Description Description Description Description Description Description Description Description Description Description
+              <p class="p-text"><textarea rows="4" cols="85" style="border: none; resize: none; outline: none;" readonly>Description Description Description Description Description Description
+                Description Description Description Description Description Description Description Description Description Description Description Description</textarea>
               </p>
               <br>
               <p class="p-title">Source:</p>
-              <p class="p-text">Description Description Description Description Description Description
-                Description Description Description Description Description Description Description Description Description Description Description Description
+              <p class="p-text"><textarea rows="4" cols="85" style="border: none; resize: none; outline: none;" readonly>Description Description Description Description Description Description
+                Description Description Description Description Description Description Description Description Description Description Description Description</textarea>
               </p>
               <br>
             </div>
@@ -871,8 +505,8 @@ function myFunction() {
     }
 }
 
-<!-- Search -->
-<!-- go to top -->
+//Search
+//go to top
 $(document).ready(function(){
   $('body').scrollspy({target: ".navbar", offset: 50});   
 });

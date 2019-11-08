@@ -28,6 +28,7 @@ public class RootsInventoryBean {
 	private String qtyChangeDesc;
 	private int prodPriceChange;
 	private int prodPriceChangeRefNoID;
+	private String prodQtyChangeRef;
 	
 	public void process() {
 	}
@@ -157,19 +158,17 @@ public class RootsInventoryBean {
 		this.prodPriceChangeRefNoID = prodPriceChangeRefNoID;
 	}
 
+	public String getProdQtyChangeRef() {
+		return prodQtyChangeRef;
+	}
+
+	public void setProdQtyChangeRef(String prodQtyChangeRef) {
+		this.prodQtyChangeRef = prodQtyChangeRef;
+	}
+
 	private Connection getDBConnection() {
 		Connection connection = null;
-		
-		/*try {
-			connection = ((DataSource) InitialContext.doLookup("java:/comp/env/jdbc/isproj2_roots")).getConnection();
-
-		} catch (NamingException ne) {
-			System.err.println("Error on getDBConnection: " + ne.getMessage());
-		} catch (SQLException sqle) {
-			System.err.println("Error on getDBConnection: " + sqle.getMessage());
-		}
-		return connection;*/
-		
+	
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			connection = DriverManager.getConnection(
@@ -324,8 +323,8 @@ public class RootsInventoryBean {
 		Connection connection = getDBConnection();
 		
 		if (connection != null) { //means a valid connection
-			String sql = "INSERT INTO inventory (prodID, prodQtyChange, qtyChangeDesc)"
-					+ " VALUES (?,?,?)";
+			String sql = "INSERT INTO inventory (prodID, prodQtyChange, qtyChangeDesc, prodQtyChangRef)"
+					+ " VALUES (?,?,?,?)";
 			
 			try {
 				PreparedStatement pstmnt = connection.prepareStatement(sql);
@@ -333,6 +332,7 @@ public class RootsInventoryBean {
 				pstmnt.setInt(1, this.prodID);
 				pstmnt.setInt(2, this.prodQtyChange);
 				pstmnt.setString(3, "In");
+				pstmnt.setString(4, this.prodQtyChangeRef);
 				
 				pstmnt.executeUpdate();
 				return true;

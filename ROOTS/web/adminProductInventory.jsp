@@ -123,13 +123,6 @@ if((request.getSession(false).getAttribute("email")== null) )
 		                        <p>Product Inventory</p>
 		                    </a>
 	                    </li>
-	                    
-	                    <li>
-		                    <a href="adminProductHistory.jsp">
-		                    <i class="fa fa-history" aria-hidden="true"></i>
-		                        <p>Product History</p>
-		                    </a>
-	                    </li>
                     </ul>
                 </li>
                 <li>
@@ -158,7 +151,7 @@ if((request.getSession(false).getAttribute("email")== null) )
 	                    </li>
 	                    
 	                    <li>
-		                    <a href="adminModalityPrices.jsp">
+		                    <a href="#">
 		                    <i class="fa fa-home" aria-hidden="true"></i>
 		                        <p>Modality Prices</p>
 		                    </a>
@@ -294,20 +287,20 @@ if((request.getSession(false).getAttribute("email")== null) )
 			String sqlproduct = "SELECT products.prodID, products.prodName,"
 					+ " products.description, products.initialPrice, products.prodQty,"
 					+ " units.unit, category.catID, category.category, products.Availability,"
-					+ " products.prodLastUpdate, products.critLevel FROM products INNER JOIN category ON"
-					+ " products.catID = category.catID"
+					+ " products.prodLastUpdate, products.critLevel FROM products"
+					+ " INNER JOIN category ON products.catID = category.catID"
 					+ " INNER JOIN units ON products.unitID = units.unitID";
 			resultSet = statement.executeQuery(sqlproduct);
 		while (resultSet.next()) {
 	%>
-                                        <tr>
-                                            <td><%=resultSet.getString("prodID")%></td>
-                                            <td><%=resultSet.getString("prodName")%></td>
-                                            <td><%=resultSet.getString("prodQty")%></td>
-                                            <td><%=resultSet.getString("unit")%></td>
-                                            <td><%=resultSet.getString("prodLastUpdate")%></td>
-                                            <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addprodqty"><span class="glyphicon glyphicon-edit"></span>Add Stock</button></td>     
-                                        </tr>
+                                     <tr>
+                                         <td><%=resultSet.getString("prodID")%></td>
+                                         <td><%=resultSet.getString("prodName")%></td>
+                                         <td><%=resultSet.getString("prodQty")%></td>
+                                         <td><%=resultSet.getString("unit")%></td>
+                                         <td><%=resultSet.getString("prodLastUpdate")%></td>
+                                         <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addprodqty"><span class="glyphicon glyphicon-edit"></span>Add Stock</button></td>     
+                                     </tr>
 	<%
 			}
 		} catch (Exception e) {
@@ -316,7 +309,6 @@ if((request.getSession(false).getAttribute("email")== null) )
 	%>
                                     </tbody>
                                 </table>
-
                             </div>
                         </div>
                     </div>
@@ -325,7 +317,6 @@ if((request.getSession(false).getAttribute("email")== null) )
                         <div class="card">
                             <div class="header">
                                 <h4 class="title">Product Quantity Change</h4></h4>
-
                                 <p class="category">View Product Quantity Change</p>
                             </div>
                             <div class="content table-responsive table-full-width">
@@ -335,6 +326,7 @@ if((request.getSession(false).getAttribute("email")== null) )
                                         <th>Product Name</th>
                                         <th>Quantity Change</th>
                                         <th>Description</th>
+                                        <th>Quantity Change Reference ID</th>
                                         <th>Quantity Change Date</th>
                                     </thead>
                                     <tbody>
@@ -343,9 +335,9 @@ if((request.getSession(false).getAttribute("email")== null) )
 			connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
 			statement = connection.createStatement();
 			String sqlcategory = "SELECT inventory.inventoryID, products.prodName,"
-					+ " inventory.prodQtyChange, inventory.prodQtyChangeDate, inventory.qtyChangeDesc"
-					+ " FROM inventory INNER JOIN products ON"
-					+ " inventory.prodID = products.prodID";
+					+ " inventory.prodQtyChange, inventory.prodQtyChangeDate, inventory.qtyChangeDesc,"
+					+ " inventory.prodQtyChangeRef FROM inventory "
+					+ " INNER JOIN products ON inventory.prodID = products.prodID";
 			resultSet = statement.executeQuery(sqlcategory);
 		while (resultSet.next()) {
 	%>
@@ -354,6 +346,7 @@ if((request.getSession(false).getAttribute("email")== null) )
                                             <td><%=resultSet.getString("prodName")%></td>
                                             <td><%=resultSet.getString("prodQtyChange")%></td>
                                             <td><%=resultSet.getString("qtyChangeDesc")%></td>
+                                            <td><%=resultSet.getString("prodQtyChangeRef")%></td>
                                             <td><%=resultSet.getString("prodQtyChangeDate")%></td>
                                             <!-- <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addnewcategory"><span class="glyphicon glyphicon-edit"></span> EDIT</button></td> -->     
                                         </tr>
@@ -365,11 +358,9 @@ if((request.getSession(false).getAttribute("email")== null) )
 	%>
                                     </tbody>
                                 </table>
-
                             </div>
                         </div>
                     </div>
-
                     </div>  
                 </div>
             </div>
@@ -397,7 +388,7 @@ if((request.getSession(false).getAttribute("email")== null) )
 </div>
 
 <!-- Modal: addStock -->
-<div class="modal fade eft" id="addprodqty" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+<div class="modal fade left" id="addprodqty" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
   aria-hidden="true">
   <div class="modal-dialog modal-full-height modal-right" role="document">
     <div class="modal-content">
@@ -412,30 +403,29 @@ if((request.getSession(false).getAttribute("email")== null) )
 				try {
 				connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
 				statement = connection.createStatement();
-				String sqlcategory = "SELECT prodID FROM productsTable";
-				resultSet = statement.executeQuery(sqlcategory);
+				String sqlproduct = "SELECT * FROM products";
+				resultSet = statement.executeQuery(sqlproduct);
+				resultSet.first();
 			%>
-      <!--Body-->
-      <div class="modal-body">
-      <form action="addProdQty.action" method="post">
+      		<!--Body-->
+      		<div class="modal-body">
+      		<form action="addProdQty.action" method="post">
             <p align="left">
-             Product ID: </br>
-             <input type="text" class="form-control" name="prodID" id="productIdGetTest" readonly/><br/>
+            Product Name:</br> 
+            <input type='text' id="productNameGetTest" class="form-control" name='prodName' readonly/></br>
+            Current Quantity:</br><input type='number' id="quantityGetTest" class="form-control" name='prodQty' min='1' max='300' readonly/></br>
+            Unit: </br> <input type='text' id="unitGetTest" class="form-control" name='unit' readonly/></br>
+            Add Stock:</br>
+            <input type='number' class="form-control" name='prodQtyChange' min='1' max='9999' required="required"/>
+            Reference Code:<br>
+            <input type="text" name="invChangeRefID" class="form-control" minlength="8" maxlength="50" required="required"/>
+            <input type="hidden" class="form-control" name="prodID" id="productIdGetTest"/><br/>
+            </p>
             <%
 				}	catch (Exception e) {
 			e.printStackTrace();
 			}
 			%>
-            
-            Product Name:</br> 
-            <input type='text' id="productNameGetTest" class="form-control" name='prodName' readonly/></br>
-            Current Quantity:</br><input type='number' id="quantityGetTest" class="form-control" name='prodQty' min='1' max='300' readonly/></br>
-            Unit: </br> <input type='number' id="unitGetTestasd" class="form-control" name='unit' readonly/></br>
-            Add Stock:</br>
-            <input type='number' class="form-control" name='prodQtyChange' min='1' max='9999' required="required"/>
-            <!-- Availability:</br> <input type='text' class="form-control" name='availability' value='Yes' readonly /><br/>
-            Image file name:</br><input type='text' class="form-control" name='image' readonly/><br/> -->
-            </p>
       
       <!--Footer-->
       <div class="modal-footer">
@@ -484,7 +474,6 @@ if((request.getSession(false).getAttribute("email")== null) )
 	        
 	        for(var i = 1; i < table.rows.length; i++){
 	            table.rows[i].onclick = function(){
-	                 //rIndex = this.rowIndex;
 					 document.getElementById("productIdGetTest").value = this.cells[0].innerHTML;
 	                 document.getElementById("productNameGetTest").value = this.cells[1].innerHTML;
 	                 document.getElementById("quantityGetTest").value = this.cells[2].innerHTML;

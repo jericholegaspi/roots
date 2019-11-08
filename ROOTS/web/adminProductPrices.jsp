@@ -122,13 +122,6 @@ if((request.getSession(false).getAttribute("email")== null) )
 		                        <p>Product Inventory</p>
 		                    </a>
 	                    </li>
-	                    
-	                    <li>
-		                    <a href="adminProductHistory.jsp">
-		                    <i class="fa fa-history" aria-hidden="true"></i>
-		                        <p>Product History</p>
-		                    </a>
-	                    </li>
                     </ul>
                 </li>
                 <li>
@@ -157,7 +150,7 @@ if((request.getSession(false).getAttribute("email")== null) )
 	                    </li>
 	                    
 	                    <li>
-		                    <a href="adminModalityPrices.jsp">
+		                    <a href="#">
 		                    <i class="fa fa-home" aria-hidden="true"></i>
 		                        <p>Modality Prices</p>
 		                    </a>

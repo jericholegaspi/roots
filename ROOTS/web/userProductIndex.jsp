@@ -43,7 +43,6 @@ if((request.getSession(false).getAttribute("email")== null) )
 	String dbName = "isproj2_roots";
 	String userId = "isproj2_roots";
 	String password = "^qp&6Afnsd7S^jRf";
-
 	try {
 		Class.forName(driverName);
 	} catch (ClassNotFoundException e) {
@@ -343,7 +342,7 @@ if((request.getSession(false).getAttribute("email")== null) )
   <!-- Footer Links -->
 
   <!-- Copyright -->
-  <div class="footer-copyright text-center text-light py-3">Â© 2019 Copyright:
+  <div class="footer-copyright text-center text-light py-3">© 2019 Copyright:
     <a href="https://mdbootstrap.com/education/bootstrap/" class="text-warning"> Roots.com</a>
   </div>
   <!-- Copyright -->
@@ -373,20 +372,5 @@ if((request.getSession(false).getAttribute("email")== null) )
           document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
         }
     </script>
-    
-<!-- <script>
-	$('.see-details').click(function(){
-		var prodID = $(this).attr("id");
-	 $.ajax({
-		url:"userProductDetails.jsp",
-		method:"POST",
-		data:{prodID:prodID},
-		success:function(data){
-			$('#prodDetails').html(data);
-			$('#product-details').modal("show");
-			}
-		});
-	});  
-</script> -->
 </body>
 </html>

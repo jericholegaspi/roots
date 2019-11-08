@@ -126,13 +126,6 @@ if((request.getSession(false).getAttribute("email")== null) )
 		                        <p>Product Inventory</p>
 		                    </a>
 	                    </li>
-	                    
-	                    <li>
-		                    <a href="adminProductHistory.jsp">
-		                    <i class="fa fa-history" aria-hidden="true"></i>
-		                        <p>Product History</p>
-		                    </a>
-	                    </li>
                     </ul>
                 </li>
                 <li>
@@ -161,7 +154,7 @@ if((request.getSession(false).getAttribute("email")== null) )
 	                    </li>
 	                    
 	                    <li>
-		                    <a href="adminModalityPrices.jsp">
+		                    <a href="#">
 		                    <i class="fa fa-home" aria-hidden="true"></i>
 		                        <p>Modality Prices</p>
 		                    </a>
@@ -300,14 +293,14 @@ if((request.getSession(false).getAttribute("email")== null) )
                                     </tr>
                                     </thead>
                                     <tbody>
-	<%
-		try {
-			connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
-			statement = connection.createStatement();
-			String sqlproduct = "SELECT * FROM catalogue";
-			resultSet = statement.executeQuery(sqlproduct);
-		while (resultSet.next()) {
-	%>
+									<%
+										try {
+											connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+											statement = connection.createStatement();
+											String sqlproduct = "SELECT * FROM catalogue";
+											resultSet = statement.executeQuery(sqlproduct);
+										while (resultSet.next()) {
+									%>
 									<tr>
 										<td><%=resultSet.getString("catalogueID")%></td>
 										<td><%=resultSet.getString("nameF")%></td>
@@ -326,55 +319,82 @@ if((request.getSession(false).getAttribute("email")== null) )
 										<td><%=resultSet.getString("catalogueDateUpdated")%></td>
 										<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editproduct"><span class="glyphicon glyphicon-edit"></span>EDIT</button></td>     
 									</tr>
-	<%
-			}
-		} catch (Exception e) {
-		e.printStackTrace();
-	}
-	%>
+									<%
+											}
+										} catch (Exception e) {
+										e.printStackTrace();
+									}
+									%>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                    </div>
+                    </div>	
                     
                     <div class="col-md-12">
                         <div class="card">
                             <div class="header">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addnewcategory" style="float: right;"><span class="glyphicon glyphicon-plus"></span></button>
-                                <h4 class="title">Category</h4></h4>
-
-                                <p class="category">Add New Category</p>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addnewcontent" style="float: right;"><span class="glyphicon glyphicon-plus"></span></button>
+                                <h4 class="title">Catalogue (Filipino)</h4></h4>
+                                <p class="category">Manage Catalogue Content</p>
                             </div>
                             <div class="content table-responsive table-full-width">
-                                <table class="table table-hover table-striped" id="categoryTable">
+                                <table class="table table-hover table-striped" id="productTable">
                                     <thead>
-                                        <th>Category ID</th>
-                                        <th>Category</th>
+                                    <tr>
+                                        <th>Catalogue ID</th>
+                                        <th>Plant Name</th>
+                                        <th>Scientific Name</th>
+                                        <th>Recommended Use</th>
+                                        <th>Beneficial Use</th>
+                                        <th>Traditional Use</th>
+                                        <th>Popular Use</th>                      
+                                        <th>Food Use</th>
+                                        <th>Caution</th>
+                                        <th>Additional Info</th>
+                                        <th>Other Info</th>
+                                        <th>Location</th>
+                                        <th>Source</th>
+                                        <th>Date Added</th>
+                                        <th>Date Updated</th>
+                                        <th></th>
+                                    </tr>
                                     </thead>
                                     <tbody>
-	<%
-		try {
-			connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
-			statement = connection.createStatement();
-			String sqlcategory = "SELECT * FROM category";
-			resultSet = statement.executeQuery(sqlcategory);
-		while (resultSet.next()) {
-	%>
-                                        <tr>
-                                            <td><%=resultSet.getString("catID")%></td>
-                                            <td><%=resultSet.getString("category")%></td>
-                                            <!-- <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addnewcategory"><span class="glyphicon glyphicon-edit"></span> EDIT</button></td> -->     
-                                        </tr>
-	<%
-			}
-		} catch (Exception e) {
-		e.printStackTrace();
-	}
-	%>
+									<%
+										try {
+											connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+											statement = connection.createStatement();
+											String sqlproduct = "SELECT * FROM catalogue";
+											resultSet = statement.executeQuery(sqlproduct);
+										while (resultSet.next()) {
+									%>
+									<tr>
+										<td><%=resultSet.getString("catalogueID")%></td>
+										<td><%=resultSet.getString("nameF")%></td>
+										<td><%=resultSet.getString("scientificName")%></td>
+										<td><textarea rows="4" readonly><%=resultSet.getString("recommendedF")%></textarea></td>
+										<td><textarea rows="4" readonly><%=resultSet.getString("benefitF")%></textarea></td>
+										<td><textarea rows="4" readonly><%=resultSet.getString("traditionalUseF")%></textarea></td>
+										<td><textarea rows="4" readonly><%=resultSet.getString("popularUseF")%></textarea></td>
+										<td><textarea rows="4" readonly><%=resultSet.getString("foodUseF")%></textarea></td>
+										<td><textarea rows="4" readonly><%=resultSet.getString("cautionF")%></textarea></td>
+										<td><textarea rows="4" readonly><%=resultSet.getString("addedInfoF")%></textarea></td>
+										<td><textarea rows="4" readonly><%=resultSet.getString("otherInfoF")%></textarea></td>
+										<td><textarea rows="4" readonly><%=resultSet.getString("location")%></textarea></td>
+										<td><textarea rows="4" readonly><%=resultSet.getString("source")%></textarea></td>
+										<td><%=resultSet.getString("catalogueDateAdded")%></td>
+										<td><%=resultSet.getString("catalogueDateUpdated")%></td>
+										<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editproduct"><span class="glyphicon glyphicon-edit"></span>EDIT</button></td>     
+									</tr>
+									<%
+											}
+										} catch (Exception e) {
+										e.printStackTrace();
+									}
+									%>
                                     </tbody>
                                 </table>
-
                             </div>
                         </div>
                     </div>
@@ -461,7 +481,7 @@ if((request.getSession(false).getAttribute("email")== null) )
       <div class="modal-body">
       <form action="" method="post">
             <p align="left">
-             Product ID: </br>
+            Product ID: </br>
              <input type="text" class="form-control" name="prodID" id="productIdGetTest" readonly/><br/>            
             Product Name:</br> 
             <input type='text' id="productNameGetTest" class="form-control" name='prodName' minlength='0' maxlength='100' required="required"/><br/>

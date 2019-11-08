@@ -136,13 +136,6 @@ e.printStackTrace();
 		                        <p>Product Inventory</p>
 		                    </a>
 	                    </li>
-	                    
-	                    <li>
-		                    <a href="adminProductHistory.jsp">
-		                    <i class="fa fa-history" aria-hidden="true"></i>
-		                        <p>Product History</p>
-		                    </a>
-	                    </li>
                     </ul>
                 </li>
                 <li>
@@ -171,7 +164,7 @@ e.printStackTrace();
 	                    </li>
 	                    
 	                    <li>
-		                    <a href="adminModalityPrices.jsp">
+		                    <a href="#">
 		                    <i class="fa fa-home" aria-hidden="true"></i>
 		                        <p>Modality Prices</p>
 		                    </a>
