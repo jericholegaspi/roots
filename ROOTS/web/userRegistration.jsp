@@ -45,9 +45,9 @@
 									<div class="input-group-prepend">
 										<span class="input-group-text"><i class="fas fa-user"></i></span>
 									</div>
-										<input type="text" placeholder="First Name" name="firstName" class="form-control" required>
-										<input type="text" placeholder="Middle Name" name="middleName" class="form-control" required>
-										<input type="text" placeholder="Last Name" name="lastName" class="form-control" required>		
+										<input type="text" placeholder="First Name" name="firstName" class="form-control textclass" onpaste="return false" oncut="return false" oncopy="return false" ondrop="return false" required>
+										<input type="text" placeholder="Middle Name" name="middleName" class="form-control textclass" onpaste="return false" oncut="return false" oncopy="return false" ondrop="return false" required>
+										<input type="text" placeholder="Last Name" name="lastName" class="form-control textclass" onpaste="return false" oncut="return false" oncopy="return false" ondrop="return false" required>		
 							</div>
 						</div>
 					</div>
@@ -226,6 +226,21 @@ function validate()
 		return false;
 	} 
 	
+	$(document).ready(function()
+			{
+				$(".textclass").keypress(function(e)
+				{
+					if(e.keyCode == 32)
+					{
+						$('.textclass')
+						alert("No white spaces allowed");
+						e.preventDefault();
+					}
+					else {
+						$('.textclass').css('border-color','');
+					}
+				});
+			});
 	
 }
 

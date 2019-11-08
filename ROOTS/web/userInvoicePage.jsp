@@ -211,7 +211,7 @@ if((request.getSession(false).getAttribute("email")== null) )
             
             <div class="col-md-6 text-right">
                 <p class="font-weight-bold mb-4">Payment Details</p>
-                <p class="mb-1"><span class="text-muted">Mode of Payment: </span> <span id="paymentmethod">PayPal</span></p>
+                <p class="mb-1"><span class="text-muted">Mode of Payment: </span> <span id="paymentmethod"></span></p>
                 <p class="mb-1"><span class="text-muted">Name: </span> <%=resultSet.getString("firstName")%> <%=resultSet.getString("lastName")%></p>
             </div>
             <%
@@ -221,6 +221,22 @@ if((request.getSession(false).getAttribute("email")== null) )
 			%>
         </div>
 
+		<%
+				try {
+					connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+					statement = connection.createStatement();
+					String sqlproduct = "SELECT * FROM orders WHERE userID = " + session.getAttribute("uid") + " AND"
+					+ " orderID = " + orderIDChain;
+					resultSet = statement.executeQuery(sqlproduct);
+					resultSet.first();
+				%>
+                    <input id="mop" type="hidden" value="<%=resultSet.getString("paymentStatus")%>">
+                <%
+					} catch (Exception e) {
+					e.printStackTrace();
+				}
+		%>
+		
         <div class="row">
             <div class="col-md-12 price-table p-5">
                 <div class="cart-table">
@@ -230,8 +246,8 @@ if((request.getSession(false).getAttribute("email")== null) )
                                 <th style="width:30%">Product</th>
                                 <th style="width:10%">Quantity</th>
                                 <th style="width:10%">Unit</th>
-                                <th style="width:10%">Unit Price</th>
-                                <th style="width:16%">Subtotal</th>
+                                <th style="width:19%">Unit Price</th>
+                                <th style="width:10%">Subtotal</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -267,38 +283,60 @@ if((request.getSession(false).getAttribute("email")== null) )
 								}
 							%>
                         </tbody>
-                        <tfoot onload="caculate()">
+                        <tfoot>
+	                        <tr>
+					            <td></td>
+					            <td></td>
+					            <td></td>
+					            <td><strong><i>Items Sub-Total</i></strong></td>
+					            <td id="ist"></td>
+					        </tr>
+                <%
+				try {
+					connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+					statement = connection.createStatement();
+					String sqlproduct = "SELECT * FROM orders WHERE userID = " + session.getAttribute("uid") + " AND"
+					+ " orderID = " + orderIDChain;
+					resultSet = statement.executeQuery(sqlproduct);
+					resultSet.first();
+				%>
                             <tr>
 					            <td></td>
 					            <td></td>
 					            <td></td>
 					            <td><i>VAT (12%)</i></td>
-					            <td id="vat"></td>
+					            <td id="vat"><%=resultSet.getFloat("orderVAT")%></td>
 					        </tr>
 					        <tr id="paypalrow">
 					            <td></td>
 					            <td></td>
 					            <td></td>
 					            <td><i>PayPal Fee</i></td>
-					            <td id="paypalfee"></td>
+					            <td id="paypalfee"><%=resultSet.getFloat("orderPayPalFee")%></td>
 					        </tr>
 					      	<tr>
 					            <td></td>
 					            <td></td>
 					            <td></td>
 					            <td><i>Delivery Fee</i></td>
-					            <td id="deliverfee"></td>
+					            <td id="deliverfee"><%=resultSet.getFloat("orderDeliveryFee")%></td>
 					        </tr>
+				<%
+					} catch (Exception e) {
+					e.printStackTrace();
+				}
+				%>
 					        <tr>
 					            <td></td>
 					            <td></td>
 					            <td></td>
 					            <td><strong><i>Inclusive Fees Sub-Total</i></strong></td>
-					            <td ></td>
+					            <td id="inclusivefees"></td>
 				            </tr>
-                            <tr style="background-color: #ffbf00;">
-                                <td class="hidden-xs" colspan="4"></td>
-                                <td id="paypaltotal" class="hidden-xs">
+                            <tr>
+                                <td class="hidden-xs" colspan="3"></td>
+                                <td style="background-color: #ffbf00;"><center><h3><strong><i>Grand Total</i></strong></h3></center></td>
+                                <td style="background-color: #ffbf00;" id="paypaltotal" class="hidden-xs">
                                 <%
 								try {
 									connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
@@ -308,7 +346,7 @@ if((request.getSession(false).getAttribute("email")== null) )
 									resultSet = statement.executeQuery(sqlproduct);
 								resultSet.first();
 								%>
-                                    <h4><strong>&#8369;<%=resultSet.getString("orderTotalPrice")%></strong></h4>
+                                    <center><h4><strong>&#8369;<%=resultSet.getString("orderTotalPrice")%></strong></h4></center>
                                 <%
 									} catch (Exception e) {
 									e.printStackTrace();
@@ -443,67 +481,39 @@ window.onload = function(){
 }
 
 function calculate(){
-//Compute VAT
-var itemtotal = parseInt(document.getElementById('itemtotal').innerText);
-var vat = itemtotal * .12;
-vat = Math.round(vat * 100) / 100;
-document.getElementById("vat").innerHTML = vat;
 
-//Compute PayPal Fee
-var paypalfee = ((itemtotal * 0.044) + 15);
-paypalfee = Math.round(paypalfee * 100) / 100;
-document.getElementById("paypalfee").innerHTML = paypalfee;
+	//Compute Inclusive Fees
+	var paymentmethod = document.getElementById("paymentmethod").innerText;
 
-//Compute Delivery Fee
-var deliverfee = 0;
-var deliverProvince = document.getElementById("deliverProvince").value;
-if (deliverProvince == "Metro Manila")
-	{
-		deliverfee = 89;
+	var vat = parseFloat(document.getElementById("vat").innerText);
+	var paypalfee = parseFloat(document.getElementById("paypalfee").innerText);
+	var deliverfee = parseFloat(document.getElementById("deliverfee").innerText);
+		
+	var inclusivefees = 0;
+	
+	if (paymentmethod == "PayPal"){
+		inclusivefees = vat + paypalfee + deliverfee;
 	}
-else if (deliverProvince == "Rizal")
-	{
-		deliverfee = 119;
+	else {
+		inclusivefees = vat + deliverfee;
 	}
-else if (deliverProvince == "Bulacan")
-	{
-		deliverfee = 119;
-	}
-else if (deliverProvince == "Cavite")
-	{
-		deliverfee = 119;
-	}
-else if (deliverProvince == "Laguna")
-	{
-		deliverfee = 139;
-	}
-else if (deliverProvince == "Batangas")
-	{
-		deliverfee = 139;
-	}
-else if (deliverProvince == "Pampanga")
-	{
-		deliverfee = 139;
-	}
-
-deliverfee = Math.round(deliverfee * 100) / 100;
-
-document.getElementById("deliverfee").innerHTML = deliverfee;
-
-var paymentmethod = document.getElementById("paymentmethod").value;
-
-//Compute Inclusive Fees
-var inclusivefees = 0;
-
-if (paymentmethod=="paypal"){
-	inclusivefees = vat + paypalfee + deliverfee;
+	
+	inclusivefees = Math.round(inclusivefees * 100) / 100;
+	console.log(inclusivefees);
+	document.getElementById("inclusivefees").innerHTML = "<h5><strong>"+inclusivefees+"</strong></h5>";
 }
-else {
-	inclusivefees = vat + deliverfee;
-}
-inclusivefees = Math.round (inclusivefees * 100) / 100;
-console.log(inclusivefees);
-document.getElementById("inclusivefees").innerHTML = "<h5><strong>"+inclusivefees+"</strong></h5>";
+
+//Switch Mode of Payments
+var mop = document.getElementById("mop").value;
+console.log(mop);
+	if (mop == "Paid")
+	{
+		document.getElementById("paymentmethod").innerHTML = "PayPal"
+		
+	} else {
+		document.getElementById("paymentmethod").innerHTML = "Cash on Delivery"
+	}
+	
 
 </script>
 

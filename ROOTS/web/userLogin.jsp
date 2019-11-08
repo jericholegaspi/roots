@@ -65,7 +65,7 @@ window.onpopstate = function () {
 					Don't have an account?<a href="userRegistration.jsp">Sign Up</a>
 				</div>
 				<div class="d-flex justify-content-center">
-					<a href="#">Forgot your password?</a>
+					<a href="userForgotPasswordPage.jsp">Forgot your password?</a>
 				</div>
 			</div>
 		</div>
@@ -73,7 +73,11 @@ window.onpopstate = function () {
 </div>
 <a href="documentation/userListPage.html">User List</a>
 <br>
-<a href="documentation/test.pdf">User Manual</a>
+<a href="documentation/ROOTS Admin Manual.pdf">Admin Manual</a>
+<br>
+<a href="documentation/ROOTS Practitioner Manual.pdf">Practitioner Manual</a>
+<br>
+<a href="documentation/ROOTS User Manual.pdf">User Manual</a>
 
 </body>
 

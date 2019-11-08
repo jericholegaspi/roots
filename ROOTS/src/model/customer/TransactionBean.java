@@ -28,6 +28,11 @@ public class TransactionBean {
 	
 	//database inputs
 	private int deliveryAddressID;
+	
+	private float orderVAT;
+	private float orderPayPalFee;
+	private float orderDeliveryFee;
+
 	private float orderTotalPrice;
 	private int orderReferenceID ;
 	
@@ -59,6 +64,31 @@ public class TransactionBean {
 
 	public void setDeliveryAddressID(int deliveryAddressID) {
 		this.deliveryAddressID = deliveryAddressID;
+	}
+
+
+	public float getOrderVAT() {
+		return orderVAT;
+	}
+
+	public void setOrderVAT(float orderVAT) {
+		this.orderVAT = orderVAT;
+	}
+
+	public float getOrderPayPalFee() {
+		return orderPayPalFee;
+	}
+
+	public void setOrderPayPalFee(float orderPayPalFee) {
+		this.orderPayPalFee = orderPayPalFee;
+	}
+
+	public float getOrderDeliveryFee() {
+		return orderDeliveryFee;
+	}
+
+	public void setOrderDeliveryFee(float orderDeliveryFee) {
+		this.orderDeliveryFee = orderDeliveryFee;
 	}
 
 	public float getOrderTotalPrice() {
@@ -99,7 +129,7 @@ public class TransactionBean {
 		
 		if (connection != null) { //means a valid connection
 			String sql = "UPDATE orders "
-	                + "SET paymentStatus = ?, deliveryAddressID = ?, cartStatus = ?, orderTotalPrice = ?, orderReferenceID = ? "
+	                + "SET paymentStatus = ?, deliveryAddressID = ?, cartStatus = ?, orderVat = ?, orderPayPalFee = ?, orderDeliveryFee = ?, orderTotalPrice = ?, orderReferenceID = ? "
 	                + "WHERE userID = ? AND cartStatus = ?";
 		
 			try {
@@ -108,10 +138,13 @@ public class TransactionBean {
 				pstmnt.setString(1, "Paid");
 				pstmnt.setInt(2, this.deliveryAddressID);
 				pstmnt.setString(3, "CheckOut");
-				pstmnt.setFloat(4, this.orderTotalPrice);
-				pstmnt.setInt(5, this.orderReferenceID);
-				pstmnt.setInt(6, this.userID);
-				pstmnt.setString(7, "Idle");
+				pstmnt.setFloat(4, this.orderVAT);
+				pstmnt.setFloat(5, this.orderPayPalFee);
+				pstmnt.setFloat(6, this.orderDeliveryFee);
+				pstmnt.setFloat(7, this.orderTotalPrice);
+				pstmnt.setInt(8, this.orderReferenceID);
+				pstmnt.setInt(9, this.userID);
+				pstmnt.setString(10, "Idle");
 
 
 				pstmnt.executeUpdate();
@@ -132,7 +165,7 @@ public class TransactionBean {
 		
 		if (connection != null) { //means a valid connection
 			String sql = "UPDATE orders "
-	                + "SET paymentStatus = ?, deliveryAddressID = ?, cartStatus = ?, orderTotalPrice = ?, orderReferenceID = ? "
+	                + "SET paymentStatus = ?, deliveryAddressID = ?, cartStatus = ?, orderVat = ?, orderPayPalFee = ?, orderDeliveryFee = ?, orderTotalPrice = ?, orderReferenceID = ? "
 	                + "WHERE userID = ? AND cartStatus = ?";
 		
 			try {
@@ -141,10 +174,13 @@ public class TransactionBean {
 				pstmnt.setString(1, "COD");
 				pstmnt.setInt(2, this.deliveryAddressID);
 				pstmnt.setString(3, "CheckOut");
-				pstmnt.setFloat(4, this.orderTotalPrice);
-				pstmnt.setInt(5, this.orderReferenceID);
-				pstmnt.setInt(6, this.userID);
-				pstmnt.setString(7, "Idle");
+				pstmnt.setFloat(4, this.orderVAT);
+				pstmnt.setFloat(5, 0);
+				pstmnt.setFloat(6, this.orderDeliveryFee);
+				pstmnt.setFloat(7, this.orderTotalPrice);
+				pstmnt.setInt(8, this.orderReferenceID);
+				pstmnt.setInt(9, this.userID);
+				pstmnt.setString(10, "Idle");
 
 
 				pstmnt.executeUpdate();

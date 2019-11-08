@@ -143,7 +143,7 @@ if((request.getSession(false).getAttribute("email")== null) )
           <div class="card-body">
             <h4 class="card-title">Acupuncture</h4> 
             <h6 class="card-subtitle mb-2 text-muted">PITAHC</h6>
-            <a href="userServiceDetailsPage.jsp" class="btn btn-warning stretched-link float-right">See Details</a>
+            <a href="userServiceAcupuncture.jsp" class="btn btn-warning stretched-link float-right">See Details</a>
           </div>
           </div>
         </div>
@@ -154,7 +154,7 @@ if((request.getSession(false).getAttribute("email")== null) )
           <div class="card-body">
             <h4 class="card-title">Chiropractic</h4> 
             <h6 class="card-subtitle mb-2 text-muted">PITAHC</h6>
-            <a href="userServiceDetailsPage.jsp" class="btn btn-warning stretched-link float-right">See Details</a>
+            <a href="userServiceChiropractic.jsp" class="btn btn-warning stretched-link float-right">See Details</a>
           </div>
           </div>
         </div>
@@ -165,7 +165,7 @@ if((request.getSession(false).getAttribute("email")== null) )
           <div class="card-body">
             <h4 class="card-title">Hilot</h4>
             <h6 class="card-subtitle mb-2 text-muted">PITAHC</h6> 
-            <a href="userServiceDetailsPage.jsp" class="btn btn-warning stretched-link float-right">See Details</a>
+            <a href="userServiceHilot.jsp" class="btn btn-warning stretched-link float-right">See Details</a>
           </div>
           </div>
         </div>

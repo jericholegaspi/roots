@@ -86,9 +86,24 @@ if((request.getSession(false).getAttribute("email")== null) )
     </ul>
     <form class="form-inline my-2 my-lg-0">
       <ul class="navbar-nav navbar-right">
-        <li class="nav-item">
-          <a class="nav-link" href="userCartPage.jsp"><span class="fa fa-shopping-cart"><span class="badge badge-pill badge-warning total-count"></span></span></a>
-        </li>
+                <%
+				try {
+					connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+					statement = connection.createStatement();
+					String sqlproduct = "SELECT COUNT(orderItemID) FROM orderItems"
+							+ " WHERE userID = " + session.getAttribute("uid") + " AND"
+							+ " orderItems.cartState = 'Idle'";
+					resultSet = statement.executeQuery(sqlproduct);
+					resultSet.next();
+				%>
+		        <li class="nav-item">
+		          <a class="nav-link" href="userCartPage.jsp"><span class="fa fa-shopping-cart"><span class="badge badge-pill badge-warning total-count"><%=resultSet.getInt("count(orderItemID)")%></span></span></a>
+		        </li>
+		        <%
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				%>
       <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
         <span class="fas fa-user-alt"></span>
@@ -118,7 +133,7 @@ if((request.getSession(false).getAttribute("email")== null) )
 
         <div class="col-sm-4">
           <div class="card-title">
-            <h3>Service Name</h3>
+            <h3>Acupuncture</h3>
           </div>
 
           <br>
@@ -128,7 +143,7 @@ if((request.getSession(false).getAttribute("email")== null) )
           
           <h6><strong>Description</strong></h6>
           <br>
-          <p class="p-desc">Description Here Description Here Description Here Description Here Description Here Description Here Description Here Description Here Description Here Description Here Description Here Description Here Description Here Description Here Description Here Description Here Description Here Description Here Description Here Description Here Description Here Description Here Description Here Description Here Description Here</p>
+          <p class="p-desc">Acupuncture: The practice of inserting needles into the body to reduce pain or induce anesthesia. More broadly, acupuncture is a family of procedures involving the stimulation of anatomical locations on or in the skin by a variety of techniques. There are a number of different approaches to diagnosis and treatment in American acupuncture that incorporate medical traditions from China, Japan, Korea, and other countries. The most thoroughly studied mechanism of stimulation of acupuncture points employs penetration of the skin by thin, solid, metallic needles, which are manipulated manually or by electrical stimulation.</p>
           <br><br>
 
     <!-- start of location -->
@@ -262,10 +277,19 @@ if((request.getSession(false).getAttribute("email")== null) )
             <div class="card card-body">
               <h5>Reservation Details</h5>
               <br>
+  <%
+try {
+connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+statement = connection.createStatement();
+String sql = "SELECT * FROM users where userID = " + session.getAttribute("uid");
+
+resultSet = statement.executeQuery(sql);
+while (resultSet.next()) {
+%> 
               <div class="form-row">
                 <div class="col-sm-3">
                   <label for="fname">First Name</label>
-                  <input class="form-control" placeholder="Enter your first name" oninput="this.className = ''" name="fname"></p>
+                  <input class="form-control" value="<%= resultSet.getString("firstName") %>" oninput="this.className = ''" name="fname" readonly></p>
                 </div>
                 <div class="col-sm-5">
                   <label for="fname">Location</label>
@@ -279,8 +303,14 @@ if((request.getSession(false).getAttribute("email")== null) )
               <div class="form-row">
                 <div class="col-sm-3">
                   <label for="fname">Last Name</label>
-                  <input class="form-control" placeholder="Enter your first name" oninput="this.className = ''" name="fname"></p>
+                  <input class="form-control" value="<%= resultSet.getString("lastName") %>" oninput="this.className = ''" name="fname" readonly></p>
                 </div>
+<%
+}
+} catch (Exception e) {
+e.printStackTrace();
+}
+%>
                 <div class="col-sm-5">
                   <label for="fname">Licensed Practitioner</label>
                   <select class="form-control">

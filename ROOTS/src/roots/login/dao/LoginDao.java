@@ -10,8 +10,7 @@ import java.sql.Statement;
 import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
 
-
- 
+import roots.lp.model.LPBean;
 import roots.register.model.RegisterBean;
  
 public class LoginDao {
@@ -85,6 +84,35 @@ public String authenticateAdmin(RegisterBean loginBean)
 	 con = getDBConnection();
 	 statement = con.createStatement();
 	 resultSet = statement.executeQuery("select email,password from users WHERE userTypeID = 1 ");
+	 
+	 while(resultSet.next())
+	 {
+	 emailDB = resultSet.getString("email");
+	 passwordDB = resultSet.getString("password");
+	 if(email.equals(emailDB) && password.equals(passwordDB))
+	 return "login";
+	 }
+	 }
+	 catch(SQLException e)
+	 {
+	 e.printStackTrace();
+	 }
+	 return "Invalid user credentials";
+}
+
+//Authenticate User (LP)
+public String authenticateLP(RegisterBean loginBean)
+{
+	 String email = loginBean.getEmail();
+	 String password = loginBean.getPassword();
+	 password = getSHA(password);
+	 	 
+	 //Select From DB Users
+	 try
+	 {
+	 con = getDBConnection();
+	 statement = con.createStatement();
+	 resultSet = statement.executeQuery("select email,password from users WHERE userTypeID = 3 ");
 	 
 	 while(resultSet.next())
 	 {

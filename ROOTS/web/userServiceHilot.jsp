@@ -86,9 +86,24 @@ if((request.getSession(false).getAttribute("email")== null) )
     </ul>
     <form class="form-inline my-2 my-lg-0">
       <ul class="navbar-nav navbar-right">
-        <li class="nav-item">
-          <a class="nav-link" href="userCartPage.jsp"><span class="fa fa-shopping-cart"><span class="badge badge-pill badge-warning total-count"></span></span></a>
-        </li>
+                <%
+				try {
+					connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+					statement = connection.createStatement();
+					String sqlproduct = "SELECT COUNT(orderItemID) FROM orderItems"
+							+ " WHERE userID = " + session.getAttribute("uid") + " AND"
+							+ " orderItems.cartState = 'Idle'";
+					resultSet = statement.executeQuery(sqlproduct);
+					resultSet.next();
+				%>
+		        <li class="nav-item">
+		          <a class="nav-link" href="userCartPage.jsp"><span class="fa fa-shopping-cart"><span class="badge badge-pill badge-warning total-count"><%=resultSet.getInt("count(orderItemID)")%></span></span></a>
+		        </li>
+		        <%
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				%>
       <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
         <span class="fas fa-user-alt"></span>
@@ -118,7 +133,7 @@ if((request.getSession(false).getAttribute("email")== null) )
 
         <div class="col-sm-4">
           <div class="card-title">
-            <h3>Service Name</h3>
+            <h3>Hilot</h3>
           </div>
 
           <br>
@@ -128,7 +143,7 @@ if((request.getSession(false).getAttribute("email")== null) )
           
           <h6><strong>Description</strong></h6>
           <br>
-          <p class="p-desc">Description Here Description Here Description Here Description Here Description Here Description Here Description Here Description Here Description Here Description Here Description Here Description Here Description Here Description Here Description Here Description Here Description Here Description Here Description Here Description Here Description Here Description Here Description Here Description Here Description Here</p>
+          <p class="p-desc">Hilot, a Filipino term meaning "healer" is the traditional practice associated with elderly healers, where the 'manghihilot' was the healthcare giver of the community. Today, with the resurgence of alternative forms of medicine and the study of older ways of healing, Hilot has resurged as a popular healing art converging scientific and natural laws.</p>
           <br><br>
 
     <!-- start of location -->

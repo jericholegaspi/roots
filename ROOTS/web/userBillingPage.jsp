@@ -724,6 +724,16 @@ e.printStackTrace();
 		    	<input type="hidden" name="userID" value="<%= session.getAttribute("uid") %>">
 		    	<!-- Get from query from deliveryaddress -->
 		    	<input type="hidden" id="daID" name="deliveryAddressID">
+		    	
+		    	<!-- Get VAT -->
+		    	<input type="hidden" id="ovat" name="orderVAT">
+		    	
+		    	<!-- Get PayPal Fee -->
+		    	<input type="hidden" id="oppf" name="orderPayPalFee">
+		    	
+		    	<!-- Get Delivery Fee -->
+		    	<input type="hidden" id="odf" name="orderDeliveryFee">
+		    	
 		    	<!-- Get from id grandtotal -->
 		    	<input type="hidden" id="otp" name="orderTotalPrice">
 		    	<!-- Get from query from orderreference -->
@@ -951,8 +961,16 @@ e.printStackTrace();
 	    	<input type="hidden" name="userID" value="<%= session.getAttribute("uid") %>">
 	    		<!-- Get from query from deliveryaddress -->
 		    	<input type="hidden" id="daID2" name="deliveryAddressID">
-		    	<!-- Get from id grandtotal -->
+		    	
+		    	<!-- Get VAT -->
+		    	<input type="hidden" id="ovat2" name="orderVAT">
+		    	
+		    	<!-- Get Delivery Fee -->
+		    	<input type="hidden" id="odf2" name="orderDeliveryFee">
+		    	
+		    	<!-- Get from id grandtotal -->		    	
 		    	<input type="hidden" id="otp2" name="orderTotalPrice">
+		    	
 		    	<!-- Get from query from orderreference -->
 			<%
 			try {
@@ -1245,6 +1263,7 @@ function calculate(){
     
     document.getElementById("deliverfee").innerHTML = deliverfee;
     
+    
     var paymentmethod = document.getElementById("paymentmethod").value;
 
     //Compute Inclusive Fees
@@ -1300,7 +1319,26 @@ function query(){
 	document.getElementById("otp2").setAttribute("value", gt);
     console.log("GT:" + gt);
 	
-	
+    //Get VAT
+    var vat = parseFloat(document.getElementById("vat").innerText);
+    console.log("VAT TO DB "+vat);
+    document.getElementById("ovat").value = vat;
+    document.getElementById("ovat2").value = vat;
+
+    //Get PayPalFee
+    var paypalfee = parseFloat(document.getElementById("paypalfee").innerText);
+    console.log("PayPal TO DB "+paypalfee);
+
+    document.getElementById("oppf").value = paypalfee;
+    
+    //Get Delivery Fee
+    var deliverfee = parseFloat(document.getElementById("deliverfee").innerText);
+    console.log("Delivery Fee TO DB "+deliverfee);
+
+    document.getElementById("odf").value = deliverfee;
+    document.getElementById("odf2").value = deliverfee;
+
+
 }
 
 </script>

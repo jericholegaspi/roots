@@ -1,7 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-	<%@page import="java.sql.*"%>
-	<%@page import="com.mysql.jdbc.PreparedStatement"%>
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -33,37 +29,37 @@
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
     <link href="assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
-    
-<%
-String driverName = "com.mysql.jdbc.Driver";
-String connectionUrl = "jdbc:mysql://localhost/";
-String dbName = "isproj2_roots";
-String userId = "isproj2_roots";
-String password = "^qp&6Afnsd7S^jRf";
-
-try {
-Class.forName(driverName);
-} catch (ClassNotFoundException e) {
-e.printStackTrace();
-}
-
-Connection connection = null;
-Statement statement = null;
-ResultSet resultSet = null;
-%>
-    
 </head>
-
-
 <% //In case, if User session is not set, redirect to Login page.
 if((request.getSession(false).getAttribute("email")== null) )
 {
 %>
-<jsp:forward page="adminLogin.jsp"></jsp:forward>
+<jsp:forward page="userLogin.jsp"></jsp:forward>
 <%} %>
-
 <body>
+	<%@page import="java.sql.DriverManager"%>
+	<%@page import="java.sql.ResultSet"%>
+	<%@page import="java.sql.Statement"%>
+	<%@page import="java.sql.Connection"%>
 
+	<%
+	String id = request.getParameter("userId");
+	String driverName = "com.mysql.jdbc.Driver";
+	String connectionUrl = "jdbc:mysql://localhost/";
+	String dbName = "isproj2_roots";
+	String userId = "isproj2_roots";
+	String password = "^qp&6Afnsd7S^jRf";
+
+	try {
+		Class.forName(driverName);
+	} catch (ClassNotFoundException e) {
+		e.printStackTrace();
+	}
+
+	Connection connection = null;
+	Statement statement = null;
+	ResultSet resultSet = null;
+	%>
 <div class="wrapper">
     <div class="sidebar" data-color="green" data-image="assets/img/sidebar-5.jpg">
 
@@ -73,7 +69,7 @@ if((request.getSession(false).getAttribute("email")== null) )
     	<div class="sidebar-wrapper">
             <div class="logo">
                 <a class="simple-text">
-                <img src="assets/img/logo-roots.png" height="110px" width="200px">      
+                <img src="assets/img/logo-roots.png" height="110px" width="200px">                   
 <%
 try {
 connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
@@ -82,112 +78,28 @@ String sql = "SELECT * FROM users where userID = " + session.getAttribute("uid")
 
 resultSet = statement.executeQuery(sql);
 while (resultSet.next()) {
-%>             
-              <%= resultSet.getString("firstName") %> <%= resultSet.getString("lastName") %>  </a> <p id="adminFirstName" hidden="hidden"> <%= resultSet.getString("firstName") %> </p>
-            </div>
+%>                          
+                <%= resultSet.getString("firstName") %> <%= resultSet.getString("lastName") %>
 <%
 }
 
 } catch (Exception e) {
 e.printStackTrace();
 }
-%> 
+%>  </a>
+            </div>
+
             <ul class="nav">
                 <li class="active">
-                    <a href="adminProfile.jsp">
+                    <a href="lpProfile.jsp">
                         <i class="pe-7s-user"></i>
                         <p>Profile</p>
                     </a>
                 </li>
                 <li>
-                    <a href="#">
-                        <i class="pe-7s-graph"></i>
-                        <p>Dashboard</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="adminUsers.jsp">
-                        <i class="pe-7s-users"></i>
-                        <p>Users</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="adminCatalogue.jsp">
-                        <i class="pe-7s-notebook"></i>
-                        <p>Catalogue</p>
-                    </a>
-                </li>
-                <li data-toggle="collapse" data-target="#productsPages">
-                   <a href="#">
-                   <i class="pe-7s-cart"></i>
-                        <p>Products</p>
-                    </a>
-                    <ul style="list-style: none;" id="productsPages" class="collapse">
-	                    <li>
-		                    <a href="adminProductDetails.jsp">
-		                    <i class="fa fa-list-alt" aria-hidden="true"></i>
-		                        <p>Product Details</p>
-		                    </a>
-	                    </li>
-	                    
-	                    <li>
-		                    <a href="adminProductInventory.jsp">
-		                    <i class="fa fa-home" aria-hidden="true"></i>
-		                        <p>Product Inventory</p>
-		                    </a>
-	                    </li>
-	                    
-	                    <li>
-		                    <a href="adminProductHistory.jsp">
-		                    <i class="fa fa-history" aria-hidden="true"></i>
-		                        <p>Product History</p>
-		                    </a>
-	                    </li>
-                    </ul>
-                </li>
-                <li>
-                   <a href="adminOrders.jsp">
-                        <i class="pe-7s-cart"></i>
-                        <p>Orders</p>
-                    </a>
-                </li>
-                <li>
-                   <a href="#">
+                   <a href="lpAppointment.jsp">
                         <i class="pe-7s-note2"></i>
-                        <p>Modalities</p>
-                    </a>
-                </li>
-                <li data-toggle="collapse" data-target="#pricesPages">
-                   <a href="#">
-                        <i class="fa fa-money" aria-hidden="true"></i>
-                        <p>Price Management</p>
-                    </a>
-                    <ul style="list-style: none;" id="pricesPages" class="collapse">
-	                    <li>
-		                    <a href="adminProductPrices.jsp">
-		                    <i class="fa fa-list-alt" aria-hidden="true"></i>
-		                        <p>Product Prices</p>
-		                    </a>
-	                    </li>
-	                    
-	                    <li>
-		                    <a href="adminModalityPrices.jsp">
-		                    <i class="fa fa-home" aria-hidden="true"></i>
-		                        <p>Modality Prices</p>
-		                    </a>
-	                    </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="pe-7s-id"></i>
-                        <p>Licensed Practitioners</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="pe-7s-comment"></i>
-                        <p>Feedback</p>
+                        <p>Appointment</p>
                     </a>
                 </li>
             </ul>
@@ -204,7 +116,7 @@ e.printStackTrace();
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="adminProfile.jsp">Admin Profile</a>
+                    <a class="navbar-brand" href="#">Profile</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-left">
@@ -265,8 +177,8 @@ e.printStackTrace();
                               </ul>
                         </li>
                         <li>
-                            <a href="adminlogout.action">
-                                <p>  Log out</p>
+                            <a href="lplogout.action">
+                                <p>Log out</p>
                             </a>
                         </li>
 						<li class="separator hidden-lg hidden-md"></li>
@@ -283,117 +195,83 @@ e.printStackTrace();
                         <div class="card">
                             <div class="header">
                                 <h4 class="title">Edit Profile</h4>
-<%
-try {
-connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
-statement = connection.createStatement();
-String sql = "SELECT * FROM users where userID = " + session.getAttribute("uid");
-
-resultSet = statement.executeQuery(sql);
-while (resultSet.next()) {
-%>    
                             </div>
                             <div class="content">
-                                <form action="adminupdate.action" name="myForm" method="post" onsubmit="return validate()">
-                                 <input type="hidden" name="userId" value="<%= session.getAttribute("uid") %>">
-                                
+                                <form>
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-5">
                                             <div class="form-group">
                                                 <label>Company (disabled)</label>
-                                                <input type="text" class="form-control" disabled placeholder="Company" value="Roots Administrator">
+                                                <input type="text" class="form-control" disabled placeholder="Company" value="Roots Licensed Practitioner">
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-7">
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1">Email address</label>
-                                                <input type="email" name="email" class="form-control" disabled value="<%= resultSet.getString("email") %>">
+                                                <input type="email" class="form-control" placeholder="abigail@roots.com">
                                             </div>
                                         </div>
                                     </div>
-
 
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>First Name</label>
-                                                <input name="firstName" type="text" class="form-control" value="<%= resultSet.getString("firstName") %>">
+                                                <input type="text" class="form-control" placeholder="Company" value="Abigail">
                                             </div>
                                         </div>
-                                         <div class="col-md-4">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Middle Name</label>
-                                                <input name="middleName" type="text" class="form-control" value="<%= resultSet.getString("middleName") %>">
+                                                <input type="text" class="form-control" placeholder="Company" value="Hana">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Last Name</label>
-                                                <input name="lastName" type="text" class="form-control" value="<%= resultSet.getString("lastName") %>">
+                                                <input type="text" class="form-control" placeholder="Last Name" value="Abada">
                                             </div>
                                         </div>
-                                    </div> 
+                                    </div>
 
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-12">
                                             <div class="form-group">
-                                                <label>Password</label>
-                                                <input name="password"  type="text" class="form-control" placeholder="Change Password">
+                                                <label>Address</label>
+                                                <input type="text" class="form-control" placeholder="Home Address" value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09">
                                             </div>
                                         </div>
-                                         <div class="col-md-6">
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-4">
                                             <div class="form-group">
-                                                <label>Confirm Password</label>
-                                                <input name="confirmpassword"  type="text" class="form-control" placeholder="Confirm Password">
+                                                <label>Type of Modality</label>
+                                                <input type="text" class="form-control" placeholder="City" value="Mike">
                                             </div>
                                         </div>
-                                    </div> 
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Schedule</label>
+                                                <input type="text" class="form-control" placeholder="MW 2:00PM to 6:30PM">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>Location</label>
+                                                <input type="number" class="form-control" placeholder="Marikina City">
+                                            </div>
+                                        </div>
+                                    </div>
 
-<%
-}
-
-} catch (Exception e) {
-e.printStackTrace();
-}
-%>
-
-<!-- JAVASCRIPT Validation -->
-<script type="text/javascript">
-
-function validate()
-{
-	if (document.myForm.firstName.value == "") 
-	{
-		alert("Please Enter First Name");
-		document.myForm.firstName.focus();
-		return false;
-	}
-
-	if (document.myForm.lastName.value == "") 
-	{
-		alert("Please Enter Last Name");
-		document.myForm.lastName.focus();
-		return false;
-	}
-
-	if (document.myForm.password.value == "")
-	{
-		alert("Please Create your Password");
-		document.myForm.password.focus();
-		return false;
-	}
-	
-	if (document.myForm.password.value != document.myForm.confirmpassword.value)
-	{
-		alert("Passwords do not match.");
-		document.myForm.password.focus();
-		return false;
-	}	
-	
-}
-
-</script>
-
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>About Me</label>
+                                                <textarea rows="5" class="form-control" placeholder="Here can be your description" value="Mike">Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo.</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
 
                                     <button type="submit" class="btn btn-info btn-fill pull-right">Update Profile</button>
                                     <div class="clearfix"></div>
@@ -401,35 +279,7 @@ function validate()
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="card card-user">
-                            <div class="image">
-                                <img src="https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400" alt="..."/>
-                            </div>
-                            <div class="content">
-                                <div class="author">
-                                     <a href="#">
-                                    <img class="avatar border-gray" src="assets/img/faces/face-3.jpg" alt="..."/>
 
-                                      <h4 class="title">Mike Andrew<br />
-                                         <small>michael24</small>
-                                      </h4>
-                                    </a>
-                                </div>
-                                <p class="description text-center"> "Lamborghini Mercy <br>
-                                                    Your chick she so thirsty <br>
-                                                    I'm in that two seat Lambo"
-                                </p>
-                            </div>
-                            <hr>
-                            <div class="text-center">
-                                <button href="#" class="btn btn-simple"><i class="fa fa-facebook-square"></i></button>
-                                <button href="#" class="btn btn-simple"><i class="fa fa-twitter"></i></button>
-                                <button href="#" class="btn btn-simple"><i class="fa fa-google-plus-square"></i></button>
-
-                            </div>
-                        </div>
-                    </div>
 
                 </div>
             </div>
@@ -478,21 +328,17 @@ function validate()
 	<!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
 	<script src="assets/js/demo.js"></script>
 
-
-
-
     <script type="text/javascript">
         $(document).ready(function(){
-        	var adminFirstName = document.getElementById('adminFirstName').innerHTML;
 
             demo.initChartist();
-			
+
             $.notify({
-                icon: 'pe-7s-gift',
-                message: "Hi Admin<b> "+ adminFirstName +"! </b> "
+                icon: 'pe-7s-like',
+                message: "Welcome <b> Licensed Practitioner!</b> "
 
             },{
-                type: 'info',
+                type: 'success',
                 timer: 4000
             });
 

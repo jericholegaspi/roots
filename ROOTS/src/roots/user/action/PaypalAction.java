@@ -19,6 +19,9 @@ public class PaypalAction extends ActionSupport implements ModelDriven<Transacti
 		System.out.println("User ID: " + transObj.getUserID());
 		System.out.println("Delivery Address ID: " + transObj.getDeliveryAddressID());
 		System.out.println("Order Reference ID: " + transObj.getOrderReferenceID());
+		System.out.println("VAT: " + transObj.getOrderVAT());
+		System.out.println("PayPal: " + transObj.getOrderPayPalFee());
+		System.out.println("Delivery Fee: " + transObj.getOrderDeliveryFee());
 		System.out.println("Total Price: " + transObj.getOrderTotalPrice());
 
 		return SUCCESS;		

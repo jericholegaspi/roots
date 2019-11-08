@@ -130,6 +130,18 @@
 					<result name="success">/adminLogin.jsp</result>
 					<result name="error">/error.jsp</result>
 				</action>
+				
+		<!-- LP ACTION  -->
+				<action name="lplogin" class="roots.lp.action.LPLoginAction">
+					<result name="success">/lpProfile.jsp</result>
+					<result name="fail">/lpLogin.jsp</result>
+					<result name="error">/error.jsp</result>
+				</action>
+				
+				<action name="lplogout" class="roots.lp.action.LPLogoutAction">
+					<result name="success">/lpLogin.jsp</result>
+					<result name="error">/error.jsp</result>
+				</action>
 		
 		<!-- Admin and Customer Product Features -->
 				<action name="addNewProduct" class="action.admin.AddProductAction">

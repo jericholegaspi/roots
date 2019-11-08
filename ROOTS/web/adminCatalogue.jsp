@@ -136,6 +136,12 @@ if((request.getSession(false).getAttribute("email")== null) )
                     </ul>
                 </li>
                 <li>
+                   <a href="adminOrders.jsp">
+                        <i class="pe-7s-cart"></i>
+                        <p>Orders</p>
+                    </a>
+                </li>
+                <li>
                    <a href="#">
                         <i class="pe-7s-note2"></i>
                         <p>Modalities</p>

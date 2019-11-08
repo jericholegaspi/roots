@@ -135,33 +135,48 @@ if((request.getSession(false).getAttribute("email")== null) )
           <div class="card-title">
             <h3>Appointment Details</h3>
           </div>
-          
+ <%
+try {
+connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+statement = connection.createStatement();
+String sql = "SELECT * FROM users where userID = " + session.getAttribute("uid");
+
+resultSet = statement.executeQuery(sql);
+while (resultSet.next()) {
+%>           
           <br><br>
             <div class="form-row">
               <div class="col">
                 <label for="fname">First Name</label>
-                  <input class="form-control" placeholder="Enter your first name" oninput="this.className = ''" name="fname" readonly></p>
+                  <input class="form-control" value="<%= resultSet.getString("firstName") %>" oninput="this.className = ''" name="fname" readonly></p>
               </div>
             </div>
             <div class="form-row">
               <div class="col">
                 <label for="lname">Last Name</label>
-                  <input class="form-control" placeholder="Enter the name of place" oninput="this.className = ''" name="fname" readonly></p>
+                  <input class="form-control" value="<%= resultSet.getString("lastName") %>" oninput="this.className = ''" name="fname" readonly></p>
               </div>
             </div>
+
+<%
+}
+} catch (Exception e) {
+e.printStackTrace();
+}
+%>
           
           <br>
           <div class="form-row">
             <div class="col">
               <label for="lname">Appointment Status</label>
-                <input class="form-control" placeholder="Accepted" oninput="this.className = ''" name="fname" readonly></p>
+                <input class="form-control" placeholder="Pending" oninput="this.className = ''" name="fname" readonly></p>
             </div>
           </div>
 
           <div class="form-row">
             <div class="col">
               <label for="lname">Payment Status</label>
-                <input class="form-control" placeholder="Paid" oninput="this.className = ''" name="fname" readonly></p>
+                <input class="form-control" placeholder="No yet paid" oninput="this.className = ''" name="fname" readonly></p>
             </div>
           </div>
 
@@ -189,7 +204,7 @@ if((request.getSession(false).getAttribute("email")== null) )
             <p><strong>Oct. 21, 2019</strong></p>
             <p><strong>1:00 PM</strong></p>
             <p><strong>Abigail Abada</strong></p>
-            <p><strong>Price</strong></p>
+            <p><strong>&#8369; 1500</strong></p>
             
           </div>
         </div>

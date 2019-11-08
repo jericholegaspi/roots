@@ -105,7 +105,7 @@ e.printStackTrace();
                         <p>Dashboard</p>
                     </a>
                 </li>
-                <li class="active">
+                <li>
                     <a href="adminUsers.jsp">
                         <i class="pe-7s-users"></i>
                         <p>Users</p>
@@ -145,7 +145,7 @@ e.printStackTrace();
 	                    </li>
                     </ul>
                 </li>
-                <li>
+                <li class="active">
                    <a href="adminOrders.jsp">
                         <i class="pe-7s-cart"></i>
                         <p>Orders</p>
@@ -288,36 +288,46 @@ e.printStackTrace();
                             <div class="content table-responsive table-full-width">
                                 <table class="table table-hover table-striped">
                                     <thead>
+                                        <th>Order ID</th>
                                         <th>User ID</th>
-                                        <th>Full Name </th>
-                                        <th>User Type</th>
-                                        <th>Gender</th>
-                                        <th>Mobile Number</th>
-                                        <th>Telephone</th>
-                                        <th>Email</th>
-                                        <th>Date Added</th>
-                                        <th>Date Modified</th>                                      
+                                        <th>Payment Status</th>
+                                        <th>Delivery Status</th>
+                                        <th>Order Status</th>
+                                        <th>Delivery Address</th>
+                                        <th>Cart Status</th>
+                                        <th>Cart Item Total Count</th>
+                                        <th>VAT</th>
+                                        <th>PayPal Fee</th>
+                                        <th>Deivery Fee</th>
+                                        <th>Order Total Price</th>
+                                        <th>Order Reference ID</th>
+                                        <th>Order Date</th>                                    
                                     </thead>
                                     <tbody>
 <%
 try {
 connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
 statement = connection.createStatement();
-String sql = "SELECT u.userID, u.firstName, u.middleName, u.lastName, ut.userType, u.gender, u.mobileNo, u.telephone, u.email, u.dateAdded, u.dateModified FROM users u INNER JOIN usertype ut ON u.userTypeId = ut.userTypeId";
+String sql = "SELECT * FROM orders";
 
 resultSet = statement.executeQuery(sql);
 while (resultSet.next()) {
 %>
                                         <tr>
-                                            <td><%= resultSet.getString("userID") %></td>
-                                            <td><%= resultSet.getString("firstName") %> <%= resultSet.getString("middleName") %> <%= resultSet.getString("lastName") %></td>
-                                            <td><%= resultSet.getString("userType") %></td>
-                                            <td><%= resultSet.getString("gender") %></td>
-                                            <td><%= resultSet.getString("mobileNo") %></td>
-                                            <td><%= resultSet.getString("telephone") %></td>
-                                            <td><%= resultSet.getString("email") %></td>
-                                            <td><%= resultSet.getString("dateAdded") %></td>
-                                            <td><%= resultSet.getString("dateModified") %></td>
+                                            <td><%= resultSet.getString("orderID") %></td>
+                                            <td><%= resultSet.getString("userID") %> </td>
+                                            <td><%= resultSet.getString("paymentStatus") %></td>
+                                            <td><%= resultSet.getString("deliveryStatus") %></td>
+                                            <td><%= resultSet.getString("orderStatus") %></td>
+                                            <td><%= resultSet.getString("deliveryAddressID") %></td>
+                                            <td><%= resultSet.getString("cartStatus") %></td>
+                                            <td><%= resultSet.getString("cartItemTotalCount") %></td>
+                                            <td><%= resultSet.getString("orderVAT") %></td>
+                                            <td><%= resultSet.getString("orderPayPalFee") %></td>
+                                            <td><%= resultSet.getString("orderDeliveryFee") %></td>
+                                            <td><%= resultSet.getString("orderTotalPrice") %></td>
+                                            <td><%= resultSet.getString("orderReferenceID") %></td>
+                                            <td><%= resultSet.getString("orderDate") %></td>
                                         </tr>
 <%
 }
