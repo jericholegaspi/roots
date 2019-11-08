@@ -605,8 +605,6 @@ if((request.getSession(false).getAttribute("email")== null) )
             //DataTables
             $('#productTable').DataTable();
             $('#categoryTable').DataTable();
-	        
-        });
         
         //Get ID of row element
         var table = document.getElementById('productTable');

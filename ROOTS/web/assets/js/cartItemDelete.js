@@ -8,12 +8,29 @@ function ready() {
 	var addToCartButtons = document.getElementsByClassName('cart-item-delete')
     for (var i = 0; i < addToCartButtons.length; i++) {
         var button = addToCartButtons[i]
+        button.addEventListener('mouseover', openModal);
+	}
+	for (var i = 0; i < addToCartButtons.length; i++) {
+        var button = addToCartButtons[i]
         button.addEventListener('click', openModal);
 	}
-
-	var addToCartButtons = document.getElementsByClassName('cart-item-edit')
-    for (var i = 0; i < addToCartButtons.length; i++) {
+	for (var i = 0; i < addToCartButtons.length; i++) {
         var button = addToCartButtons[i]
+        button.addEventListener('click', getData);
+	}
+	for (var i = 0; i < addToCartButtons.length; i++) {
+        var button = addToCartButtons[i]
+        button.addEventListener('mouseover', getData);
+	}
+	
+	
+	var editCartItemButton = document.getElementsByClassName('cart-item-edit')
+	for (var i = 0; i < editCartItemButton.length; i++) {
+        var button = editCartItemButton[i]
+        button.addEventListener('mouseover', getData);
+	}
+	for (var i = 0; i < editCartItemButton.length; i++) {
+        var button = editCartItemButton[i]
         button.addEventListener('click', getData);
 	}
 }
@@ -23,7 +40,7 @@ function openModal(event){
 	var shopItem = button.parentElement.parentElement;
 	var productID = shopItem.getElementsByClassName('cart-product-id')[0].innerHTML;
 	var productName = shopItem.getElementsByClassName('cart-product-name')[0].innerHTML;
-	/*console.log(productName, productID);*/
+	console.log(productName, productID);
 	changeText(productID, productName);
 }
 

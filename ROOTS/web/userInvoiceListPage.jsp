@@ -17,6 +17,8 @@
  <link rel="stylesheet" type="text/css" href="assets/css/invoicelistpage.css">
 
   <link rel="shortcut icon" sizes="16x16 32x32 64x64" href="assets/css/images/logo5.png"/>
+  
+  <script src="assets/js/viewInvoice.js" async="true"></script>
 
 </head>
 <% //In case, if User session is not set, redirect to Login page.
@@ -153,153 +155,42 @@ if((request.getSession(false).getAttribute("email")== null) )
   <table id="cart" class="table table-hover table-condensed">
             <thead>
             <tr>
-              <th style="width:30%">Invoice</th>
-              <th style="width:13%">Order Status</th>
-              <th style="width:13%">Delivery Status</th>
+              <th style="width:50%">Invoice #</th>
+              <th style="width:12%">Payment Status</th>
+              <th style="width:12%">Delivery Status</th>
+              <th style="width:12%">Order Status</th>
               <th style="width:15%"></th>
             </tr>
           </thead>
           <tbody>
+         	 <%
+				try {
+					connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+					statement = connection.createStatement();
+					String sqlproduct = "SELECT * FROM orders WHERE userID = " + session.getAttribute("uid") + " AND"
+					+ " cartStatus = 'CheckOut' || cartStatus = 'Cancelled'";
+					resultSet = statement.executeQuery(sqlproduct);
+				while (resultSet.next()) {
+			%>
             <tr>
               <td data-th="Invoice">
                   <div class="col-sm-12"><span class="d-inline-block text-truncate" style="max-width: 150px;">
-                    <h4 class="nomargin i-name">INV - 001 INV - 001 INV - 001 INV - 001 INV - 001 INV - 001 INV - 001 INV - 001</h4></span>
+                    <h4 class="nomargin i-name">INV - <span class="invoice-orderID"><%=resultSet.getInt("orderID")%></span> </h4></span>
                   </div>
               </td>
-              <td data-th="Order Status">O. Status</td>
-              <td data-th="Delivery Status">D. Status</td>
+              <td data-th="Payment Status"><%=resultSet.getString("paymentStatus")%></td>
+              <td data-th="Delivery Status"><%=resultSet.getString("deliveryStatus")%></td>
+              <td data-th="Order Status"><%=resultSet.getString("orderStatus")%></td>
               <td class="actions" data-th="">
-                <a href="userProductIndex.jsp" class="btn btn-primary btn-sm"> View</a>
-                <a href="userProductIndex.jsp" class="btn btn-warning btn-sm"> Cancel</a>             
+	          <button type="submit" form="goToInvoicePage" class="view-invoice btn btn-primary btn-sm">View</button>
               </td>
             </tr>
-
-            <tr>
-              <td data-th="Invoice">
-                  <div class="col-sm-8">
-                    <h4 class="nomargin i-name">INV - 002</h4>
-                  </div>
-              </td>
-              <td data-th="Order Status">O. Status</td>
-              <td data-th="Delivery Status">D. Status</td>
-              <td class="actions" data-th="">
-                <a href="userProductIndex.jsp" class="btn btn-primary btn-sm"> View</a>
-                <a href="userProductIndex.jsp" class="btn btn-warning btn-sm"> Cancel</a>             
-              </td>
-            </tr>
-
-            <tr>
-              <td data-th="Invoice">
-                  <div class="col-sm-8">
-                    <h4 class="nomargin i-name">INV - 003</h4>
-                  </div>
-              </td>
-              <td data-th="Order Status">O. Status</td>
-              <td data-th="Delivery Status">D. Status</td>
-              <td class="actions" data-th="">
-                <a href="userProductIndex.jsp" class="btn btn-primary btn-sm"> View</a>
-                <a href="userProductIndex.jsp" class="btn btn-warning btn-sm"> Cancel</a>             
-              </td>
-            </tr>
-
-            <tr>
-              <td data-th="Invoice">                
-                  <div class="col-sm-8">
-                    <h4 class="nomargin i-name">INV - 004</h4>
-                  </div>              
-              </td>
-              <td data-th="Order Status">O. Status</td>
-              <td data-th="Delivery Status">D. Status</td>
-              <td class="actions" data-th="">
-                <a href="userProductIndex.jsp" class="btn btn-primary btn-sm"> View</a>
-                <a href="userProductIndex.jsp" class="btn btn-warning btn-sm"> Cancel</a>             
-              </td>
-            </tr>
-
-            <tr>
-              <td data-th="Invoice">
-                  <div class="col-sm-8">
-                    <h4 class="nomargin i-name">INV - 005</h4>
-                  </div>
-              </td>
-              <td data-th="Order Status">O. Status</td>
-              <td data-th="Delivery Status">D. Status</td>
-              <td class="actions" data-th="">
-                <a href="userProductIndex.jsp" class="btn btn-primary btn-sm"> View</a>
-                <a href="userProductIndex.jsp" class="btn btn-warning btn-sm"> Cancel</a>             
-              </td>
-            </tr>
-
-             <tr>
-              <td data-th="Invoice">
-                  <div class="col-sm-8">
-                    <h4 class="nomargin i-name">INV - 006</h4>
-                  </div>
-              </td>
-              <td data-th="Order Status">O. Status</td>
-              <td data-th="Delivery Status">D. Status</td>
-              <td class="actions" data-th="">
-                <a href="userProductIndex.jsp" class="btn btn-primary btn-sm"> View</a>
-                <a href="userProductIndex.jsp" class="btn btn-warning btn-sm"> Cancel</a>             
-              </td>
-            </tr>
-
-             <tr>
-              <td data-th="Invoice">
-                  <div class="col-sm-8">
-                    <h4 class="nomargin i-name">INV - 007</h4>
-                  </div>
-              </td>
-              <td data-th="Order Status">O. Status</td>
-              <td data-th="Delivery Status">D. Status</td>
-              <td class="actions" data-th="">
-                <a href="userProductIndex.jsp" class="btn btn-primary btn-sm"> View</a>
-                <a href="userProductIndex.jsp" class="btn btn-warning btn-sm"> Cancel</a>             
-              </td>
-            </tr>
-
-             <tr>
-              <td data-th="Invoice">
-                  <div class="col-sm-8">
-                    <h4 class="nomargin i-name">INV - 008</h4>
-                  </div>
-              </td>
-              <td data-th="OrderStatus">O. Status</td>
-              <td data-th="DeliveryStatus">D. Status</td>
-              <td class="actions" data-th="">
-                <a href="userProductIndex.jsp" class="btn btn-primary btn-sm"> View</a>
-                <a href="userProductIndex.jsp" class="btn btn-warning btn-sm"> Cancel</a>             
-              </td>
-            </tr>
-
-             <tr>
-              <td data-th="Invoice">
-                  <div class="col-sm-8">
-                    <h4 class="nomargin i-name">INV - 009</h4>
-                  </div>
-              </td>
-              <td data-th="Order Status">O. Status</td>
-              <td data-th="Delivery Status">D. Status</td>
-              <td class="actions" data-th="">
-                <a href="userProductIndex.jsp" class="btn btn-primary btn-sm"> View</a>
-                <a href="userProductIndex.jsp" class="btn btn-warning btn-sm"> Cancel</a>             
-              </td>
-            </tr>
-
-             <tr>
-              <td data-th="Invoice">
-                  <div class="col-sm-8">
-                    <h4 class="nomargin i-name">INV - 010</h4>
-                  </div>
-              </td>
-              <td data-th="Order Status">O. Status</td>
-              <td data-th="Delivery Status">D. Status</td>
-              <td class="actions" data-th="">
-                <a href="userProductIndex.jsp" class="btn btn-primary btn-sm"> View</a>
-                <a href="userProductIndex.jsp" class="btn btn-warning btn-sm"> Cancel</a>             
-              </td>
-            </tr>
-
+			<%
+					}
+				} catch (Exception e) {
+				e.printStackTrace();
+			}
+			%>
           </tbody>
           <tfoot>
             <tr>
@@ -348,7 +239,9 @@ if((request.getSession(false).getAttribute("email")== null) )
         <!-- Content -->
         <h5 class="text-uppercase text-warning">ROOTS</h5>
         <p class="text-white"><small>A web-enabled application that provides traditional and alternative medicine services from licensed practitioners with the ability to  purchase medicinal plants, herbs and other products online.</small></p>
-
+<form action="goToInvoicePage.action" method="post" id="goToInvoicePage">
+	<input type="number" id="input-orderID" name="orderID"/>
+</form>
       </div>
       <!-- Grid column -->
 

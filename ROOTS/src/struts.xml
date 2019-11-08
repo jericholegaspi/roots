@@ -102,7 +102,7 @@
 				</action>
 				
 				<action name="paypal" class="roots.user.action.PaypalAction">
-					<result name="success" type="redirect">/userInvoicePage.jsp</result>
+					<result name="success" type="redirect">/userInvoiceListPage.jsp</result>
 					<result name="error">/error.jsp</result>
 				</action>
 				
@@ -178,6 +178,11 @@
 				
 				<action name="editOrderQuantity" class="action.customer.EditOrderItemQuantityAction">
 					<result name="success">/userCartPage.jsp</result>
+					<result name="error">/error.jsp</result>
+				</action>
+				
+				<action name="goToInvoicePage" class="action.customer.GoToInvoiceListAction">
+					<result name="success">/userInvoicePage.jsp</result>
 					<result name="error">/error.jsp</result>
 				</action>
 	</package>

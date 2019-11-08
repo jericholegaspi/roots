@@ -57,6 +57,7 @@ if((request.getSession(false).getAttribute("email")== null) )
 	Connection connection = null;
 	Statement statement = null;
 	ResultSet resultSet = null;
+	int orderIDChain = Integer.parseInt(request.getParameter("orderID"));
 	%>
 
   <!-- Paypal API -->
@@ -142,116 +143,186 @@ if((request.getSession(false).getAttribute("email")== null) )
 </div>
 
 <div class="container invoice">
-      <div class="row">
-        <div class="col-md-9"><h2 style="color:white;">Invoice</h2>
-        </div>
-<!--         <div class="col-md-3" id="paypal-button-container"></div> -->
-  <div id="paypal-button-container"></div>
-
+    <div class="row">
+        <div class="col-md-9">
+            <h2 style="color:white;">Invoice</h2>
         </div>
 
-            <div class="card">
-                <div class="card-body p-0">
-                    <div class="row p-5">
-                        <div class="col-md-6">
-                            <img src="assets/css/images/logo5.png" height="100px" width="170px">
-                        </div>
 
-                        <div class="col-md-6 text-right">
-                            <p class="font-weight-bold mb-1">Invoice #550</p>
-                            <p class="text-muted">Due to: 4 Dec, 2019</p>
+    </div>
 
-                        </div>
-                            </p>
-                        </div>
-                    </div>
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="row p-5">
+                <div class="col-md-6">
+                    <img src="assets/css/images/logo5.png" height="100px" width="170px">
+                </div>
 
-                    <hr class="my-5">
+                <div class="col-md-6 text-right">
+                 <%
+				try {
+					connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+					statement = connection.createStatement();
+					String sqlproduct = "SELECT * FROM orders WHERE userID = " + session.getAttribute("uid") + " AND"
+					+ " orderID = " + orderIDChain;
+					resultSet = statement.executeQuery(sqlproduct);
+				resultSet.first();
+				%>
+                    <p class="font-weight-bold mb-1">Invoice #<%=resultSet.getInt("orderID")%></p>
+                <%
+					} catch (Exception e) {
+					e.printStackTrace();
+				}
+				%>
+                </div>
+                </p>
+            </div>
+        </div>
 
-                    <div class="row pb-5 p-5">
-                        <div class="col-md-6">
-                            <p class="font-weight-bold mb-4">Customer Information</p>
-                            <p class="mb-1">Abigail Abada</p>
-                            <p class="mb-1">abigailhana.abada@benilde.edu.ph</p>
-                            <p>4778425</p>
-                            <p class="mb-1">104 Northeast Ipil Street Marikina Heights Marikina City</p>
-                            <p class="mb-1">6781 45P</p>
-                        </div>
+        <hr class="my-5">
+		 
+        <div class="row pb-5 p-5">
+	        <%
+					try {
+						connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+						Statement statement2 = null;
+						ResultSet resultSet2 = null;
+						
+						statement2 = connection.createStatement();
+						String sqlorders = "SELECT o.deliveryAddressID, o.userID, da.deliveryAddressID,"
+						+ " da.houseNumber, da.street, da.barangay, da.city, da.province, da.postalCode"
+						+ " FROM orders o INNER JOIN deliveryAddress da ON o.deliveryAddressID = da.deliveryAddressID"
+						+ " WHERE o.orderID = " + orderIDChain + " AND"
+						+ " o.userID = " + session.getAttribute("uid");
+						resultSet2 = statement.executeQuery(sqlorders);
+						resultSet2.first();
+						
+						statement = connection.createStatement();
+						String sqlproduct = "SELECT * FROM users WHERE userID = " + session.getAttribute("uid");
+						resultSet = statement.executeQuery(sqlproduct);
+						resultSet.first();
+			%>
+            <div class="col-md-6">
+                <p class="font-weight-bold mb-4">Customer Information</p>
+                <p class="mb-1"><%=resultSet.getString("firstName")%> <%=resultSet.getString("lastName")%></p>
+                <p class="mb-1"><%=resultSet.getString("email")%></p>
+                <p><%=resultSet.getString("mobileNo")%></p>
+                <p class="mb-1"><%=resultSet2.getString("houseNumber")%> <%=resultSet2.getString("street")%>, <%=resultSet2.getString("barangay")%>, <%=resultSet2.getString("city")%>, <span id="deliverProvince"><%=resultSet2.getString("province")%></span> <%=resultSet2.getString("postalCode")%></p>
+            </div>
 
-                        <div class="col-md-6 text-right">
-                            <p class="font-weight-bold mb-4">Payment Details</p>
-                            <p class="mb-1"><span class="text-muted">VAT: </span> 1425782</p>
-                            <p class="mb-1"><span class="text-muted">VAT ID: </span> 10253642</p>
-                            <p class="mb-1"><span class="text-muted">Mode of Payment: </span> PayPal</p>
-                            <p class="mb-1"><span class="text-muted">Name: </span> Abigail Abada</p>
+            <div class="col-md-6 text-right">
+                <p class="font-weight-bold mb-4">Payment Details</p>
+                <p class="mb-1"><span class="text-muted">Mode of Payment: </span> <span id="paymentmethod">PayPal</span></p>
+                <p class="mb-1"><span class="text-muted">Name: </span> <%=resultSet.getString("firstName")%> <%=resultSet.getString("lastName")%></p>
+            </div>
+            <%
+					} catch (Exception e) {
+					e.printStackTrace();
+				}
+			%>
+        </div>
 
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-12 price-table p-5">
-                          <div class="cart-table">
-                            <table id="cart" class="table table-condensed">
-                              <thead>
-                                <tr>                                 
-                                  <th style="width:30%">Product</th>
-                                  <th style="width:10%">Quantity</th>
-                                  <th style="width:10%">Unit</th>
-                                  <th style="width:10%">Price</th>
-                                  <th style="width:16%">Subtotal</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr>                                 
-                                  <td data-th="Product">
+        <div class="row">
+            <div class="col-md-12 price-table p-5">
+                <div class="cart-table">
+                    <table id="cart" class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th style="width:30%">Product</th>
+                                <th style="width:10%">Quantity</th>
+                                <th style="width:10%">Unit</th>
+                                <th style="width:10%">Unit Price</th>
+                                <th style="width:16%">Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <%
+						try {
+							statement = connection.createStatement();
+							String sqlproduct = "SELECT orderItems.orderItemID, orderItems.userID, orderItems.prodID,"
+									+ " orderItems.cartState, orderItems.orderItemQty, orderItems.orderItemSubTotal,"
+									+ " products.prodID, products.prodName, products.description,"
+									+ " products.initialPrice, products.unitID, units.unitID, units.unit FROM orderItems"
+									+ " INNER JOIN products ON orderItems.prodID = products.prodID"
+									+ " INNER JOIN units ON products.unitID = units.unitID"
+									+ " WHERE orderItems.userID = " + session.getAttribute("uid") + " AND"
+									+ " orderItems.cartState = 'CheckOut' AND orderItems.orderID = " + orderIDChain;
+							resultSet = statement.executeQuery(sqlproduct);
+						while (resultSet.next()) {
+						%>
+                            <tr>
+                                <td data-th="Product">
                                     <div class="row">
-                                      <h6 class="col-sm-8 nomargin">Product Name 1</h6>
-                                    </div>                                   
-                                  </td>
-                                  <td data-th="Quantity">1
-                                  </td>
-                                  <td data-th="Unit">Kilo</td>
-                                  <td data-th="Price">100</td>
-                                  <td data-th="Subtotal">100</td> 
-                                </tr>
-                                <tr>                                 
-                                  <td data-th="Product">
-                                    <div class="row">
-                                      <h6 class="col-sm-8 nomargin">Product Name 2</h6>
-                                    </div>                                   
-                                  </td>
-                                  <td data-th="Quantity">1
-                                  </td>
-                                  <td data-th="Unit">Kilo</td>
-                                  <td data-th="Price">100</td>
-                                  <td data-th="Subtotal">100</td> 
-                                </tr>
-                            </tbody>
-                            <tfoot>
-                              <tr>
-                                <td colspan="4">VAT</td>
-                                <td>1.99</td>
-                              </tr>
-                              <tr>
-                                <td colspan="4">Delivery Fee</td>
-                                <td>1.99</td>
-                              </tr>
-                              <tr style="background-color: #ffbf00;">
+                                        <h6 class="col-sm-8 nomargin"><%=resultSet.getString("prodName")%></h6>
+                                    </div>
+                                </td>
+                                <td data-th="Quantity"><%=resultSet.getString("orderItemQty")%></td>
+                                <td data-th="Unit"><%=resultSet.getString("unit")%></td>
+                                <td data-th="Unit Price"><%=resultSet.getString("initialPrice")%></td>
+                                <td data-th="Subtotal" id="itemtotal"><%=resultSet.getString("orderItemSubTotal")%></td>
+                            </tr>
+                            <%
+									}	
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+							%>
+                        </tbody>
+                        <tfoot onload="caculate()">
+                            <tr>
+					            <td></td>
+					            <td></td>
+					            <td></td>
+					            <td><i>VAT (12%)</i></td>
+					            <td id="vat"></td>
+					        </tr>
+					        <tr id="paypalrow">
+					            <td></td>
+					            <td></td>
+					            <td></td>
+					            <td><i>PayPal Fee</i></td>
+					            <td id="paypalfee"></td>
+					        </tr>
+					      	<tr>
+					            <td></td>
+					            <td></td>
+					            <td></td>
+					            <td><i>Delivery Fee</i></td>
+					            <td id="deliverfee"></td>
+					        </tr>
+					        <tr>
+					            <td></td>
+					            <td></td>
+					            <td></td>
+					            <td><strong><i>Inclusive Fees Sub-Total</i></strong></td>
+					            <td ></td>
+				            </tr>
+                            <tr style="background-color: #ffbf00;">
                                 <td class="hidden-xs" colspan="4"></td>
-                                <td id="paypaltotal" class="hidden-xs"><h4><strong>500</strong></h4></td>
-                              </tr>
-                            </tfoot>
-                          </table>
-
-                        </div>
-                    </div>
-
+                                <td id="paypaltotal" class="hidden-xs">
+                                <%
+								try {
+									connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+									statement = connection.createStatement();
+									String sqlproduct = "SELECT * FROM orders WHERE userID = " + session.getAttribute("uid") + " AND"
+									+ " orderID = " + orderIDChain;
+									resultSet = statement.executeQuery(sqlproduct);
+								resultSet.first();
+								%>
+                                    <h4><strong>&#8369;<%=resultSet.getString("orderTotalPrice")%></strong></h4>
+                                <%
+									} catch (Exception e) {
+									e.printStackTrace();
+								}
+								%>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
-
-  </div>
 </div>
 
 <button onclick="topFunction()" id="myBtn" title="Go to top"><span class="fa fa-angle-double-up"></span></button>
@@ -368,36 +439,75 @@ function topFunction() {
   document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 }
 
-//PayPal
-paypal.Buttons({
-    createOrder: function(data, actions) {
-      var total = document.getElementById('paypaltotal').innerText;
-      return actions.order.create({
-        purchase_units: [{
-          amount: {
-            value: total
-          }
-        }]
-      });
-    },
-    onApprove: function(data, actions) {
-      return actions.order.capture().then(function(details) {
-        alert('Transaction completed by ' + details.payer.name.given_name);
-        // Call your server to save the transaction
-        return fetch('/paypal-transaction-complete', {
-          method: 'post',
-          headers: {
-            'content-type': 'application/json'
-          },
-          body: JSON.stringify({
-            orderID: data.orderID
-          })
-        });
-      });
-    }
-  }).render('#paypal-button-container');
+window.onload = function(){
+	calculate();
+}
+
+function calculate(){
+//Compute VAT
+var itemtotal = parseInt(document.getElementById('itemtotal').innerText);
+var vat = itemtotal * .12;
+vat = Math.round(vat * 100) / 100;
+document.getElementById("vat").innerHTML = vat;
+
+//Compute PayPal Fee
+var paypalfee = ((itemtotal * 0.044) + 15);
+paypalfee = Math.round(paypalfee * 100) / 100;
+document.getElementById("paypalfee").innerHTML = paypalfee;
+
+//Compute Delivery Fee
+var deliverfee = 0;
+var deliverProvince = document.getElementById("deliverProvince").value;
+if (deliverProvince == "Metro Manila")
+	{
+		deliverfee = 89;
+	}
+else if (deliverProvince == "Rizal")
+	{
+		deliverfee = 119;
+	}
+else if (deliverProvince == "Bulacan")
+	{
+		deliverfee = 119;
+	}
+else if (deliverProvince == "Cavite")
+	{
+		deliverfee = 119;
+	}
+else if (deliverProvince == "Laguna")
+	{
+		deliverfee = 139;
+	}
+else if (deliverProvince == "Batangas")
+	{
+		deliverfee = 139;
+	}
+else if (deliverProvince == "Pampanga")
+	{
+		deliverfee = 139;
+	}
+
+deliverfee = Math.round(deliverfee * 100) / 100;
+
+document.getElementById("deliverfee").innerHTML = deliverfee;
+
+var paymentmethod = document.getElementById("paymentmethod").value;
+
+//Compute Inclusive Fees
+var inclusivefees = 0;
+
+if (paymentmethod=="paypal"){
+	inclusivefees = vat + paypalfee + deliverfee;
+}
+else {
+	inclusivefees = vat + deliverfee;
+}
+inclusivefees = Math.round (inclusivefees * 100) / 100;
+console.log(inclusivefees);
+document.getElementById("inclusivefees").innerHTML = "<h5><strong>"+inclusivefees+"</strong></h5>";
 
 </script>
+
 
 </body>
 </html>
