@@ -38,6 +38,7 @@
 							<div class="col-sm-6">
 								<p><strong><u>Services</u></strong></p>
 								<p>The consultants and/or traditional medicine experts of this project will be handled by the licensed practitioners of PITAHC.</p>
+								<p>Licensed practitioners listed are accredited by PITAHC.</p>
 							</div>
 						</div>
 					</div>
@@ -68,7 +69,10 @@
 								<p>For PayPal mode of payment, cancellation of order/s can only be allowed if the payment has not been sent.</p>
 								<p>For Cash on Delivery mode of payment, cancellation of order/s will not be allowed if the product’s order status is “In Transit”.  </p>
 							</div>
-							
+							<div class="col-sm-6">
+								<p><strong><u>Profile</u></strong></p>
+								<p>Uploaded profile images for an account should not contain inappropriate content.</p>
+							</div>
 						</div>
 					</div>
 				</div>

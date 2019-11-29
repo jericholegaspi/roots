@@ -28,17 +28,21 @@ public class RegisterBean {
 	private int userTypeId;
 	
 	//database inputs
+	private String prefix; //nullable
 	private String firstName;
 	private String middleName; //nullable
 	private String lastName;
+	private String suffix; //nullable
 	private String gender;
 	private String password;
 	private double mobileNo;
 	private double telephone;
 	private String email;	
 	
+	
 	//dates
 	private java.sql.Date dateOfBirth;	
+	
 	
 	//Email Activation
 	
@@ -58,6 +62,12 @@ public class RegisterBean {
 	public void updatePassword() {
 		password = getSHA(this.password); //Hash Algorithm Method
 		updatePass();
+	}
+	
+	//Admin Insert User
+	public void insertUserAdmin() {
+		password = getSHA(this.password);
+		insertUA();
 	}
 
 	//Getters & Setters	
@@ -139,7 +149,7 @@ public class RegisterBean {
 		return dateOfBirth;
 	}
 
-	public void setDateOfBirth(java.sql.Date dateOfBirth) {
+	public void setDateOfBirth(java.sql.Date dateOfBirth) {		
 		this.dateOfBirth = dateOfBirth;
 	}
 
@@ -151,7 +161,22 @@ public class RegisterBean {
 		this.telephone = telephone;
 	}
 	
-	
+	public String getPrefix() {
+		return prefix;
+	}
+
+	public void setPrefix(String prefix) {
+		this.prefix = prefix;
+	}
+
+	public String getSuffix() {
+		return suffix;
+	}
+
+	public void setSuffix(String suffix) {
+		this.suffix = suffix;
+	}
+
 	//Get Database Connection
 	private Connection getDBConnection() {
 		Connection connection = null;
@@ -174,24 +199,26 @@ public class RegisterBean {
 		Connection connection = getDBConnection();
 		
 		if (connection != null) { //means a valid connection
-			String sql = "INSERT INTO users (firstName, middleName, lastName, gender, "
+			String sql = "INSERT INTO users (prefix, firstName, middleName, lastName, suffix, gender, "
 					+ "password, mobileNo, telephone, email, "
 					+ "dateOfBirth, userTypeID) "
-					+ " VALUES (?,?,?,?,?,?,?,?,?,?)";
+					+ " VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 			
 			try {
 				PreparedStatement pstmnt = connection.prepareStatement(sql);
 				
-				pstmnt.setString(1, this.firstName);
-				pstmnt.setString(2, this.middleName);
-				pstmnt.setString(3, this.lastName);
-				pstmnt.setString(4, this.gender);
-				pstmnt.setString(5, this.password);
-				pstmnt.setDouble(6, this.mobileNo);
-				pstmnt.setDouble(7, this.telephone);
-				pstmnt.setString(8, this.email);
-				pstmnt.setDate(9, this.dateOfBirth);
-				pstmnt.setInt(10, 2);
+				pstmnt.setString(1, this.prefix);
+				pstmnt.setString(2, this.firstName);
+				pstmnt.setString(3, this.middleName);
+				pstmnt.setString(4, this.lastName);
+				pstmnt.setString(5, this.suffix);
+				pstmnt.setString(6, this.gender);
+				pstmnt.setString(7, this.password);
+				pstmnt.setDouble(8, this.mobileNo);
+				pstmnt.setDouble(9, this.telephone);
+				pstmnt.setString(10, this.email);
+				pstmnt.setDate(11, this.dateOfBirth);
+				pstmnt.setInt(12, 2);
 				
 				pstmnt.executeUpdate();
 				return true;
@@ -279,7 +306,7 @@ public class RegisterBean {
         String from = "roots.monlight@gmail.com";
         String pass = "monlightalms";
         String subject = "ROOTS Gmail Test";
-        String body = "Hi, "+ this.firstName + " " + this.lastName + "!" + "\n\n\t Thank you for registering. Welcome to the ROOTS Community.";
+        String body = "Hi, "+ this.firstName + " " + this.lastName + "!" + "\n\n\t Thank you for registering. Welcome to the ROOTS Community. https://isproj2a.benilde.edu.ph/ROOTS/";
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", host);
         props.put("mail.smtp.user", from);
@@ -366,6 +393,43 @@ public class RegisterBean {
 			
 			} catch (SQLException sqle) {
 				System.err.println("Error on UpdateRecordAddress: " + sqle.getMessage());
+			}			
+		} else {
+			System.err.println("Missing on invalid connection.");
+		}
+		return false;
+	}
+	
+	public boolean insertUA() {		
+		Connection connection = getDBConnection();
+		
+		if (connection != null) { //means a valid connection
+			String sql = "INSERT INTO users (prefix, firstName, middleName, lastName, suffix, gender, "
+					+ "password, mobileNo, telephone, email, "
+					+ "dateOfBirth, userTypeID) "
+					+ " VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+			
+			try {
+				PreparedStatement pstmnt = connection.prepareStatement(sql);
+				
+				pstmnt.setString(1, this.prefix);
+				pstmnt.setString(2, this.firstName);
+				pstmnt.setString(3, this.middleName);
+				pstmnt.setString(4, this.lastName);
+				pstmnt.setString(5, this.suffix);
+				pstmnt.setString(6, this.gender);
+				pstmnt.setString(7, this.password);
+				pstmnt.setDouble(8, this.mobileNo);
+				pstmnt.setDouble(9, this.telephone);
+				pstmnt.setString(10, this.email);
+				pstmnt.setDate(11, this.dateOfBirth);
+				pstmnt.setInt(12, this.userTypeId);
+				
+				pstmnt.executeUpdate();
+				return true;
+			
+			} catch (SQLException sqle) {
+				System.err.println("Error on insertRecordOrder: " + sqle.getMessage());
 			}			
 		} else {
 			System.err.println("Missing on invalid connection.");

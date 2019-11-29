@@ -331,13 +331,13 @@ while (resultSet.next()) {
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Password</label>
-                                                <input name="password"  type="text" class="form-control" placeholder="Change Password">
+                                                <input name="password"  type="password" class="form-control" placeholder="Change Password">
                                             </div>
                                         </div>
                                          <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Confirm Password</label>
-                                                <input name="confirmpassword"  type="text" class="form-control" placeholder="Confirm Password">
+                                                <input name="confirmpassword"  type="password" class="form-control" placeholder="Confirm Password">
                                             </div>
                                         </div>
                                     </div> 

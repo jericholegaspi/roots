@@ -131,6 +131,11 @@
 					<result name="error">/error.jsp</result>
 				</action>
 				
+				<action name="insertuser" class="roots.admin.action.AdminInsertUserAction">
+					<result name="success">/adminUsers.jsp</result>
+					<result name="error">/error.jsp</result>
+				</action>
+				
 		<!-- LP ACTION  -->
 				<action name="lplogin" class="roots.lp.action.LPLoginAction">
 					<result name="success">/lpProfile.jsp</result>
