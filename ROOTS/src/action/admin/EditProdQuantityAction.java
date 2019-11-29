@@ -29,10 +29,11 @@ public class EditProdQuantityAction extends ActionSupport implements ModelDriven
 	public String execute() {
 		qtyObj.process();
 		
-		
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		System.out.println("Product ID: " + qtyObj.getProdID());
 		System.out.println("Quantity: " + qtyObj.getProdQty());
 		System.out.println("Quantity Change: " + qtyObj.getProdQtyChange());
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		
 		qtyObj.updateQty();
 		return SUCCESS;

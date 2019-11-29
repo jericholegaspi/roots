@@ -19,7 +19,7 @@ public class AddToCartAction extends ActionSupport implements ModelDriven<AddOrd
 	public String execute() {
 		
 		orderObj.process();
-		
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		System.out.println("User ID: " + orderObj.getUserID());
 		System.out.println("Product ID: " + orderObj.getProdID());
 		System.out.println("Quantity: " + orderObj.getOrderItemQty());
@@ -98,6 +98,7 @@ public class AddToCartAction extends ActionSupport implements ModelDriven<AddOrd
 	    	e.printStackTrace();
 	    	System.out.println("~~~CATCH 3~~~");
 		}
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		return SUCCESS;
 	}
 	

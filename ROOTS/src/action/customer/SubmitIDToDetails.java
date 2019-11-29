@@ -12,8 +12,10 @@ public class SubmitIDToDetails extends ActionSupport implements ModelDriven<AddO
 	private AddOrderBean orderObj = new AddOrderBean();
 	
 	public String execute() {		
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		System.out.println("Product ID: " + orderObj.getProdID());
 		System.out.println("Product Name: " + orderObj.getProdName());
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		return SUCCESS;
 	}
 

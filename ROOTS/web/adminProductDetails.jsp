@@ -276,7 +276,7 @@ if((request.getSession(false).getAttribute("email")== null) )
                                         <th>Product ID</th>
                                         <th>Product Name</th>
                                         <th>Category</th>
-                                        <th>Price</th>
+                                        <th>Price (&#8369;)</th>
                                         <th>Quantity</th>
                                         <th>Unit</th>
                                         <th>Description</th>                      
@@ -284,6 +284,7 @@ if((request.getSession(false).getAttribute("email")== null) )
                                         <th>Critical Level</th>
                                         <!-- <th>Expiration Date</th> -->
                                         <th>Product Last Update</th>
+                                        <th></th>
                                         <th></th>
                                     </tr>
                                     </thead>
@@ -297,7 +298,8 @@ if((request.getSession(false).getAttribute("email")== null) )
 					+ " units.unit, category.catID, category.category, products.Availability,"
 					+ " products.prodLastUpdate, products.critLevel FROM products"
 					+ " INNER JOIN category ON products.catID = category.catID"
-					+ " INNER JOIN units ON products.unitID = units.unitID";
+					+ " INNER JOIN units ON products.unitID = units.unitID"
+					+ " WHERE products.availability = 'Available'";
 			resultSet = statement.executeQuery(sqlproduct);
 		while (resultSet.next()) {
 	%>
@@ -305,14 +307,23 @@ if((request.getSession(false).getAttribute("email")== null) )
                                             <td><%=resultSet.getString("prodID")%></td>
                                             <td><%=resultSet.getString("prodName")%></td>
                                             <td id="catGetTest"><%=resultSet.getString("catID")%> - <%=resultSet.getString("category")%></td>
-                                            <td><%=resultSet.getString("initialPrice")%></td>
+                                            <td>&#8369;<%=resultSet.getString("initialPrice")%>.00</td>
                                             <td><%=resultSet.getString("prodQty")%></td>
                                             <td><%=resultSet.getString("unit")%></td>
                                             <td><%=resultSet.getString("description")%></td>
                                             <td><%=resultSet.getString("Availability")%></td>
                                             <td><%=resultSet.getString("critLevel")%></td>
                                             <td><%=resultSet.getString("prodLastUpdate")%></td>
-                                            <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editproduct"><span class="glyphicon glyphicon-edit"></span>EDIT</button></td>     
+                                            <td>
+                                            	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editproduct">
+                                            		EDIT
+                                            	</button>
+                                            </td>
+                                            <td>
+                                            	<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#delete-confirmation">
+                                            		ARCHIVE
+                                            	</button>
+                                            </td>     
                                         </tr>
 	<%
 			}
@@ -351,8 +362,7 @@ if((request.getSession(false).getAttribute("email")== null) )
 	%>
                                         <tr>
                                             <td><%=resultSet.getString("catID")%></td>
-                                            <td><%=resultSet.getString("category")%></td>
-                                            <!-- <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addnewcategory"><span class="glyphicon glyphicon-edit"></span> EDIT</button></td> -->     
+                                            <td><%=resultSet.getString("category")%></td>     
                                         </tr>
 	<%
 			}
@@ -363,6 +373,81 @@ if((request.getSession(false).getAttribute("email")== null) )
                                     </tbody>
                                 </table>
 
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="header">
+                            <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addnewproduct" style="float: right;"><span class="glyphicon glyphicon-plus"></span></button> -->
+                                <h4 class="title">Archived Products</h4></h4>
+
+                                <p class="category">View archived products</p>
+                            </div>
+                            <div class="content table-responsive table-full-width">
+                                <table class="table table-hover table-striped" id="productTable">
+                                    <thead>
+                                    <tr>
+                                        <th>Product ID</th>
+                                        <th>Product Name</th>
+                                        <th>Category</th>
+                                        <th>Price (&#8369;)</th>
+                                        <th>Quantity</th>
+                                        <th>Unit</th>
+                                        <th>Description</th>                      
+                                        <th>Availability</th>
+                                        <th>Critical Level</th>
+                                        <!-- <th>Expiration Date</th> -->
+                                        <th>Product Last Update</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+	<%
+		try {
+			connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+			statement = connection.createStatement();
+			String sqlproduct = "SELECT products.prodID, products.prodName,"
+					+ " products.description, products.initialPrice, products.prodQty,"
+					+ " units.unit, category.catID, category.category, products.Availability,"
+					+ " products.prodLastUpdate, products.critLevel FROM products"
+					+ " INNER JOIN category ON products.catID = category.catID"
+					+ " INNER JOIN units ON products.unitID = units.unitID"
+					+ " WHERE products.availability = 'Archived'";
+			resultSet = statement.executeQuery(sqlproduct);
+		while (resultSet.next()) {
+	%>
+                                        <tr>
+                                            <td><%=resultSet.getString("prodID")%></td>
+                                            <td><%=resultSet.getString("prodName")%></td>
+                                            <td id="catGetTest"><%=resultSet.getString("catID")%> - <%=resultSet.getString("category")%></td>
+                                            <td>&#8369;<%=resultSet.getString("initialPrice")%>.00</td>
+                                            <td><%=resultSet.getString("prodQty")%></td>
+                                            <td><%=resultSet.getString("unit")%></td>
+                                            <td><%=resultSet.getString("description")%></td>
+                                            <td style="color: red;"><%=resultSet.getString("Availability")%></td>
+                                            <td><%=resultSet.getString("critLevel")%></td>
+                                            <td><%=resultSet.getString("prodLastUpdate")%></td>
+                                            <!-- <td>
+                                            	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editproduct">
+                                            		EDIT
+                                            	</button>
+                                            </td>
+                                            <td>
+                                            	<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#delete-confirmation">
+                                            		ARCHIVE
+                                            	</button>
+                                            </td>    -->  
+                                        </tr>
+	<%
+			}
+		} catch (Exception e) {
+		e.printStackTrace();
+	}
+	%>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -525,8 +610,6 @@ if((request.getSession(false).getAttribute("email")== null) )
             %>
             </select><br/>
             Description:</br><input type='text' id="descriptionGetTest" class="form-control" name='description' minlength='0' maxlength='500' required="required"/><br/>
-            <!-- Availability:</br> <input type='text' class="form-control" name='availability' value='Yes' readonly /><br/>
-            Image file name:</br><input type='text' class="form-control" name='image' readonly/><br/> -->
             </p>
       
       <!--Footer-->
@@ -539,7 +622,7 @@ if((request.getSession(false).getAttribute("email")== null) )
   </div>
 </div>
 </div>
-<!-- Modal: addnewproduct -->
+<!-- Modal: editproduct -->
 
 <!-- Modal: addnewcategory -->
 <div class="modal fade eft" id="addnewcategory" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -570,7 +653,33 @@ if((request.getSession(false).getAttribute("email")== null) )
   </div>
 </div>
 </div>
-<!-- Modal: addnewproduct -->
+<!-- Modal: addnewcategory -->
+
+<!-- START of Archive Confirmation Modal -->
+<div class="modal fade" id="delete-confirmation" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xs modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	<form action="archiveProduct.action" method="post" id="archiveProduct">
+      		<input type="hidden" id="prodArchiveIdGetTest" name="prodID"/>
+            <p class="text-center">Are you sure you want to archive this product?</p>
+		</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+        <button type="submit" form="archiveProduct" class="btn btn-warning">Archive</button>
+      </div>
+    </div>
+  </div>
+</div> 
+<!--END of Archive Confirmation Modal -->
 </body>
 
 	
@@ -601,6 +710,7 @@ if((request.getSession(false).getAttribute("email")== null) )
             //DataTables
             $('#productTable').DataTable();
             $('#categoryTable').DataTable();
+            $('#archivedTable').DataTable();
         
         //Get ID of row element
         var table = document.getElementById('productTable');
@@ -608,6 +718,7 @@ if((request.getSession(false).getAttribute("email")== null) )
         for(var i = 1; i < table.rows.length; i++){
             table.rows[i].onclick = function(){
                  //rIndex = this.rowIndex;
+                 document.getElementById("prodArchiveIdGetTest").value = this.cells[0].innerHTML;
 				 document.getElementById("productIdGetTest").value = this.cells[0].innerHTML;
                  document.getElementById("productNameGetTest").value = this.cells[1].innerHTML;
               	 document.getElementById("categoryGetTest").value = this.cells[2].innerHTML;

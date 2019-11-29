@@ -23,7 +23,6 @@ function ready() {
         button.addEventListener('mouseover', getData);
 	}
 	
-	
 	var editCartItemButton = document.getElementsByClassName('cart-item-edit')
 	for (var i = 0; i < editCartItemButton.length; i++) {
         var button = editCartItemButton[i]
@@ -32,6 +31,16 @@ function ready() {
 	for (var i = 0; i < editCartItemButton.length; i++) {
         var button = editCartItemButton[i]
         button.addEventListener('click', getData);
+	}
+	
+	var editCartItemImage = document.getElementsByClassName('cart-image')
+	for (var i = 0; i < editCartItemImage.length; i++) {
+        var button = editCartItemImage[i]
+        button.addEventListener('mouseover', getData2);
+	}
+	for (var i = 0; i < editCartItemImage.length; i++) {
+        var button = editCartItemImage[i]
+        button.addEventListener('click', getData2);
 	}
 }
 
@@ -69,16 +78,19 @@ function changeTextEdit(productIDEdit, productNameEdit){
 	console.log(editQtyProductID, editQtyProductName);
 }
 
-/*function changeText(title, category, price, unit, description){
-	var modalTitle = document.getElementsByClassName("modal-prodname")[0];
-	var modalCategory = document.getElementsByClassName("modal-category")[0];
-	var modalDescription = document.getElementsByClassName("p-text-description")[0];
-	var modalPrice = document.getElementsByClassName("p-text-price")[0];
-	var modalUnit = document.getElementsByClassName("p-text-unit")[0];
+function getData2(event){
+	var button2 = event.target;
+	var shopItem2 = button2.parentElement.parentElement;
+	var productIDEdit2 = shopItem2.getElementsByClassName('cart-product-id')[0].innerHTML;
+	var productNameEdit2 = shopItem2.getElementsByClassName('cart-product-name')[0].innerHTML;
+	console.log(productNameEdit2, productIDEdit2);
+	changeTextEdit2(productIDEdit2, productNameEdit2);
+}
 
-	modalTitle.innerHTML = title;
-	modalCategory.innerHTML = category;
-	modalDescription.innerTexterHTML = description;
-	modalPrice.innerHTML = price;
-	modalUnit.innerHTML = unit;
-}*/
+function changeTextEdit2(productIDEdit2, productNameEdit2){
+	var editQtyProductID2 = document.getElementById('edit-prodID');
+	var editQtyProductName2 = document.getElementById('edit-prodName');	
+	editQtyProductID2.value = productIDEdit2;
+	editQtyProductName2.value = productNameEdit2;
+	console.log(editQtyProductID2, editQtyProductName2);
+}

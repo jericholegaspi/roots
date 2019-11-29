@@ -18,9 +18,11 @@ public class EditOrderItemQuantityAction extends ActionSupport implements ModelD
 	
 	public String execute() {
 		orderObj.process();
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		System.out.println("Item Quantity: " + orderObj.getOrderItemQty());
 		System.out.println("Item SubTotal: " + orderObj.getOrderItemSubTotal());
 		orderObj.editCartItemQuantityRecord();
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		return SUCCESS;
 	}
 	

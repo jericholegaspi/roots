@@ -17,9 +17,11 @@ public class RemoveCartItemAction extends ActionSupport implements ModelDriven<A
 	private AddOrderBean orderObj = new AddOrderBean();
 	
 	public String execute() {
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		System.out.println("ProductID: " + orderObj.getProdID());
 		System.out.println("Removed " + orderObj.getProdName() + " from cart.");
 		orderObj.removeCartItemRecord();
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		return SUCCESS;
 	}
 	

@@ -417,4 +417,26 @@ public class RootsInventoryBean {
 		return false;
 	}
 	
+	public boolean archiveProductRecord() {		
+		Connection connection = getDBConnection();
+		
+		if (connection != null) { //means a valid connection
+			String sql = "UPDATE products SET availability = ? WHERE prodID = ?";
+			try {
+				PreparedStatement pstmnt = connection.prepareStatement(sql);
+				
+				pstmnt.setString(1, "Archived");	
+				pstmnt.setInt(2, this.prodID);	
+				
+				pstmnt.executeUpdate();
+				return true;
+			} catch (SQLException sqle) {
+				System.err.println("Error on archiveProductRecord: " + sqle.getMessage());
+			}			
+		} else {
+			System.err.println("Missing on invalid connection.");
+		}
+		return false;
+	}
+	
 }

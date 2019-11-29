@@ -12,8 +12,10 @@ public class SelectItemIDAction extends ActionSupport implements ModelDriven<Add
 	private AddOrderBean orderObj = new AddOrderBean();
 	
 	public String execute() {		
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		System.out.println("Product ID: " + orderObj.getProdID());
 		System.out.println("///SELECTED///");
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		return SUCCESS;
 	}
 

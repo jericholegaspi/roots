@@ -209,5 +209,10 @@
 					<result name="success">/userInvoicePage.jsp</result>
 					<result name="error">/error.jsp</result>
 				</action>
+				
+				<action name="archiveProduct" class="action.admin.ArchiveProductAction">
+					<result name="success">/adminProductDetails.jsp</result>
+					<result name="error">/error.jsp</result>
+				</action>
 	</package>
 </struts>

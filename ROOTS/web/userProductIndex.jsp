@@ -200,26 +200,27 @@ if((request.getSession(false).getAttribute("email")== null) )
 					statement = connection.createStatement();
 					String sqlproduct = "SELECT products.prodID, products.prodName,"
 						+ " products.description, products.initialPrice, products.prodQty,"
-						+ " units.unit, category.catID, category.category, products.Availability,"
+						+ " units.unit, category.catID, category.category, products.availability,"
 						+ " products.prodLastUpdate, products.critLevel FROM products"
 						+ " INNER JOIN category ON products.catID = category.catID"
-						+ " INNER JOIN units ON products.unitID = units.unitID";
+						+ " INNER JOIN units ON products.unitID = units.unitID"
+						+ " WHERE products.availability = 'Available'";
 					resultSet = statement.executeQuery(sqlproduct);
 				while (resultSet.next()) {
 				%>
 				<form action="selectItemID.action" method="post">
                     <div class="col">
-                        <div class="card item">
+                        <button class="card item" type="submit">
                             <img class="card-img-top" src="assets/css/images/amp.jpg" alt="Card image" style="width:100%; height:200px;">
-                            <div class="card-body">
-                                <h4 class="card-title"><%=resultSet.getString("prodName")%></h4>
-                                <h6 class="card-subtitle mb-2 text-muted"><%=resultSet.getString("category")%></h6>
+                            <div class="card-body" style="width: 100%;">
+                                <h4 class="card-title" align="left"><%=resultSet.getString("prodName")%></h4>
+                                <h6 class="card-subtitle mb-2 text-muted" align="left"><%=resultSet.getString("category")%></h6>
                                 <br>
                                 <p class="card-text">&#8369;<%=resultSet.getString("initialPrice")%>/<%=resultSet.getString("unit")%></p>
                                 <input type="hidden" name='prodID' value="<%=resultSet.getString("prodID")%>" readonly/>
-                                <input type="submit" class="btn btn-warning stretched-link float-right" value="See Details"/>
+                                <input type="submit" class="btn btn-warning stretched-link float-right" value="See Details">
                             </div>
-                        </div>
+                        </button>
                     </div>
                </form>
                     <%

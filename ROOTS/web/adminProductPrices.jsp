@@ -271,7 +271,7 @@ if((request.getSession(false).getAttribute("email")== null) )
                                     <tr>
                                         <th>Product ID</th>
                                         <th>Product Name</th>
-                                        <th>Current Price</th>
+                                        <th>Current Price (&#8369;)</th>
                                         <th>Product Last Update</th>
                                         <th></th>
                                     </tr>
@@ -293,7 +293,7 @@ if((request.getSession(false).getAttribute("email")== null) )
                                         <tr>
                                             <td><%=resultSet.getString("prodID")%></td>
                                             <td><%=resultSet.getString("prodName")%></td>
-                                            <td><%=resultSet.getString("initialPrice")%></td>
+                                            <td>&#8369;<%=resultSet.getString("initialPrice")%>.00</td>
                                             <td><%=resultSet.getString("prodLastUpdate")%></td>
                                             <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editprice"><span class="glyphicon glyphicon-edit"></span>Edit Price</button></td>     
                                         </tr>
@@ -417,7 +417,7 @@ if((request.getSession(false).getAttribute("email")== null) )
             Product Name:</br> 
             <input type='text' id="productNameGetTest" class="form-control" name='prodName' readonly/></br>
             Current Price:</br><input type='number' id="priceGetTest" class="form-control" name='initialPrice' min='1' max='300' readonly/></br>
-            Update Price:</br>
+            Update Price (&#8369;):</br>
             <input type='number' class="form-control" name='prodPriceChange' min='1' max='9999' required="required"/>
             <!-- Availability:</br> <input type='text' class="form-control" name='availability' value='Yes' readonly /><br/>
             Image file name:</br><input type='text' class="form-control" name='image' readonly/><br/> -->

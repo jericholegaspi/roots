@@ -12,8 +12,10 @@ public class GoToInvoiceListAction extends ActionSupport implements ModelDriven<
 	private AddOrderBean orderObj = new AddOrderBean();
 	
 	public String execute() {		
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		System.out.println("Order ID: " + orderObj.getOrderID());
 		System.out.println("///SELECTED///");
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		return SUCCESS;
 	}
 

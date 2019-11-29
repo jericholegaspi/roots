@@ -39,7 +39,7 @@ function updateCartTotal() {
         total = total + (price * quantity);
     }
     total = Math.round(total * 100) / 100;
-    document.getElementsByClassName('cart-total-price')[0].innerHTML = 'Total: \u20B1' + total;
+    document.getElementsByClassName('cart-total-price')[0].innerHTML = 'Total: \u20B1' + total + '.00';
     document.getElementsByClassName('cart-total-price-duplicate')[0].value = total;
 }
 
@@ -54,7 +54,7 @@ function subTotalChanged(event){
     subTotal = subTotal + (itemPrice * itemQuantity);
     console.log(subTotal);
     subTotal = Math.round(subTotal * 100) / 100;
-    document.getElementsByClassName('cart-item-subtotal')[0].innerHTML = '\u20B1' + subTotal;
+    document.getElementsByClassName('cart-item-subtotal')[0].innerHTML = '\u20B1' + subTotal + '.00';
 }
 
 function loadInitialTotal(){
@@ -68,7 +68,7 @@ function loadInitialTotal(){
         total = total + price;
     }
     total = Math.round(total * 100) / 100;
-    document.getElementsByClassName('cart-total-price')[0].innerHTML = 'Total: \u20B1' + total;
+    document.getElementsByClassName('cart-total-price')[0].innerHTML = '<strong>TOTAL:</strong> \u20B1' + total + '.00';
     document.getElementsByClassName('cart-total-price-duplicate')[0].value = total;
-    console.log(total);
+    console.log(total + '.00');
 }

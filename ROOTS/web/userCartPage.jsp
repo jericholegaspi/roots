@@ -164,27 +164,29 @@ if((request.getSession(false).getAttribute("email") == null))
 						+ " INNER JOIN units ON products.unitID = units.unitID"
 						+ " WHERE orderItems.userID = " + session.getAttribute("uid") + " AND"
 						+ " orderItems.cartState = 'Idle'";
-				
 				resultSet = statement.executeQuery(sqlproduct);
 			while (resultSet.next()) {
 			%>
 			<tr class="cart-row">
 			    <td data-th="Product">
-			        <div class="row">
-			            <div class="col-sm-3 hidden-xs">
-			            	<img src="http://placehold.it/100x100" alt="..." class="img-responsive" />
-			            </div>
-			            <div class="col-sm-8">
-			           		<h4 style="display: none;" class="cart-product-id"><%=resultSet.getInt("prodID")%></h4>
-			                <h4 class="cart-product-name nomargin p-title"><%=resultSet.getString("prodName")%></h4>
-			                <p class="p-text"><%=resultSet.getString("description")%></p>
-			            </div>
-			        </div>
+				    <button type="submit" form="submitIDToDetails" class="cart-image"
+				            	style="background-color: Transparent; border: none; outline:none;">
+				        <div class="row">
+				            <div class="col-sm-3 hidden-xs">
+				            		<img src="http://placehold.it/100x100" alt="..." class="img-responsive"/>
+				            </div>
+				            <div class="col-sm-8">
+				           		<h4 style="display: none;" class="cart-product-id"><%=resultSet.getInt("prodID")%></h4>
+				                <h4 class="cart-product-name nomargin p-title"><%=resultSet.getString("prodName")%></h4>
+				                <p class="p-text"><%=resultSet.getString("description")%></p>
+				            </div>
+				        </div>
+				    </button>
 			    </td>
-			    <td data-th="Unit Price" class="cart-price">&#8369;<%=resultSet.getInt("initialPrice")%></td>
+			    <td data-th="Unit Price" class="cart-price">&#8369;<%=resultSet.getInt("initialPrice")%>.00</td>
 			    <td data-th="Quantity"><span class="cart-product-quantity"><%=resultSet.getInt("orderItemQty")%></span></td>
 			    <td data-th="Unit"><%=resultSet.getString("unit")%></td>
-			    <td data-th="Subtotal" class="cart-item-subtotal text-center">&#8369;<%=resultSet.getInt("orderItemSubTotal")%></td>
+			    <td data-th="Subtotal" class="cart-item-subtotal text-center">&#8369;<%=resultSet.getInt("orderItemSubTotal")%>.00</td>
 			    <td class="actions" data-th="">
 			    	<button type="submit" form="submitIDToDetails" class="cart-item-edit btn btn-info btn-sm">
 			        	Edit Qty <i class="fa fa-magic"></i> 
@@ -395,25 +397,11 @@ $(document).ready(function(){
   $('body').scrollspy({target: ".navbar", offset: 50});   
 });
 
-/* window.onscroll = function() {scrollFunction()}; */
-
-/* function scrollFunction() {
-  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-    document.getElementById("myBtn").style.display = "block";
-  } else {
-    document.getElementById("myBtn").style.display = "none";
-  }
-} */
-
-//For multiple modals modals:
-
 // When the user clicks on the button, scroll to the top of the document
 function topFunction() {
   document.body.scrollTop = 0; // For Safari
   document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 }
-
-
 </script>
 </body>
 </html>

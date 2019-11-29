@@ -633,9 +633,9 @@ e.printStackTrace();
             <tr>
               <td data-th="Item"><%=resultSet.getString("prodName")%></td>
               <td id="quantity" data-th="Quantity"><%=resultSet.getInt("orderItemQty")%></td>
-              <td id="initialprice" data-th="Unit Cost"><%=resultSet.getString("initialPrice")%></td>
+              <td id="initialprice" data-th="Unit Cost">&#8369;<%=resultSet.getString("initialPrice")%>.00</td>
               <td></td>
-              <td id="subtotal" data-th="Subtotal"><%=resultSet.getInt("orderItemSubTotal")%></td>
+              <td id="subtotal" data-th="Subtotal">&#8369;<%=resultSet.getInt("orderItemSubTotal")%>.00</td>
             </tr>
 			<%
 					}
@@ -658,7 +658,7 @@ e.printStackTrace();
 	            <td></td>
 	            <td></td>
 	            <td><strong><i>Items Sub-Total</i></strong></td>
-	            <td id="itemtotal"><h5><strong><%=resultSet.getInt("orderTotalPrice")%></strong></h5></td>
+	            <td id="itemtotal"><h5><strong><%=resultSet.getInt("orderTotalPrice")%>.00</strong></h5></td>
             </tr>
             
             <%
@@ -1291,7 +1291,7 @@ function calculate(){
     }
     grandtotal = Math.round (grandtotal * 100) / 100;
     console.log(grandtotal);
-    document.getElementById("grandtotal").innerHTML = "<h3><strong>"+grandtotal+"</strong></h3>";
+    document.getElementById("grandtotal").innerHTML = "<h3><strong>\&#8369;"+grandtotal+".00</strong></h3>";
 	
 }
 
