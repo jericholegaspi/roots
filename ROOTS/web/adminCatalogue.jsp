@@ -79,7 +79,23 @@ if((request.getSession(false).getAttribute("email")== null) )
             <div class="logo">
                 <a class="simple-text">
                 <img src="assets/img/logo-roots.png" height="110px" width="200px">                   
-                A D M I N I S T R A T O R </a>
+<%
+try {
+connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+statement = connection.createStatement();
+String sql = "SELECT * FROM users where userID = " + session.getAttribute("uid");
+
+resultSet = statement.executeQuery(sql);
+while (resultSet.next()) {
+%>                    
+                <%= resultSet.getString("firstName") %> <%= resultSet.getString("lastName") %> </a>
+<%
+}
+
+} catch (Exception e) {
+e.printStackTrace();
+}
+%> 
             </div>
 
             <ul class="nav">
@@ -90,7 +106,7 @@ if((request.getSession(false).getAttribute("email")== null) )
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="adminDashboard.jsp">
                         <i class="pe-7s-graph"></i>
                         <p>Dashboard</p>
                     </a>

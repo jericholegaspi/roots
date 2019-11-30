@@ -73,6 +73,11 @@
 								<p><strong><u>Profile</u></strong></p>
 								<p>Uploaded profile images for an account should not contain inappropriate content.</p>
 							</div>
+							<div class="col-sm-6">
+								<p><strong><u>Licensed Practitioner Accreditation</u></strong></p>
+								<p>All prospective Traditional Modality Practitioners must get their accreditation handled by the Standards & Accreditation Division of PITAHC.</p>
+								<p>This web application does not render services handled by unaccredited individuals.</p>
+							</div>
 						</div>
 					</div>
 				</div>

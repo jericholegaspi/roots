@@ -100,7 +100,7 @@ e.printStackTrace();
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="adminDashboard.jsp">
                         <i class="pe-7s-graph"></i>
                         <p>Dashboard</p>
                     </a>

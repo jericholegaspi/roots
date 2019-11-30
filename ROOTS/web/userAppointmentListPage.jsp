@@ -146,7 +146,7 @@ if((request.getSession(false).getAttribute("email")== null) )
   <table id="cart" class="table table-hover table-condensed">
     <thead>
       <tr>
-        <th style="width:10%">Modality</th>  
+        <th style="width:10%">Services</th>  
         <th style="width:13%">Reservation</th>        
         <th style="width:13%">Appointment Status</th>
         <th style="width:13%">Payment Status</th>

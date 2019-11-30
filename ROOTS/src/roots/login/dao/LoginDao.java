@@ -83,7 +83,7 @@ public String authenticateAdmin(RegisterBean loginBean)
 	 {
 	 con = getDBConnection();
 	 statement = con.createStatement();
-	 resultSet = statement.executeQuery("select email,password from users WHERE userTypeID = 1 ");
+	 resultSet = statement.executeQuery("select email,password from users WHERE userTypeID = 1 OR userTypeID = 4");
 	 
 	 while(resultSet.next())
 	 {
@@ -113,6 +113,35 @@ public String authenticateLP(RegisterBean loginBean)
 	 con = getDBConnection();
 	 statement = con.createStatement();
 	 resultSet = statement.executeQuery("select email,password from users WHERE userTypeID = 3 ");
+	 
+	 while(resultSet.next())
+	 {
+	 emailDB = resultSet.getString("email");
+	 passwordDB = resultSet.getString("password");
+	 if(email.equals(emailDB) && password.equals(passwordDB))
+	 return "login";
+	 }
+	 }
+	 catch(SQLException e)
+	 {
+	 e.printStackTrace();
+	 }
+	 return "Invalid user credentials";
+}
+
+//Authenticate User (Root Admin
+public String authenticateRootAdmin(RegisterBean loginBean)
+{
+	 String email = loginBean.getEmail();
+	 String password = loginBean.getPassword();
+	 password = getSHA(password);
+	 	 
+	 //Select From DB Users
+	 try
+	 {
+	 con = getDBConnection();
+	 statement = con.createStatement();
+	 resultSet = statement.executeQuery("select email,password from users WHERE userTypeID = 4");
 	 
 	 while(resultSet.next())
 	 {

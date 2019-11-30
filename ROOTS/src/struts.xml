@@ -148,6 +148,18 @@
 					<result name="error">/error.jsp</result>
 				</action>
 		
+		<!-- ROOT ADMIN ACTION -->
+				<action name="rootadminlogin" class="roots.rootadmin.action.RootAdminLoginAction">
+					<result name="success">/rootadminCatalogueApproval.jsp</result>
+					<result name="fail">/rootadminLogin.jsp</result>
+					<result name="error">/error.jsp</result>
+				</action>
+				
+				<action name="rootadminlogout" class="roots.rootadmin.action.RootAdminLogoutAction">
+					<result name="success">/rootadminLogin.jsp</result>
+					<result name="error">/error.jsp</result>
+				</action>
+		
 		<!-- Admin and Customer Product Features -->
 				<action name="addNewProduct" class="action.admin.AddProductAction">
 					<result name="success">/adminProductDetails.jsp</result>
