@@ -226,5 +226,15 @@
 					<result name="success">/adminProductDetails.jsp</result>
 					<result name="error">/error.jsp</result>
 				</action>
+				
+				<action name="updateDeliveryStatus" class="action.admin.UpdateDeliveryStatusAction">
+					<result name="success">/adminOrders.jsp</result>
+					<result name="error">/error.jsp</result>
+				</action>
+				
+				<action name="selectCatalogueID" class="action.admin.SelectCatalogueIDAction">
+					<result name="success">/userCatalogueDetailsPage.jsp</result>
+					<result name="error">/error.jsp</result>
+				</action>
 	</package>
 </struts>

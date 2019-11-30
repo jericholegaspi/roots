@@ -190,17 +190,19 @@
 			resultSet = statement.executeQuery(sqlproduct);
 		while (resultSet.next()) {
 		%>
-        <div class="col">
-          <div class="card item">
-          <img class="card-img-top responsive-img" src="assets/css/images/amp.jpg" alt="Card image" style="width:100%; height:200px;">
-          <div class="card-body">
-            <h4 class="card-title"><%=resultSet.getString("nameF")%></h4>
-            <p class="card-text"><%=resultSet.getString("scientificName")%> <br></p>
-            <span style="display: none;" class="retrieve-catalogueID"><%=resultSet.getString("catalogueID")%></span>
-            <button class="see-details btn btn-warning stretched-link" data-toggle="modal" data-target="#product-details">See Details</button>
-          </div>
-          </div>
-        </div>
+		<form action="selectCatalogueID.action" method="post">
+			<div class="col">
+				<button class="card item" type="submit" align="left"> 
+				<img class="card-img-top" src="images/catalogue/<%=resultSet.getString("catalogueImageName")%><%=resultSet.getString("catalogueImageType")%>" alt="Card image" style="width:100px; height:100px;">
+				<div class="card-body">
+					<h4 class="card-title" align="left"><%=resultSet.getString("nameF")%></h4>
+					<p class="card-text" align="left"><%=resultSet.getString("scientificName")%> <br></p>
+					<input type="hidden" name="catalogueID" value="<%=resultSet.getInt("catalogueID")%>"/>
+					<input type="submit" class="see-details btn btn-warning stretched-link" value="See Details"/>
+				</div>
+				</button>
+			</div>
+		</form>
         <%
 				}
 			} catch (Exception e) {
@@ -260,16 +262,19 @@
 			resultSet = statement.executeQuery(sqlproduct);
 		while (resultSet.next()) {
 		%>
-        <div class="col">
-          <div class="card item">
-          <img class="card-img-top responsive-img" src="assets/css/images/amp.jpg" alt="Card image" style="width:100%; height:200px;">
-          <div class="card-body">
-            <h4 class="card-title"><%=resultSet.getString("nameF")%></h4>
-            <p class="card-text"><i><%=resultSet.getString("scientificName")%></i></p>
-            <a href="#" class="btn btn-warning stretched-link" data-toggle="modal" data-target="#product-details">See Details</a>
-          </div>
-          </div>
-        </div>
+		<div class="col">
+		    <div class="card item">
+		        <img class="card-img-top responsive-img" src="assets/css/images/amp.jpg" alt="Card image" style="width:100%; height:200px;">
+		        <div class="card-body">
+		            <h4 class="card-title">
+		                <%=resultSet.getString("nameF")%>
+		            </h4>
+		            <p class="card-text"><i><%=resultSet.getString("scientificName")%></i></p>
+		            <input type="text" name="catalogueID" value="<%=resultSet.getInt("catalogueID")%>"/>
+		            <a href="#" class="btn btn-warning">See Details</a>
+		        </div>
+		    </div>
+		</div>
 		<%
 				}
 			} catch (Exception e) {

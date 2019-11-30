@@ -16,6 +16,8 @@ public class AddOrderBean {
 	private String prodName;
 	private int deliveryAddressID;
 	private int initialPrice;
+	private String orderImageName;
+	private String orderImageType;
 
 	//values for computation
 	private int cartItemTotalCount;
@@ -108,6 +110,22 @@ public class AddOrderBean {
 
 	public void setInitialPrice(int initialPrice) {
 		this.initialPrice = initialPrice;
+	}
+
+	public String getOrderImageName() {
+		return orderImageName;
+	}
+
+	public void setOrderImageName(String orderImageName) {
+		this.orderImageName = orderImageName;
+	}
+
+	public String getOrderImageType() {
+		return orderImageType;
+	}
+
+	public void setOrderImageType(String orderImageType) {
+		this.orderImageType = orderImageType;
 	}
 
 	public void setOrderID(int orderID) {
@@ -229,7 +247,8 @@ public class AddOrderBean {
 		
 		if (connection != null) { //means a valid connection
 			String sql = "INSERT INTO orders (userID, paymentStatus, deliveryStatus,"
-					+ " orderStatus, cartStatus) VALUES (?,?,?,?,?)";
+					+ " orderStatus, cartStatus)"
+					+ " VALUES (?,?,?,?,?)";
 			
 			try {
 				PreparedStatement pstmnt = connection.prepareStatement(sql);
@@ -255,8 +274,9 @@ public class AddOrderBean {
 		Connection connection = getDBConnection();
 		
 		if (connection != null) { //means a valid connection
-			String sql = "INSERT INTO orderItems (userID, prodID, cartState, orderItemQty, orderItemSubTotal)"
-					+ " VALUES (?,?,?,?,?)";
+			String sql = "INSERT INTO orderItems (userID, prodID, cartState, orderItemQty,"
+					+ " orderItemSubTotal, orderImageName, orderImageType)"
+					+ " VALUES (?,?,?,?,?,?,?)";
 			
 			try {
 				PreparedStatement pstmnt = connection.prepareStatement(sql);
@@ -266,6 +286,8 @@ public class AddOrderBean {
 				pstmnt.setString(3, "Idle");
 				pstmnt.setInt(4, this.orderItemQty);
 				pstmnt.setInt(5, this.orderItemSubTotal);
+				pstmnt.setString(6, this.orderImageName);
+				pstmnt.setString(7, this.orderImageType);
 				
 				pstmnt.executeUpdate();
 				return true;

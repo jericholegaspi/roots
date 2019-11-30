@@ -33,6 +33,9 @@
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
     <link href="assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
     
+    <!-- Data Tables -->
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+    
 <% //Database Connections
 String driverName = "com.mysql.jdbc.Driver";
 String connectionUrl = "jdbc:mysql://localhost:3306/";
@@ -282,14 +285,14 @@ e.printStackTrace();
                         <div class="card">
                             <div class="header">
                             <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addnewuser" style="float: right;"><span class="glyphicon glyphicon-plus"></span></button> -->
-                                <h4 class="title">List of Users</h4>
-                                <p class="category">Here is a subtitle for this table</p>
+                                <h4 class="title" style="color: blue;">List of Orders</h4>
+                                <p class="category">View all order records</p>
                             </div>
                             <div class="content table-responsive table-full-width">
-                                <table class="table table-hover table-striped">
+                                <table class="table table-hover table-striped" id="orderTable">
                                     <thead>
                                         <th>Order ID</th>
-                                        <th>User ID</th>
+                                        <th>Customer Name</th>
                                         <th>Payment Status</th>
                                         <th>Delivery Status</th>
                                         <th>Order Status</th>
@@ -304,22 +307,259 @@ e.printStackTrace();
                                         <th>Order Date</th>                                    
                                     </thead>
                                     <tbody>
-<%
-try {
-connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
-statement = connection.createStatement();
-String sql = "SELECT * FROM orders";
-
-resultSet = statement.executeQuery(sql);
-while (resultSet.next()) {
-%>
+				<%
+				try {
+				connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+				statement = connection.createStatement();
+				String sql = "SELECT orders.*, users.*, deliveryAddress.* FROM orders"
+						+ " INNER JOIN users ON orders.userID = users.userID"
+						+ " INNER JOIN deliveryAddress ON orders.deliveryAddressID = deliveryAddress.deliveryAddressID";
+				resultSet = statement.executeQuery(sql);
+				while (resultSet.next()) {
+				%>
                                         <tr>
                                             <td><%= resultSet.getString("orderID") %></td>
-                                            <td><%= resultSet.getString("userID") %> </td>
+                                            <td><%= resultSet.getString("firstName") %> <%= resultSet.getString("lastName") %> </td>
                                             <td><%= resultSet.getString("paymentStatus") %></td>
                                             <td><%= resultSet.getString("deliveryStatus") %></td>
                                             <td><%= resultSet.getString("orderStatus") %></td>
-                                            <td><%= resultSet.getString("deliveryAddressID") %></td>
+                                            <td>
+                                            	<%= resultSet.getString("houseNumber") %> 
+                                            	<%= resultSet.getString("street") %> 
+                                            	<%= resultSet.getString("barangay") %>, 
+                                            	<%= resultSet.getString("city") %> City
+                                            	<%= resultSet.getString("province") %> 
+                                            	<%= resultSet.getString("postalCode") %> 
+                                            </td>
+                                            <td><%= resultSet.getString("cartStatus") %></td>
+                                            <td><%= resultSet.getString("cartItemTotalCount") %></td>
+                                            <td><%= resultSet.getString("orderVAT") %></td>
+                                            <td><%= resultSet.getString("orderPayPalFee") %></td>
+                                            <td><%= resultSet.getString("orderDeliveryFee") %></td>
+                                            <td><%= resultSet.getString("orderTotalPrice") %></td>
+                                            <td><%= resultSet.getString("orderReferenceID") %></td>
+                                            <td><%= resultSet.getString("orderDate") %></td>
+                                        </tr>
+<%
+}
+
+} catch (Exception e) {
+e.printStackTrace();
+}
+%>                                                                              
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="header">
+                            <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addnewuser" style="float: right;"><span class="glyphicon glyphicon-plus"></span></button> -->
+                                <h4 class="title" style="color: orange;">List of Incomplete Orders</h4>
+                                <p class="category">View incomplete orders</p>
+                            </div>
+                            <div class="content table-responsive table-full-width">
+                                <table class="table table-hover table-striped" id="incompleteOrdersTable">
+                                    <thead>
+                                        <th>Order ID</th>
+                                        <th>Customer Name</th>
+                                        <th>Payment Status</th>
+                                        <th>Delivery Status</th>
+                                        <th>Order Status</th>
+                                        <th>Delivery Address</th>
+                                        <th>Cart Status</th>
+                                        <th>Cart Item Total Count</th>
+                                        <th>VAT</th>
+                                        <th>PayPal Fee</th>
+                                        <th>Delivery Fee</th>
+                                        <th>Order Total Price</th>
+                                        <th>Order Reference ID</th>
+                                        <th>Order Date</th>                                    
+                                    </thead>
+                                    <tbody>
+				<%
+				try {
+				connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+				statement = connection.createStatement();
+				String sql = "SELECT orders.*, users.*, deliveryAddress.* FROM orders"
+						+ " INNER JOIN users ON orders.userID = users.userID"
+						+ " INNER JOIN deliveryAddress ON"
+						+ " orders.deliveryAddressID = deliveryAddress.deliveryAddressID"
+						+ " WHERE orders.orderStatus = 'Incomplete'";
+				resultSet = statement.executeQuery(sql);
+				while (resultSet.next()) {
+				%>
+                                        <tr>
+                                            <td><%= resultSet.getString("orderID") %></td>
+                                            <td>
+                                            	<%= resultSet.getString("firstName") %> 
+                                            	<%= resultSet.getString("lastName") %> 
+                                            </td>
+                                            <td><%= resultSet.getString("paymentStatus") %></td>
+                                            <td>
+                                            	<%= resultSet.getString("deliveryStatus") %><br>
+                                            	<button type="button" class="btn btn-primary" 
+                                            		data-toggle="modal" data-target="#updateDeliveryStatusModal">
+                                            		UPDATE
+                                            	</button>
+                                            </td>
+                                            <td><%= resultSet.getString("orderStatus") %></td>
+                                            <td>
+                                            	<%= resultSet.getString("houseNumber") %> 
+                                            	<%= resultSet.getString("street") %> 
+                                            	<%= resultSet.getString("barangay") %>, 
+                                            	<%= resultSet.getString("city") %> City
+                                            	<%= resultSet.getString("province") %> 
+                                            	<%= resultSet.getString("postalCode") %> 
+                                            </td>
+                                            <td><%= resultSet.getString("cartStatus") %></td>
+                                            <td><%= resultSet.getString("cartItemTotalCount") %></td>
+                                            <td><%= resultSet.getString("orderVAT") %></td>
+                                            <td><%= resultSet.getString("orderPayPalFee") %></td>
+                                            <td><%= resultSet.getString("orderDeliveryFee") %></td>
+                                            <td><%= resultSet.getString("orderTotalPrice") %></td>
+                                            <td><%= resultSet.getString("orderReferenceID") %></td>
+                                            <td><%= resultSet.getString("orderDate") %></td>
+                                        </tr>
+<%
+}
+
+} catch (Exception e) {
+e.printStackTrace();
+}
+%>                                                                              
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="header">
+                            <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addnewuser" style="float: right;"><span class="glyphicon glyphicon-plus"></span></button> -->
+                                <h4 class="title" style="color: green;">List of Completed Orders</h4>
+                                <p class="category">View completed records</p>
+                            </div>
+                            <div class="content table-responsive table-full-width">
+                                <table class="table table-hover table-striped" id="completedOrdersTable">
+                                    <thead>
+                                        <th>Order ID</th>
+                                        <th>Customer Name</th>
+                                        <th>Payment Status</th>
+                                        <th>Delivery Status</th>
+                                        <th>Order Status</th>
+                                        <th>Delivery Address</th>
+                                        <th>Cart Status</th>
+                                        <th>Cart Item Total Count</th>
+                                        <th>VAT</th>
+                                        <th>PayPal Fee</th>
+                                        <th>Deivery Fee</th>
+                                        <th>Order Total Price</th>
+                                        <th>Order Reference ID</th>
+                                        <th>Order Date</th>                                    
+                                    </thead>
+                                    <tbody>
+				<%
+				try {
+				connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+				statement = connection.createStatement();
+				String sql = "SELECT orders.*, users.*, deliveryAddress.* FROM orders"
+						+ " INNER JOIN users ON orders.userID = users.userID"
+						+ " INNER JOIN deliveryAddress ON"
+						+ " orders.deliveryAddressID = deliveryAddress.deliveryAddressID"
+						+ " WHERE orders.orderStatus = 'Complete'";
+				resultSet = statement.executeQuery(sql);
+				while (resultSet.next()) {
+				%>
+                                        <tr>
+                                            <td><%= resultSet.getString("orderID") %></td>
+                                            <td><%= resultSet.getString("firstName") %> <%= resultSet.getString("lastName") %> </td>
+                                            <td><%= resultSet.getString("paymentStatus") %></td>
+                                            <td><%= resultSet.getString("deliveryStatus") %></td>
+                                            <td><%= resultSet.getString("orderStatus") %></td>
+                                            <td>
+                                            	<%= resultSet.getString("houseNumber") %> 
+                                            	<%= resultSet.getString("street") %> 
+                                            	<%= resultSet.getString("barangay") %>, 
+                                            	<%= resultSet.getString("city") %> City
+                                            	<%= resultSet.getString("province") %> 
+                                            	<%= resultSet.getString("postalCode") %> 
+                                            </td>
+                                            <td><%= resultSet.getString("cartStatus") %></td>
+                                            <td><%= resultSet.getString("cartItemTotalCount") %></td>
+                                            <td><%= resultSet.getString("orderVAT") %></td>
+                                            <td><%= resultSet.getString("orderPayPalFee") %></td>
+                                            <td><%= resultSet.getString("orderDeliveryFee") %></td>
+                                            <td><%= resultSet.getString("orderTotalPrice") %></td>
+                                            <td><%= resultSet.getString("orderReferenceID") %></td>
+                                            <td><%= resultSet.getString("orderDate") %></td>
+                                        </tr>
+<%
+}
+
+} catch (Exception e) {
+e.printStackTrace();
+}
+%>                                                                              
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="header">
+                            <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addnewuser" style="float: right;"><span class="glyphicon glyphicon-plus"></span></button> -->
+                                <h4 class="title" style="color: red;">List of Cancalled Orders</h4>
+                                <p class="category">View cancelled orders</p>
+                            </div>
+                            <div class="content table-responsive table-full-width">
+                                <table class="table table-hover table-striped" id="cancelledOrdersTable">
+                                    <thead>
+                                        <th>Order ID</th>
+                                        <th>Customer Name</th>
+                                        <th>Payment Status</th>
+                                        <th>Delivery Status</th>
+                                        <th>Order Status</th>
+                                        <th>Delivery Address</th>
+                                        <th>Cart Status</th>
+                                        <th>Cart Item Total Count</th>
+                                        <th>VAT</th>
+                                        <th>PayPal Fee</th>
+                                        <th>Deivery Fee</th>
+                                        <th>Order Total Price</th>
+                                        <th>Order Reference ID</th>
+                                        <th>Order Date</th>                                    
+                                    </thead>
+                                    <tbody>
+				<%
+				try {
+				connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+				statement = connection.createStatement();
+				String sql = "SELECT orders.*, users.*, deliveryAddress.* FROM orders"
+						+ " INNER JOIN users ON orders.userID = users.userID"
+						+ " INNER JOIN deliveryAddress ON "
+						+ " orders.deliveryAddressID = deliveryAddress.deliveryAddressID"
+						+ " WHERE orders.orderStatus = 'Cancelled'";
+				resultSet = statement.executeQuery(sql);
+				while (resultSet.next()) {
+				%>
+                                        <tr>
+                                            <td><%= resultSet.getString("orderID") %></td>
+                                            <td><%= resultSet.getString("firstName") %> <%= resultSet.getString("lastName") %> </td>
+                                            <td><%= resultSet.getString("paymentStatus") %></td>
+                                            <td><%= resultSet.getString("deliveryStatus") %></td>
+                                            <td><%= resultSet.getString("orderStatus") %></td>
+                                            <td>
+                                            	<%= resultSet.getString("houseNumber") %> 
+                                            	<%= resultSet.getString("street") %> 
+                                            	<%= resultSet.getString("barangay") %>, 
+                                            	<%= resultSet.getString("city") %> City
+                                            	<%= resultSet.getString("province") %> 
+                                            	<%= resultSet.getString("postalCode") %> 
+                                            </td>
                                             <td><%= resultSet.getString("cartStatus") %></td>
                                             <td><%= resultSet.getString("cartItemTotalCount") %></td>
                                             <td><%= resultSet.getString("orderVAT") %></td>
@@ -362,58 +602,48 @@ e.printStackTrace();
                 </p>
             </div>
         </footer>
-
-
     </div>    
-    
 </div>
 
-<!-- Modal: addneweplant -->
-<div class="modal fade eft" id="addnewuser" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog modal-full-height modal-right" role="document">
+
+<!-- START of Delivery Status Update Confirmation Modal -->
+<div class="modal fade" id="updateDeliveryStatusModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xs modal-dialog-centered" role="document">
     <div class="modal-content">
-        <!--Header-->
       <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel">English Table: Add New Plant</h4>
+        <h3 class="modal-title" id="modalLabel" style="color: grey;"><strong>Update Delivery Status</strong></h3>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">×</span>
+          <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <!--Body-->
-      <div class="modal-body justify-content-center">
-            <p align="left">
-            <!-- <s:textfield key="txtProdName" label="Name"/> -->
-            English Plant Name:</br> <input type='text' class="form-control" name='txtProdName' minlength='0' maxlength='100' required="required"/><br/>
-            Scientific Name:</br> <input type='text' class="form-control" name='txtProdName' minlength='0' maxlength='100' required="required"/><br/>
-            Benefit/s:</br> <input type='text' class="form-control" name='txtProdName' minlength='0' maxlength='100' required="required"/><br/>
-            Traditional Use/s:</br> <input type='text' class="form-control" name='txtProdName' minlength='0' maxlength='100' required="required"/><br/>
-            Caution/s:</br> <input type='text' class="form-control" name='txtProdName' minlength='0' maxlength='100' required="required"/><br/>
-            Popular Use/s:</br> <input type='text' class="form-control" name='txtProdName' minlength='0' maxlength='100' required="required"/><br/>
-            Use as Food:</br> <input type='text' class="form-control" name='txtProdName' minlength='0' maxlength='100' required="required"/><br/>
-            Other Use/s:</br> <input type='text' class="form-control" name='txtProdName' minlength='0' maxlength='100' required="required"/><br/>
-            Additional Information:</br> <input type='text' class="form-control" name='txtProdName' minlength='0' maxlength='100' required="required"/><br/>
-            Location:</br> <input type='text' class="form-control" name='txtProdName' minlength='0' maxlength='100' required="required"/><br/>
-            Reference:</br> <input type='text' class="form-control" name='txtProdName' minlength='0' maxlength='100' required="required"/><br/>
-            </p>
-      
-      <!--Footer-->
+      <div class="modal-body">
+      	<form action="updateDeliveryStatus.action" method="post" id="updateDeliveryStatus">
+      		<input type="hidden" name="orderID" id="orderIdGetTest" class="form-control"/>
+      		Delivery Status: <br>
+      		<select class="form-control" name='deliveryStatus' required="required">
+	      		<option value="" disabled selected>Select your option</option>
+	      		<option value="Ready for Pickup">Ready for Pickup</option>
+	      		<option value="Ready for Delivery">Ready for Delivery</option>
+	      		<option value="In Transit">In Transit</option>
+	      		<option value="Delivered">Delivered</option>
+      		</select>
+            
+		</form>
+      </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="">
-        </span>Save</button>
+        <button type="submit" form="updateDeliveryStatus" class="btn btn-warning">Update</button>
       </div>
     </div>
   </div>
-</div>
-</div>
-<!-- Modal: addnewfproduct -->
-
+</div> 
+<!--END of Delivery Status Update Confirmation Modal -->
 
 </body>
 
-    <!--   Core JS Files   -->
-    <script src="assets/js/jquery.3.2.1.min.js" type="text/javascript"></script>
+ 	<!-- DataTables -->
+ 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+ 	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
     <script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
 
     <!--  Charts Plugin -->
@@ -431,5 +661,24 @@ e.printStackTrace();
     <!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
     <script src="assets/js/demo.js"></script>
 
-
+	<script type="text/javascript">
+	 $(document).ready(function(){
+	 
+	//DataTables
+     $('#orderTable').DataTable();
+     $('#incompleteOrdersTable').DataTable();
+     $('#completedOrdersTable').DataTable();
+     $('#cancelledOrdersTable').DataTable();
+     
+     var table = document.getElementById('incompleteOrdersTable');
+     
+     for(var i = 1; i < table.rows.length; i++){
+         table.rows[i].onclick = function(){
+              //rIndex = this.rowIndex;
+              document.getElementById("orderIdGetTest").value = this.cells[0].innerHTML;
+    		};
+     }
+     
+	 });
+	</script>
 </html>

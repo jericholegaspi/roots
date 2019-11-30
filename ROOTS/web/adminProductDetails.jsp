@@ -702,7 +702,6 @@ e.printStackTrace();
     <!-- DataTables -->
  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
  	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
-	
     <script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
 
     <!--  Charts Plugin -->

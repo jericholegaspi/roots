@@ -158,6 +158,7 @@ if((request.getSession(false).getAttribute("email") == null))
 				statement = connection.createStatement();
 				String sqlproduct = "SELECT orderItems.orderItemID, orderItems.userID, orderItems.prodID,"
 						+ " orderItems.cartState, orderItems.orderItemQty, orderItems.orderItemSubTotal,"
+						+ " orderItems.orderImageName, orderItems.orderImageType,"
 						+ " products.prodID, products.prodName, products.description,"
 						+ " products.initialPrice, products.unitID, units.unitID, units.unit FROM orderItems"
 						+ " INNER JOIN products ON orderItems.prodID = products.prodID"
@@ -173,7 +174,7 @@ if((request.getSession(false).getAttribute("email") == null))
 				            	style="background-color: Transparent; border: none; outline:none;">
 				        <div class="row">
 				            <div class="col-sm-3 hidden-xs">
-				            		<img src="http://placehold.it/100x100" alt="..." class="img-responsive"/>
+				            		<img src="images/products/<%=resultSet.getString("orderImageName")%><%=resultSet.getString("orderImageType")%>" alt="..." style="width:130px; height:120px;"/>
 				            </div>
 				            <div class="col-sm-8">
 				           		<h4 style="display: none;" class="cart-product-id"><%=resultSet.getInt("prodID")%></h4>

@@ -144,6 +144,7 @@ if((request.getSession(false).getAttribute("email")== null) )
 		String sqlproduct = "SELECT products.prodID, products.prodName,"
 				+ " products.description, products.initialPrice, products.prodQty,"
 				+ " units.unit, category.catID, category.category, products.Availability,"
+				+ " products.productImageName, products.productImageType,"
 				+ " products.prodLastUpdate, products.critLevel FROM products"
 				+ " INNER JOIN category ON products.catID = category.catID"
 				+ " INNER JOIN units ON products.unitID = units.unitID"
@@ -162,7 +163,7 @@ if((request.getSession(false).getAttribute("email")== null) )
                     </div>
                     <input type="hidden" name="userID" value="<%= session.getAttribute("uid") %>"/>
                     <input type="hidden" name="prodID" value="<%=resultSet.getString("prodID")%>"/>
-                    <img class="card-img-top responsive-img" src="assets/css/images/amp.jpg" alt="Card image" style="width:100%; height:200px;">
+                    <img class="card-img-top responsive-img" src="images/products/<%=resultSet.getString("productImageName")%><%=resultSet.getString("productImageType")%>" alt="Card image" style="height:230px; width:100%;">
                     <br><br><br><br>
                     
                     <br>

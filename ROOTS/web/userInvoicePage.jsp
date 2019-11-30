@@ -273,8 +273,8 @@ if((request.getSession(false).getAttribute("email")== null) )
                                 </td>
                                 <td data-th="Quantity"><%=resultSet.getString("orderItemQty")%></td>
                                 <td data-th="Unit"><%=resultSet.getString("unit")%></td>
-                                <td data-th="Unit Price"><%=resultSet.getString("initialPrice")%></td>
-                                <td data-th="Subtotal" id="itemtotal"><%=resultSet.getString("orderItemSubTotal")%></td>
+                                <td data-th="Unit Price">&#8369;<%=resultSet.getString("initialPrice")%>.00</td>
+                                <td data-th="Subtotal">&#8369;<span id="itemtotal"><%=resultSet.getString("orderItemSubTotal")%>.00</span></td>
                             </tr>
                             <%
 									}	
@@ -299,21 +299,21 @@ if((request.getSession(false).getAttribute("email")== null) )
 					            <td></td>
 					            <td></td>
 					            <td><i>VAT (12%)</i></td>
-					            <td id="vat"><%=resultSet.getFloat("orderVAT")%></td>
+					            <td>&#8369;<span id="vat"><%=resultSet.getFloat("orderVAT")%></span></td>
 					        </tr>
 					        <tr id="paypalrow">
 					            <td></td>
 					            <td></td>
 					            <td></td>
 					            <td><i>PayPal Fee</i></td>
-					            <td id="paypalfee"><%=resultSet.getFloat("orderPayPalFee")%></td>
+					            <td>&#8369;<span id="paypalfee"><%=resultSet.getFloat("orderPayPalFee")%></span></td>
 					        </tr>
 					      	<tr>
 					            <td></td>
 					            <td></td>
 					            <td></td>
 					            <td><i>Delivery Fee</i></td>
-					            <td id="deliverfee"><%=resultSet.getFloat("orderDeliveryFee")%></td>
+					            <td>&#8369;<span id="deliverfee"><%=resultSet.getFloat("orderDeliveryFee")%></span></td>
 					        </tr>
 				<%
 					} catch (Exception e) {
@@ -482,19 +482,27 @@ function calculate(){
 	var vat = parseFloat(document.getElementById("vat").innerText);
 	var paypalfee = parseFloat(document.getElementById("paypalfee").innerText);
 	var deliverfee = parseFloat(document.getElementById("deliverfee").innerText);
+	
+	vat = (Math.round(vat * 100) / 100).toFixed(2);
+	paypalfee = (Math.round(paypalfee * 100) / 100).toFixed(2);
+	deliverfee = (Math.round(deliverfee * 100) / 100).toFixed(2);
+	
+	document.getElementById("vat").innerHTML = vat;
+	document.getElementById("paypalfee").innerHTML = paypalfee;
+	document.getElementById("deliverfee").innerHTML = deliverfee;
 		
 	var inclusivefees = 0;
 	
 	if (paymentmethod == "PayPal"){
-		inclusivefees = vat + paypalfee + deliverfee;
+		inclusivefees =  parseFloat(vat) +  parseFloat(paypalfee) +  parseFloat(deliverfee);
 	}
 	else {
-		inclusivefees = vat + deliverfee;
+		inclusivefees =  parseFloat(vat) +  parseFloat(deliverfee);
 	}
 	
-	inclusivefees = Math.round(inclusivefees * 100) / 100;
+	inclusivefees = (Math.round(inclusivefees * 100) / 100).toFixed(2);
 	console.log(inclusivefees);
-	document.getElementById("inclusivefees").innerHTML = "<h5><strong>"+inclusivefees+"</strong></h5>";
+	document.getElementById("inclusivefees").innerHTML = "<h5><strong>\&#8369;"+inclusivefees+"</strong></h5>";
 }
 
 //Switch Mode of Payments

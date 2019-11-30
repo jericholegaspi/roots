@@ -36,7 +36,6 @@ public class AddProductAction extends ActionSupport implements ModelDriven<Roots
 		System.out.println("Quantity: " + productObj.getProdQty());
 		System.out.println("Unit: " + productObj.getUnitID());
 		System.out.println("Description: " + productObj.getDescription());
-		System.out.println("Image: " + productObj.getImage() + ".jpg");
 		System.out.println("Availability: " + productObj.getAvailability());
 		System.out.println("Image Name: " + getImageName());
 		System.out.println("Critical Level: " + productObj.getCritLevel());

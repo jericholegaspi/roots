@@ -658,7 +658,7 @@ e.printStackTrace();
 	            <td></td>
 	            <td></td>
 	            <td><strong><i>Items Sub-Total</i></strong></td>
-	            <td id="itemtotal"><h5><strong><%=resultSet.getInt("orderTotalPrice")%>.00</strong></h5></td>
+	            <td><h5><strong>&#8369;<span id="itemtotal"><%=resultSet.getInt("orderTotalPrice")%>.00</span></strong></h5></td>
             </tr>
             
             <%
@@ -706,6 +706,10 @@ e.printStackTrace();
           </tfoot>
         </table>
       </div>
+      <span style="display:none;" id="vathidden"></span>
+      <span style="display:none;" id="deliverfeehidden"></span>
+      <span style="display:none;" id="paypalfeehidden"></span>
+      <span style="display:none;" id="grandtotalhidden"></span>
       <br>
         <h5>Mode of Payment</h5><br>
 			<div class="col-sm-6">
@@ -1186,7 +1190,7 @@ window.onload = switchAddress();
 
 paypal.Buttons({
     createOrder: function(data, actions) {
-      var total = document.getElementById('grandtotal').innerText;
+      var total = document.getElementById('grandtotalhidden').innerText;
       return actions.order.create({
         purchase_units: [{
           amount: {
@@ -1198,7 +1202,7 @@ paypal.Buttons({
     onApprove: function(data, actions) {
       return actions.order.capture().then(function(details) {
         alert('Transaction completed by ' + document.getElementById('myname').innerHTML);
-        // Call Order Action
+        // Call Order Action'   
         document.getElementById("paypalaction").submit();
         // Call your server to save the transaction
         return fetch('/paypal-transaction-complete', {
@@ -1215,17 +1219,23 @@ paypal.Buttons({
   }).render('#paypal-button-container');
 
 
-function calculate(){
+function calculate(){	
+	//Compute Item Total
+	var itemtotal = parseFloat(document.getElementById('itemtotal').innerText);
+	itemtotal = (Math.round(itemtotal * 100) / 100).toFixed(2);
+	document.getElementById("itemtotal").innerHTML = itemtotal;
+	
 	//Compute VAT
-	var itemtotal = parseInt(document.getElementById('itemtotal').innerText);
 	var vat = itemtotal * .12;
-	vat = Math.round(vat * 100) / 100;
-    document.getElementById("vat").innerHTML = vat;
+	vat = (Math.round(vat * 100) / 100).toFixed(2);
+    document.getElementById("vat").innerHTML = "\&#8369;" + vat;
+    document.getElementById("vathidden").innerHTML = vat;
     
     //Compute PayPal Fee
     var paypalfee = ((itemtotal * 0.044) + 15);
-    paypalfee = Math.round(paypalfee * 100) / 100;
-    document.getElementById("paypalfee").innerHTML = paypalfee;
+    paypalfee = (Math.round(paypalfee * 100) / 100).toFixed(2);
+    document.getElementById("paypalfee").innerHTML = "\&#8369;" + paypalfee;
+    document.getElementById("paypalfeehidden").innerHTML = paypalfee;
     
     //Compute Delivery Fee
     var deliverfee = 0;
@@ -1259,10 +1269,10 @@ function calculate(){
 			deliverfee = 139;
 		}
     
-    deliverfee = Math.round(deliverfee * 100) / 100;
+    deliverfee = (Math.round(deliverfee * 100) / 100).toFixed(2);
     
-    document.getElementById("deliverfee").innerHTML = deliverfee;
-    
+    document.getElementById("deliverfee").innerHTML = "\&#8369;" + deliverfee;
+    document.getElementById("deliverfeehidden").innerHTML = deliverfee;
     
     var paymentmethod = document.getElementById("paymentmethod").value;
 
@@ -1270,29 +1280,28 @@ function calculate(){
     var inclusivefees = 0;
 
     if (paymentmethod=="paypal"){
-    	inclusivefees = vat + paypalfee + deliverfee;
+    	inclusivefees = parseFloat(vat) + parseFloat(paypalfee) + parseFloat(deliverfee);
     }
     else {
-    	inclusivefees = vat + deliverfee;
+    	inclusivefees = parseFloat(vat) + parseFloat(deliverfee);
     }
-    inclusivefees = Math.round (inclusivefees * 100) / 100;
-    console.log(inclusivefees);
-    document.getElementById("inclusivefees").innerHTML = "<h5><strong>"+inclusivefees+"</strong></h5>";
-    
+    inclusivefees = (Math.round (inclusivefees * 100) / 100).toFixed(2);
+    console.log("NEW Incl. Fees: " + inclusivefees);
+    document.getElementById("inclusivefees").innerHTML = "<h5><strong>\&#8369;"+inclusivefees+"</strong></h5>";
     
     //Compute Grand Total
     var grandtotal = 0;
     
     if (paymentmethod=="paypal"){
-    	grandtotal = itemtotal + vat + paypalfee + deliverfee;
+    	grandtotal = parseFloat(itemtotal) + parseFloat(vat) + parseFloat(paypalfee) + parseFloat(deliverfee);
     }
     else {
-    	grandtotal = itemtotal + vat + deliverfee;
+    	grandtotal = parseFloat(itemtotal) + parseFloat(vat) + parseFloat(deliverfee);
     }
-    grandtotal = Math.round (grandtotal * 100) / 100;
+    grandtotal = (Math.round (grandtotal * 100) / 100).toFixed(2);
     console.log(grandtotal);
-    document.getElementById("grandtotal").innerHTML = "<h3><strong>\&#8369;"+grandtotal+".00</strong></h3>";
-	
+    document.getElementById("grandtotal").innerHTML = "<h3><strong>\&#8369;"+grandtotal+"</strong></h3>";
+    document.getElementById("grandtotalhidden").innerHTML = grandtotal;
 }
 
 function query(){
@@ -1314,25 +1323,25 @@ function query(){
 	console.log(document.getElementById("daID").value);
 	
 	//To Get Grand Total
-	var gt = parseFloat(document.getElementById("grandtotal").innerText);	
+	var gt = parseFloat(document.getElementById("grandtotalhidden").innerText);	
 	document.getElementById("otp").setAttribute("value", gt);
 	document.getElementById("otp2").setAttribute("value", gt);
     console.log("GT:" + gt);
 	
     //Get VAT
-    var vat = parseFloat(document.getElementById("vat").innerText);
+    var vat = parseFloat(document.getElementById("vathidden").innerText);
     console.log("VAT TO DB "+vat);
     document.getElementById("ovat").value = vat;
     document.getElementById("ovat2").value = vat;
 
     //Get PayPalFee
-    var paypalfee = parseFloat(document.getElementById("paypalfee").innerText);
+    var paypalfee = parseFloat(document.getElementById("paypalfeehidden").innerText);
     console.log("PayPal TO DB "+paypalfee);
 
     document.getElementById("oppf").value = paypalfee;
     
     //Get Delivery Fee
-    var deliverfee = parseFloat(document.getElementById("deliverfee").innerText);
+    var deliverfee = parseFloat(document.getElementById("deliverfeehidden").innerText);
     console.log("Delivery Fee TO DB "+deliverfee);
 
     document.getElementById("odf").value = deliverfee;

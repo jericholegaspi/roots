@@ -133,7 +133,8 @@ if((request.getSession(false).getAttribute("email")== null) )
 		String sqlproduct = "SELECT products.prodID, products.prodName,"
 				+ " products.description, products.initialPrice, products.prodQty,"
 				+ " units.unit, category.catID, category.category, products.Availability,"
-				+ " products.prodLastUpdate, products.critLevel FROM products"
+				+ " products.prodLastUpdate, products.critLevel, products.productImageName,"
+				+ " products.productImageType FROM products"
 				+ " INNER JOIN category ON products.catID = category.catID"
 				+ " INNER JOIN units ON products.unitID = units.unitID"
 				+ " WHERE prodID = " + prodIDChain;
@@ -151,7 +152,7 @@ if((request.getSession(false).getAttribute("email")== null) )
                     </div>
                     <input type="hidden" name="userID" value="<%= session.getAttribute("uid") %>"/>
                     <input type="hidden" name="prodID" value="<%=resultSet.getString("prodID")%>"/>
-                    <img class="card-img-top responsive-img" src="assets/css/images/amp.jpg" alt="Card image" style="width:100%; height:200px;">
+                    <img class="card-img-top responsive-img" src="images/products/<%=resultSet.getString("productImageName")%><%=resultSet.getString("productImageType")%>" alt="Card image" style="height:230px; width:100%; ">
                     <br><br><br><br>
                     
                     <br>
@@ -170,14 +171,14 @@ if((request.getSession(false).getAttribute("email")== null) )
                     <p><input type="number" name="orderItemQty" min='1' max='<%=resultSet.getString("prodQty")%>' value="1"/><br>
 					<small>Stock:<%=resultSet.getString("prodQty")%></small></p>
 					<input type="hidden" name="initialPrice" value="<%=resultSet.getString("initialPrice")%>"/>
+					<input type="hidden" name="orderImageName" value="<%=resultSet.getString("productImageName")%>"/>
+					<input type="hidden" name="orderImageType" value="<%=resultSet.getString("productImageType")%>"/>
 				</form>
 				<%
 					} catch (Exception e) {
 					e.printStackTrace();
 				}
 				%>
-				
-				
                     <br>
 
                     <h6>Comments:</h6>

@@ -23,12 +23,13 @@ public class RootsInventoryBean {
 	private String availability;
 	private int critLevel;
 	private Date expDate;
-	private String image;
 	private int prodQtyChange;
 	private String qtyChangeDesc;
 	private int prodPriceChange;
 	private int prodPriceChangeRefNoID;
 	private String prodQtyChangeRef;
+	private String productImageName;
+	private String productImageType;
 	
 	public void process() {
 	}
@@ -111,13 +112,6 @@ public class RootsInventoryBean {
 	public void setUnitID(int unitID) {
 		this.unitID = unitID;
 	}
-
-	public String getImage() {
-		return image;
-	}
-	public void setImage(String image) {
-		this.image = image;
-	}
 	
 	public String getCategory() {
 		return category;
@@ -166,6 +160,22 @@ public class RootsInventoryBean {
 		this.prodQtyChangeRef = prodQtyChangeRef;
 	}
 
+	public String getProductImageName() {
+		return productImageName;
+	}
+
+	public void setProductImageName(String productImageName) {
+		this.productImageName = productImageName;
+	}
+
+	public String getProductImageType() {
+		return productImageType;
+	}
+
+	public void setProductImageType(String productImageType) {
+		this.productImageType = productImageType;
+	}
+
 	private Connection getDBConnection() {
 		Connection connection = null;
 	
@@ -187,7 +197,7 @@ public class RootsInventoryBean {
 		
 		if (connection != null) { //means a valid connection
 			String sql = "INSERT INTO products (prodName, catID, initialPrice,"
-					+ " prodQty, unitID, description, image, availability, critLevel)"
+					+ " prodQty, unitID, description, availability, critLevel)"
 					+ " VALUES (?,?,?,?,?,?,?,?,?)";
 			
 			try {
@@ -199,9 +209,8 @@ public class RootsInventoryBean {
 				pstmnt.setInt(4, this.prodQty);
 				pstmnt.setInt(5, this.unitID);
 				pstmnt.setString(6, this.description);
-				pstmnt.setString(7, this.image + ".jpg");
-				pstmnt.setString(8, this.availability);
-				pstmnt.setInt(9, this.critLevel);
+				pstmnt.setString(7, this.availability);
+				pstmnt.setInt(8, this.critLevel);
 				
 				pstmnt.executeUpdate();
 				return true;
@@ -219,7 +228,7 @@ public class RootsInventoryBean {
 		
 		if (connection != null) { //means a valid connection
 			String sql = "UPDATE products SET prodName=?, catID=?,"
-					+ " unitID=?, description=?, image=?"
+					+ " unitID=?, description=?"
 					+ " WHERE prodID = ?";
 			
 			try {
@@ -229,8 +238,7 @@ public class RootsInventoryBean {
 				pstmnt.setInt(2, this.catID);
 				pstmnt.setInt(3, this.unitID);
 				pstmnt.setString(4, this.description);
-				pstmnt.setString(5, this.image + ".jpg");
-				pstmnt.setInt(6, this.prodID);
+				pstmnt.setInt(5, this.prodID);
 				
 				pstmnt.executeUpdate();
 				return true;
@@ -248,7 +256,7 @@ public class RootsInventoryBean {
 		
 		if (connection != null) { //means a valid connection
 			String sql = "UPDATE products SET prodName=?, catID=?,"
-					+ " initialPrice=?, prodQty=?, unitID=?, description=?, image=?"
+					+ " initialPrice=?, prodQty=?, unitID=?, description=?"
 					+ " WHERE prodID = ?";
 			
 			try {
@@ -260,8 +268,7 @@ public class RootsInventoryBean {
 				pstmnt.setInt(4, this.prodQty);
 				pstmnt.setInt(5, this.unitID);
 				pstmnt.setString(6, this.description);
-				pstmnt.setString(7, this.image + ".jpg");
-				pstmnt.setInt(8, this.prodID);
+				pstmnt.setInt(7, this.prodID);
 				
 				pstmnt.executeUpdate();
 				return true;
