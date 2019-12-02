@@ -177,7 +177,7 @@
             </a>
           </li>
         </ul>
-        <img class="responsive-img" src="assets/css/images/pitahc-logo.png" alt="pitahc-logo" style="width:90px; height:90px;">
+        <img class="responsive-img" src="assets/css/images/pitahc-logo.jpg" alt="pitahc-logo" style="width:90px; height:90px;">
       </nav>
 		
 
@@ -192,15 +192,15 @@
 		%>
 		<form action="selectCatalogueID.action" method="post">
 			<div class="col">
-				<button class="card item" type="submit" align="left"> 
-				<img class="card-img-top" src="images/catalogue/<%=resultSet.getString("catalogueImageName")%><%=resultSet.getString("catalogueImageType")%>" alt="Card image" style="width:225px; height:200px;">
+				<div class="btn card item" type="submit" align="left"> 
+				<img class="card-img-top responsive-img" src="images/catalogue/<%=resultSet.getString("catalogueImageName")%><%=resultSet.getString("catalogueImageType")%>" alt="Card image" style="width:100%; height:200px;">
 				<div class="card-body">
-					<h4 class="card-title" align="left"><%=resultSet.getString("nameF")%></h4>
-					<p class="card-text" align="left"><%=resultSet.getString("scientificName")%> <br></p>
+					<h4 class="card-title"><%=resultSet.getString("nameF")%></h4>
+					<p class="card-text"><%=resultSet.getString("scientificName")%></p>
 					<input type="hidden" name="catalogueID" value="<%=resultSet.getInt("catalogueID")%>"/>
 					<input type="submit" class="see-details btn btn-warning stretched-link" value="See Details"/>
 				</div>
-				</button>
+				</div>
 			</div>
 		</form>
         <%
@@ -282,6 +282,7 @@
 		}
 		%>
       	
+
     <nav aria-label="...">
     <ul class="pagination justify-content-center pagination-sm">
       <li class="page-item disabled">
@@ -350,10 +351,10 @@
             <a href="userCataloguePage.jsp" class="text-secondary">Catalogue</a>
           </li>
           <li>
-            <a href="userPrivacyPolicyPage.jsp" target="_blank" class="text-secondary">Privacy Policy</a>
+            <a href="userProductIndex.jsp" target="_blank" class="text-secondary">Products</a>
           </li>
           <li>
-            <a href="userTermsConditionsPage.jsp" target="_blank" class="text-secondary">Terms and Conditions</a>
+            <a href="userServicepage.jsp" target="_blank" class="text-secondary">Services</a>
           </li>
         </ul>
 

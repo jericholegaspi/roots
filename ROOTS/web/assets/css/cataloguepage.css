@@ -103,6 +103,7 @@ p.description {
 .card {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   width:240px;
+  text-align: left;
 }
 
 .category {
@@ -113,7 +114,6 @@ p.description {
   color: grey;
   white-space: nowrap;  
   overflow: hidden;
-  text-align: left;
   text-overflow: ellipsis;
   font-size: 16px; 
 }

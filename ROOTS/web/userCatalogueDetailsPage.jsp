@@ -175,7 +175,7 @@
                         <br>
                         <p class="p-title">Location:</p>
                         <p class="p-text" style="overflow:auto; height:120px;">
-                            <%=resultSet.getString("location")%>
+                            <%=resultSet.getString("location")%> 
                         </p>
                         <br>
                         <p class="p-title">Added Information:</p>
@@ -195,10 +195,12 @@
 				
                     <div class="col-sm-4">
                         <div class="card-title">
+                        <img class="responsive-img float-right" src="assets/css/images/pitahc-logo.jpg" alt="pitahc-logo" style="width:60px; height:60px;">
 
                             <h3><%=resultSet.getString("nameF")%></h3>
                             <p>
                                 <h6><i><%=resultSet.getString("scientificName")%></i></h6>
+                                
                             </p>
                         </div>
 

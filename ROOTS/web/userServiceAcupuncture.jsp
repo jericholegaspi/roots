@@ -387,10 +387,10 @@ e.printStackTrace();
             <a href="userCataloguePage.jsp" class="text-secondary">Catalogue</a>
           </li>
           <li>
-            <a href="userPrivacyPolicyPage.jsp" target="_blank" class="text-secondary">Privacy Policy</a>
+            <a href="userProductIndex.jsp" target="_blank" class="text-secondary">Products</a>
           </li>
           <li>
-            <a href="userTermsConditionsPage.jsp" target="_blank" class="text-secondary">Terms and Conditions</a>
+            <a href="userServicepage.jsp" target="_blank" class="text-secondary">Services</a>
           </li>
         </ul>
 
