@@ -28,6 +28,9 @@
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
     <link href="assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
+    
+    <!-- Data Tables -->
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
 </head>
 <% //In case, if User session is not set, redirect to Login page.
 if((request.getSession(false).getAttribute("email")== null) )
@@ -212,58 +215,209 @@ e.printStackTrace();
                     <div class="col-md-12">
 
                     <!-- start of table -->
-                          
                     <div class="col-md-12">
                         <div class="card">
-
                             <div class="header">
+                                <h4 class="title">New Product Approvals</h4></h4>
 
-
-                                <h4 class="title">List of Pending Product Approvals</h4>
-                                <div class="form-group pull-right">
-                                    <input type="text" id="searchbar" onkeyup="myFunction()" class="search form-control" placeholder="Search">
-                                </div>
-
+                                <p class="category">View/Approve New Pending Product Approvals</p>
                             </div>
                             <div class="content table-responsive table-full-width">
-                                <table class="table table-hover table-striped results" id="myTable">
+                                <table class="table table-hover table-striped" id="newProductTable">
                                     <thead>
-                                        <th>Approval ID</th>
+                                    <tr>
                                         <th>Product ID</th>
-                                        <th>User ID</th>
-                                        <th>Name</th>
                                         <th>Product Name</th>
-                                        <th>Approval State</th>
-                                        <th>Date Added</th>
-                                        <th>Date Modified</th>
+                                        <th>Category</th>
+                                        <th>Price (&#8369;)</th>
+                                        <th>Quantity</th>
+                                        <th>Unit</th>
+                                        <th>Description</th>                      
+                                        <th>Availability</th>
+                                        <th>Critical Level</th>
+                                        <th>Product Approval State</th>
                                         <th></th>
+                                    </tr>
                                     </thead>
                                     <tbody>
+	<%
+		try {
+			connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+			statement = connection.createStatement();
+			String sqlproduct = "SELECT products.*, units.*, category.* FROM products"
+					+ " INNER JOIN category ON products.catID = category.catID"
+					+ " INNER JOIN units ON products.unitID = units.unitID"
+					+ " WHERE products.availability = 'Available'"
+					+ " AND products.productApproval = 'New Product Not Yet Approved'";
+			resultSet = statement.executeQuery(sqlproduct);
+		while (resultSet.next()) {
+	%>
                                         <tr>
-                                            <td scope="row">1</td>
-											<td>1</td>
-											<td>26</td>
-											<td>Jericho Legaspi</td>
-											<td>Akapulko Soap</td>
-											<td>Not Approved</td>
-											<td>11/30/2019</td>
-											<td>11/30/2019</td>
-											<td>
-											    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#delete-confirmation">
+                                            <td><%=resultSet.getString("prodID")%></td>
+                                            <td><%=resultSet.getString("prodName")%></td>
+                                            <td id="catGetTest"><%=resultSet.getString("category")%></td>
+                                            <td>&#8369;<%=resultSet.getString("initialPrice")%>.00</td>
+                                            <td><%=resultSet.getString("prodQty")%></td>
+                                            <td><%=resultSet.getString("unit")%></td>
+                                            <td><%=resultSet.getString("description")%></td>
+                                            <td><%=resultSet.getString("Availability")%></td>
+                                            <td><%=resultSet.getString("critLevel")%></td>
+                                            <td style="color: red;"><%=resultSet.getString("productApproval")%></td>
+                                            <td>
+                                            	<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#newProductConfirmation">
                                             		APPROVE
                                             	</button>
-											</td>
-											
+                                            </td>
                                         </tr>
-
+	<%
+			}
+		} catch (Exception e) {
+		e.printStackTrace();
+	}
+	%>
                                     </tbody>
                                 </table>
-
                             </div>
                         </div>
                     </div>
-
                     <!-- end of table -->
+                    
+                    <!-- start of table -->
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">Product Update Approvals</h4></h4>
+
+                                <p class="category">View/Approve Product Update Approvals</p>
+                            </div>
+                            <div class="content table-responsive table-full-width">
+                                <table class="table table-hover table-striped" id="newProductTable">
+                                    <thead>
+                                    <tr>
+                                        <th>Product ID</th>
+                                        <th>Product Name</th>
+                                        <th>Category</th>
+                                        <th>Price (&#8369;)</th>
+                                        <th>Quantity</th>
+                                        <th>Unit</th>
+                                        <th>Description</th>                      
+                                        <th>Availability</th>
+                                        <th>Critical Level</th>
+                                        <th>Product Approval State</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+	<%
+		try {
+			connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+			statement = connection.createStatement();
+			String sqlproduct = "SELECT products.*, units.*, category.* FROM products"
+					+ " INNER JOIN category ON products.catID = category.catID"
+					+ " INNER JOIN units ON products.unitID = units.unitID"
+					+ " WHERE products.availability = 'Available'"
+					+ " AND products.productApproval = 'Product Update Not Yet Approved'";
+			resultSet = statement.executeQuery(sqlproduct);
+		while (resultSet.next()) {
+	%>
+                                        <tr>
+                                            <td><%=resultSet.getString("prodID")%></td>
+                                            <td><%=resultSet.getString("prodName")%></td>
+                                            <td id="catGetTest"><%=resultSet.getString("category")%></td>
+                                            <td>&#8369;<%=resultSet.getString("initialPrice")%>.00</td>
+                                            <td><%=resultSet.getString("prodQty")%></td>
+                                            <td><%=resultSet.getString("unit")%></td>
+                                            <td><%=resultSet.getString("description")%></td>
+                                            <td><%=resultSet.getString("Availability")%></td>
+                                            <td><%=resultSet.getString("critLevel")%></td>
+                                            <td style="color: red;"><%=resultSet.getString("productApproval")%></td>
+                                            <td>
+                                            	<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#delete-confirmation">
+                                            		APPROVE
+                                            	</button>
+                                            </td>
+                                        </tr>
+	<%
+			}
+		} catch (Exception e) {
+		e.printStackTrace();
+	}
+	%>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end of table -->
+                    
+                    <!-- start of table -->
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">Product Archive Approvals</h4></h4>
+
+                                <p class="category">View/Approve Product Archive Approvals</p>
+                            </div>
+                            <div class="content table-responsive table-full-width">
+                                <table class="table table-hover table-striped" id="archiveProductTable">
+                                    <thead>
+                                    <tr>
+                                        <th>Product ID</th>
+                                        <th>Product Name</th>
+                                        <th>Category</th>
+                                        <th>Price (&#8369;)</th>
+                                        <th>Quantity</th>
+                                        <th>Unit</th>
+                                        <th>Description</th>                      
+                                        <th>Availability</th>
+                                        <th>Critical Level</th>
+                                        <th>Product Approval State</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+	<%
+		try {
+			connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+			statement = connection.createStatement();
+			String sqlproduct = "SELECT products.*, units.*, category.* FROM products"
+					+ " INNER JOIN category ON products.catID = category.catID"
+					+ " INNER JOIN units ON products.unitID = units.unitID"
+					+ " WHERE products.availability = 'Available'"
+					+ " AND products.productApproval = 'Product Archive Not Yet Approved'";
+			resultSet = statement.executeQuery(sqlproduct);
+		while (resultSet.next()) {
+	%>
+                                        <tr>
+                                            <td><%=resultSet.getString("prodID")%></td>
+                                            <td><%=resultSet.getString("prodName")%></td>
+                                            <td id="catGetTest"><%=resultSet.getString("category")%></td>
+                                            <td>&#8369;<%=resultSet.getString("initialPrice")%>.00</td>
+                                            <td><%=resultSet.getString("prodQty")%></td>
+                                            <td><%=resultSet.getString("unit")%></td>
+                                            <td><%=resultSet.getString("description")%></td>
+                                            <td><%=resultSet.getString("Availability")%></td>
+                                            <td><%=resultSet.getString("critLevel")%></td>
+                                            <td style="color: red;"><%=resultSet.getString("productApproval")%></td>
+                                            <td>
+                                            	<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#archiveProductConfirmation">
+                                            		APPROVE
+                                            	</button>
+                                            </td>
+                                        </tr>
+	<%
+			}
+		} catch (Exception e) {
+		e.printStackTrace();
+	}
+	%>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end of table -->
+                    
                     </div>  
                 </div>
             </div>
@@ -294,7 +448,7 @@ e.printStackTrace();
 </body>
 
 <!-- START of Approval Modal -->
-<div class="modal fade" id="delete-confirmation" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+<div class="modal fade" id="newProductConfirmation" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xs modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -305,8 +459,34 @@ e.printStackTrace();
         </button>
       </div>
       <div class="modal-body">
-      	<form action="#" method="post" id="archiveProduct">
-      		<input type="hidden" id="prodArchiveIdGetTest" name="prodID"/>
+      	<form action="approveNewProduct.action" method="post" id="approveNewProduct">
+      		<input type="hidden" id="newProdIDGetTest" name="prodID"/>
+            <p class="text-center">Are you sure you want to approve this product?</p>
+		</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+        <button type="submit" form="approveNewProduct" class="btn btn-warning">Approve</button>
+      </div>
+    </div>
+  </div>
+</div> 
+<!--END of Archive Confirmation Modal -->
+
+<!-- START of Approval Modal -->
+<div class="modal fade" id="archiveProductConfirmation" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xs modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	<form action="archiveProduct.action" method="post" id="archiveProduct">
+      		<input type="text" id="archProdIDGetTest" name="prodID"/>
             <p class="text-center">Are you sure you want to approve this product?</p>
 		</form>
       </div>
@@ -317,10 +497,10 @@ e.printStackTrace();
     </div>
   </div>
 </div> 
-<!--END of Archive Confirmation Modal -->
 
-    <!--   Core JS Files   -->
-    <script src="assets/js/jquery.3.2.1.min.js" type="text/javascript"></script>
+     <!-- DataTables -->
+ 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+ 	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
     <script src="assets/js/bootstrap.min.js" type="text/javascript"></script>
 
     <!--  Charts Plugin -->
@@ -342,15 +522,6 @@ e.printStackTrace();
         $(document).ready(function(){
 
             demo.initChartist();
-
-            $.notify({
-                icon: 'pe-7s-bell',
-                message: "Welcome to the Products Approvals Page"
-
-            },{
-                type: 'warning',
-                timer: 4000
-            });
 
         });
 
@@ -432,6 +603,32 @@ $(document).ready(function(){
       $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
     });
   });
+});
+
+$(document).ready(function(){
+    
+    //DataTables
+    $('#newProductTable').DataTable();
+    $('#archiveProductTable').DataTable();
+    
+    
+	var table = document.getElementById('newProductTable');
+    
+    for(var i = 1; i < table.rows.length; i++){
+        table.rows[i].onclick = function(){
+             //rIndex = this.rowIndex;
+             document.getElementById("newProdIDGetTest").value = this.cells[0].innerHTML;
+   		};
+    }
+    
+	var table2 = document.getElementById('archiveProductTable');
+    
+    for(var i = 1; i < table2.rows.length; i++){
+    	table2.rows[i].onclick = function(){
+             //rIndex = this.rowIndex;
+             document.getElementById("archProdIDGetTest").value = this.cells[0].innerHTML;
+   		};
+    }
 });
        
     </script>

@@ -342,7 +342,8 @@ e.printStackTrace();
                                         <th>Product Name</th>
                                         <th>Quantity Change</th>
                                         <th>Description</th>
-                                        <th>Quantity Change Reference ID</th>
+                                        <th>Quantity Change Reference</th>
+                                        <th>Inventory Change Approval State</th>
                                         <th>Quantity Change Date</th>
                                     </thead>
                                     <tbody>
@@ -350,9 +351,7 @@ e.printStackTrace();
 		try {
 			connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
 			statement = connection.createStatement();
-			String sqlcategory = "SELECT inventory.inventoryID, products.prodName,"
-					+ " inventory.prodQtyChange, inventory.prodQtyChangeDate, inventory.qtyChangeDesc,"
-					+ " inventory.prodQtyChangeRef FROM inventory "
+			String sqlcategory = "SELECT inventory.*, products.* FROM inventory "
 					+ " INNER JOIN products ON inventory.prodID = products.prodID";
 			resultSet = statement.executeQuery(sqlcategory);
 		while (resultSet.next()) {
@@ -363,6 +362,7 @@ e.printStackTrace();
                                             <td><%=resultSet.getString("prodQtyChange")%></td>
                                             <td><%=resultSet.getString("qtyChangeDesc")%></td>
                                             <td><%=resultSet.getString("prodQtyChangeRef")%></td>
+                                            <td><%=resultSet.getString("inventoryApproval")%></td>
                                             <td><%=resultSet.getString("prodQtyChangeDate")%></td>
                                             <!-- <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addnewcategory"><span class="glyphicon glyphicon-edit"></span> EDIT</button></td> -->     
                                         </tr>
@@ -429,12 +429,13 @@ e.printStackTrace();
             <p align="left">
             Product Name:</br> 
             <input type='text' id="productNameGetTest" class="form-control" name='prodName' readonly/></br>
+            <input type="hidden" name="userID" value="<%= session.getAttribute("uid") %>"/>
             Current Quantity:</br><input type='number' id="quantityGetTest" class="form-control" name='prodQty' min='1' max='300' readonly/></br>
             Unit: </br> <input type='text' id="unitGetTest" class="form-control" name='unit' readonly/></br>
             Add Stock:</br>
             <input type='number' class="form-control" name='prodQtyChange' min='1' max='9999' required="required"/>
             Reference Code:<br>
-            <input type="text" name="invChangeRefID" class="form-control" minlength="8" maxlength="50" required="required"/>
+            <input type="text" name="prodQtyChangeRef" class="form-control" minlength="8" maxlength="50" required="required"/>
             <input type="hidden" class="form-control" name="prodID" id="productIdGetTest"/><br/>
             </p>
             <%

@@ -35,7 +35,7 @@ public class EditProdQuantityAction extends ActionSupport implements ModelDriven
 		System.out.println("Quantity Change: " + qtyObj.getProdQtyChange());
 		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 		
-		qtyObj.updateQty();
+		qtyObj.updateQtyApproval();
 		return SUCCESS;
 	}
 

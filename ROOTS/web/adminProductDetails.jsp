@@ -283,7 +283,7 @@ e.printStackTrace();
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addnewproduct" style="float: right;"><span class="glyphicon glyphicon-plus"></span></button>
                                 <h4 class="title">Products</h4></h4>
 
-                                <p class="category">Add New Product</p>
+                                <p class="category">Manage Products</p>
                             </div>
                             <div class="content table-responsive table-full-width">
                                 <table class="table table-hover table-striped" id="productTable">
@@ -298,8 +298,7 @@ e.printStackTrace();
                                         <th>Description</th>                      
                                         <th>Availability</th>
                                         <th>Critical Level</th>
-                                        <!-- <th>Expiration Date</th> -->
-                                        <th>Product Last Update</th>
+                                        <th>Product Approval State</th>
                                         <th></th>
                                         <th></th>
                                     </tr>
@@ -309,13 +308,12 @@ e.printStackTrace();
 		try {
 			connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
 			statement = connection.createStatement();
-			String sqlproduct = "SELECT products.prodID, products.prodName,"
-					+ " products.description, products.initialPrice, products.prodQty,"
-					+ " units.unit, category.catID, category.category, products.Availability,"
-					+ " products.prodLastUpdate, products.critLevel FROM products"
+			String sqlproduct = "SELECT products.*, units.*, category.* FROM products"
 					+ " INNER JOIN category ON products.catID = category.catID"
 					+ " INNER JOIN units ON products.unitID = units.unitID"
-					+ " WHERE products.availability = 'Available'";
+					+ " WHERE products.availability = 'Available'"
+					+ " AND products.productApproval = 'Product Archive Not Yet Approved'"
+					+ " OR products.productApproval = 'Approved'";
 			resultSet = statement.executeQuery(sqlproduct);
 		while (resultSet.next()) {
 	%>
@@ -329,7 +327,7 @@ e.printStackTrace();
                                             <td><%=resultSet.getString("description")%></td>
                                             <td><%=resultSet.getString("Availability")%></td>
                                             <td><%=resultSet.getString("critLevel")%></td>
-                                            <td><%=resultSet.getString("prodLastUpdate")%></td>
+                                            <td style="color: green;"><%=resultSet.getString("productApproval")%></td>
                                             <td>
                                             	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editproduct">
                                             		EDIT
@@ -402,7 +400,7 @@ e.printStackTrace();
                                 <p class="category">View archived products</p>
                             </div>
                             <div class="content table-responsive table-full-width">
-                                <table class="table table-hover table-striped" id="productTable">
+                                <table class="table table-hover table-striped" id="archivedTable">
                                     <thead>
                                     <tr>
                                         <th>Product ID</th>
@@ -414,9 +412,7 @@ e.printStackTrace();
                                         <th>Description</th>                      
                                         <th>Availability</th>
                                         <th>Critical Level</th>
-                                        <!-- <th>Expiration Date</th> -->
-                                        <th>Product Last Update</th>
-                                        <th></th>
+                                        <th>Archive Approval State</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -424,37 +420,25 @@ e.printStackTrace();
 		try {
 			connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
 			statement = connection.createStatement();
-			String sqlproduct = "SELECT products.prodID, products.prodName,"
-					+ " products.description, products.initialPrice, products.prodQty,"
-					+ " units.unit, category.catID, category.category, products.Availability,"
-					+ " products.prodLastUpdate, products.critLevel FROM products"
+			String sqlproduct = "SELECT products.*, units.*, category.* FROM products"
 					+ " INNER JOIN category ON products.catID = category.catID"
 					+ " INNER JOIN units ON products.unitID = units.unitID"
-					+ " WHERE products.availability = 'Archived'";
+					+ " WHERE products.availability = 'Archived'"
+					+ " AND products.productApproval = 'Approved'";
 			resultSet = statement.executeQuery(sqlproduct);
 		while (resultSet.next()) {
 	%>
                                         <tr>
                                             <td><%=resultSet.getString("prodID")%></td>
                                             <td><%=resultSet.getString("prodName")%></td>
-                                            <td id="catGetTest"><%=resultSet.getString("catID")%> - <%=resultSet.getString("category")%></td>
+                                            <td id="catGetTest"><%=resultSet.getString("category")%></td>
                                             <td>&#8369;<%=resultSet.getString("initialPrice")%>.00</td>
                                             <td><%=resultSet.getString("prodQty")%></td>
                                             <td><%=resultSet.getString("unit")%></td>
                                             <td><%=resultSet.getString("description")%></td>
                                             <td style="color: red;"><%=resultSet.getString("Availability")%></td>
                                             <td><%=resultSet.getString("critLevel")%></td>
-                                            <td><%=resultSet.getString("prodLastUpdate")%></td>
-                                            <!-- <td>
-                                            	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editproduct">
-                                            		EDIT
-                                            	</button>
-                                            </td>
-                                            <td>
-                                            	<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#delete-confirmation">
-                                            		ARCHIVE
-                                            	</button>
-                                            </td>    -->  
+                                            <td><%=resultSet.getString("productApproval")%></td>
                                         </tr>
 	<%
 			}
@@ -538,12 +522,13 @@ e.printStackTrace();
 					resultSet = statement.executeQuery(sqlcategory);
 			%>
             </select><br/>
+            <input type="hidden" name="userID" value="<%= session.getAttribute("uid") %>"/>
             Initial Price:</br><input type='number' class="form-control" name='initialPrice' min='0' max='999' required="required"/><br/>
-            Quantity:</br><input type='number' class="form-control" name='prodQty' min='1' max='300' required="required"/><br/>
+            Quantity:</br><input type='number' class="form-control" name='prodQty' min='1' required="required"/><br/>
             Unit: </br> <select class="form-control" name='unitID' required="required">
             <option value="" disabled selected>Select your option</option>
             <% while(resultSet.next()){%>
-            <option value="<%=resultSet.getString("unitID") %>"><%=resultSet.getString("unitID") %> - <%=resultSet.getString("unit") %></option>
+            <option value="<%=resultSet.getString("unitID") %>"><%=resultSet.getString("unit") %></option>
             <%
             		} 
 				}	catch (Exception e) {
@@ -683,14 +668,14 @@ e.printStackTrace();
         </button>
       </div>
       <div class="modal-body">
-      	<form action="archiveProduct.action" method="post" id="archiveProduct">
+      	<form action="archiveProductApproval.action" method="post" id="archiveProductApproval">
       		<input type="hidden" id="prodArchiveIdGetTest" name="prodID"/>
             <p class="text-center">Are you sure you want to archive this product?</p>
 		</form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
-        <button type="submit" form="archiveProduct" class="btn btn-warning">Archive</button>
+        <button type="submit" form="archiveProductApproval" class="btn btn-warning">Archive</button>
       </div>
     </div>
   </div>

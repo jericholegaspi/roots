@@ -77,7 +77,7 @@ public class OrderManagementBean {
 		return connection;
 	}
 	
-	public boolean updateDliveryStatusRecord() {		
+	public boolean updateDeliveryStatusRecord() {		
 	Connection connection = getDBConnection();
 	
 	if (connection != null) { //means a valid connection
@@ -92,13 +92,36 @@ public class OrderManagementBean {
 			pstmnt.executeUpdate();
 			return true;
 		} catch (SQLException sqle) {
-			System.err.println("Error on editProductRecord: " + sqle.getMessage());
+			System.err.println("Error on updateDeliveryStatusRecord: " + sqle.getMessage());
 		}
 	} else {
 		System.err.println("Missing on invalid connection.");
 	}
 	return false;
 	}
+	
+	public boolean updateOrderStatusRecord() {		
+		Connection connection = getDBConnection();
+		
+		if (connection != null) { //means a valid connection
+			String sql = "UPDATE orders SET orderStatus=? WHERE orderID = ?";
+			
+			try {
+				PreparedStatement pstmnt = connection.prepareStatement(sql);
+				
+				pstmnt.setString(1, "Complete");
+				pstmnt.setInt(2, this.orderID);
+				
+				pstmnt.executeUpdate();
+				return true;
+			} catch (SQLException sqle) {
+				System.err.println("Error on editProductRecord: " + sqle.getMessage());
+			}
+		} else {
+			System.err.println("Missing on invalid connection.");
+		}
+		return false;
+		}
 }
 	
 		

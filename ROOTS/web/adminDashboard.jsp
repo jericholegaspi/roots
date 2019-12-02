@@ -135,13 +135,6 @@ e.printStackTrace();
 		                        <p>Product Inventory</p>
 		                    </a>
 	                    </li>
-	                    
-	                    <li>
-		                    <a href="adminProductHistory.jsp">
-		                    <i class="fa fa-history" aria-hidden="true"></i>
-		                        <p>Product History</p>
-		                    </a>
-	                    </li>
                     </ul>
                 </li>
                 <li>

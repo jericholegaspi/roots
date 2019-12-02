@@ -193,7 +193,7 @@
 		<form action="selectCatalogueID.action" method="post">
 			<div class="col">
 				<button class="card item" type="submit" align="left"> 
-				<img class="card-img-top" src="images/catalogue/<%=resultSet.getString("catalogueImageName")%><%=resultSet.getString("catalogueImageType")%>" alt="Card image" style="width:100px; height:100px;">
+				<img class="card-img-top" src="images/catalogue/<%=resultSet.getString("catalogueImageName")%><%=resultSet.getString("catalogueImageType")%>" alt="Card image" style="width:225px; height:200px;">
 				<div class="card-body">
 					<h4 class="card-title" align="left"><%=resultSet.getString("nameF")%></h4>
 					<p class="card-text" align="left"><%=resultSet.getString("scientificName")%> <br></p>
@@ -267,7 +267,7 @@
 		        <img class="card-img-top responsive-img" src="assets/css/images/amp.jpg" alt="Card image" style="width:100%; height:200px;">
 		        <div class="card-body">
 		            <h4 class="card-title">
-		                <%=resultSet.getString("nameF")%>
+		                <%=resultSet.getString("nameE")%>
 		            </h4>
 		            <p class="card-text"><i><%=resultSet.getString("scientificName")%></i></p>
 		            <input type="text" name="catalogueID" value="<%=resultSet.getInt("catalogueID")%>"/>

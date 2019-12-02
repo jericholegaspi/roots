@@ -223,7 +223,7 @@
 				</action>
 				
 				<action name="archiveProduct" class="action.admin.ArchiveProductAction">
-					<result name="success">/adminProductDetails.jsp</result>
+					<result name="success">/rootadminProductsApproval.jsp</result>
 					<result name="error">/error.jsp</result>
 				</action>
 				
@@ -234,6 +234,16 @@
 				
 				<action name="selectCatalogueID" class="action.admin.SelectCatalogueIDAction">
 					<result name="success">/userCatalogueDetailsPage.jsp</result>
+					<result name="error">/error.jsp</result>
+				</action>
+				
+				<action name="approveNewProduct" class="action.admin.ApproveProductAction">
+					<result name="success">/rootadminProductsApproval.jsp</result>
+					<result name="error">/error.jsp</result>
+				</action>
+				
+				<action name="archiveProductApproval" class="action.admin.ArchiveProductApprovalAction">
+					<result name="success">/adminProductDetails.jsp</result>
 					<result name="error">/error.jsp</result>
 				</action>
 	</package>

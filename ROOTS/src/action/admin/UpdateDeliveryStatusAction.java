@@ -2,6 +2,11 @@ package action.admin;
 
 //File Upload Packages
 import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 import javax.servlet.http.HttpServletRequest;
 /*import org.apache.commons.io.FileUtils;*/
 import org.apache.struts2.interceptor.ServletRequestAware;
@@ -30,9 +35,67 @@ public class UpdateDeliveryStatusAction extends ActionSupport implements ModelDr
 		orderObj.process();
 		
 		System.out.println("Product ID: " + orderObj.getOrderID());
-		System.out.println("Price Change: " + orderObj.getDeliveryStatus());
+		System.out.println("Status Change: " + orderObj.getDeliveryStatus());
 		
-		orderObj.updateDliveryStatusRecord();
+		String driverName = "com.mysql.jdbc.Driver";
+		String connectionUrl = "jdbc:mysql://localhost/";
+		String dbName = "isproj2_roots";
+		String userId = "isproj2_roots";
+		String password = "^qp&6Afnsd7S^jRf";
+
+		try {
+			Class.forName(driverName);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		Connection connection = null;
+		Statement statement = null;
+		ResultSet resultSet = null;
+		
+		try {
+			connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
+			statement = connection.createStatement();
+			String sqlproduct = "SELECT * FROM orders";
+			resultSet = statement.executeQuery(sqlproduct);
+			while (resultSet.next()) {
+				if(resultSet.getString("paymentStatus").equals("Paid") && resultSet.getString("orderStatus").equals("Incomplete")){
+					if(!resultSet.getString("deliveryStatus").equals("Delivered")){
+						orderObj.updateDeliveryStatusRecord();
+						System.out.println("Delivery Status Updated!");
+						System.out.println("~~~1st~~~");
+						if(resultSet.getString("deliveryStatus").equals("In Transit")){
+							orderObj.updateDeliveryStatusRecord();
+							orderObj.updateOrderStatusRecord();
+							System.out.println("Order Status Updated!");
+							System.out.println("~~~2nd~~~");
+						} else {
+							System.out.println("~~~Else 1~~~");
+						}
+					}else {
+						System.out.println("~~~Else 2~~~");
+					}
+				} else if(resultSet.getString("paymentStatus").equals("COD") && resultSet.getString("orderStatus").equals("Incomplete")) {
+					if(!resultSet.getString("deliveryStatus").equals("Delivered")){
+						orderObj.updateDeliveryStatusRecord();
+						System.out.println("Delivery Status Updated!");
+						System.out.println("~~~3rd~~~");
+						if(resultSet.getString("deliveryStatus").equals("In Transit")) {
+							orderObj.updateDeliveryStatusRecord();
+							orderObj.updateOrderStatusRecord();
+							System.out.println("Order Status Updated!");
+							System.out.println("~~~4th~~~");
+						} else {
+							System.out.println("~~~Else 3~~~");
+						}
+					}else {
+						System.out.println("~~~Else 4~~~");
+					}
+				} 
+			}
+		} catch (Exception e) {
+		e.printStackTrace();
+		}
 		return SUCCESS;
 	}
 

@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import javax.naming.*;
-import javax.sql.*;
 import java.sql.Date;
 import java.sql.DriverManager;
 
@@ -13,6 +11,7 @@ public class RootsInventoryBean {
 	
 	// inputs
 	private int prodID;
+	private int userID;
 	private String prodName;
 	private int catID;
 	private String category;
@@ -26,7 +25,7 @@ public class RootsInventoryBean {
 	private int prodQtyChange;
 	private String qtyChangeDesc;
 	private int prodPriceChange;
-	private int prodPriceChangeRefNoID;
+	private String prodPriceChangeRefID;
 	private String prodQtyChangeRef;
 	private String productImageName;
 	private String productImageType;
@@ -34,14 +33,16 @@ public class RootsInventoryBean {
 	public void process() {
 	}
 	
-	public void updateQty() {
-		updateQtyRecord();
+	public void updateQtyApproval() {
 		insertQtyRecord();
 	}
 	
+	public void updateQtyApproved() {
+		updateQtyRecord();
+	}
+	
 	public void updatePrice() {
-		updatePriceRecord();
-		insertPriceRefRecord();
+		/* updatePriceRecord(); */
 		insertPriceRecord();
 	}
 	
@@ -51,6 +52,14 @@ public class RootsInventoryBean {
 
 	public void setProdID(int prodID) {
 		this.prodID = prodID;
+	}
+
+	public int getUserID() {
+		return userID;
+	}
+
+	public void setUserID(int userID) {
+		this.userID = userID;
 	}
 
 	public String getProdName() {
@@ -144,12 +153,12 @@ public class RootsInventoryBean {
 		this.prodPriceChange = prodPriceChange;
 	}
 
-	public int getProdPriceChangeRefNoID() {
-		return prodPriceChangeRefNoID;
+	public String getProdPriceChangeRefID() {
+		return prodPriceChangeRefID;
 	}
 
-	public void setProdPriceChangeRefNoID(int prodPriceChangeRefNoID) {
-		this.prodPriceChangeRefNoID = prodPriceChangeRefNoID;
+	public void setProdPriceChangeRefID(String prodPriceChangeRefID) {
+		this.prodPriceChangeRefID = prodPriceChangeRefID;
 	}
 
 	public String getProdQtyChangeRef() {
@@ -196,9 +205,9 @@ public class RootsInventoryBean {
 		Connection connection = getDBConnection();
 		
 		if (connection != null) { //means a valid connection
-			String sql = "INSERT INTO products (prodName, catID, initialPrice,"
-					+ " prodQty, unitID, description, availability, critLevel)"
-					+ " VALUES (?,?,?,?,?,?,?,?,?)";
+			String sql = "INSERT INTO products (prodName, catID, initialPrice, prodQty, unitID,"
+					+ " userID, description, availability, critLevel, productApproval)"
+					+ " VALUES (?,?,?,?,?,?,?,?,?,?)";
 			
 			try {
 				PreparedStatement pstmnt = connection.prepareStatement(sql);
@@ -208,9 +217,11 @@ public class RootsInventoryBean {
 				pstmnt.setInt(3, this.initialPrice);
 				pstmnt.setInt(4, this.prodQty);
 				pstmnt.setInt(5, this.unitID);
-				pstmnt.setString(6, this.description);
-				pstmnt.setString(7, this.availability);
-				pstmnt.setInt(8, this.critLevel);
+				pstmnt.setInt(6, this.userID);
+				pstmnt.setString(7, this.description);
+				pstmnt.setString(8, this.availability);
+				pstmnt.setInt(9, this.critLevel);
+				pstmnt.setString(10, "New Product Not Yet Approved");
 				
 				pstmnt.executeUpdate();
 				return true;
@@ -228,7 +239,7 @@ public class RootsInventoryBean {
 		
 		if (connection != null) { //means a valid connection
 			String sql = "UPDATE products SET prodName=?, catID=?,"
-					+ " unitID=?, description=?"
+					+ " unitID=?, description=?, productApproval=?"
 					+ " WHERE prodID = ?";
 			
 			try {
@@ -238,42 +249,13 @@ public class RootsInventoryBean {
 				pstmnt.setInt(2, this.catID);
 				pstmnt.setInt(3, this.unitID);
 				pstmnt.setString(4, this.description);
-				pstmnt.setInt(5, this.prodID);
+				pstmnt.setString(5, "Product Update Not Yet Approved");
+				pstmnt.setInt(6, this.prodID);
 				
 				pstmnt.executeUpdate();
 				return true;
 			} catch (SQLException sqle) {
 				System.err.println("Error on editProductRecord: " + sqle.getMessage());
-			}
-		} else {
-			System.err.println("Missing on invalid connection.");
-		}
-		return false;
-	}
-
-	public boolean outOfStockRecord() {		
-		Connection connection = getDBConnection();
-		
-		if (connection != null) { //means a valid connection
-			String sql = "UPDATE products SET prodName=?, catID=?,"
-					+ " initialPrice=?, prodQty=?, unitID=?, description=?"
-					+ " WHERE prodID = ?";
-			
-			try {
-				PreparedStatement pstmnt = connection.prepareStatement(sql);
-				
-				pstmnt.setString(1, this.prodName);
-				pstmnt.setInt(2, this.catID);
-				pstmnt.setInt(3, this.initialPrice);
-				pstmnt.setInt(4, this.prodQty);
-				pstmnt.setInt(5, this.unitID);
-				pstmnt.setString(6, this.description);
-				pstmnt.setInt(7, this.prodID);
-				
-				pstmnt.executeUpdate();
-				return true;
-			} catch (SQLException sqle) {
-				System.err.println("Error on insertRecord: " + sqle.getMessage());
 			}
 		} else {
 			System.err.println("Missing on invalid connection.");
@@ -307,7 +289,7 @@ public class RootsInventoryBean {
 		Connection connection = getDBConnection();
 		
 		if (connection != null) { //means a valid connection
-			String sql = "UPDATE products SET prodQty=? WHERE prodID = ?";
+			String sql = "UPDATE products SET prodQty=? WHERE prodID=?";
 			
 			try {
 				PreparedStatement pstmnt = connection.prepareStatement(sql);
@@ -330,8 +312,9 @@ public class RootsInventoryBean {
 		Connection connection = getDBConnection();
 		
 		if (connection != null) { //means a valid connection
-			String sql = "INSERT INTO inventory (prodID, prodQtyChange, qtyChangeDesc, prodQtyChangRef)"
-					+ " VALUES (?,?,?,?)";
+			String sql = "INSERT INTO inventory (prodID, prodQtyChange, qtyChangeDesc,"
+					+ " inventoryApproval, prodQtyChangeRef, userID)"
+					+ " VALUES (?,?,?,?,?,?)";
 			
 			try {
 				PreparedStatement pstmnt = connection.prepareStatement(sql);
@@ -339,7 +322,9 @@ public class RootsInventoryBean {
 				pstmnt.setInt(1, this.prodID);
 				pstmnt.setInt(2, this.prodQtyChange);
 				pstmnt.setString(3, "In");
-				pstmnt.setString(4, this.prodQtyChangeRef);
+				pstmnt.setString(4, "Inventory Not Yet Approved");
+				pstmnt.setString(5, this.prodQtyChangeRef);
+				pstmnt.setInt(6, this.userID);
 				
 				pstmnt.executeUpdate();
 				return true;
@@ -379,16 +364,18 @@ public class RootsInventoryBean {
 		Connection connection = getDBConnection();
 		
 		if (connection != null) { //means a valid connection
-			String sql = "INSERT INTO prodPrice (prodID, prodPriceChange, prodPriceChangeRefNoID)"
-					+ " VALUES (?,?,?)";
+			String sql = "INSERT INTO prodPrice (prodID, prodPriceChange,"
+					+ " userID, prodPriceApproval, prodPriceChangeRefID)"
+					+ " VALUES (?,?,?,?,?)";
 			
 			try {
 				PreparedStatement pstmnt = connection.prepareStatement(sql);
 				
 				pstmnt.setInt(1, this.prodID);
 				pstmnt.setInt(2, this.prodPriceChange);
-				pstmnt.setInt(3, this.prodPriceChangeRefNoID);
-				
+				pstmnt.setInt(3, this.userID);
+				pstmnt.setString(4, "Price Change Not Yet Approved");
+				pstmnt.setString(5, this.prodPriceChangeRefID);
 				
 				pstmnt.executeUpdate();
 				return true;
@@ -401,23 +388,22 @@ public class RootsInventoryBean {
 		return false;
 	}
 	
-	public boolean insertPriceRefRecord() {		
+	public boolean archiveProductApprovalRecord() {		
 		Connection connection = getDBConnection();
 		
 		if (connection != null) { //means a valid connection
-			String sql = "INSERT INTO prodPriceChangeRef (prodPriceID)"
-					+ " VALUES (?)";
-			
+			String sql = "UPDATE products SET productApproval = ? WHERE prodID = ?";
 			try {
 				PreparedStatement pstmnt = connection.prepareStatement(sql);
 				
-				pstmnt.setInt(1, this.prodID);
+				pstmnt.setString(1, "Product Archive Not Yet Approved");	
+				pstmnt.setInt(2, this.prodID);	
 				
 				pstmnt.executeUpdate();
 				return true;
 			} catch (SQLException sqle) {
-				System.err.println("Error on insertPriceRefRecord: " + sqle.getMessage());
-			}
+				System.err.println("Error on archiveProductRecord: " + sqle.getMessage());
+			}			
 		} else {
 			System.err.println("Missing on invalid connection.");
 		}
@@ -428,17 +414,40 @@ public class RootsInventoryBean {
 		Connection connection = getDBConnection();
 		
 		if (connection != null) { //means a valid connection
-			String sql = "UPDATE products SET availability = ? WHERE prodID = ?";
+			String sql = "UPDATE products SET availability = ?, productApproval = ? WHERE prodID = ?";
 			try {
 				PreparedStatement pstmnt = connection.prepareStatement(sql);
 				
 				pstmnt.setString(1, "Archived");	
-				pstmnt.setInt(2, this.prodID);	
+				pstmnt.setString(2, "Approved");	
+				pstmnt.setInt(3, this.prodID);	
 				
 				pstmnt.executeUpdate();
 				return true;
 			} catch (SQLException sqle) {
 				System.err.println("Error on archiveProductRecord: " + sqle.getMessage());
+			}			
+		} else {
+			System.err.println("Missing on invalid connection.");
+		}
+		return false;
+	}
+	
+	public boolean approveNewProductRecord() {		
+		Connection connection = getDBConnection();
+		
+		if (connection != null) { //means a valid connection
+			String sql = "UPDATE products SET productApproval = ? WHERE prodID = ?";
+			try {
+				PreparedStatement pstmnt = connection.prepareStatement(sql);
+				
+				pstmnt.setString(1, "Approved");	
+				pstmnt.setInt(2, this.prodID);	
+				
+				pstmnt.executeUpdate();
+				return true;
+			} catch (SQLException sqle) {
+				System.err.println("Error on appriveNewProductRecord: " + sqle.getMessage());
 			}			
 		} else {
 			System.err.println("Missing on invalid connection.");

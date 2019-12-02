@@ -297,10 +297,7 @@ e.printStackTrace();
 		try {
 			connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
 			statement = connection.createStatement();
-			String sqlproduct = "SELECT products.prodID, products.prodName,"
-					+ " products.description, products.initialPrice, products.prodQty,"
-					+ " units.unit, category.catID, category.category, products.Availability,"
-					+ " products.prodLastUpdate, products.critLevel FROM products"
+			String sqlproduct = "SELECT products.*, units.*, category.* FROM products"
 					+ " INNER JOIN category ON products.catID = category.catID"
 					+ " INNER JOIN units ON products.unitID = units.unitID";
 			resultSet = statement.executeQuery(sqlproduct);
@@ -311,7 +308,11 @@ e.printStackTrace();
                                             <td><%=resultSet.getString("prodName")%></td>
                                             <td>&#8369;<%=resultSet.getString("initialPrice")%>.00</td>
                                             <td><%=resultSet.getString("prodLastUpdate")%></td>
-                                            <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editprice"><span class="glyphicon glyphicon-edit"></span>Edit Price</button></td>     
+                                            <td>
+                                            	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editprice">
+                                           			Edit Price
+                                           		</button>
+                                           	</td>     
                                         </tr>
 	<%
 			}
@@ -339,7 +340,8 @@ e.printStackTrace();
                                         <th>Price ID</th>
                                         <th>Product Name</th>
                                         <th>Price</th>
-                                        <th>Price Change Reference No.</th>
+                                        <th>Price Change Reference</th>
+                                        <th>Price Change Approval State</th>
                                         <th>Date Modified</th>
                                     </thead>
                                     <tbody>
@@ -347,11 +349,8 @@ e.printStackTrace();
 		try {
 			connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
 			statement = connection.createStatement();
-			String sqlcategory = "SELECT prodPrice.prodPriceID, products.prodName,"
-					+ " prodPrice.prodPriceChange, prodPriceChangeRef.prodPriceChangeRefNoID,"
-					+ " prodPrice.priceChangeDate FROM prodPrice INNER JOIN products ON"
-					+ " prodPrice.prodID = products.prodID INNER JOIN prodPriceChangeRef ON"
-					+ " prodPrice.prodPriceChangeRefNoID = prodPriceChangeRef.prodPriceChangeRefNoID";
+			String sqlcategory = "SELECT prodPrice.*, products.* FROM prodPrice"
+					+ " INNER JOIN products ON prodPrice.prodID = products.prodID";
 			resultSet = statement.executeQuery(sqlcategory);
 		while (resultSet.next()) {
 	%>
@@ -359,9 +358,9 @@ e.printStackTrace();
                                             <td><%=resultSet.getString("prodPriceID")%></td>
                                             <td><%=resultSet.getString("prodName")%></td>
                                             <td><%=resultSet.getString("prodPriceChange")%></td>
-                                            <td><%=resultSet.getString("prodPriceChangeRefNoID")%></td>
-                                            <td><%=resultSet.getString("priceChangeDate")%></td>
-                                            <!-- <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addnewcategory"><span class="glyphicon glyphicon-edit"></span> EDIT</button></td> -->     
+                                            <td><%=resultSet.getString("prodPriceChangeRefID")%></td>
+                                            <td><%=resultSet.getString("prodPriceApproval")%></td>
+                                            <td><%=resultSet.getString("priceChangeDate")%></td>     
                                         </tr>
 	<%
 			}
@@ -416,7 +415,7 @@ e.printStackTrace();
 				try {
 				connection = DriverManager.getConnection(connectionUrl + dbName, userId, password);
 				statement = connection.createStatement();
-				String sqlcategory = "SELECT prodID FROM productsTable";
+				String sqlcategory = "SELECT * FROM products";
 				resultSet = statement.executeQuery(sqlcategory);
 			%>
       <!--Body-->
@@ -432,11 +431,11 @@ e.printStackTrace();
             
             Product Name:</br> 
             <input type='text' id="productNameGetTest" class="form-control" name='prodName' readonly/></br>
-            Current Price:</br><input type='number' id="priceGetTest" class="form-control" name='initialPrice' min='1' max='300' readonly/></br>
+            Current Price:</br><input type='text' id="priceGetTest" class="form-control" min='1' readonly/></br>
             Update Price (&#8369;):</br>
             <input type='number' class="form-control" name='prodPriceChange' min='1' max='9999' required="required"/>
-            <!-- Availability:</br> <input type='text' class="form-control" name='availability' value='Yes' readonly /><br/>
-            Image file name:</br><input type='text' class="form-control" name='image' readonly/><br/> -->
+            Reference: <br>
+            <input type="text" class="form-control" name="prodPriceChangeRefID" required="required"/>
             </p>
       
       <!--Footer-->
@@ -485,14 +484,9 @@ e.printStackTrace();
 	        
 	        for(var i = 1; i < table.rows.length; i++){
 	            table.rows[i].onclick = function(){
-	                 //rIndex = this.rowIndex;
 					 document.getElementById("productIdGetTest").value = this.cells[0].innerHTML;
 	                 document.getElementById("productNameGetTest").value = this.cells[1].innerHTML;
 	                 document.getElementById("priceGetTest").value = this.cells[2].innerHTML;
-	                 /* document.getElementById("unitGetTest").value = this.cells[].innerHTML; */
-	                 /* document.getElementById("descriptionGetTest").value = this.cells[].innerHTML; */
-	                 /* document.getElementById("categoryGetTest").value = this.cells[].innerHTML; */
-	                 /* document.getElementById("quantityGetTest").value = this.cells[].innerHTML; */
 	                 
 	       		};
 	        }
