@@ -486,7 +486,7 @@ e.printStackTrace();
       </div>
       <div class="modal-body">
       	<form action="archiveProduct.action" method="post" id="archiveProduct">
-      		<input type="text" id="archProdIDGetTest" name="prodID"/>
+      		<input type="hidden" id="archProdIDGetTest" name="prodID"/>
             <p class="text-center">Are you sure you want to approve this product?</p>
 		</form>
       </div>
